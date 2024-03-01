@@ -1,0 +1,98 @@
+/** Documento da página de Login **/
+main {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+}
+
+main>div,
+main>div>div {
+    height: 100%;
+}
+
+.column-image {
+    height: 100%;
+    position: relative;
+}
+
+.column-image .image {
+    background: url(../images/background.avif) no-repeat center / cover;
+    height: 100%;
+    width: calc(100% + 40px);
+    box-shadow: 15px 0 15px 10px rgba(0, 0, 0, 0.2);
+    transform: skewX(-10deg);
+    position: absolute;
+    left: -80px;
+}
+
+.column-form {
+    position: relative;
+    height: 100%;
+    align-items: center;
+    display: inline-flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.column-form .logo {
+    display: flex;
+    justify-content: center;
+}
+
+.column-form .logo img {
+    max-width: 260px;
+    width: 100%;
+}
+
+.column-form .formulario {
+    max-width: 480px;
+    width: 100%;
+}
+
+.column-form .formulario form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+}
+
+.column-form .formulario form .input-field {
+    display: flex;
+    flex-direction: column;
+}
+
+.column-form .formulario form .input-field label {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 5px;
+}
+
+.column-form .formulario form .submit-field input {
+    max-width: 160px;
+    width: 100%;
+}
+
+.column-form .copyright {
+    position: absolute;
+    bottom: 15px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+}
+
+@media (max-width: 768px){
+    .column-image {
+        height: auto;
+    }
+    .column-image .image {
+        background: var(--gray);
+        height: 100vh;
+        width: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        box-shadow: none;
+        transform: none;
+    }
+}

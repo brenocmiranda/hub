@@ -1,0 +1,22 @@
+/** Documento da página de Home **/
+main hr {
+    display: none;
+}
+
+.img-home {
+    background: url(../images/welcome.png) no-repeat center / contain;
+    filter: grayscale(1);
+    opacity: 0.45; 
+    width: 320px;
+    height: 320px;
+}
+
+.card i {
+    font-size: 26px;
+}
+
+.card small {
+    font-size: 12px;
+    display: flex;
+    justify-content: flex-end;
+}
