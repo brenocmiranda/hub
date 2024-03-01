@@ -111,7 +111,7 @@ class SystemCtrl extends Controller
         $dados = Users::find($user->id)->update([
             'password' => Hash::make($request->password), 
             'remember_token' => $request->_token,
-            'email_verified_at' => date(),
+            'email_verified_at' => date("Y-m-d H:i:s"),
             'active' => 1,
             'attempts' => 0,
         ]);

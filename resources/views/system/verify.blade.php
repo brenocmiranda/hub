@@ -29,7 +29,7 @@ Login
                         @endif
                     </div>
                     <h4>Olá, {{ $user->name }}!</h4>
-                    <p>Entre com os dados abaixo para cadastrar sua nova senha:</p>
+                    <p>Preencha os campos abaixo para cadastrar sua senha:</p>
                 </div>
 
                 @if ($errors->any())

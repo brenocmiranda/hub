@@ -10,6 +10,7 @@ use App\Http\Requests\UsersRqt;
 use App\Models\Companies;
 use App\Models\UsersRoles;
 use App\Models\Users;
+use App\Notifications\FirstAccess;
 use App\Notifications\RecoveryPassword;
 
 class UsersCtrl extends Controller
@@ -41,7 +42,7 @@ class UsersCtrl extends Controller
             'attempts' => 0,
         ]);
 
-        $user->notify(new RecoveryPassword($user));
+        $user->notify(new FirstAccess($user));
 
         return redirect()->route('index.users')->with('create', true);
     }

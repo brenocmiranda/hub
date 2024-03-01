@@ -28,7 +28,7 @@ Login
 
                     @if(session('reset'))
                         <div class="alert alert-success col-12">
-                           <p class="mb-0">A sua senha foi redefinida com sucesso, faça login.</p>
+                           <p class="mb-0">A sua senha foi alterada com sucesso, faça login.</p>
                         </div>
                     @endif
 

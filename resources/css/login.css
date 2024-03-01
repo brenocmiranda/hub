@@ -46,7 +46,7 @@ main>div>div {
 }
 
 .column-form .formulario, .column-form  .message-verify, .column-form  .message-recovery {
-    max-width: 480px;
+    max-width: 475px;
     width: 100%;
 }
 
@@ -81,7 +81,6 @@ main>div>div {
     margin: 0 auto;
 }
 
-/** Imagem de perfil **/
 .perfil-img {
     width: 80px;
     height: 80px;
