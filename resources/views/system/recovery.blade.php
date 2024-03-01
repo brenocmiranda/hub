@@ -4,7 +4,6 @@ Esqueceu a senha
 
 @section('css')
     <link href="{{ asset('css/login.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/recovery.css') }}" rel="stylesheet">
 @endsection
 
 @include('base.header')

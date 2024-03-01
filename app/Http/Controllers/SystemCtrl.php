@@ -96,7 +96,7 @@ class SystemCtrl extends Controller
             return view('system.verify')->with('user', $user);
         } else {
             return redirect(route('login'))->withErrors([
-                'active' => 'Não foi possível redefinir sua senha, solicite novamente.',
+                'active' => 'Não foi possível identificar os seus dados, solicite novamente.',
             ]);
         }
     }
@@ -111,6 +111,7 @@ class SystemCtrl extends Controller
         $dados = Users::find($user->id)->update([
             'password' => Hash::make($request->password), 
             'remember_token' => $request->_token,
+            'email_verified_at' => date(),
             'active' => 1,
             'attempts' => 0,
         ]);

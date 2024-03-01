@@ -3,7 +3,7 @@ Login
 @endsection
 
 @section('css')
-<link href="{{ asset('css/login.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/login.css') }}" rel="stylesheet">
 @endsection
 
 @include('base.header')

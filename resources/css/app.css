@@ -116,6 +116,14 @@ ul {
     font-size: 14px;
 }
 
+.full-page nav .perfil-img {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 
 /** Sidebar **/
 .full-page aside .img-desktop,
@@ -181,6 +189,14 @@ ul {
 
 .full-page aside.mobile:hover .btn-toggle-nav {
     display: block;
+}
+
+.full-page aside .perfil-img {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /** Main **/

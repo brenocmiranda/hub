@@ -4,7 +4,6 @@ Login
 
 @section('css')
     <link href="{{ asset('css/login.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/verify.css') }}" rel="stylesheet">
 @endsection
 
 @include('base.header')
@@ -21,10 +20,16 @@ Login
                 </div>
                 <div class="text-center message-verify">
                     <div class="mb-3">
-                        <img src="https://github.com/mdo.png" alt="Imagem usuário" class="rounded-circle" height="80" width="80">
+                        @if($user->src)
+                            <img src="{{ $user->src }}" alt="" width="80" height="80" class="rounded-circle">
+                        @else
+                            <div class="perfil-img rounded-circle bg-secondary fw-bold text-white">
+                                {{ substr($user->name, 0, 1)  }}
+                            </div>
+                        @endif
                     </div>
                     <h4>Olá, {{ $user->name }}!</h4>
-                    <p>Digite abaixo sua nova senha para redefinição:</p>
+                    <p>Entre com os dados abaixo para cadastrar sua nova senha:</p>
                 </div>
 
                 @if ($errors->any())
