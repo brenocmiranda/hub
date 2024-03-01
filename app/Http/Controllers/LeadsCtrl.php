@@ -7,7 +7,11 @@ use Illuminate\Http\Request;
 use App\Models\Leads;
 
 class LeadsCtrl extends Controller
-{
+{   
+    public function __construct(){
+		$this->middleware('auth');
+	}
+    
     public function index()
     {
         return view('leads.index');

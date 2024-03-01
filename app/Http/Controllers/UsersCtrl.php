@@ -3,17 +3,24 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use App\Http\Requests\UsersRqt;
 use App\Models\Companies;
 use App\Models\UsersRoles;
 use App\Models\Users;
+use App\Notifications\RecoveryPassword;
 
 class UsersCtrl extends Controller
-{
+{   
+    public function __construct(){
+		$this->middleware('auth');
+	}
+
     public function index()
     {
-        return view('users.index')->with('users', Users::orderBy('name', 'asc')->get());
+        return view('users.index')->with('users', Users::orderBy('name', 'asc')->where('id', '!=', Auth::user()->id)->get());
     }
 
     public function create()
@@ -23,15 +30,18 @@ class UsersCtrl extends Controller
 
     public function store(UsersRqt $request)
     {      
-        Users::create([
+        $user = Users::create([
             'name' => $request->name, 
             'email' => $request->email, 
             'password' => Hash::make('komuh@220'), 
             'active' => $request->active,
             'companie_id' => $request->companies,
             'user_role_id' => $request->roles,
+            'remember_token' => Str::random(10),
             'attempts' => 0,
         ]);
+
+        $user->notify(new RecoveryPassword($user));
 
         return redirect()->route('index.users')->with('create', true);
     }
@@ -58,5 +68,12 @@ class UsersCtrl extends Controller
     {      
         Users::find($id)->update([ 'active' => 0 ]);
         return redirect()->route('index.users')->with('destroy', true);
+    }
+
+    public function recovery($id)
+    {    
+        $user = Users::find($id);
+        $user->notify(new RecoveryPassword($user));
+        return redirect()->route('index.users')->with('recovery', true);
     }
 }

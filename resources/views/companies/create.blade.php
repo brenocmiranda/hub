@@ -30,13 +30,13 @@ Nova empresa
                         
                         <div class="input-field col-12">
                             <div class="form-floating">
-                                <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" placeholder="Komuh" value="{{ old('name') }}" required>
+                                <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}" required>
                                 <label for="name">Nome</label>
                             </div>
                         </div>
                         <div class="input-field col-6">
                             <div class="form-floating">
-                                <input type="text" class="form-control @error('slug') is-invalid @enderror slug" placeholder="komuh" value="{{ old('slug') }}" disabled>
+                                <input type="text" class="form-control @error('slug') is-invalid @enderror slug" value="{{ old('slug') }}" disabled>
                                 <input type="hidden" class="slug" name="slug" value="{{ old('slug') }}">
                                 <label for="slug">Slug</label>
                             </div>

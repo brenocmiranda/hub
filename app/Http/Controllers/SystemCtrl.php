@@ -7,15 +7,19 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Http\Request;
+use App\Http\Requests\LoginRqt;
+use App\Http\Requests\RecoveryRqt;
+use App\Http\Requests\VerifyRqt;
 use App\Models\Users;
 use App\Models\UsersRoles;
 use App\Models\Companies;
+use App\Notifications\RecoveryPassword;
+use App\Notifications\ResetPassword;
 
 class SystemCtrl extends Controller
 {
 
-    // Function Login
+    /** Functions external **/
     public function login()
     {
         if (Auth::check() && Auth::user()->active) {
@@ -25,8 +29,7 @@ class SystemCtrl extends Controller
         }
     }
 
-    // Function Redirect
-    public function redirect(Request $request)
+    public function authentication(LoginRqt $request)
     {
         Auth::logoutOtherDevices($request->password);
 
@@ -47,7 +50,7 @@ class SystemCtrl extends Controller
             } elseif (Users::where('email', $request->email)->where('active', 0)->first()) {
                 return back()->withErrors([
                     'active' => 'O usuário está desativado, contate o administrador.',
-                ])->onlyInput('email');
+                ])->withInput($request->input());
             }
         } elseif (Users::where('email', $request->email)->first()) {
             $user = Users::where('email', $request->email)->first();
@@ -55,20 +58,68 @@ class SystemCtrl extends Controller
                 Users::where('email', $request->email)->increment('attempts');
                 return back()->withErrors([
                     'password' => 'A senha inserida não confere.',
-                ])->onlyInput('password');
+                ])->withInput($request->input());
             } else {
                 return back()->withErrors([
                     'active' => 'O seu usuário foi bloqueado devido a quantidade de tentativas falhas. Entre em contato com o administrador.',
-                ])->onlyInput('email');
+                ])->withInput($request->input());
             }
         } else {
             return back()->withErrors([
                 'email' => 'E-mail não cadastrado.',
-            ])->onlyInput('email');
+            ])->withInput($request->input());
         }
     }
 
-    // Function Home
+    public function recovery()
+    {
+        return view('system.recovery');
+    }
+
+    public function recovering(RecoveryRqt $request)
+    {   
+        $user = Users::where('email', $request->email)->first();
+        if(!empty($user->email)){ 
+            $user->notify(new RecoveryPassword($user));
+            return redirect()->route('login')->with('mailto', true);
+        } else {
+            return back()->withErrors([
+                'email' => 'E-mail não cadastrado.',
+            ])->withInput($request->input());
+        }
+    }
+
+    public function verify($token)
+    {   
+        $user = Users::where('remember_token', $token)->first();
+        if(!empty($user)){ 
+            return view('system.verify')->with('user', $user);
+        } else {
+            return redirect(route('login'))->withErrors([
+                'active' => 'Não foi possível redefinir sua senha, solicite novamente.',
+            ]);
+        }
+    }
+
+    public function reset(VerifyRqt $request) {
+        
+        if( Auth::check() ){
+            Auth::logout();
+        }
+
+        $user = Users::where('remember_token', $request->token)->first();
+        $dados = Users::find($user->id)->update([
+            'password' => Hash::make($request->password), 
+            'remember_token' => $request->_token,
+            'active' => 1,
+            'attempts' => 0,
+        ]);
+
+        $user->notify(new ResetPassword($user));
+        return redirect()->route('login')->with('reset', true);
+    }
+
+    /** Functions internal **/
     public function home()
     {
         if (Auth::check() && Auth::user()->active) {
@@ -78,7 +129,6 @@ class SystemCtrl extends Controller
         }
     }
 
-    // Function Logout
     public function logout()
     {
         Auth::logout();

@@ -184,7 +184,7 @@ ul {
 }
 
 /** Main **/
-main:not(.login main) {
+main:not(.login main, .verify main) {
     padding: 20px;
     min-height: calc(100vh - 82px);
     display: flex;

@@ -19,62 +19,44 @@ Login
                         class="img-fluid">
                 </div>
                 <div class="formulario">
-                    <form action="{{ route('redirect') }}" method="POST">
+
+                    @if(session('mailto'))
+                        <div class="alert alert-success col-12">
+                           <p class="mb-0">O e-mail de redefinição foi enviado com sucesso, verifique a sua caixa de entrada ou spam.</p>
+                        </div>
+                    @endif
+
+                    @if(session('reset'))
+                        <div class="alert alert-success col-12">
+                           <p class="mb-0">A sua senha foi redefinida com sucesso, faça login.</p>
+                        </div>
+                    @endif
+
+                    <form action="{{ route('authentication') }}" method="POST">
                         @csrf
+
                         @error('active')
-                        <div class="alert alert-danger">{{ $message }}</div>
+                            <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
 
                         <div class="input-field">
                             <div class="form-floating">
-                                <input type="text" class="form-control @error('email') is-invalid @enderror" id="email" name="email" placeholder="email@email.com" aria-label="E-mail" value="{{ old('email') }}" required>
+                                <input type="text" class="form-control @error('email') is-invalid @enderror" id="email" name="email" aria-label="E-mail" value="{{ old('email') }}" required>
                                 <label for="email">E-mail</label>
                             </div>
                             @error('email')
                                 <div class="mt-2 text-danger">{{ $message }}</div>
                             @enderror
                         </div>
-
                         <div class="input-field">
                             <div class="form-floating">
-                                <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password" placeholder="******" aria-label="Password" value="{{ old('password') }}" required>
+                                <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password" aria-label="Password" value="{{ old('password') }}" required>
                                 <label for="email">Senha</label>
                             </div>
                             @error('password')
                             <div class="mt-2 text-danger">{{ $message }}</div>
                             @enderror
                         </div>
-
-                        <!--<div class="input-field">
-                            <label for="email">Seu e-mail</label>
-                            <div class="input-group flex-nowrap">
-                                <span class="input-group-text" id="addon-wrapping">
-                                    <i class="bi bi-person"></i>
-                                </span>
-                                <input type="email" name="email" id="email"
-                                    class="form-control @error('email') is-invalid @enderror"
-                                    placeholder="email@email.com" aria-label="E-mail" value="{{ old('email') }}"
-                                    aria-describedby="addon-wrapping" required>
-                            </div>
-                            @error('email')
-                            <div class="mt-2 text-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        <div class="input-field">
-                            <label for="password">Sua senha</label>
-                            <div class="input-group flex-nowrap">
-                                <span class="input-group-text" id="addon-wrapping">
-                                    <i class="bi bi-key"></i>
-                                </span>
-                                <input type="password" name="password" id="password"
-                                    class="form-control @error('password') is-invalid @enderror" placeholder="******"
-                                    value="{{ old('password') }}" aria-label="Password"
-                                    aria-describedby="addon-wrapping" required>
-                            </div>
-                            @error('password')
-                            <div class="mt-2 text-danger">{{ $message }}</div>
-                            @enderror
-                        </div>-->
                         <div class="remember-field">
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="remember" name="remember">
@@ -91,7 +73,7 @@ Login
                 </div>
                 <div class="mt-5 text-center">
                     <div>
-                        <a href="{{ route('recovery.password') }}" target="_blank">
+                        <a href="{{ route('recovery.password') }}" target="_self">
                             Esqueceu a sua senha?
                         </a>
                     </div>

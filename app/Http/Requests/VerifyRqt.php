@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CompaniesRqt extends FormRequest
+class VerifyRqt extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,9 +22,9 @@ class CompaniesRqt extends FormRequest
     public function attributes(): array
     {
         return [
-            'name' => 'nome',
-            'slug' => 'slug',
-            'active' => 'status',
+            'token' => 'token',
+            'password' => 'password',
+            'password_confirmation' => 'confirmação de password',
         ];
     }
 
@@ -35,19 +35,11 @@ class CompaniesRqt extends FormRequest
      */
     public function rules(): array
     {
-        if($this->segment(3) == 'store'){
-            return [
-                'name' => 'required|min:3|unique:companies,name',
-                'slug' => 'required|min:3',
-                'active' => 'required|boolean',
-            ];
-        } else {
-            return [
-                'name' => 'required|min:3',
-                'slug' => 'required|min:3',
-                'active' => 'required|boolean',
-            ];
-        }
+        return [
+            'token' => 'required|exists:users,remember_token',
+            'password' => 'required_with:password_confirmation|same:password_confirmation|min:8',
+            'password_confirmation' => 'required',
+        ];
     }
 
     /**
@@ -63,7 +55,8 @@ class CompaniesRqt extends FormRequest
             'unique' => 'O campo :attribute já foi cadastrado, tente novamente.',
             'numeric' => 'O campo :attribute só aceita valores númericos.',
             'boolean' => 'O campo :attribute só pode receber ativo ou desativado.',
+            'exists' => 'O :attribute não foi encontrado.', 
+            'same' => 'O campo :attribute e :other estão diferentes.',
         ];   
     }
-    
 }

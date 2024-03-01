@@ -37,7 +37,7 @@ class UsersRqt extends FormRequest
      */
     public function rules(): array
     {
-        if($this->segment(3) == 'create'){
+        if($this->segment(3) == 'store'){
             return [
                 'name' => 'required|min:3',
                 'email' => 'required|min:3|unique:users,email',

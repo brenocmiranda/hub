@@ -30,13 +30,13 @@ Nova função
                         
                         <div class="input-field col-12">
                             <div class="form-floating">
-                                <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" placeholder="Komuh" value="{{ old('name') }}" required>
+                                <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}" required>
                                 <label for="name">Nome</label>
                             </div>
                         </div>
                         <div class="input-field col-6">
                             <div class="form-floating">
-                                <input type="number" class="form-control @error('value') is-invalid @enderror" id="value" name="value" placeholder="Komuh" value="{{ old('value') }}" required>
+                                <input type="number" class="form-control @error('value') is-invalid @enderror" id="value" name="value" value="{{ old('value') }}" required>
                                 <label for="value">Value</label>
                             </div>
                         </div>

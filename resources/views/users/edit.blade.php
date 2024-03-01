@@ -30,13 +30,13 @@ Editar usuário
  
                         <div class="input-field col-12">
                             <div class="form-floating">
-                                <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" placeholder="Usuário 1" value="{{ old('name') ? old('name') : $user->name }}" required>
+                                <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') ? old('name') : $user->name }}" required>
                                 <label for="name">Nome</label>
                             </div>
                         </div>
                         <div class="input-field col-6">
                             <div class="form-floating">
-                                <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" placeholder="email@komuh.com" value="{{ old('email') ? old('email') : $user->email }}" required>
+                                <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email') ? old('email') : $user->email }}" required>
                                 <label for="name">E-mail</label>
                             </div>
                         </div>

@@ -7,7 +7,11 @@ use App\Http\Requests\CompaniesRqt;
 use App\Models\Companies;
 
 class CompaniesCtrl extends Controller
-{
+{   
+    public function __construct(){
+		$this->middleware('auth');
+	}
+    
     public function index()
     {
         return view('companies.index')->with('companies', Companies::orderBy('name', 'asc')->get());

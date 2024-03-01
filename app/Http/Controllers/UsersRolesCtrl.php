@@ -7,7 +7,11 @@ use App\Http\Requests\UsersRolesRqt;
 use App\Models\UsersRoles;
 
 class UsersRolesCtrl extends Controller
-{
+{   
+    public function __construct(){
+		$this->middleware('auth');
+	}
+    
     public function index()
     {
         return view('users.roles.index')->with('roles', UsersRoles::orderBy('name', 'asc')->get());

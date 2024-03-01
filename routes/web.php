@@ -16,13 +16,13 @@ use App\Http\Controllers\UsersRolesCtrl;
 Route::group(['prefix' => '/'], function () {
     // Funções externas
     Route::get('/', [SystemCtrl::class, 'login'])->name('login');
-    Route::post('redirect', [SystemCtrl::class, 'redirect'])->name('redirect');
+    Route::post('authentication', [SystemCtrl::class, 'authentication'])->name('authentication');
     Route::group(['prefix' => 'password'], function () {
         // Recuperação de senha
         Route::get('/', [SystemCtrl::class, 'recovery'])->name('recovery.password');
         Route::post('recovering', [SystemCtrl::class, 'recovering'])->name('recovering.password');
-        Route::any('verify/{token}', [SystemCtrl::class, 'verify'])->name('verify.password');
-        Route::any('reset', [SystemCtrl::class, 'reset'])->name('reset.password');
+        Route::get('verify/{token}', [SystemCtrl::class, 'verify'])->name('verify.password');
+        Route::post('reset', [SystemCtrl::class, 'reset'])->name('reset.password');
     });
 });
 
@@ -82,6 +82,7 @@ Route::group(['prefix' => 'app'], function () {
         Route::get('edit/{id}', [UsersCtrl::class, 'edit'])->name('edit.users');
         Route::post('update/{id}', [UsersCtrl::class, 'update'])->name('update.users');
         Route::any('destroy/{id}', [UsersCtrl::class, 'destroy'])->name('destroy.users');
+        Route::any('recovery/{id}', [UsersCtrl::class, 'recovery'])->name('recovery.users');
         // Roles
         Route::group(['prefix' => 'roles'], function () {
             Route::get('/', [UsersRolesCtrl::class, 'index'])->name('index.users.roles');

@@ -30,13 +30,13 @@ Editar empresa
                         
                         <div class="input-field col-12">
                             <div class="form-floating">
-                                <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" placeholder="Komuh" value="{{ $companie->name ? $companie->name : old('name') }}" required>
+                                <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ $companie->name ? $companie->name : old('name') }}" required>
                                 <label for="name">Nome</label>
                             </div>
                         </div>
                         <div class="input-field col-6">
                             <div class="form-floating">
-                                <input type="text" class="form-control @error('slug') is-invalid @enderror slug" placeholder="komuh" value="{{ $companie->slug ? $companie->slug : old('slug') }}" disabled>
+                                <input type="text" class="form-control @error('slug') is-invalid @enderror slug" value="{{ $companie->slug ? $companie->slug : old('slug') }}" disabled>
                                 <input type="hidden" class="slug" name="slug" value="{{ $companie->slug ? $companie->slug : old('slug') }}">
                                 <label for="slug">Slug</label>
                             </div>

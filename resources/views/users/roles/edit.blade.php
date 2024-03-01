@@ -30,13 +30,13 @@ Editar função
                         
                         <div class="input-field col-12">
                             <div class="form-floating">
-                                <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" placeholder="Komuh" value="{{ $role->name ? $role->name : old('name') }}" required>
+                                <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ $role->name ? $role->name : old('name') }}" required>
                                 <label for="name">Nome</label>
                             </div>
                         </div>
                         <div class="input-field col-6">
                             <div class="form-floating">
-                                <input type="number" class="form-control @error('value') is-invalid @enderror" id="value" name="value" placeholder="Komuh" value="{{ $role->value ? $role->value : old('value') }}" required>
+                                <input type="number" class="form-control @error('value') is-invalid @enderror" id="value" name="value" value="{{ $role->value ? $role->value : old('value') }}" required>
                                 <label for="name">Value</label>
                             </div>
                         </div>
