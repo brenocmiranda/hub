@@ -17,6 +17,10 @@ return new class extends Migration
             $table->string('name', 200);
             $table->string('slug', 200);
             $table->string('url', 200);
+            $table->string('user', 200)->nullable();
+            $table->string('password', 200)->nullable();
+            $table->string('token', 200)->nullable();
+            $table->longText('header', 200)->nullable();
             $table->timestamps();
         });
     }

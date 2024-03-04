@@ -31,13 +31,13 @@ Nova função
                         <div class="input-field col-12">
                             <div class="form-floating">
                                 <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}" required>
-                                <label for="name">Nome</label>
+                                <label for="name">Nome <abbr>*</abbr></label>
                             </div>
                         </div>
                         <div class="input-field col-6">
                             <div class="form-floating">
                                 <input type="number" class="form-control @error('value') is-invalid @enderror" id="value" name="value" value="{{ old('value') }}" required>
-                                <label for="value">Value</label>
+                                <label for="value">Value <abbr>*</abbr></label>
                             </div>
                         </div>
                         <div class="input-field col-6">
@@ -47,7 +47,7 @@ Nova função
                                     <option value="1" {{ old('active') != null && old('active') == true ? 'selected' : "" }}>Ativo</option>
                                     <option value="0" {{ old('active') != null && old('active') == false ? 'selected' : "" }}>Desativado</option>
                                 </select>
-                                <label for="active">Status</label>
+                                <label for="active">Status <abbr>*</abbr></label>
                             </div>
                         </div>
                         <div class="submit-field d-flex justify-content-end align-items-center gap-3">
@@ -60,12 +60,3 @@ Nova função
         </div>
     </div>
 @endsection
-
-@section('js')
-<script>
-    $('#name').on('keyup', function(){
-        $('.slug').val(slugify($(this).val()));
-    });
-</script>
-@endsection
-

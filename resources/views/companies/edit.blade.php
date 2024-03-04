@@ -31,14 +31,14 @@ Editar empresa
                         <div class="input-field col-12">
                             <div class="form-floating">
                                 <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ $companie->name ? $companie->name : old('name') }}" required>
-                                <label for="name">Nome</label>
+                                <label for="name">Nome <abbr>*</abbr></label>
                             </div>
                         </div>
                         <div class="input-field col-6">
                             <div class="form-floating">
                                 <input type="text" class="form-control @error('slug') is-invalid @enderror slug" value="{{ $companie->slug ? $companie->slug : old('slug') }}" disabled>
                                 <input type="hidden" class="slug" name="slug" value="{{ $companie->slug ? $companie->slug : old('slug') }}">
-                                <label for="slug">Slug</label>
+                                <label for="slug">Slug <abbr>*</abbr></label>
                             </div>
                         </div>
                         <div class="input-field col-6">
@@ -48,7 +48,7 @@ Editar empresa
                                     <option value="1" {{ (old('active') != null && old('active') == true) || $companie->active == true ? 'selected' : "" }}>Ativo</option>
                                     <option value="0" {{ (old('active') != null && old('active') == false) || $companie->active == false ? 'selected' : "" }}>Desativado</option>
                                 </select>
-                                <label for="active">Status</label>
+                                <label for="active">Status <abbr>*</abbr></label>
                             </div>
                         </div>
                         <div class="submit-field d-flex justify-content-end align-items-center gap-3">

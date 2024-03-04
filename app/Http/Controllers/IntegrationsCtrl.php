@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Routing\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\IntegrationsRqt;
+use App\Models\Integrations;
 
 class IntegrationsCtrl extends Controller
 {   
@@ -13,7 +14,7 @@ class IntegrationsCtrl extends Controller
     
     public function index()
     {
-        return view('integrations.index');
+        return view('integrations.index')->with('integrations', Integrations::orderBy('name', 'asc')->get());
     }
 
     public function create()
@@ -21,23 +22,46 @@ class IntegrationsCtrl extends Controller
         return view('integrations.create');
     }
 
-    public function store(Request $request)
-    {     
-        return redirect( route('index.integrations') );
-    }
-
-    public function edit()
+    public function store(IntegrationsRqt $request)
     {      
-        return view('integrations.edit');
+        Integrations::create([
+            'name' => $request->name, 
+            'slug' => $request->slug, 
+            'active' => $request->active,
+            'url' => $request->url,
+            'user' => $request->user ? $request->user : "",
+            'password' => $request->password ? $request->password : "",
+            'token' => $request->token ? $request->token : "",
+            'header' => $request->header ? $request->header : "",
+        ]);
+
+        return redirect()->route('index.integrations')->with('create', true);
     }
 
-    public function update(Request $request, $id)
+    public function edit($id)
+    {      
+        return view('integrations.edit')->with('integration', Integrations::find($id));
+    } 
+
+    public function update(IntegrationsRqt $request, $id)
     {
-        return view('integrations.index');
+        Integrations::find($id)->update([
+            'name' => $request->name, 
+            'slug' => $request->slug, 
+            'active' => $request->active,
+            'url' => $request->url,
+            'user' => $request->user ? $request->user : "",
+            'password' => $request->password ? $request->password : "",
+            'token' => $request->token ? $request->token : "",
+            'header' => $request->header ? $request->header : "",
+        ]);
+
+        return redirect()->route('index.integrations')->with('edit', true);
     }
 
     public function destroy($id)
     {      
-        return redirect( route('index.integrations') );
+        Integrations::find($id)->update([ 'active' => 0 ]);
+        return redirect()->route('index.integrations')->with('destroy', true);
     }
 }

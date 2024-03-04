@@ -43,9 +43,9 @@
                                 </a>
                                 @break
                             
-                            @case('integration')
+                            @case('integrations')
                                 <i class="bi bi-chevron-double-right"></i>
-                                <a href="{{ route('index.integration') }}" class="text-decoration-none text-dark">
+                                <a href="{{ route('index.integrations') }}" class="text-decoration-none text-dark">
                                     <small>Integrações</small>
                                 </a>
                                 @break

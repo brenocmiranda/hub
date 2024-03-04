@@ -2,6 +2,7 @@
     --black: #000000;
     --white: #ffffff;
     --gray: #dfdfdf;
+    --gray-light: #f1f1f1;
 
     --title-font: 'Poppins', tahoma, sans-serif;
     --text-font: 'Poppins', tahoma, sans-serif;
@@ -69,6 +70,10 @@ ul {
 
 [hidden] {
     display: none;
+}
+
+abbr {
+    color: var(--bs-danger);
 }
 
 /** Fonts **/
@@ -180,7 +185,7 @@ ul {
 }
 
 .full-page aside.mobile:hover .name {
-    display: block !important;
+    display: flex !important;
 }
 
 .full-page aside.mobile .btn-toggle-nav {
@@ -235,5 +240,37 @@ main:not(.login main, .verify main) {
 /** Footer **/
 footer {
     margin-top: auto;
+    padding-top: 20px;
     text-align: end;
+}
+
+/** Barra de rolagem **/
+body::-webkit-scrollbar {
+    width: 12px;               /* width of the entire scrollbar */
+}
+
+body::-webkit-scrollbar-track {
+    background: var(--gray-light);        /* color of the tracking area */
+}
+
+body::-webkit-scrollbar-thumb {
+    background-color: var(--bs-gray-500);    /* color of the scroll thumb */
+    border-radius: 20px;       /* roundness of the scroll thumb */
+    border: 3px solid var(--gray-light);
+}
+
+/** Input divider  **/
+.divider-input {
+    position: relative;
+}
+
+.divider-input p {
+    position: absolute;
+    top: 2px;
+    margin: 0;
+    padding: 0;
+    background: var(--gray);
+    padding: 0px 12px;
+    z-index: 99;
+    font-weight: 500;
 }

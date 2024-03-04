@@ -31,13 +31,13 @@ Editar usuário
                         <div class="input-field col-12">
                             <div class="form-floating">
                                 <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') ? old('name') : $user->name }}" required>
-                                <label for="name">Nome</label>
+                                <label for="name">Nome <abbr>*</abbr></label>
                             </div>
                         </div>
                         <div class="input-field col-6">
                             <div class="form-floating">
                                 <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email') ? old('email') : $user->email }}" required>
-                                <label for="name">E-mail</label>
+                                <label for="name">E-mail <abbr>*</abbr></label>
                             </div>
                         </div>
                         <div class="input-field col-6">
@@ -47,7 +47,7 @@ Editar usuário
                                     <option value="1" {{ (old('active') != null && old('active') == true) || $user->active == 1 ? 'selected' : "" }}>Ativo</option>
                                     <option value="0" {{ (old('active') != null && old('active') == false) || $user->active == 0 ? 'selected' : "" }}>Desativado</option>
                                 </select>
-                                <label for="active">Status</label>
+                                <label for="active">Status <abbr>*</abbr></label>
                             </div>
                         </div>
                         <div class="input-field col-6">
@@ -58,7 +58,7 @@ Editar usuário
                                         <option value="{{ $companie->id }}" {{ (old('companies') != null && old('companies') == $companie->id) || $companie->id == $user->companie_id ? 'selected' : "" }}>{{ $companie->name }}</option>
                                     @endforeach
                                 </select>
-                                <label for="companies">Empresas</label>
+                                <label for="companies">Empresas <abbr>*</abbr></label>
                             </div>
                         </div>
                         <div class="input-field col-6">
@@ -69,7 +69,7 @@ Editar usuário
                                         <option value="{{ $role->id }}" {{ (old('roles') != null && old('roles') == $role->id) || $role->id == $user->user_role_id ? 'selected' : "" }}>{{ $role->name }}</option>
                                     @endforeach
                                 </select>
-                                <label for="roles">Função</label>
+                                <label for="roles">Função <abbr>*</abbr></label>
                             </div>
                         </div>
                         <div class="submit-field d-flex justify-content-end align-items-center gap-3">

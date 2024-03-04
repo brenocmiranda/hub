@@ -107,8 +107,8 @@
                 </div>
             </li>
             <li class="nav-item">
-                <a href="#"
-                    class="nav-link text-white d-flex gap-2 mb-2 {{ Request::segment(2) == 'integration' ? 'active' : '' }}">
+                <a href="{{ route('index.integrations') }}"
+                    class="nav-link text-white d-flex gap-2 mb-2 {{ Request::segment(2) == 'integrations' ? 'active' : '' }}">
                     <i class="bi bi-layers"></i>
                     <span class="module-name">Integrações</span>
                 </a>

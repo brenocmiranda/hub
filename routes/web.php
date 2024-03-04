@@ -61,16 +61,20 @@ Route::group(['prefix' => 'app'], function () {
     // Buildings
     Route::group(['prefix' => 'buildings'], function () {
         Route::get('/', [BuildingsCtrl::class, 'index'])->name('index.buildings');
-        Route::any('create/', [BuildingsCtrl::class, 'create'])->name('create.buildings');
-        Route::any('update/{id}', [BuildingsCtrl::class, 'update'])->name('update.buildings');
+        Route::get('create/', [BuildingsCtrl::class, 'create'])->name('create.buildings');
+        Route::post('store/', [BuildingsCtrl::class, 'store'])->name('store.buildings');
+        Route::get('edit/{id}', [BuildingsCtrl::class, 'edit'])->name('edit.buildings');
+        Route::post('update/{id}', [BuildingsCtrl::class, 'update'])->name('update.buildings');
         Route::any('destroy/{id}', [BuildingsCtrl::class, 'destroy'])->name('destroy.buildings');
     });
 
     // Integrations
     Route::group(['prefix' => 'integrations'], function () {
         Route::get('/', [IntegrationsCtrl::class, 'index'])->name('index.integrations');
-        Route::any('create/', [IntegrationsCtrl::class, 'create'])->name('create.integrations');
-        Route::any('update/{id}', [IntegrationsCtrl::class, 'update'])->name('update.integrations');
+        Route::get('create/', [IntegrationsCtrl::class, 'create'])->name('create.integrations');
+        Route::post('store/', [IntegrationsCtrl::class, 'store'])->name('store.integrations');
+        Route::get('edit/{id}', [IntegrationsCtrl::class, 'edit'])->name('edit.integrations');
+        Route::post('update/{id}', [IntegrationsCtrl::class, 'update'])->name('update.integrations');
         Route::any('destroy/{id}', [IntegrationsCtrl::class, 'destroy'])->name('destroy.integrations');
     });
 

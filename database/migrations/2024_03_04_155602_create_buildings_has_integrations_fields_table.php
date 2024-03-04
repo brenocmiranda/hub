@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('integrations_fields', function (Blueprint $table) {
+        Schema::create('buildings_has_integrations_fields', function (Blueprint $table) {
             $table->id();
             $table->string('name', 200);
             $table->string('value');
             $table->string('type');
             $table->boolean('required');
-            $table->unsignedBigInteger('integration_id');
-            $table->foreign('integration_id')->references('id')->on('integrations');
+            $table->unsignedBigInteger('buildings_has_integrations_id');
+            $table->foreign('buildings_has_integrations_id')->references('id')->on('buildings_has_integrations');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('integrations_fields');
+        Schema::dropIfExists('buildings_has_integrations_fields');
     }
 };
