@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UsersRolesRqt extends FormRequest
+class LeadsOriginsRqt extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,7 +23,7 @@ class UsersRolesRqt extends FormRequest
     {
         return [
             'name' => 'nome',
-            'value' => 'value',
+            'slug' => 'slug',
             'active' => 'status',
         ];
     }
@@ -37,14 +37,14 @@ class UsersRolesRqt extends FormRequest
     {
         if($this->segment(4) == 'store'){
             return [
-                'name' => 'required|min:3|unique:users_roles,name',
-                'value' => 'required|numeric',
+                'name' => 'required|min:3|unique:leads_origins,name',
+                'slug' => 'required|min:3',
                 'active' => 'required|boolean',
             ];
         } else {
             return [
                 'name' => 'required|min:3',
-                'value' => 'required|numeric',
+                'slug' => 'required|min:3',
                 'active' => 'required|boolean',
             ];
         }

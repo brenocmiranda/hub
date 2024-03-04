@@ -11,8 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('leads_origin', function (Blueprint $table) {
+        Schema::create('leads_origins', function (Blueprint $table) {
             $table->id();
+            $table->boolean('active');
             $table->string('name', 200);
             $table->string('slug');
             $table->timestamps();
@@ -24,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('leads_origin');
+        Schema::dropIfExists('leads_origins');
     }
 };

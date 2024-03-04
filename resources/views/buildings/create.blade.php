@@ -31,7 +31,7 @@ Novo empreendimento
                         <div class="input-field col-12">
                             <div class="form-floating">
                                 <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}" required>
-                                <label for="name">Nome</label>
+                                <label for="name">Nome <abbr>*</abbr></label>
                             </div>
                         </div>
                         <div class="input-field col-6">
@@ -42,7 +42,7 @@ Novo empreendimento
                                         <option value="{{ $companie->id }}" {{ old('companies') != null && old('companies') == $companie->id ? 'selected' : "" }}>{{ $companie->name }}</option>
                                     @endforeach
                                 </select>
-                                <label for="companies">Empresas</label>
+                                <label for="companies">Empresas <abbr>*</abbr></label>
                             </div>
                         </div>
                         <div class="input-field col-6">
@@ -52,8 +52,15 @@ Novo empreendimento
                                     <option value="1" {{ old('active') != null && old('active') == true ? 'selected' : "" }}>Ativo</option>
                                     <option value="0" {{ old('active') != null && old('active') == false ? 'selected' : "" }}>Desativado</option>
                                 </select>
-                                <label for="active">Status</label>
+                                <label for="active">Status <abbr>*</abbr></label>
                             </div>
+                        </div>
+                        <div class="divider-input">
+                            <p>Integrações</p>
+                            <hr>
+                        </div>
+                        <div class="add-integration">
+                            <a href="#"><i class="bi bi-plus"></i> Criar nova integração</a>
                         </div>
                         <div class="submit-field d-flex justify-content-end align-items-center gap-3">
                             <a href="{{ route('index.buildings') }}"> <i class="bi bi-arrow-left px-2"></i>Voltar</a>

@@ -6,6 +6,7 @@ use App\Http\Controllers\CompaniesCtrl;
 use App\Http\Controllers\DashboardsCtrl;
 use App\Http\Controllers\IntegrationsCtrl;
 use App\Http\Controllers\LeadsCtrl;
+use App\Http\Controllers\LeadsOriginsCtrl;
 use App\Http\Controllers\SystemCtrl;
 use App\Http\Controllers\UsersCtrl;
 use App\Http\Controllers\UsersRolesCtrl;
@@ -44,8 +45,18 @@ Route::group(['prefix' => 'app'], function () {
         Route::get('/', [LeadsCtrl::class, 'index'])->name('index.leads');
         Route::get('create/', [LeadsCtrl::class, 'create'])->name('create.leads');
         Route::post('store/', [LeadsCtrl::class, 'store'])->name('store.leads');
-        Route::any('update/{id}', [LeadsCtrl::class, 'update'])->name('update.leads');
+        Route::get('edit/{id}', [LeadsCtrl::class, 'edit'])->name('edit.leads');
+        Route::post('update/{id}', [LeadsCtrl::class, 'update'])->name('update.leads');
         Route::any('destroy/{id}', [LeadsCtrl::class, 'destroy'])->name('destroy.leads');
+        // Origins
+        Route::group(['prefix' => 'origins'], function () {
+            Route::get('/', [LeadsOriginsCtrl::class, 'index'])->name('index.leads.origins');
+            Route::get('create/', [LeadsOriginsCtrl::class, 'create'])->name('create.leads.origins');
+            Route::post('store/', [LeadsOriginsCtrl::class, 'store'])->name('store.leads.origins');
+            Route::get('edit/{id}', [LeadsOriginsCtrl::class, 'edit'])->name('edit.leads.origins');
+            Route::post('update/{id}', [LeadsOriginsCtrl::class, 'update'])->name('update.leads.origins');
+            Route::any('destroy/{id}', [LeadsOriginsCtrl::class, 'destroy'])->name('destroy.leads.origins');
+        });
     });
 
     // Companies

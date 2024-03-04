@@ -1,11 +1,11 @@
 @extends('base.index')
 
 @section('title')
-Funções
+Origens
 @endsection
 
 @section('buttons')
-    <a href="{{ route('create.users.roles') }}" class="btn btn-primary">
+    <a href="{{ route('create.leads.origins') }}" class="btn btn-primary">
         <i class="bi bi-plus-lg"></i>
         <span>Novo</span>
     </a>
@@ -19,7 +19,7 @@ Funções
                     <thead>
                         <tr>
                             <th data-field="name" data-align="center">Nome</th>
-                            <th data-field="value" data-align="center">Nível</th>
+                            <th data-field="slug" data-align="center">Slug</th>
                             <th data-field="status" data-align="center">Status</th>
                             <th data-field="operations" data-align="center">Operações</th>
                         </tr>
@@ -28,12 +28,12 @@ Funções
                 <script>
                     $(function () {
                         var data = [
-                            @foreach($roles as $role)
+                            @foreach($origins as $origin)
                                 { 
-                                    'name': '{{ ucfirst($role->name) }}', 
-                                    'value': '{{ $role->value }}', 
-                                    'status': ({{ $role->active }} ? '<span class="badge bg-success-subtle border border-success-subtle text-success-emphasis rounded-pill">Ativo</span>' : '<span class="badge bg-danger-subtle border border-danger-subtle text-danger-emphasis rounded-pill">Desativado</span>'), 
-                                    'operations': '<a href="{{ route('edit.users.roles', $role->id ) }}" class="btn btn-outline-secondary me-1 px-2 py-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Editar"><i class="bi bi-pencil"></i></a>' + ({{ $role->active }} ? '<a href="{{ route('destroy.users.roles', $role->id ) }}" class="btn btn-outline-secondary ms-1 px-2 py-1 destroy" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Arquivar"><i class="bi bi-archive"></i></a>' : "")
+                                    'name': '{{ ucfirst($origin->name) }}', 
+                                    'slug': '{{ $origin->slug }}', 
+                                    'status': ({{ $origin->active }} ? '<span class="badge bg-success-subtle border border-success-subtle text-success-emphasis rounded-pill">Ativo</span>' : '<span class="badge bg-danger-subtle border border-danger-subtle text-danger-emphasis rounded-pill">Desativado</span>'), 
+                                    'operations': '<a href="{{ route('edit.leads.origins', $origin->id ) }}" class="btn btn-outline-secondary me-1 px-2 py-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Editar"><i class="bi bi-pencil"></i></a>' + ({{ $origin->active }} ? '<a href="{{ route('destroy.leads.origins', $origin->id ) }}" class="btn btn-outline-secondary ms-1 px-2 py-1 destroy" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Arquivar"><i class="bi bi-archive"></i></a>' : "")
                                 },
                             @endforeach
                         ];

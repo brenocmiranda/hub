@@ -41,9 +41,9 @@
                                 text-white' }}">Cadastrar</a>
                         </li>
                         <li>
-                            <a href="{{ route('create.leads') }}"
-                                class="d-inline-flex text-decoration-none mb-2 {{ Request::segment(2) == 'leads' && Request::segment(3) == 'jobs' ? 'text-secondary' : '
-                                text-white' }}">Origem</a>
+                            <a href="{{ route('index.leads.origins') }}"
+                                class="d-inline-flex text-decoration-none mb-2 {{ Request::segment(2) == 'leads' && Request::segment(3) == 'origins' ? 'text-secondary' : '
+                                text-white' }}">Origens</a>
                         </li>
                         <li>
                             <a href="{{ route('create.leads') }}"
