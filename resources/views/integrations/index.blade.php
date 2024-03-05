@@ -19,7 +19,7 @@ Integrações
                 <table id="table">
                     <thead>
                         <tr>
-                            <th data-field="name" data-align="center">Nome</th>
+                            <th data-field="name" data-align="center" data-width="200">Nome</th>
                             <th data-field="url" data-align="center">URL</th>
                             <th data-field="authentication" data-align="center">Tipo de Auth</th>
                             <th data-field="status" data-align="center">Status</th>

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Buildings extends Model
 {
@@ -18,5 +19,15 @@ class Buildings extends Model
     public function RelationCompanies()
     {
         return $this->belongsTo(Companies::class, 'companie_id', 'id');
+    }
+
+    public function RelationIntegrations()
+    {
+        return $this->belongsToMany(Integrations::class, 'buildings_has_integrations', 'building_id', 'integration_id');
+    }
+
+    public function RelationIntegrationsFields()
+    {
+        return $this->hasManyThrough('buildings_has_integrations_fields', 'buildings_has_integrations');
     }
 }

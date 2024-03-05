@@ -36,8 +36,8 @@ Editar integração
                         </div>
                         <div class="input-field col-6">
                             <div class="form-floating">
-                                <input type="text" class="form-control @error('slug') is-invalid @enderror slug" value="{{ $integration->name ? $integration->name : old('slug') }}" disabled>
-                                <input type="hidden" class="slug" name="slug" value="{{ $integration->name ? $integration->name : old('slug') }}">
+                                <input type="text" class="form-control @error('slug') is-invalid @enderror slug" value="{{ $integration->slug ? $integration->slug : old('slug') }}" disabled>
+                                <input type="hidden" class="slug" name="slug" value="{{ $integration->slug ? $integration->slug : old('slug') }}">
                                 <label for="slug">Slug <abbr>*</abbr></label>
                             </div>
                         </div>

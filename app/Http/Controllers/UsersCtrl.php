@@ -26,7 +26,7 @@ class UsersCtrl extends Controller
 
     public function create()
     {      
-        return view('users.create')->with('companies', Companies::where('active', 1)->get())->with('roles', UsersRoles::where('active', 1)->get());
+        return view('users.create')->with('companies', Companies::where('active', 1)->orderBy('name', 'asc')->get())->with('roles', UsersRoles::where('active', 1)->orderBy('name', 'asc')->get());
     }
 
     public function store(UsersRqt $request)

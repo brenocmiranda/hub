@@ -99,7 +99,7 @@
                                 text-white' }}">Cadastrar</a>
                         </li>
                         <li>
-                            <a href="{{ route('create.buildings') }}"
+                            <a href="{{ route('index.buildings.keys') }}"
                                 class="d-inline-flex text-decoration-none mb-2 {{ Request::segment(2) == 'buildings' && Request::segment(3) == 'keys' ? 'text-secondary' : '
                                 text-white' }}">Chaves</a>
                         </li>

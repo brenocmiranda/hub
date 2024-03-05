@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BuildingsCtrl;
+use App\Http\Controllers\BuildingsKeysCtrl;
 use App\Http\Controllers\CompaniesCtrl;
 use App\Http\Controllers\DashboardsCtrl;
 use App\Http\Controllers\IntegrationsCtrl;
@@ -77,6 +78,15 @@ Route::group(['prefix' => 'app'], function () {
         Route::get('edit/{id}', [BuildingsCtrl::class, 'edit'])->name('edit.buildings');
         Route::post('update/{id}', [BuildingsCtrl::class, 'update'])->name('update.buildings');
         Route::any('destroy/{id}', [BuildingsCtrl::class, 'destroy'])->name('destroy.buildings');
+        // Keys
+        Route::group(['prefix' => 'keys'], function () {
+            Route::get('/', [BuildingsKeysCtrl::class, 'index'])->name('index.buildings.keys');
+            Route::get('create/', [BuildingsKeysCtrl::class, 'create'])->name('create.buildings.keys');
+            Route::post('store/', [BuildingsKeysCtrl::class, 'store'])->name('store.buildings.keys');
+            Route::get('edit/{id}', [BuildingsKeysCtrl::class, 'edit'])->name('edit.buildings.keys');
+            Route::post('update/{id}', [BuildingsKeysCtrl::class, 'update'])->name('update.buildings.keys');
+            Route::any('destroy/{id}', [BuildingsKeysCtrl::class, 'destroy'])->name('destroy.buildings.keys');
+        });
     });
 
     // Integrations

@@ -15,10 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('name', 200);
             $table->string('value');
-            $table->string('type');
-            $table->boolean('required');
             $table->unsignedBigInteger('buildings_has_integrations_id');
-            $table->foreign('buildings_has_integrations_id')->references('id')->on('buildings_has_integrations');
+            $table->foreign('buildings_has_integrations_id', 'fk_buildings_has_integrations_id')->references('id')->on('buildings_has_integrations');
             $table->timestamps();
         });
     }
