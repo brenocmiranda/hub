@@ -1,0 +1,20 @@
+/** Group integration **/
+.integrations {}
+
+.integrations .all-integration {}
+
+.integrations .all-integration .single-integration {
+    border: 1px solid #c7c7c7;
+    padding: 20px;
+    border-radius: 10px;
+    width: calc(100% - 30px);
+    margin: auto;
+    margin-bottom: 20px;
+}
+
+.integrations .all-integration .single-integration .content-integration {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    margin-bottom: 20px;
+}

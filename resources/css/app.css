@@ -131,6 +131,14 @@ abbr {
 
 
 /** Sidebar **/
+.full-page aside {}
+
+.full-page aside > div {
+    position: fixed;
+    overflow: auto;
+    z-index: 99;
+}
+
 .full-page aside .img-desktop,
 .full-page aside .img-mobile {
     display: none;
@@ -140,7 +148,8 @@ abbr {
     color: rgba(var(--bs-secondary-rgb), var(--bs-text-opacity)) !important;
 }
 
-.full-page aside.desktop {
+.full-page aside.desktop,
+.full-page aside.desktop > div {
     max-width: 280px;
     width: 100%;
 }
@@ -149,7 +158,8 @@ abbr {
     display: block;
 }
 
-.full-page aside.mobile {
+.full-page aside.mobile, 
+.full-page aside.mobile > div  {
     max-width: 80px;
     width: 100%;
     transition: all .4s ease-in-out;
@@ -212,6 +222,13 @@ main:not(.login main, .verify main) {
     flex-direction: column;
 }
 
+/** Footer **/
+footer {
+    margin-top: auto;
+    padding-top: 20px;
+    text-align: end;
+}
+
 /** Breandcrumbs **/
 .breadcrumb i {
     padding: 0 5px;
@@ -237,25 +254,18 @@ main:not(.login main, .verify main) {
     color: rgb(33, 37, 41)
 }
 
-/** Footer **/
-footer {
-    margin-top: auto;
-    padding-top: 20px;
-    text-align: end;
-}
-
 /** Barra de rolagem **/
 body::-webkit-scrollbar {
-    width: 12px;               /* width of the entire scrollbar */
+    width: 12px;
 }
 
 body::-webkit-scrollbar-track {
-    background: var(--gray-light);        /* color of the tracking area */
+    background: var(--gray-light);
 }
 
 body::-webkit-scrollbar-thumb {
-    background-color: var(--bs-gray-500);    /* color of the scroll thumb */
-    border-radius: 20px;       /* roundness of the scroll thumb */
+    background-color: var(--bs-gray-500);
+    border-radius: 20px;
     border: 3px solid var(--gray-light);
 }
 
@@ -276,23 +286,3 @@ body::-webkit-scrollbar-thumb {
 }
 
 
-/** Group integration **/
-.integrations {}
-
-.integrations .all-integration {}
-
-.integrations .all-integration .single-integration {
-    border: 1px solid #c7c7c7;
-    padding: 20px;
-    border-radius: 10px;
-    width: calc(100% - 30px);
-    margin: auto;
-    margin-bottom: 20px;
-}
-
-.integrations .all-integration .single-integration .content-integration {
-    display: flex;
-    flex-direction: column;
-    row-gap: 10px;
-    margin-bottom: 20px;
-}
