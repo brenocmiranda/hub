@@ -37,18 +37,20 @@ class BuildingsCtrl extends Controller
 
         // Cadastrando novas integrações e novos campos
         $integrations = $request->input('array');
-        foreach($integrations as $integration) {
-            $buildingIntegration = BuildingsIntegrations::create([
-                'building_id' => $building->id, 
-                'integration_id' => $integration['nameIntegration'],
-            ]);
-
-            foreach($integration['nameField'] as $index => $field) {
-                BuildingsIntegrationsFields::create([
-                    'name' => $integration['nameField'][$index], 
-                    'value' => $integration['valueField'][$index],
-                    'buildings_has_integrations_id' => $buildingIntegration->id,
+        if(isset($integrations)){
+            foreach($integrations as $integration) {
+                $buildingIntegration = BuildingsIntegrations::create([
+                    'building_id' => $building->id, 
+                    'integration_id' => $integration['nameIntegration'],
                 ]);
+
+                foreach($integration['nameField'] as $index => $field) {
+                    BuildingsIntegrationsFields::create([
+                        'name' => $integration['nameField'][$index], 
+                        'value' => $integration['valueField'][$index],
+                        'buildings_has_integrations_id' => $buildingIntegration->id,
+                    ]);
+                }
             }
         }
         
@@ -59,6 +61,7 @@ class BuildingsCtrl extends Controller
     {      
         $integrations = BuildingsIntegrations::where('building_id', $id)->get();
         $fields[] = "";
+        
         foreach($integrations as $index => $integration){
             $fields[$integration->id][] = BuildingsIntegrationsFields::where('buildings_has_integrations_id', $integration->id)->get();
         }
@@ -108,7 +111,7 @@ class BuildingsCtrl extends Controller
 
     public function destroy($id)
     {      
-        Buildings::find($id)->update([ 'active' => 0 ]);
+        Buildings::find($id)->delete();
         return redirect()->route('index.buildings')->with('destroy', true);
     }
 }

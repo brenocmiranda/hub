@@ -51,7 +51,7 @@ class CompaniesCtrl extends Controller
 
     public function destroy($id)
     {      
-        Companies::find($id)->update([ 'active' => 0 ]);
+        Companies::find($id)->delete();
         return redirect()->route('index.companies')->with('destroy', true);
     }
 }

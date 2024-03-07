@@ -33,8 +33,8 @@
 @if (session('destroy'))
 <script>
     $.toast({
-        heading: 'Arquivar',
-        text: 'O cadastro foi desativado com sucesso.',
+        heading: 'Exclusão',
+        text: 'O registro foi removido com sucesso.',
         icon: 'error',
         loader: true,        // Change it to false to disable loader
         loaderBg: '#9EC600',  // To change the background

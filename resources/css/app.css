@@ -165,7 +165,8 @@ abbr {
     transition: all .4s ease-in-out;
 }
 
-.full-page aside.mobile:hover {
+.full-page aside.mobile:hover,
+.full-page aside.mobile:hover > div {
     max-width: 280px;
     width: 100%;
 }

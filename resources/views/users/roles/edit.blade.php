@@ -36,7 +36,7 @@ Editar função
                         </div>
                         <div class="input-field col-6">
                             <div class="form-floating">
-                                <input type="number" class="form-control @error('value') is-invalid @enderror" id="value" name="value" value="{{ $role->value ? $role->value : old('value') }}" required>
+                                <input type="number" class="form-control @error('value') is-invalid @enderror" id="value" name="value" value="{{ $role->value ? $role->value : old('value') }}" min="1" max="100" required>
                                 <label for="name">Value <abbr>*</abbr></label>
                             </div>
                         </div>

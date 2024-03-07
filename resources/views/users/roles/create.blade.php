@@ -36,7 +36,7 @@ Nova função
                         </div>
                         <div class="input-field col-6">
                             <div class="form-floating">
-                                <input type="number" class="form-control @error('value') is-invalid @enderror" id="value" name="value" value="{{ old('value') }}" required>
+                                <input type="number" class="form-control @error('value') is-invalid @enderror" id="value" name="value" value="{{ old('value') }}" min="1" max="100" required>
                                 <label for="value">Value <abbr>*</abbr></label>
                             </div>
                         </div>

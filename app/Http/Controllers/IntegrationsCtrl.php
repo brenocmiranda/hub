@@ -61,7 +61,7 @@ class IntegrationsCtrl extends Controller
 
     public function destroy($id)
     {      
-        Integrations::find($id)->update([ 'active' => 0 ]);
+        Integrations::find($id)->delete();
         return redirect()->route('index.integrations')->with('destroy', true);
     }
 }

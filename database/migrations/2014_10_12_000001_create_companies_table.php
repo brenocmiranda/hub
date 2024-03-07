@@ -16,6 +16,7 @@ return new class extends Migration
             $table->boolean('active');
             $table->string('name', 200);
             $table->string('slug', 200);
+            $table->softDeletes($column = 'deleted_at', $precision = 0);
             $table->timestamps();
         });
     }

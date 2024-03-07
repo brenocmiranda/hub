@@ -6,6 +6,7 @@ use Illuminate\Routing\Controller;
 use App\Http\Requests\BuildingsKeysRqt;
 use App\Models\Buildings;
 use App\Models\BuildingsKeys;
+use App\Models\Companies;
 
 class BuildingsKeysCtrl extends Controller
 {
@@ -19,8 +20,19 @@ class BuildingsKeysCtrl extends Controller
     }
 
     public function create()
-    {      
-        return view('buildings.keys.create')->with('buildings', Buildings::where('active', 1)->orderBy('name', 'asc')->get());
+    {     
+        $companies = Companies::where('active', 1)->orderBy('name', 'asc')->get();
+        $buildings = Buildings::where('active', 1)->orderBy('name', 'asc')->get();
+        
+        foreach($companies as $companie){
+            foreach($buildings as $building){ 
+                if($companie->id == $building->companie_id){
+                    $array[$companie->name][] = $building;
+                }
+            }
+        } 
+
+        return view('buildings.keys.create')->with('array', isset($array) ? $array : null);
     }
 
     public function store(BuildingsKeysRqt $request)
@@ -37,7 +49,18 @@ class BuildingsKeysCtrl extends Controller
 
     public function edit($id)
     {      
-        return view('buildings.keys.edit')->with('key', BuildingsKeys::find($id))->with('buildings', Buildings::where('active', 1)->get());
+        $companies = Companies::where('active', 1)->orderBy('name', 'asc')->get();
+        $buildings = Buildings::where('active', 1)->orderBy('name', 'asc')->get();
+
+        foreach($companies as $companie){
+            foreach($buildings as $building){ 
+                if($companie->id == $building->companie_id){
+                    $array[$companie->name][] = $building;
+                }
+            }
+        } 
+
+        return view('buildings.keys.edit')->with('key', BuildingsKeys::find($id))->with('array', isset($array) ? $array : null);
     } 
 
     public function update(BuildingsKeysRqt $request, $id)

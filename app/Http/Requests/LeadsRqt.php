@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class BuildingsKeysRqt extends FormRequest
+class LeadsRqt extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,9 +23,10 @@ class BuildingsKeysRqt extends FormRequest
     {
         return [
             'name' => 'nome',
-            'value' => 'valor',
+            'phone' => 'telefone',
+            'email' => 'email',
+            'origin' => 'origem',
             'building' => 'empreendimento',
-            'active' => 'status',
         ];
     }
 
@@ -36,21 +37,13 @@ class BuildingsKeysRqt extends FormRequest
      */
     public function rules(): array
     {
-        if($this->segment(4) == 'store'){
-            return [
-                'name' => 'required|min:3',
-                'value' => 'required|min:3|unique:buildings_keys,value',
-                'active' => 'required|boolean',
-                'building' => 'required|integer',
-            ];
-        } else {
-            return [
-                'name' => 'required|min:3',
-                'value' => 'required|min:3',
-                'active' => 'required|boolean',
-                'building' => 'required|integer',
-            ];
-        }
+        return [
+            'name' => 'required|min:3',
+            'phone' => 'required',
+            'email' => 'required|email',
+            'origin' => 'required|integer',
+            'building' => 'required|integer',
+        ];
     }
 
     /**
@@ -67,6 +60,6 @@ class BuildingsKeysRqt extends FormRequest
             'numeric' => 'O campo :attribute só aceita valores númericos.',
             'boolean' => 'O campo :attribute só pode receber ativo ou desativado.',
             'integer' => 'O campo :attribute só aceita valores inteiros.',
-        ];   
+        ];    
     }
 }

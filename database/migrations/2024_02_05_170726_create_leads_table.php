@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('phone', 200);
             $table->string('email', 200);
             $table->unsignedBigInteger('leads_origin_id');
-            $table->foreign('leads_origin_id')->references('id')->on('leads_origin');
+            $table->foreign('leads_origin_id')->references('id')->on('leads_origins');
             $table->unsignedBigInteger('building_id');
             $table->foreign('building_id')->references('id')->on('buildings');
             $table->timestamps();

@@ -38,13 +38,13 @@ class UsersRolesRqt extends FormRequest
         if($this->segment(4) == 'store'){
             return [
                 'name' => 'required|min:3|unique:users_roles,name',
-                'value' => 'required|numeric',
+                'value' => 'required|numeric|max:100',
                 'active' => 'required|boolean',
             ];
         } else {
             return [
                 'name' => 'required|min:3',
-                'value' => 'required|numeric',
+                'value' => 'required|numeric|max:100',
                 'active' => 'required|boolean',
             ];
         }
@@ -63,6 +63,7 @@ class UsersRolesRqt extends FormRequest
             'unique' => 'O campo :attribute já foi cadastrado, tente novamente.',
             'numeric' => 'O campo :attribute só aceita valores númericos.',
             'boolean' => 'O campo :attribute só pode receber ativo ou desativado.',
+            'max' => 'O campo :attribute deve receber uma valor até :max.',
         ];   
     }
 }

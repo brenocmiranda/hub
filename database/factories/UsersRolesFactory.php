@@ -21,7 +21,7 @@ class UsersRolesFactory extends Factory
     {
         return [
             'active' => 1,
-            'name' => 'admin',
+            'name' => 'Admin',
             'value' => '100',
         ];
     }

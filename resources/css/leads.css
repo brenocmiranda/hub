@@ -1,0 +1,13 @@
+/** Group integration **/
+.fields {}
+
+.fields .all-fields {
+    margin: auto;
+}
+
+.fields .all-fields .content-fields {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    margin-bottom: 20px;
+}

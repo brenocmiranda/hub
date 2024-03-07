@@ -42,16 +42,16 @@ class UsersRqt extends FormRequest
                 'name' => 'required|min:3',
                 'email' => 'required|min:3|unique:users,email',
                 'active' => 'required|boolean',
-                'companies' => 'required|numeric',
-                'roles' => 'required|numeric',
+                'companies' => 'required|integer',
+                'roles' => 'required|integer',
             ];
         } else {
             return [
                 'name' => 'required|min:3',
                 'email' => 'required|min:3',
                 'active' => 'required|boolean',
-                'companies' => 'required|numeric',
-                'roles' => 'required|numeric',
+                'companies' => 'required|integer',
+                'roles' => 'required|integer',
             ];
         }
     }
@@ -69,6 +69,7 @@ class UsersRqt extends FormRequest
             'unique' => 'O campo :attribute já foi cadastrado, tente novamente.',
             'numeric' => 'O campo :attribute só aceita valores númericos.',
             'boolean' => 'O campo :attribute só pode receber ativo ou desativado.',
+            'integer' => 'O campo :attribute só aceita valores inteiros.',
         ];   
     }
 }

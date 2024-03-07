@@ -39,13 +39,13 @@ class BuildingsRqt extends FormRequest
             return [
                 'name' => 'required|min:3|unique:buildings,name',
                 'active' => 'required|boolean',
-                'companie' => 'required|numeric',
+                'companie' => 'required|integer',
             ];
         } else {
             return [
                 'name' => 'required|min:3',
                 'active' => 'required|boolean',
-                'companie' => 'required|numeric',
+                'companie' => 'required|integer',
             ];
         }
     }
@@ -63,6 +63,7 @@ class BuildingsRqt extends FormRequest
             'unique' => 'O campo :attribute já foi cadastrado, tente novamente.',
             'numeric' => 'O campo :attribute só aceita valores númericos.',
             'boolean' => 'O campo :attribute só pode receber ativo ou desativado.',
+            'integer' => 'O campo :attribute só aceita valores inteiros.',
         ];   
     }
 }

@@ -44,6 +44,7 @@ Route::group(['prefix' => 'app'], function () {
     // Leads
     Route::group(['prefix' => 'leads'], function () {
         Route::get('/', [LeadsCtrl::class, 'index'])->name('index.leads');
+        Route::any('show/{id}', [LeadsCtrl::class, 'show'])->name('show.leads');
         Route::get('create/', [LeadsCtrl::class, 'create'])->name('create.leads');
         Route::post('store/', [LeadsCtrl::class, 'store'])->name('store.leads');
         Route::get('edit/{id}', [LeadsCtrl::class, 'edit'])->name('edit.leads');

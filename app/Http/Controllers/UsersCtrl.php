@@ -67,7 +67,7 @@ class UsersCtrl extends Controller
 
     public function destroy($id)
     {      
-        Users::find($id)->update([ 'active' => 0 ]);
+        Users::find($id)->delete();
         return redirect()->route('index.users')->with('destroy', true);
     }
 

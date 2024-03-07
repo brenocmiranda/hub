@@ -1,7 +1,7 @@
 @extends('base.index')
 
 @section('title')
-Nova origem
+Nova chave
 @endsection
 
 @section('content-page')
@@ -44,9 +44,15 @@ Nova origem
                             <div class="form-floating">
                                 <select class="form-select @error('building') is-invalid @enderror" aria-label="Defina um empreendimento" name="building" id="building" required>
                                     <option selected></option>
-                                    @foreach($buildings as $building)
-                                        <option value="{{ $building->id }}" {{ old('building') != null && old('building') == $building->id ? 'selected' : "" }}>{{ $building->name }}</option>
-                                    @endforeach
+                                    @if($array)
+                                        @foreach($array as $index => $arr)
+                                            <optgroup label="{{ $index }}"> 
+                                                @foreach($arr as $building)
+                                                    <option value="{{ $building->id }}" {{ old('building') != null && old('building') == $building->id ? 'selected' : "" }}>{{ $building->name }}</option>
+                                                @endforeach
+                                                </optgroup>
+                                        @endforeach
+                                    @endif
                                 </select>
                                 <label for="building">Empreendimentos <abbr>*</abbr></label>
                             </div>
@@ -62,7 +68,7 @@ Nova origem
                             </div>
                         </div>
                         <div class="submit-field d-flex justify-content-end align-items-center gap-3">
-                            <a href="{{ route('index.leads.origins') }}"> <i class="bi bi-arrow-left px-2"></i>Voltar</a>
+                            <a href="{{ route('index.buildings.keys') }}"> <i class="bi bi-arrow-left px-2"></i>Voltar</a>
                             <input type="submit" name="submit" id="submit" class="btn btn-dark px-5 py-2" value="Salvar" />
                         </div>
                     </form>

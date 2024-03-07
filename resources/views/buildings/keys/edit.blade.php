@@ -36,7 +36,7 @@ Editar função
                         </div>
                         <div class="input-field col-6">
                             <div class="form-floating">
-                                <input type="text" class="form-control @error('name') is-invalid @enderror" id="value" name="value" value="{{ $key->value ? $key->value : old('value') }}" required>
+                                <input type="text" class="form-control @error('value') is-invalid @enderror" id="value" name="value" value="{{ $key->value ? $key->value : old('value') }}" required>
                                 <label for="value">Value <abbr>*</abbr></label>
                             </div>
                         </div>
@@ -44,9 +44,15 @@ Editar função
                             <div class="form-floating">
                                 <select class="form-select @error('building') is-invalid @enderror" aria-label="Defina um empreendimento" name="building" id="building" required>
                                     <option selected></option>
-                                    @foreach($buildings as $building)
-                                        <option value="{{ $building->id }}" {{ (old('building') != null && old('building') == $building->id) || $building->id == $key->building_id ? 'selected' : "" }}>{{ $building->name }}</option>
-                                    @endforeach
+                                    @if($array)
+                                        @foreach($array as $index => $arr)
+                                            <optgroup label="{{ $index }}"> 
+                                                @foreach($arr as $building)
+                                                    <option value="{{ $building->id }}" {{ (old('building') != null && old('building') == $building->id) || $building->id == $key->building_id ? 'selected' : "" }}>{{ $building->name }}</option>
+                                                @endforeach
+                                                </optgroup>
+                                        @endforeach
+                                    @endif
                                 </select>
                                 <label for="building">Empreendimentos <abbr>*</abbr></label>
                             </div>

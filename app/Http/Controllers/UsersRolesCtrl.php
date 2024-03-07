@@ -13,7 +13,7 @@ class UsersRolesCtrl extends Controller
 	}
     
     public function index()
-    {
+    {   
         return view('users.roles.index')->with('roles', UsersRoles::orderBy('name', 'asc')->get());
     }
 
@@ -51,7 +51,7 @@ class UsersRolesCtrl extends Controller
 
     public function destroy($id)
     {      
-        UsersRoles::find($id)->update([ 'active' => 0 ]);
+        UsersRoles::find($id)->delete();
         return redirect()->route('index.users.roles')->with('destroy', true);
     }
 }

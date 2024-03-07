@@ -51,7 +51,7 @@ class LeadsOriginsCtrl extends Controller
 
     public function destroy($id)
     {      
-        LeadsOrigins::find($id)->update([ 'active' => 0 ]);
+        LeadsOrigins::find($id)->delete();
         return redirect()->route('index.leads.origins')->with('destroy', true);
     }
 }

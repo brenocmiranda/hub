@@ -68,7 +68,7 @@ Novo empreendimento
                         <div class="integrations">
                             <div class="all-integration"></div>
                             <div>
-                                <a href="#" onclick="addIntegration();"><i class="bi bi-plus"></i> Criar nova integração</a>
+                                <a href="#" onclick="addIntegration()"><i class="bi bi-plus"></i> Criar nova integração</a>
                             </div>
                         </div>
                         <div class="submit-field d-flex justify-content-end align-items-center gap-3">
@@ -130,7 +130,7 @@ Novo empreendimento
 
     function addIntegration() {
         event.preventDefault();
-        $('.integrations').find('.all-integration').append(`<div class="single-integration"> <div class="content-integration"> <div class="form-floating"> <select class="form-select" aria-label="Defina uma integração" name="array[` + integration + `][nameIntegration]" id="integration-` + integration + `" required> <option selected></option> @foreach($integrations as $integration) <option value="{{ $integration->id }}">{{ $integration->name }}</option> @endforeach </select> <label for="integration-` + integration + `">Integrações <abbr>*</abbr></label> </div> </div> <div class="d-flex gap-2"> <a href="#" class="btn btn-sm btn-outline-dark" onclick="addField(this, ` + integration + `);"><i class="bi bi-plus"></i> Novo campo</a> <a href="#" class="btn btn-sm btn-outline-danger ms-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Remover Integração" onclick="removeIntegration(this);"><i class="bi bi-trash"></i></a></div> </div>`);
+        $('.integrations').find('.all-integration').append(`<div class="single-integration"> <div class="content-integration"> <div class="form-floating"> <select class="form-select" aria-label="Defina uma integração" name="array[` + integration + `][nameIntegration]" id="integration-` + integration + `" required> <option selected></option> @foreach($integrations as $integration) <option value="{{ $integration->id }}">{{ $integration->name }}</option> @endforeach </select> <label for="integration-` + integration + `">Integrações <abbr>*</abbr></label> </div> </div> <div class="d-flex gap-2"> <a href="#" class="btn btn-sm btn-outline-dark" onclick="addField(this, ` + integration + `);"><i class="bi bi-plus"></i> Novo campo</a> <a href="#" class="btn btn-sm btn-outline-danger ms-auto" onclick="removeIntegration(this);"><i class="bi bi-trash"></i> Excluir integração</a></div> </div>`);
         integration++;
 
         // Enable toltips
@@ -140,11 +140,13 @@ Novo empreendimento
 
     function removeIntegration(element) {
         event.preventDefault();
-        $(element).closest('.single-integration').remove();
+        if(confirm('Tem certeza que deseja remover toda a integração?')){
+            $(element).closest('.single-integration').remove();
+        }
     }
     function addField(element, count) {
         event.preventDefault();
-        $(element).closest('.single-integration').find('.content-integration').append(`<div class="row"> <div class="input-field col-6"> <div class="form-floating"> <input type="text" class="form-control" id="integrationFieldName-` + field + `" name="array[` + count + `][nameField][]" required> <label for="integrationFieldName-` + field + `">Nome do campo <abbr>*</abbr></label> </div> </div> <div class="input-field col-5"> <div class="form-floating"> <input type="text" class="form-control" id="integrationFieldValor-` + field + `" name="array[` + count + `][valueField][]" required> <label for="integrationFieldValor-` + field + `">Valor <abbr>*</abbr></label> </div> </div> <div class="col-1 p-0"> <div class="d-flex align-items-center justify-content-start h-100"> <a href="#" class="btn btn-sm btn-outline-dark" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Remover campo" onclick="removeField(this);"><i class="bi bi-dash"></i></a> </div> </div> </div>`);
+        $(element).closest('.single-integration').find('.content-integration').append(`<div class="row"> <div class="input-field col-6"> <div class="form-floating"> <input type="text" class="form-control" id="integrationFieldName-` + field + `" name="array[` + count + `][nameField][]" required> <label for="integrationFieldName-` + field + `">Nome do campo <abbr>*</abbr></label> </div> </div> <div class="input-field col-6 d-flex align-items-center gap-2"> <div class="form-floating w-100"> <input type="text" class="form-control" id="integrationFieldValor-` + field + `" name="array[` + count + `][valueField][]" required> <label for="integrationFieldValor-` + field + `">Valor <abbr>*</abbr></label> </div> <a href="#" class="btn btn-sm btn-outline-dark rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Remover campo" onclick="removeField(this);"><i class="bi bi-dash"></i></a> </div> </div>`);
         field++;
 
         // Enable toltips
