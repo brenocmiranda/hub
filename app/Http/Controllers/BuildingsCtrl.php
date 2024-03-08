@@ -48,7 +48,8 @@ class BuildingsCtrl extends Controller
                     BuildingsIntegrationsFields::create([
                         'name' => $integration['nameField'][$index], 
                         'value' => $integration['valueField'][$index],
-                        'buildings_has_integrations_id' => $buildingIntegration->id,
+                        'buildings_has_integrations_building_id' => $building->id,
+                        'buildings_has_integrations_integration_id' => $integration['nameIntegration'],
                     ]);
                 }
             }
@@ -59,23 +60,13 @@ class BuildingsCtrl extends Controller
 
     public function edit($id)
     {      
-        $integrations = BuildingsIntegrations::where('building_id', $id)->get();
-        $fields[] = "";
-        
-        foreach($integrations as $index => $integration){
-            $fields[$integration->id][] = BuildingsIntegrationsFields::where('buildings_has_integrations_id', $integration->id)->get();
-        }
-        
-        return view('buildings.edit')->with('building', Buildings::find($id))->with('buildingIntegrations', $integrations)->with('buildingIntegrationsFields', $fields)->with('companies', Companies::where('active', 1)->orderBy('name', 'asc')->get())->with('integrations', Integrations::where('active', 1)->orderBy('name', 'asc')->get());
+        return view('buildings.edit')->with('building', Buildings::find($id))->with('companies', Companies::where('active', 1)->orderBy('name', 'asc')->get())->with('integrations', Integrations::where('active', 1)->orderBy('name', 'asc')->get());
     }
 
     public function update(BuildingsRqt $request, $id)
     {
         // Removendo os registros anteriores
-        $buildingIntegrations = BuildingsIntegrations::where('building_id', $id)->get();
-        foreach($buildingIntegrations as $buildingIntegration){
-            BuildingsIntegrationsFields::where('buildings_has_integrations_id', $buildingIntegration->id)->delete();
-        }
+        BuildingsIntegrationsFields::where('buildings_has_integrations_building_id', $id)->delete();
         BuildingsIntegrations::where('building_id', $id)->delete();
 
         // Atualizando os dados do empreendimento
@@ -87,7 +78,7 @@ class BuildingsCtrl extends Controller
 
         // Cadastrando novas integrações e novos campos
         $integrations = $request->input('array');
-        if(isset($integrations[0])){
+        if(isset($integrations)){
             foreach($integrations as $integration) {
                 $buildingIntegration = BuildingsIntegrations::create([
                     'building_id' => $id, 
@@ -99,7 +90,8 @@ class BuildingsCtrl extends Controller
                         BuildingsIntegrationsFields::create([
                             'name' => $integration['nameField'][$index], 
                             'value' => $integration['valueField'][$index],
-                            'buildings_has_integrations_id' => $buildingIntegration->id,
+                            'buildings_has_integrations_building_id' => $id,
+                            'buildings_has_integrations_integration_id' => $integration['nameIntegration'],
                         ]);
                     }
                 }

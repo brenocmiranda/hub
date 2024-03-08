@@ -67,40 +67,36 @@ Editar empreendimento
                         </div>
                         <div class="integrations">
                             <div class="all-integration">
-                                @if($buildingIntegrations)
-                                    @foreach($buildingIntegrations as $index => $buildingIntegration)
+                                @if($building->RelationIntegrations)
+                                    @foreach($building->RelationIntegrations as $index => $buildingIntegration)
                                     <div class="single-integration"> 
                                         <div class="content-integration"> 
                                             <div class="form-floating"> 
                                                 <select class="form-select" aria-label="Defina uma integração" name="array[{{ $index }}][nameIntegration]" id="integration-{{ $index }}" required> 
                                                     <option selected></option> 
                                                     @foreach($integrations as $integration) 
-                                                        <option value="{{ $integration->id }}" {{ $integration->id == $buildingIntegration->integration_id ? "selected" : '' }}>{{ $integration->name }}</option> 
+                                                        <option value="{{ $integration->id }}" {{ $integration->id == $buildingIntegration->id ? "selected" : '' }}>{{ $integration->name }}</option> 
                                                     @endforeach 
                                                 </select> 
                                                 <label for="integration-{{ $index }}">Integrações <abbr>*</abbr></label> 
                                             </div> 
-                                            @foreach($buildingIntegrationsFields as $id => $buildingIntegrationsField)
-                                                @if($buildingIntegration->id == $id)
-                                                    @foreach($buildingIntegrationsField as $field)
-                                                        @foreach($field as $i => $a)
-                                                        <div class="row"> 
-                                                            <div class="input-field col-6"> 
-                                                                <div class="form-floating"> 
-                                                                    <input type="text" class="form-control" id="integrationFieldName-{{$i}}" name="array[{{$index}}][nameField][]" value="{{ $a->name }}" required> 
-                                                                    <label for="integrationFieldName-{{$i}}">Nome do campo <abbr>*</abbr></label> 
-                                                                </div> 
+                                            @foreach($building->RelationIntegrationsFields as $i => $b)
+                                                @if($b->buildings_has_integrations_integration_id === $buildingIntegration->id)
+                                                    <div class="row"> 
+                                                        <div class="input-field col-6"> 
+                                                            <div class="form-floating"> 
+                                                                <input type="text" class="form-control" id="integrationFieldName-{{$i}}" name="array[{{$index}}][nameField][]" value="{{ $b->name }}" required> 
+                                                                <label for="integrationFieldName-{{$i}}">Nome do campo <abbr>*</abbr></label> 
                                                             </div> 
-                                                            <div class="input-field col-6 d-flex align-items-center gap-2"> 
-                                                                <div class="form-floating w-100"> 
-                                                                    <input type="text" class="form-control" id="integrationFieldValor-{{$i}}" name="array[{{$index}}][valueField][]" value="{{ $a->value }}" required> 
-                                                                    <label for="integrationFieldValor-{{$i}}">Valor <abbr>*</abbr></label> 
-                                                                </div> 
-                                                                <a href="#" class="btn btn-sm btn-outline-dark rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Remover campo" onclick="removeField(this);"><i class="bi bi-dash"></i></a> 
-                                                            </div>
+                                                        </div> 
+                                                        <div class="input-field col-6 d-flex align-items-center gap-2"> 
+                                                            <div class="form-floating w-100"> 
+                                                                <input type="text" class="form-control" id="integrationFieldValor-{{$i}}" name="array[{{$index}}][valueField][]" value="{{ $b->value }}" required> 
+                                                                <label for="integrationFieldValor-{{$i}}">Valor <abbr>*</abbr></label> 
+                                                            </div> 
+                                                            <a href="#" class="btn btn-sm btn-outline-dark rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Remover campo" onclick="removeField(this);"><i class="bi bi-dash"></i></a> 
                                                         </div>
-                                                        @endforeach
-                                                    @endforeach
+                                                    </div>
                                                 @endif
                                             @endforeach
                                         </div> 
@@ -170,8 +166,8 @@ Editar empreendimento
 @section('js')
 <script>
     // Adicionando e removendo integrações e fields
-    var field = 1;
-    var integration = {{ count($buildingIntegrations) }};
+    var field = {{ count($building->RelationIntegrationsFields) + 1 }};
+    var integration = {{ count($building->RelationIntegrations) + 1 }};
 
     function addIntegration() {
         event.preventDefault();

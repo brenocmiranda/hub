@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Buildings extends Model
 {
@@ -17,7 +16,7 @@ class Buildings extends Model
         'companie_id',
     ];
 
-    public function RelationCompanies()
+    public function RelationCompanies() 
     {
         return $this->belongsTo(Companies::class, 'companie_id', 'id');
     }
@@ -29,6 +28,6 @@ class Buildings extends Model
 
     public function RelationIntegrationsFields()
     {
-        return $this->hasManyThrough('buildings_has_integrations_fields', 'buildings_has_integrations');
+        return $this->hasMany(BuildingsIntegrationsFields::class, 'buildings_has_integrations_building_id', 'id');
     }
 }
