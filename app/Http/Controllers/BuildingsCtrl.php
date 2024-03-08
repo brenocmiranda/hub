@@ -66,8 +66,8 @@ class BuildingsCtrl extends Controller
     public function update(BuildingsRqt $request, $id)
     {
         // Removendo os registros anteriores
-        BuildingsIntegrationsFields::where('buildings_has_integrations_building_id', $id)->delete();
-        BuildingsIntegrations::where('building_id', $id)->delete();
+        BuildingsIntegrationsFields::where('buildings_has_integrations_building_id', $id)->forceDelete();
+        BuildingsIntegrations::where('building_id', $id)->forceDelete();
 
         // Atualizando os dados do empreendimento
         Buildings::find($id)->update([
