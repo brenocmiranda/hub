@@ -16,8 +16,10 @@ return new class extends Migration
             $table->boolean('success');
             $table->unsignedBigInteger('lead_id');
             $table->foreign('lead_id')->references('id')->on('leads');
-            $table->unsignedBigInteger('integration_id');
-            $table->foreign('integration_id')->references('id')->on('integrations');
+            $table->unsignedBigInteger('buildings_has_integrations_building_id');
+            $table->foreign('buildings_has_integrations_building_id', 'fk_buildings_has_integrations_building_id_pipelines')->references('building_id')->on('buildings_has_integrations');
+            $table->unsignedBigInteger('buildings_has_integrations_integration_id');
+            $table->foreign('buildings_has_integrations_integration_id', 'fk1_buildings_has_integrations_integration_id_pipelines')->references('integration_id')->on('buildings_has_integrations');
             $table->timestamps();
         });
     }

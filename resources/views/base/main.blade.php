@@ -83,7 +83,7 @@
                             @case('origins')
                                 <i class="bi bi-chevron-double-right"></i>
                                 <a href="{{ route('index.leads.origins') }}" class="text-decoration-none text-dark">
-                                    <small>Origem</small>
+                                    <small>Origens</small>
                                 </a>
                                 @break
 

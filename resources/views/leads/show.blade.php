@@ -56,6 +56,10 @@ Detalhes do Lead
                 </div>
                 @endforeach
             @endif
+            <div class="divider-input col-12">
+                <p>Logs</p>
+                <hr>
+            </div>
         </div>
         <div class="row mt-3 justify-content-end">
             <div class="col-2 d-flex justify-content-end">

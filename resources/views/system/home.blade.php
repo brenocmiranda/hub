@@ -18,7 +18,7 @@ Home
                     </div>
                     <div class="px-4 w-100">
                         <h6 class="mb-0">Leads do dia</h6>
-                        <h4 class="mb-0">250</h4>
+                        <h4 class="mb-0">{{ $leadsDay }}</h4>
                         <small>
                             <a href="{{ route('index.leads') }}">Veja mais</a>
                         </small>

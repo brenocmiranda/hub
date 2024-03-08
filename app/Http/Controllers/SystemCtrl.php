@@ -13,6 +13,7 @@ use App\Http\Requests\VerifyRqt;
 use App\Models\Users;
 use App\Models\UsersRoles;
 use App\Models\Companies;
+use App\Models\Leads;
 use App\Notifications\RecoveryPassword;
 use App\Notifications\ResetPassword;
 
@@ -124,7 +125,10 @@ class SystemCtrl extends Controller
     public function home()
     {
         if (Auth::check() && Auth::user()->active) {
-            return view('system.home');
+            $dateNow = date('Y-m-d H:i:s');
+            $leadsDay = Leads::whereDate('created_at', date('Y-m-d'))->count();
+
+            return view('system.home')->with('leadsDay', $leadsDay);
         } else {
             return redirect(route('login'));
         }
