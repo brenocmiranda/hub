@@ -3,12 +3,12 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Models\UsersRoles;
+use App\Models\Buildings;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Buildings>
  */
-class UsersRolesFactory extends Factory
+class BuildingsFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -19,8 +19,8 @@ class UsersRolesFactory extends Factory
     {
         return [
             'active' => 1,
-            'name' => 'Admin',
-            'value' => '100',
+            'name' => 'Default',
+            'companie_id' => 1,
         ];
     }
 }

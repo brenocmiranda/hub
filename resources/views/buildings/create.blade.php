@@ -110,6 +110,7 @@ Novo empreendimento
                 <span class="badge text-bg-secondary">$utm_content</span>
                 <span class="badge text-bg-secondary">$nomeEmpreendimento</span>
                 <span class="badge text-bg-secondary">$message</span>
+                <span class="badge text-bg-secondary">$numberTicket</span>
             </div>
             <p class="mb-0">Sempre que utilizar uma das variáveis aplicar chaves antes e após.</p>
             <small class="fw-bold">Exemplo: @{{ $nomeCompleto }}</small>

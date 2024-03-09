@@ -11,6 +11,7 @@ use App\Http\Controllers\LeadsOriginsCtrl;
 use App\Http\Controllers\SystemCtrl;
 use App\Http\Controllers\UsersCtrl;
 use App\Http\Controllers\UsersRolesCtrl;
+use App\Http\Controllers\UsersTokensCtrl;
 
 #---------------------------------------------------------------------
 # Área não logada
@@ -117,6 +118,13 @@ Route::group(['prefix' => 'app'], function () {
             Route::get('edit/{id}', [UsersRolesCtrl::class, 'edit'])->name('edit.users.roles');
             Route::post('update/{id}', [UsersRolesCtrl::class, 'update'])->name('update.users.roles');
             Route::any('destroy/{id}', [UsersRolesCtrl::class, 'destroy'])->name('destroy.users.roles');
+        });
+        // Token
+        Route::group(['prefix' => 'tokens'], function () {
+            Route::get('/', [UsersTokensCtrl::class, 'index'])->name('index.users.tokens');
+            Route::get('create/', [UsersTokensCtrl::class, 'create'])->name('create.users.tokens');
+            Route::post('store/', [UsersTokensCtrl::class, 'store'])->name('store.users.tokens');
+            Route::any('destroy/{id}', [UsersTokensCtrl::class, 'destroy'])->name('destroy.users.tokens');
         });
     });
 

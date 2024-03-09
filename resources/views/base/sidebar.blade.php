@@ -138,6 +138,11 @@
                                 class="d-inline-flex text-decoration-none mb-2 {{ Request::segment(2) == 'users' && Request::segment(3) == 'roles' ? 'text-secondary' : '
                                 text-white' }}">Funções</a>
                         </li>
+                        <li>
+                            <a href="{{ route('index.users.tokens') }}"
+                                class="d-inline-flex text-decoration-none mb-2 {{ Request::segment(2) == 'users' && Request::segment(3) == 'tokens' ? 'text-secondary' : '
+                                text-white' }}">Tokens</a>
+                        </li>
                     </ul>
                 </div>
             </li>

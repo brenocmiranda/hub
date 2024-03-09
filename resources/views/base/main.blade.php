@@ -100,6 +100,13 @@
                                     <small>Chaves</small>
                                 </a>
                                 @break
+                            
+                            @case('tokens')
+                                <i class="bi bi-chevron-double-right"></i>
+                                <a href="{{ route('index.users.tokens') }}" class="text-decoration-none text-dark">
+                                    <small>Tokens</small>
+                                </a>
+                                @break
                         @endswitch
 
                         @switch( Request::segment(4) )

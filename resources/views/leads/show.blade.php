@@ -42,11 +42,11 @@ Detalhes do Lead
                     <label for="name">Origem</label>
                 </div>
             </div>
-            <div class="divider-input col-12">
-                <p>Campos personalizados</p>
-                <hr>
-            </div>
-            @if($lead->RelationFields)
+            @if($lead->RelationFields->first())
+                <div class="divider-input col-12">
+                    <p>Campos personalizados</p>
+                    <hr>
+                </div>
                 @foreach($lead->RelationFields as $as)
                 <div class="col-6">
                     <div class="form-floating">

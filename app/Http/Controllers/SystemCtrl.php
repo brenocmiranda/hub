@@ -14,6 +14,8 @@ use App\Models\Users;
 use App\Models\UsersRoles;
 use App\Models\Companies;
 use App\Models\Leads;
+use App\Models\Buildings;
+use App\Models\LeadsOrigins;
 use App\Notifications\RecoveryPassword;
 use App\Notifications\ResetPassword;
 
@@ -42,6 +44,8 @@ class SystemCtrl extends Controller
         //$companies = Companies::factory()->create();
         //$usersroles = UsersRoles::factory()->create();
         //$users = Users::factory()->create();
+        //$buildings = Buildings::factory()->create();
+        //$leadsorigins = LeadsOrigins::factory()->create();
 
         if (Auth::attempt($credentials, $request->conected)) {
             if (Users::where('email', $request->email)->where('active', 1)->first()) {
