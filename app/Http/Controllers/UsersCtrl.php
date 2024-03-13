@@ -47,12 +47,17 @@ class UsersCtrl extends Controller
         return redirect()->route('index.users')->with('create', true);
     }
 
-    public function edit($id)
+    public function show(string $id)
+    {
+        //
+    }
+
+    public function edit(string $id)
     {      
         return view('users.edit')->with('user', Users::find($id))->with('companies', Companies::where('active', 1)->get())->with('roles', UsersRoles::where('active', 1)->get());
     }
 
-    public function update(UsersRqt $request, $id)
+    public function update(UsersRqt $request, string $id)
     {
         Users::find($id)->update([
             'name' => $request->name, 
@@ -65,13 +70,13 @@ class UsersCtrl extends Controller
         return redirect()->route('index.users')->with('edit', true);
     }
 
-    public function destroy($id)
+    public function destroy(string $id)
     {      
         Users::find($id)->delete();
         return redirect()->route('index.users')->with('destroy', true);
     }
 
-    public function recovery($id)
+    public function recovery(string $id)
     {    
         $user = Users::find($id);
         $user->notify(new RecoveryPassword($user));

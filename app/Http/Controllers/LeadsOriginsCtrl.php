@@ -33,12 +33,17 @@ class LeadsOriginsCtrl extends Controller
         return redirect()->route('index.leads.origins')->with('create', true);
     }
 
-    public function edit($id)
+    public function show(string $id)
+    {
+        //
+    }
+
+    public function edit(string $id)
     {      
         return view('leads.origins.edit')->with('origin', LeadsOrigins::find($id));
     } 
 
-    public function update(LeadsOriginsRqt $request, $id)
+    public function update(LeadsOriginsRqt $request, string $id)
     {
         LeadsOrigins::find($id)->update([
             'name' => $request->name, 
@@ -49,7 +54,7 @@ class LeadsOriginsCtrl extends Controller
         return redirect()->route('index.leads.origins')->with('edit', true);
     }
 
-    public function destroy($id)
+    public function destroy(string $id)
     {      
         LeadsOrigins::find($id)->delete();
         return redirect()->route('index.leads.origins')->with('destroy', true);

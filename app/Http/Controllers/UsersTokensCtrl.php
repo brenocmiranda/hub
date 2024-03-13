@@ -28,17 +28,22 @@ class UsersTokensCtrl extends Controller
         return redirect()->route('index.users.tokens')->with('create', true)->with('token', $token->plainTextToken) ;
     }
 
-    public function edit($id)
+    public function show(string $id)
+    {
+        //
+    }
+    
+    public function edit(string $id)
     {      
         //
     } 
 
-    public function update(UsersTokensRqt $request, $id)
+    public function update(UsersTokensRqt $request, string $id)
     {
         //
     }
 
-    public function destroy($id)
+    public function destroy(string $id)
     {      
         Auth::user()->tokens()->where('id', $id)->delete();
         return redirect()->route('index.users.tokens')->with('destroy', true);

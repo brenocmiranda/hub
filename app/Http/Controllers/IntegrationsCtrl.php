@@ -38,12 +38,17 @@ class IntegrationsCtrl extends Controller
         return redirect()->route('index.integrations')->with('create', true);
     }
 
-    public function edit($id)
+    public function show(string $id)
+    {
+        //
+    }
+
+    public function edit(string $id)
     {      
         return view('integrations.edit')->with('integration', Integrations::find($id));
     } 
 
-    public function update(IntegrationsRqt $request, $id)
+    public function update(IntegrationsRqt $request, string $id)
     {
         Integrations::find($id)->update([
             'name' => $request->name, 
@@ -59,7 +64,7 @@ class IntegrationsCtrl extends Controller
         return redirect()->route('index.integrations')->with('edit', true);
     }
 
-    public function destroy($id)
+    public function destroy(string $id)
     {      
         Integrations::find($id)->delete();
         return redirect()->route('index.integrations')->with('destroy', true);

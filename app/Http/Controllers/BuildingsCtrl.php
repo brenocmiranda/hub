@@ -58,7 +58,12 @@ class BuildingsCtrl extends Controller
         return redirect()->route('index.buildings')->with('create', true);
     }
 
-    public function edit($id)
+    public function show(string $id)
+    {
+        //
+    }
+
+    public function edit(string $id)
     {      
         return view('buildings.edit')->with('building', Buildings::find($id))->with('companies', Companies::where('active', 1)->orderBy('name', 'asc')->get())->with('integrations', Integrations::where('active', 1)->orderBy('name', 'asc')->get());
     }
@@ -101,7 +106,7 @@ class BuildingsCtrl extends Controller
         return redirect()->route('index.buildings')->with('edit', true);
     }
 
-    public function destroy($id)
+    public function destroy(string $id)
     {      
         Buildings::find($id)->delete();
         return redirect()->route('index.buildings')->with('destroy', true);

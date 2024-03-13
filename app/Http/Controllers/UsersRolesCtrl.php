@@ -32,13 +32,18 @@ class UsersRolesCtrl extends Controller
 
         return redirect()->route('index.users.roles')->with('create', true);
     }
+    
+    public function show(string $id)
+    {
+        //
+    }
 
-    public function edit($id)
+    public function edit(string $id)
     {      
         return view('users.roles.edit')->with('role', UsersRoles::find($id));
     } 
 
-    public function update(UsersRolesRqt $request, $id)
+    public function update(UsersRolesRqt $request, string $id)
     {
         UsersRoles::find($id)->update([
             'name' => $request->name, 
@@ -49,7 +54,7 @@ class UsersRolesCtrl extends Controller
         return redirect()->route('index.users.roles')->with('edit', true);
     }
 
-    public function destroy($id)
+    public function destroy(string $id)
     {      
         UsersRoles::find($id)->delete();
         return redirect()->route('index.users.roles')->with('destroy', true);

@@ -48,9 +48,6 @@ Route::group(['prefix' => 'app'], function () {
         Route::any('show/{id}', [LeadsCtrl::class, 'show'])->name('show.leads');
         Route::get('create/', [LeadsCtrl::class, 'create'])->name('create.leads');
         Route::post('store/', [LeadsCtrl::class, 'store'])->name('store.leads');
-        Route::get('edit/{id}', [LeadsCtrl::class, 'edit'])->name('edit.leads');
-        Route::post('update/{id}', [LeadsCtrl::class, 'update'])->name('update.leads');
-        Route::any('destroy/{id}', [LeadsCtrl::class, 'destroy'])->name('destroy.leads');
         // Origins
         Route::group(['prefix' => 'origins'], function () {
             Route::get('/', [LeadsOriginsCtrl::class, 'index'])->name('index.leads.origins');

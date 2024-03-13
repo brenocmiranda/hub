@@ -21,11 +21,6 @@ class LeadsCtrl extends Controller
         return view('leads.index')->with('leads', Leads::orderBy('created_at', 'desc')->get());
     }
 
-    public function show($id)
-    {
-        return view('leads.show')->with('lead', Leads::find($id));
-    }
-
     public function create()
     {   
         $companies = Companies::where('active', 1)->orderBy('name', 'asc')->get();
@@ -45,6 +40,7 @@ class LeadsCtrl extends Controller
     public function store(LeadsRqt $request)
     {      
         $lead = Leads::create([
+            'api' => false, 
             'name' => $request->name, 
             'phone' => $request->phone, 
             'email' => $request->email,
@@ -67,38 +63,23 @@ class LeadsCtrl extends Controller
         return redirect()->route('index.leads')->with('create', true);
     }
 
-    public function edit($id)
-    {      
-        $companies = Companies::where('active', 1)->orderBy('name', 'asc')->get();
-        $buildings = Buildings::where('active', 1)->orderBy('name', 'asc')->get();
-
-        foreach($companies as $companie){
-            foreach($buildings as $building){ 
-                if($companie->id == $building->companie_id){
-                    $array[$companie->name][] = $building;
-                }
-            }
-        } 
-
-        return view('leads.edit')->with('origins', LeadsOrigins::where('active', 1)->orderBy('name', 'asc')->get())->with('array', $array)->with('lead', Leads::find($id));
-    } 
-
-    public function update(LeadsRqt $request, $id)
+    public function show(string $id)
     {
-        Leads::find($id)->update([
-            'name' => $request->name, 
-            'phone' => $request->phone, 
-            'email' => $request->email,
-            'building_id' => $request->building,
-            'leads_origin_id' => $request->origin,
-        ]);
-
-        return redirect()->route('index.leads')->with('edit', true);
+        return view('leads.show')->with('lead', Leads::find($id));
     }
 
-    public function destroy($id)
+    public function edit(string $id)
     {      
-        Leads::find($id)->delete();
-        return redirect()->route('index.leads')->with('destroy', true);
+        //
+    } 
+
+    public function update(LeadsRqt $request, string $id)
+    {
+       //
+    }
+
+    public function destroy(string $id)
+    {      
+        //
     }
 }

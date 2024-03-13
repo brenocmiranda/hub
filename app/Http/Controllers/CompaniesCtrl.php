@@ -33,12 +33,17 @@ class CompaniesCtrl extends Controller
         return redirect()->route('index.companies')->with('create', true);
     }
 
-    public function edit($id)
+    public function show(string $id)
+    {
+        //
+    }
+
+    public function edit(string $id)
     {      
         return view('companies.edit')->with('companie', Companies::find($id));
     } 
 
-    public function update(CompaniesRqt $request, $id)
+    public function update(CompaniesRqt $request, string $id)
     {
         Companies::find($id)->update([
             'name' => $request->name, 
@@ -49,7 +54,7 @@ class CompaniesCtrl extends Controller
         return redirect()->route('index.companies')->with('edit', true);
     }
 
-    public function destroy($id)
+    public function destroy(string $id)
     {      
         Companies::find($id)->delete();
         return redirect()->route('index.companies')->with('destroy', true);

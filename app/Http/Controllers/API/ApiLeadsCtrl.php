@@ -238,21 +238,4 @@ class ApiLeadsCtrl extends Controller
             'message' => 'Function no config.',
         ]);
     }
-
-    /**
-     * Criando token de segurança
-     */
-    /*
-    public function login(LoginRqt $request){
-        $user = Users::where('email', $request->email)->first();
-        if(!$user || !Hash::check($request->password, $user->password)){
-            return response()->json([
-                'message' => 'Invalid Credentials'
-            ],401);
-        }
-        $token = $user->createToken($user->name.'-AuthToken')->plainTextToken;
-        return response()->json([
-            'access_token' => $token,
-        ]);
-    }*/
 }

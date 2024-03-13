@@ -47,7 +47,12 @@ class BuildingsKeysCtrl extends Controller
         return redirect()->route('index.buildings.keys')->with('create', true);
     }
 
-    public function edit($id)
+    public function show(string $id)
+    {
+        //
+    }
+
+    public function edit(string $id)
     {      
         $companies = Companies::where('active', 1)->orderBy('name', 'asc')->get();
         $buildings = Buildings::where('active', 1)->orderBy('name', 'asc')->get();
@@ -63,7 +68,7 @@ class BuildingsKeysCtrl extends Controller
         return view('buildings.keys.edit')->with('key', BuildingsKeys::find($id))->with('array', isset($array) ? $array : null);
     } 
 
-    public function update(BuildingsKeysRqt $request, $id)
+    public function update(BuildingsKeysRqt $request, string $id)
     {
         BuildingsKeys::find($id)->update([
             'name' => $request->name, 
@@ -75,7 +80,7 @@ class BuildingsKeysCtrl extends Controller
         return redirect()->route('index.buildings.keys')->with('edit', true);
     }
 
-    public function destroy($id)
+    public function destroy(string $id)
     {      
         BuildingsKeys::find($id)->update([ 'active' => 0 ]);
         return redirect()->route('index.buildings.keys')->with('destroy', true);
