@@ -10,6 +10,7 @@ class Leads extends Model
     use HasFactory;
 
     protected $fillable = [
+        'api',
         'name',
         'email',
         'phone',

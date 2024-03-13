@@ -30,25 +30,21 @@ class ApiLeadsCtrl extends Controller
     {       
         /** Params requeried **/
             // Nome
-            if($request->name || $request->nome){
-                if($request->name) {
-                    $name = $request->name;
-                }elseif($request->nome) {
-                    $name = $request->nome;
-                }else{
-                    $name = "Não recebido.";
-                }
+            if($request->name) {
+                $name = $request->name;
+            }elseif($request->nome) {
+                $name = $request->nome;
+            }else{
+                $name = "Não recebido.";
             }
 
             // Telefone
-            if($request->phone || $request->telefone){
-                if($request->phone) {
-                    $phone = $request->phone;
-                }elseif($request->telefone) {
-                    $phone = $request->telefone;
-                }else{
-                    $phone = "Não recebido.";
-                }
+            if($request->phone) {
+                $phone = $request->phone;
+            }elseif($request->telefone) {
+                $phone = $request->telefone;
+            }else{
+                $phone = "Não recebido.";
             }
 
             // E-mail
@@ -57,19 +53,22 @@ class ApiLeadsCtrl extends Controller
             }
             
             // return for building
-            if($request->building || $request->empreendimento){
-                if($request->building) {
-                    $buildingNow = BuildingsKeys::where('value', $request->building)->first();
-                    $bdefault = BuildingsKeys::where('value', 'default')->first();
-                    $building = $buildingNow ? $buildingNow->building_id : $bdefault->building_id;
-                }elseif($request->empreendimento) {
-                    $buildingNow = BuildingsKeys::where('value', $request->empreendimento)->first();
-                    $bdefault = BuildingsKeys::where('value', 'default')->first();
-                    $building = $buildingNow ? $buildingNow->building_id : $bdefault->building_id;
-                }else{
-                    $bdefault = BuildingsKeys::where('value', 'default')->first();
-                    $building = $b ? $b->building_id : $bdefault->building_id;
-                }
+            $bdefault = BuildingsKeys::where('value', 'default')->first();
+            if($request->building) {
+                $buildingNow = BuildingsKeys::where('value', $request->building)->first();
+                $building = $buildingNow ? $buildingNow->building_id : $bdefault->building_id;
+            }elseif($request->empreendimento) {
+                $buildingNow = BuildingsKeys::where('value', $request->empreendimento)->first();
+                $building = $buildingNow ? $buildingNow->building_id : $bdefault->building_id;
+            }elseif($request->clioriginListingId) {
+                $buildingNow = BuildingsKeys::where('value', $request->clioriginListingId)->first();
+                $building = $buildingNow ? $buildingNow->building_id : $bdefault->building_id;
+            }elseif($request->codigoDoAnunciante) {
+                $buildingNow = BuildingsKeys::where('value', $request->codigoDoAnunciante)->first();
+                $building = $buildingNow ? $buildingNow->building_id : $bdefault->building_id;
+            }else{
+                $bdefault = BuildingsKeys::where('value', 'default')->first();
+                $building = $b ? $b->building_id : $bdefault->building_id;
             }
 
             // return for origin
@@ -84,56 +83,48 @@ class ApiLeadsCtrl extends Controller
 
         /** Params optional **/
             // utm_source
-            if($request->utm_source || $request->plataforma){
-                $fields['nameField'][] = 'utm_source';
-                if($request->utm_source) {
-                    $fields['valueField'][] = $request->utm_source;
-                }elseif($request->plataforma) {
-                    if($request->plataforma === 'fb'){
-                        $fields['valueField'][] = 'facebook';
-                    }
-                    if($request->plataforma === 'ig'){
-                        $fields['valueField'][] = 'instagram';
-                    }
-                }else{
-                    $fields['valueField'][] = "";
+            $fields['nameField'][] = 'utm_source';
+            if($request->utm_source) {
+                $fields['valueField'][] = $request->utm_source;
+            }elseif($request->plataforma) {
+                if($request->plataforma === 'fb'){
+                    $fields['valueField'][] = 'facebook';
                 }
-            }  
+                if($request->plataforma === 'ig'){
+                    $fields['valueField'][] = 'instagram';
+                }
+            }else{
+                $fields['valueField'][] = "";
+            }
 
             // utm_campaign
-            if($request->utm_campaign || $request->campanha){
-                $fields['nameField'][] = 'utm_campaign';
-                if($request->utm_campaign) {
-                    $fields['valueField'][] = $request->utm_campaign;
-                }elseif($request->campanha) {
-                    $fields['valueField'][] = $request->campanha;
-                }else{
-                    $fields['valueField'][] = "";
-                }
+            $fields['nameField'][] = 'utm_campaign';
+            if($request->utm_campaign) {
+                $fields['valueField'][] = $request->utm_campaign;
+            }elseif($request->campanha) {
+                $fields['valueField'][] = $request->campanha;
+            }else{
+                $fields['valueField'][] = "";
             }
 
             // utm_medium
-            if($request->utm_medium || $request->ad_name){
-                $fields['nameField'][] = 'utm_medium';
-                if($request->utm_medium) {
-                    $fields['valueField'][] = $request->utm_medium;
-                }elseif($request->ad_name) {
-                    $fields['valueField'][] = $request->ad_name;
-                }else{
-                    $fields['valueField'][] = "";
-                }
-            }  
+            $fields['nameField'][] = 'utm_medium';
+            if($request->utm_medium) {
+                $fields['valueField'][] = $request->utm_medium;
+            }elseif($request->ad_name) {
+                $fields['valueField'][] = $request->ad_name;
+            }else{
+                $fields['valueField'][] = "";
+            }
 
             // utm_content
-            if($request->utm_content || $request->nome_form){
-                $fields['nameField'][] = 'utm_content';
-                if($request->utm_content) {
-                    $fields['valueField'][] = $request->utm_content;
-                }elseif($request->nome_form) {
-                    $fields['valueField'][] = $request->nome_form;
-                }else{
-                    $fields['valueField'][] = "";
-                }
+            $fields['nameField'][] = 'utm_content';
+            if($request->utm_content) {
+                $fields['valueField'][] = $request->utm_content;
+            }elseif($request->nome_form) {
+                $fields['valueField'][] = $request->nome_form;
+            }else{
+                $fields['valueField'][] = "";
             }
 
             // utm_term
@@ -176,6 +167,9 @@ class ApiLeadsCtrl extends Controller
             if($request->message){
                 $fields['nameField'][] = 'message';
                 $fields['valueField'][] = $request->message;
+            }elseif($request->mensagem){
+                $fields['nameField'][] = 'message';
+                $fields['valueField'][] = $request->mensagem;
             }
 
             // plataforma
@@ -186,6 +180,7 @@ class ApiLeadsCtrl extends Controller
         
         // Create new lead
         $lead = Leads::create([
+            'api' => true, 
             'name' => $name, 
             'phone' => $phone, 
             'email' => $email,

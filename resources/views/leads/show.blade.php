@@ -4,6 +4,10 @@
 Detalhes do Lead
 @endsection
 
+@section('css')
+    <link href="{{ asset('css/leads.css') }}" rel="stylesheet">
+@endsection
+
 @section('content-page')
     <div class="container-fluid">
         <div class="row">
@@ -59,6 +63,15 @@ Detalhes do Lead
             <div class="divider-input col-12">
                 <p>Logs</p>
                 <hr>
+            </div>
+            <div class="col-12">
+                <ul class="timeline pe-5">
+                    <li class="d-flex flex-wrap">
+                        <h6 class="fw-bold w-75">Entrada do Lead</h6>
+                        <span href="#" class="ms-auto w-25 text-end">{{ $lead->created_at->format("d/m/Y H:i:s") }}</span>
+                        <p class="w-100">O lead teve entrada na plataforma através {{ $lead->api ? "da API" : "do Hub"}}.</p>
+                    </li>
+                </ul>
             </div>
         </div>
         <div class="row mt-3 justify-content-end">

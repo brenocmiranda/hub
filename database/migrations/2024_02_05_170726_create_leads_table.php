@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('leads', function (Blueprint $table) {
             $table->id();
+            $table->boolean('api');
             $table->string('name', 200);
             $table->string('phone', 200);
             $table->string('email', 200);
