@@ -19,10 +19,8 @@ use App\Models\LeadsOrigins;
 use App\Notifications\RecoveryPassword;
 use App\Notifications\ResetPassword;
 
-class SystemCtrl extends Controller
+class PublicCtrl extends Controller
 {
-
-    /** Functions external **/
     public function login()
     {
         if (Auth::check() && Auth::user()->active) {
@@ -123,24 +121,5 @@ class SystemCtrl extends Controller
 
         $user->notify(new ResetPassword($user));
         return redirect()->route('login')->with('reset', true);
-    }
-
-    /** Functions internal **/
-    public function home()
-    {
-        if (Auth::check() && Auth::user()->active) {
-            $dateNow = date('Y-m-d H:i:s');
-            $leadsDay = Leads::whereDate('created_at', date('Y-m-d'))->count();
-
-            return view('system.home')->with('leadsDay', $leadsDay);
-        } else {
-            return redirect(route('login'));
-        }
-    }
-
-    public function logout()
-    {
-        Auth::logout();
-        return redirect(route('login'));
     }
 }

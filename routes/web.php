@@ -8,7 +8,8 @@ use App\Http\Controllers\DashboardsCtrl;
 use App\Http\Controllers\IntegrationsCtrl;
 use App\Http\Controllers\LeadsCtrl;
 use App\Http\Controllers\LeadsOriginsCtrl;
-use App\Http\Controllers\SystemCtrl;
+use App\Http\Controllers\PublicCtrl;
+use App\Http\Controllers\PrivateCtrl;
 use App\Http\Controllers\UsersCtrl;
 use App\Http\Controllers\UsersRolesCtrl;
 use App\Http\Controllers\UsersTokensCtrl;
@@ -18,14 +19,14 @@ use App\Http\Controllers\UsersTokensCtrl;
 #---------------------------------------------------------------------
 Route::group(['prefix' => '/'], function () {
     // Funções externas
-    Route::get('/', [SystemCtrl::class, 'login'])->name('login');
-    Route::post('authentication', [SystemCtrl::class, 'authentication'])->name('authentication');
+    Route::get('/', [PublicCtrl::class, 'login'])->name('login');
+    Route::post('authentication', [PublicCtrl::class, 'authentication'])->name('authentication');
     Route::group(['prefix' => 'password'], function () {
         // Recuperação de senha
-        Route::get('/', [SystemCtrl::class, 'recovery'])->name('recovery.password');
-        Route::post('recovering', [SystemCtrl::class, 'recovering'])->name('recovering.password');
-        Route::get('verify/{token}', [SystemCtrl::class, 'verify'])->name('verify.password');
-        Route::post('reset', [SystemCtrl::class, 'reset'])->name('reset.password');
+        Route::get('/', [PublicCtrl::class, 'recovery'])->name('recovery.password');
+        Route::post('recovering', [PublicCtrl::class, 'recovering'])->name('recovering.password');
+        Route::get('verify/{token}', [PublicCtrl::class, 'verify'])->name('verify.password');
+        Route::post('reset', [PublicCtrl::class, 'reset'])->name('reset.password');
     });
 });
 
@@ -34,8 +35,8 @@ Route::group(['prefix' => '/'], function () {
 #---------------------------------------------------------------------
 Route::group(['prefix' => 'app'], function () {
     // Funções internas
-    Route::get('home', [SystemCtrl::class, 'home'])->name('home');
-    Route::get('logout', [SystemCtrl::class, 'logout'])->name('logout');
+    Route::get('home', [PrivateCtrl::class, 'home'])->name('home');
+    Route::get('logout', [PrivateCtrl::class, 'logout'])->name('logout');
 
     // Dashboard
     Route::group(['prefix' => 'dashboard'], function () {

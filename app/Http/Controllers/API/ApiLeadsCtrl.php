@@ -39,10 +39,12 @@ class ApiLeadsCtrl extends Controller
             }
 
             // Telefone
-            if($request->phone) {
-                $phone = $request->phone;
-            }elseif($request->telefone) {
+            if($request->telefone) {
                 $phone = $request->telefone;
+            }elseif($request->celular) {
+                $phone = $request->celular;
+            }elseif($request->phoneNumber) {
+                $phone = $request->phoneNumber;
             }else{
                 $phone = "Não recebido.";
             }
@@ -60,8 +62,8 @@ class ApiLeadsCtrl extends Controller
             }elseif($request->empreendimento) {
                 $buildingNow = BuildingsKeys::where('value', $request->empreendimento)->first();
                 $building = $buildingNow ? $buildingNow->building_id : $bdefault->building_id;
-            }elseif($request->clioriginListingId) {
-                $buildingNow = BuildingsKeys::where('value', $request->clioriginListingId)->first();
+            }elseif($request->originListingId) {
+                $buildingNow = BuildingsKeys::where('value', $request->originListingId)->first();
                 $building = $buildingNow ? $buildingNow->building_id : $bdefault->building_id;
             }elseif($request->codigoDoAnunciante) {
                 $buildingNow = BuildingsKeys::where('value', $request->codigoDoAnunciante)->first();
@@ -82,55 +84,125 @@ class ApiLeadsCtrl extends Controller
             }
 
         /** Params optional **/
-            // utm_source
-            $fields['nameField'][] = 'utm_source';
-            if($request->utm_source) {
-                $fields['valueField'][] = $request->utm_source;
-            }elseif($request->plataforma) {
-                if($request->plataforma === 'fb'){
-                    $fields['valueField'][] = 'facebook';
-                }
-                if($request->plataforma === 'ig'){
-                    $fields['valueField'][] = 'instagram';
-                }
-            }else{
-                $fields['valueField'][] = "";
-            }
 
-            // utm_campaign
-            $fields['nameField'][] = 'utm_campaign';
-            if($request->utm_campaign) {
-                $fields['valueField'][] = $request->utm_campaign;
-            }elseif($request->campanha) {
-                $fields['valueField'][] = $request->campanha;
-            }else{
-                $fields['valueField'][] = "";
-            }
+            // url_params
+            if($request->url_params){
 
-            // utm_medium
-            $fields['nameField'][] = 'utm_medium';
-            if($request->utm_medium) {
-                $fields['valueField'][] = $request->utm_medium;
-            }elseif($request->ad_name) {
-                $fields['valueField'][] = $request->ad_name;
-            }else{
-                $fields['valueField'][] = "";
-            }
+                parse_str( $request->url_params, $output );
 
-            // utm_content
-            $fields['nameField'][] = 'utm_content';
-            if($request->utm_content) {
-                $fields['valueField'][] = $request->utm_content;
-            }elseif($request->nome_form) {
-                $fields['valueField'][] = $request->nome_form;
-            }else{
-                $fields['valueField'][] = "";
-            }
+                $fields['nameField'][] = 'utm_source';
+                $fields['valueField'][] = $output['utm_source'];
 
-            // utm_term
-            if($request->utm_term){
+                $fields['nameField'][] = 'utm_campaign';
+                $fields['valueField'][] = $output['utm_campaign'];
+
+                $fields['nameField'][] = 'utm_medium';
+                $fields['valueField'][] = $output['utm_medium'];
+
+                $fields['nameField'][] = 'utm_content';
+                $fields['valueField'][] = $output['utm_content'];
+
                 $fields['nameField'][] = 'utm_term';
-                $fields['valueField'][] = $request->utm_term;
+                $fields['valueField'][] = $output['utm_term'];
+
+            }else {
+
+                // utm_source
+                $fields['nameField'][] = 'utm_source';
+                if($request->utm_source) {
+                    $fields['valueField'][] = $request->utm_source;
+                }elseif($request->plataforma) {
+                    if($request->plataforma === 'fb'){
+                        $fields['valueField'][] = 'facebook';
+                    }
+                    if($request->plataforma === 'ig'){
+                        $fields['valueField'][] = 'instagram';
+                    }
+                }elseif($request->leadOrigin) {
+                    if($request->leadOrigin === 'VivaReal'){
+                        $fields['valueField'][] = 'vivareal';
+                    }
+                    if($request->leadOrigin === 'Zap'){
+                        $fields['valueField'][] = 'zapimoveis';
+                    }
+                }else{
+                    $fields['valueField'][] = "";
+                }
+
+                // utm_campaign
+                $fields['nameField'][] = 'utm_campaign';
+                if($request->utm_campaign) {
+                    $fields['valueField'][] = $request->utm_campaign;
+                }elseif($request->campanha) {
+                    $fields['valueField'][] = $request->campanha;
+                }elseif($request->codigoImobiliaria) {
+                    $fields['valueField'][] = $request->codigoImobiliaria;
+                }else{
+                    $fields['valueField'][] = "";
+                }
+
+                // utm_medium
+                $fields['nameField'][] = 'utm_medium';
+                if($request->utm_medium) {
+                    $fields['valueField'][] = $request->utm_medium;
+                }elseif($request->nome_form) {
+                    $fields['valueField'][] = $request->nome_form;
+                }elseif($request->clientListingId) {
+                    $fields['valueField'][] = $request->clientListingId;
+                }elseif($request->planoDePublicacao) {
+                    $fields['valueField'][] = $request->planoDePublicacao;
+                }else{
+                    $fields['valueField'][] = "";
+                }
+
+                // utm_content
+                $fields['nameField'][] = 'utm_content';
+                if($request->utm_content) {
+                    $fields['valueField'][] = $request->utm_content;
+                }elseif($request->ad_name) {
+                    $fields['valueField'][] = $request->ad_name;
+                }else{
+                    $fields['valueField'][] = "";
+                }
+
+                // utm_term
+                $fields['nameField'][] = 'utm_term';
+                if($request->utm_term) {
+                    $fields['valueField'][] = $request->utm_term;
+                }elseif($request->adset_name) {
+                    $fields['valueField'][] = $request->adset_name;
+                }else{
+                    $fields['valueField'][] = "";
+                }
+            }
+
+            // sobrenome
+            if($request->sobrenome){
+                $name = $name . ' ' . $request->sobrenome;
+            }
+
+            // message
+            if($request->message){
+                $fields['nameField'][] = 'message';
+                $fields['valueField'][] = $request->message;
+            }elseif($request->mensagem){
+                $fields['nameField'][] = 'message';
+                $fields['valueField'][] = $request->mensagem;
+            }
+
+            // url
+            if($request->pp){
+                $fields['nameField'][] = 'url';
+                $fields['valueField'][] = $request->url;
+            }
+
+            // com
+            if($request->com){
+                $fields['nameField'][] = 'com';
+                $fields['valueField'][] = $request->com;
+            }elseif($request->comunicacao){ 
+                $fields['nameField'][] = 'com';
+                $fields['valueField'][] = $request->comunicacao;
             }
 
             // gclid
@@ -143,33 +215,6 @@ class ApiLeadsCtrl extends Controller
             if($request->fbclid){
                 $fields['nameField'][] = 'fbclid';
                 $fields['valueField'][] = $request->fbclid;
-            }
-            
-            // pp
-            if($request->pp){
-                $fields['nameField'][] = 'pp';
-                $fields['valueField'][] = $request->pp;
-            }
-
-            // com
-            if($request->com){
-                $fields['nameField'][] = 'com';
-                $fields['valueField'][] = $request->com;
-            }
-
-            // url
-            if($request->pp){
-                $fields['nameField'][] = 'url';
-                $fields['valueField'][] = $request->url;
-            }
-
-            // message
-            if($request->message){
-                $fields['nameField'][] = 'message';
-                $fields['valueField'][] = $request->message;
-            }elseif($request->mensagem){
-                $fields['nameField'][] = 'message';
-                $fields['valueField'][] = $request->mensagem;
             }
 
             // plataforma
