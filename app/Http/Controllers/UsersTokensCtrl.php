@@ -25,7 +25,7 @@ class UsersTokensCtrl extends Controller
     public function store(UsersTokensRqt $request)
     {      
         $token = Auth::user()->createToken($request->name);
-        return redirect()->route('index.users.tokens')->with('create', true)->with('token', $token->plainTextToken) ;
+        return redirect()->route('users.tokens.index')->with('create', true)->with('token', $token->plainTextToken) ;
     }
 
     public function show(string $id)
@@ -46,6 +46,6 @@ class UsersTokensCtrl extends Controller
     public function destroy(string $id)
     {      
         Auth::user()->tokens()->where('id', $id)->delete();
-        return redirect()->route('index.users.tokens')->with('destroy', true);
+        return redirect()->route('users.tokens.index')->with('destroy', true);
     }
 }

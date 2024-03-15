@@ -25,7 +25,7 @@ Nova empresa
                         </div>
                     @endif
 
-                    <form action="{{ route('store.companies') }}" method="POST" class="row row-gap-3">
+                    <form action="{{ route('companies.store') }}" method="POST" class="row row-gap-3">
                         @csrf
                         
                         <div class="input-field col-12">
@@ -52,7 +52,7 @@ Nova empresa
                             </div>
                         </div>
                         <div class="submit-field d-flex justify-content-end align-items-center gap-3">
-                            <a href="{{ route('index.companies') }}"> <i class="bi bi-arrow-left px-2"></i>Voltar</a>
+                            <a href="{{ route('companies.index') }}"> <i class="bi bi-arrow-left px-2"></i>Voltar</a>
                             <input type="submit" name="submit" id="submit" class="btn btn-dark px-5 py-2" value="Salvar" />
                         </div>
                     </form>

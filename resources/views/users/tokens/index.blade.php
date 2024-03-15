@@ -5,7 +5,7 @@ Tokens
 @endsection
 
 @section('buttons')
-    <a href="{{ route('create.users.tokens') }}" class="btn btn-primary">
+    <a href="{{ route('users.tokens.create') }}" class="btn btn-primary">
         <i class="bi bi-plus-lg"></i>
         <span>Novo</span>
     </a>
@@ -37,7 +37,7 @@ Tokens
                             @foreach($tokens as $token)
                                 { 
                                     'name': '{{ $token->name }}', 
-                                    'operations': '<a href="{{ route('destroy.users.tokens', $token->id ) }}" class="btn btn-outline-secondary ms-1 px-2 py-1 destroy" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Excluir"><i class="bi bi-trash"></i></a>'
+                                    'operations': '<a href="{{ route('users.tokens.destroy', $token->id ) }}" class="btn btn-outline-secondary ms-1 px-2 py-1 destroy" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Excluir"><i class="bi bi-trash"></i></a>'
                                 },
                             @endforeach
                         ];
@@ -53,7 +53,7 @@ Tokens
                         // Buttons in destroy
                         $('a.destroy').on('click', function(e){
                             e.preventDefault();
-                            $('#modalDestroy').find('.confirm').attr('href', $(this).attr('href'));
+                            $('#modalDestroy').find('form').attr('action', $(this).attr('href'));
                             $('#modalDestroy').modal('show');
                         });
                     });

@@ -5,7 +5,7 @@ Leads
 @endsection
 
 @section('buttons')
-    <a href="{{ route('create.leads') }}" class="btn btn-primary">
+    <a href="{{ route('leads.create') }}" class="btn btn-primary">
         <i class="bi bi-plus-lg"></i>
         <span>Novo</span>
     </a>
@@ -35,7 +35,7 @@ Leads
                                     'origin': '{{ $lead->RelationOrigins->name }}', 
                                     'building': '{{ $lead->RelationBuildings->name }}', 
                                     'email': '{{ $lead->email }}',
-                                    'operations': '<a href="{{ route('show.leads', $lead->id ) }}" class="btn btn-outline-secondary me-1 px-2 py-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Visualizar"><i class="bi bi-eye"></i></a>'
+                                    'operations': '<a href="{{ route('leads.show', $lead->id ) }}" class="btn btn-outline-secondary me-1 px-2 py-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Visualizar"><i class="bi bi-eye"></i></a>'
                                 },
                             @endforeach
                         ];

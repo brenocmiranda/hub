@@ -20,7 +20,7 @@ Home
                         <h6 class="mb-0">Leads do dia</h6>
                         <h4 class="mb-0">{{ $leadsDay }}</h4>
                         <small>
-                            <a href="{{ route('index.leads') }}">Veja mais</a>
+                            <a href="{{ route('leads.index') }}">Veja mais</a>
                         </small>
                     </div>
                 </div>
@@ -34,7 +34,7 @@ Home
                         <h6 class="mb-0">Jobs success</h6>
                         <h4 class="mb-0">250</h4>
                         <small>
-                            <a href="{{ route('index.leads') }}">Veja mais</a>
+                            <a href="{{ route('leads.index') }}">Veja mais</a>
                         </small>
                     </div>
                 </div>
@@ -48,7 +48,7 @@ Home
                         <h6 class="mb-0">Jobs error</h6>
                         <h4 class="mb-0">0</h4>
                         <small>
-                            <a href="{{ route('index.leads') }}">Veja mais</a>
+                            <a href="{{ route('leads.index') }}">Veja mais</a>
                         </small>
                     </div>
                 </div>

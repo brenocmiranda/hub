@@ -8,7 +8,11 @@ use App\Models\Companies;
 use App\Models\Leads;
 
 class PrivateCtrl extends Controller
-{
+{   
+    public function __construct(){
+		$this->middleware('auth');
+	}
+    
     public function home()
     {
         if (Auth::check() && Auth::user()->active) {

@@ -30,7 +30,7 @@ class UsersRolesCtrl extends Controller
             'active' => $request->active,
         ]);
 
-        return redirect()->route('index.users.roles')->with('create', true);
+        return redirect()->route('users.roles.index')->with('create', true);
     }
     
     public function show(string $id)
@@ -51,12 +51,12 @@ class UsersRolesCtrl extends Controller
             'active' => $request->active,
         ]);
 
-        return redirect()->route('index.users.roles')->with('edit', true);
+        return redirect()->route('users.roles.index')->with('edit', true);
     }
 
     public function destroy(string $id)
     {      
         UsersRoles::find($id)->delete();
-        return redirect()->route('index.users.roles')->with('destroy', true);
+        return redirect()->route('users.roles.index')->with('destroy', true);
     }
 }

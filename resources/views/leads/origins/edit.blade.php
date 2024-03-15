@@ -25,7 +25,8 @@ Editar função
                         </div>
                     @endif
                     
-                    <form action="{{ route('update.leads.origins', $origin->id) }}" method="POST" class="row row-gap-3">
+                    <form action="{{ route('leads.origins.update', $origin->id) }}" method="POST" class="row row-gap-3">
+                        @method('PUT')
                         @csrf  
                         
                         <div class="input-field col-12">
@@ -52,7 +53,7 @@ Editar função
                             </div>
                         </div>
                         <div class="submit-field d-flex justify-content-end align-items-center gap-3">
-                            <a href="{{ route('index.leads.origins') }}"> <i class="bi bi-arrow-left px-2"></i>Voltar</a>
+                            <a href="{{ route('leads.origins.index') }}"> <i class="bi bi-arrow-left px-2"></i>Voltar</a>
                             <input type="submit" name="submit" id="submit" class="btn btn-dark px-5 py-2" value="Salvar" />
                         </div>
                     </form>

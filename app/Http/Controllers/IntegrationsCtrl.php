@@ -35,7 +35,7 @@ class IntegrationsCtrl extends Controller
             'header' => $request->header ? $request->header : "",
         ]);
 
-        return redirect()->route('index.integrations')->with('create', true);
+        return redirect()->route('integrations.index')->with('create', true);
     }
 
     public function show(string $id)
@@ -61,12 +61,12 @@ class IntegrationsCtrl extends Controller
             'header' => $request->header ? $request->header : "",
         ]);
 
-        return redirect()->route('index.integrations')->with('edit', true);
+        return redirect()->route('integrations.index')->with('edit', true);
     }
 
     public function destroy(string $id)
     {      
         Integrations::find($id)->delete();
-        return redirect()->route('index.integrations')->with('destroy', true);
+        return redirect()->route('integrations.index')->with('destroy', true);
     }
 }

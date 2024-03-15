@@ -44,7 +44,7 @@ class UsersCtrl extends Controller
 
         $user->notify(new FirstAccess($user));
 
-        return redirect()->route('index.users')->with('create', true);
+        return redirect()->route('users.index')->with('create', true);
     }
 
     public function show(string $id)
@@ -67,19 +67,19 @@ class UsersCtrl extends Controller
             'user_role_id' => $request->roles,
         ]);
 
-        return redirect()->route('index.users')->with('edit', true);
+        return redirect()->route('users.index')->with('edit', true);
     }
 
     public function destroy(string $id)
     {      
         Users::find($id)->delete();
-        return redirect()->route('index.users')->with('destroy', true);
+        return redirect()->route('users.index')->with('destroy', true);
     }
 
     public function recovery(string $id)
     {    
         $user = Users::find($id);
         $user->notify(new RecoveryPassword($user));
-        return redirect()->route('index.users')->with('recovery', true);
+        return redirect()->route('users.index')->with('recovery', true);
     }
 }

@@ -44,7 +44,7 @@ class BuildingsKeysCtrl extends Controller
             'active' => $request->active,
         ]);
 
-        return redirect()->route('index.buildings.keys')->with('create', true);
+        return redirect()->route('buildings.keys.index')->with('create', true);
     }
 
     public function show(string $id)
@@ -77,12 +77,12 @@ class BuildingsKeysCtrl extends Controller
             'active' => $request->active,
         ]);
 
-        return redirect()->route('index.buildings.keys')->with('edit', true);
+        return redirect()->route('buildings.keys.index')->with('edit', true);
     }
 
     public function destroy(string $id)
     {      
-        BuildingsKeys::find($id)->update([ 'active' => 0 ]);
-        return redirect()->route('index.buildings.keys')->with('destroy', true);
+        BuildingsKeys::find($id)->delete();
+        return redirect()->route('buildings.keys.index')->with('destroy', true);
     }
 }

@@ -30,7 +30,7 @@ class CompaniesCtrl extends Controller
             'active' => $request->active,
         ]);
 
-        return redirect()->route('index.companies')->with('create', true);
+        return redirect()->route('companies.index')->with('create', true);
     }
 
     public function show(string $id)
@@ -51,12 +51,12 @@ class CompaniesCtrl extends Controller
             'active' => $request->active,
         ]);
 
-        return redirect()->route('index.companies')->with('edit', true);
+        return redirect()->route('companies.index')->with('edit', true);
     }
 
     public function destroy(string $id)
     {      
         Companies::find($id)->delete();
-        return redirect()->route('index.companies')->with('destroy', true);
+        return redirect()->route('companies.index')->with('destroy', true);
     }
 }

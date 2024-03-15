@@ -60,7 +60,7 @@ class LeadsCtrl extends Controller
             }
         }
 
-        return redirect()->route('index.leads')->with('create', true);
+        return redirect()->route('leads.index')->with('create', true);
     }
 
     public function show(string $id)

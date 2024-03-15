@@ -5,11 +5,11 @@ Usuários
 @endsection
 
 @section('buttons')
-    <a href="{{ route('index.users.roles') }}" class="btn btn-dark">
+    <a href="{{ route('users.roles.index') }}" class="btn btn-dark">
         <i class="bi bi-person-fill-gear"></i>
         <span>Funções</span>
     </a>
-    <a href="{{ route('create.users') }}" class="btn btn-primary">
+    <a href="{{ route('users.create') }}" class="btn btn-primary">
         <i class="bi bi-plus-lg"></i>
         <span>Novo</span>
     </a>
@@ -39,7 +39,7 @@ Usuários
                                     'empresa': '{{ $user->RelationCompanies->name }}',
                                     'function': '{{ $user->RelationRules->name }}', 
                                     'status': ({{ $user->active }} ? '<span class="badge bg-success-subtle border border-success-subtle text-success-emphasis rounded-pill">Ativo</span>' : '<span class="badge bg-danger-subtle border border-danger-subtle text-danger-emphasis rounded-pill">Desativado</span>'), 
-                                    'operations': '<a href="{{ route('edit.users', $user->id ) }}" class="btn btn-outline-secondary me-1 px-2 py-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Editar"><i class="bi bi-pencil"></i></a> <a href="{{ route('recovery.users', $user->id ) }}" class="btn btn-outline-secondary me-1 px-2 py-1 reset" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Redefinir senha"><i class="bi bi-envelope-arrow-up"></i></i></a><a href="{{ route('destroy.users', $user->id ) }}" class="btn btn-outline-secondary ms-1 px-2 py-1 destroy" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Excluir"><i class="bi bi-trash"></i></a>'
+                                    'operations': '<a href="{{ route('users.edit', $user->id ) }}" class="btn btn-outline-secondary me-1 px-2 py-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Editar"><i class="bi bi-pencil"></i></a> <a href="{{ route('users.recovery', $user->id ) }}" class="btn btn-outline-secondary me-1 px-2 py-1 reset" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Redefinir senha"><i class="bi bi-envelope-arrow-up"></i></i></a><a href="{{ route('users.destroy', $user->id ) }}" class="btn btn-outline-secondary ms-1 px-2 py-1 destroy" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Excluir"><i class="bi bi-trash"></i></a>'
                                 },
                             @endforeach
                         ];
@@ -55,7 +55,7 @@ Usuários
                         // Buttons in destroy
                         $('a.destroy').on('click', function(e){
                             e.preventDefault();
-                            $('#modalDestroy').find('.confirm').attr('href', $(this).attr('href'));
+                            $('#modalDestroy').find('form').attr('action', $(this).attr('href'));
                             $('#modalDestroy').modal('show');
                         });
 

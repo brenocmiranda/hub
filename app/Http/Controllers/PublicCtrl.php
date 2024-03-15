@@ -104,7 +104,8 @@ class PublicCtrl extends Controller
         }
     }
 
-    public function reset(VerifyRqt $request) {
+    public function reset(VerifyRqt $request) 
+    {
         
         if( Auth::check() ){
             Auth::logout();

@@ -34,97 +34,74 @@ Route::group(['prefix' => '/'], function () {
 # Aplicação
 #---------------------------------------------------------------------
 Route::group(['prefix' => 'app'], function () {
+
     // Funções internas
     Route::get('home', [PrivateCtrl::class, 'home'])->name('home');
     Route::get('logout', [PrivateCtrl::class, 'logout'])->name('logout');
 
+    // Perfil
+    // Route::singleton('profile', ProfileController::class);
+    
     // Dashboard
     Route::group(['prefix' => 'dashboard'], function () {
-        Route::get('/', [DashboardsCtrl::class, 'index'])->name('index.dashboard');
+        Route::get('/', [DashboardsCtrl::class, 'index'])->name('dashboard.index');
     });
 
     // Leads
-    Route::group(['prefix' => 'leads'], function () {
-        Route::get('/', [LeadsCtrl::class, 'index'])->name('index.leads');
-        Route::any('show/{id}', [LeadsCtrl::class, 'show'])->name('show.leads');
-        Route::get('create/', [LeadsCtrl::class, 'create'])->name('create.leads');
-        Route::post('store/', [LeadsCtrl::class, 'store'])->name('store.leads');
-        // Origins
-        Route::group(['prefix' => 'origins'], function () {
-            Route::get('/', [LeadsOriginsCtrl::class, 'index'])->name('index.leads.origins');
-            Route::get('create/', [LeadsOriginsCtrl::class, 'create'])->name('create.leads.origins');
-            Route::post('store/', [LeadsOriginsCtrl::class, 'store'])->name('store.leads.origins');
-            Route::get('edit/{id}', [LeadsOriginsCtrl::class, 'edit'])->name('edit.leads.origins');
-            Route::post('update/{id}', [LeadsOriginsCtrl::class, 'update'])->name('update.leads.origins');
-            Route::any('destroy/{id}', [LeadsOriginsCtrl::class, 'destroy'])->name('destroy.leads.origins');
-        });
-    });
+    Route::resource('leads', LeadsCtrl::class)->only([ 'index', 'create', 'store', 'show' ]);
+
+    // Leads (Origins)
+    Route::resource('leads/all/origins', LeadsOriginsCtrl::class)->names([
+        'index' => 'leads.origins.index',
+        'create' => 'leads.origins.create',
+        'store' => 'leads.origins.store',
+        'edit' => 'leads.origins.edit',
+        'update' => 'leads.origins.update',
+        'destroy' => 'leads.origins.destroy'
+    ]);
 
     // Companies
-    Route::group(['prefix' => 'companies'], function () {
-        Route::get('/', [CompaniesCtrl::class, 'index'])->name('index.companies');
-        Route::get('create/', [CompaniesCtrl::class, 'create'])->name('create.companies');
-        Route::post('store/', [CompaniesCtrl::class, 'store'])->name('store.companies');
-        Route::get('edit/{id}', [CompaniesCtrl::class, 'edit'])->name('edit.companies');
-        Route::post('update/{id}', [CompaniesCtrl::class, 'update'])->name('update.companies');
-        Route::any('destroy/{id}', [CompaniesCtrl::class, 'destroy'])->name('destroy.companies');
-    });
+    Route::resource('companies', CompaniesCtrl::class);
 
     // Buildings
-    Route::group(['prefix' => 'buildings'], function () {
-        Route::get('/', [BuildingsCtrl::class, 'index'])->name('index.buildings');
-        Route::get('create/', [BuildingsCtrl::class, 'create'])->name('create.buildings');
-        Route::post('store/', [BuildingsCtrl::class, 'store'])->name('store.buildings');
-        Route::get('edit/{id}', [BuildingsCtrl::class, 'edit'])->name('edit.buildings');
-        Route::post('update/{id}', [BuildingsCtrl::class, 'update'])->name('update.buildings');
-        Route::any('destroy/{id}', [BuildingsCtrl::class, 'destroy'])->name('destroy.buildings');
-        // Keys
-        Route::group(['prefix' => 'keys'], function () {
-            Route::get('/', [BuildingsKeysCtrl::class, 'index'])->name('index.buildings.keys');
-            Route::get('create/', [BuildingsKeysCtrl::class, 'create'])->name('create.buildings.keys');
-            Route::post('store/', [BuildingsKeysCtrl::class, 'store'])->name('store.buildings.keys');
-            Route::get('edit/{id}', [BuildingsKeysCtrl::class, 'edit'])->name('edit.buildings.keys');
-            Route::post('update/{id}', [BuildingsKeysCtrl::class, 'update'])->name('update.buildings.keys');
-            Route::any('destroy/{id}', [BuildingsKeysCtrl::class, 'destroy'])->name('destroy.buildings.keys');
-        });
-    });
+    Route::resource('buildings', BuildingsCtrl::class);
+
+    // Buildings (Keys)
+    Route::resource('buildings/all/keys', BuildingsKeysCtrl::class)->names([
+        'index' => 'buildings.keys.index',
+        'create' => 'buildings.keys.create',
+        'store' => 'buildings.keys.store',
+        'edit' => 'buildings.keys.edit',
+        'update' => 'buildings.keys.update',
+        'destroy' => 'buildings.keys.destroy'
+    ]);
 
     // Integrations
-    Route::group(['prefix' => 'integrations'], function () {
-        Route::get('/', [IntegrationsCtrl::class, 'index'])->name('index.integrations');
-        Route::get('create/', [IntegrationsCtrl::class, 'create'])->name('create.integrations');
-        Route::post('store/', [IntegrationsCtrl::class, 'store'])->name('store.integrations');
-        Route::get('edit/{id}', [IntegrationsCtrl::class, 'edit'])->name('edit.integrations');
-        Route::post('update/{id}', [IntegrationsCtrl::class, 'update'])->name('update.integrations');
-        Route::any('destroy/{id}', [IntegrationsCtrl::class, 'destroy'])->name('destroy.integrations');
-    });
+    Route::resource('integrations', IntegrationsCtrl::class);
 
     // Usuários
-    Route::group(['prefix' => 'users'], function () {
-        Route::get('/', [UsersCtrl::class, 'index'])->name('index.users');
-        Route::get('create/', [UsersCtrl::class, 'create'])->name('create.users');
-        Route::post('store/', [UsersCtrl::class, 'store'])->name('store.users');
-        Route::get('edit/{id}', [UsersCtrl::class, 'edit'])->name('edit.users');
-        Route::post('update/{id}', [UsersCtrl::class, 'update'])->name('update.users');
-        Route::any('destroy/{id}', [UsersCtrl::class, 'destroy'])->name('destroy.users');
-        Route::any('recovery/{id}', [UsersCtrl::class, 'recovery'])->name('recovery.users');
-        // Roles
-        Route::group(['prefix' => 'roles'], function () {
-            Route::get('/', [UsersRolesCtrl::class, 'index'])->name('index.users.roles');
-            Route::get('create/', [UsersRolesCtrl::class, 'create'])->name('create.users.roles');
-            Route::post('store/', [UsersRolesCtrl::class, 'store'])->name('store.users.roles');
-            Route::get('edit/{id}', [UsersRolesCtrl::class, 'edit'])->name('edit.users.roles');
-            Route::post('update/{id}', [UsersRolesCtrl::class, 'update'])->name('update.users.roles');
-            Route::any('destroy/{id}', [UsersRolesCtrl::class, 'destroy'])->name('destroy.users.roles');
-        });
-        // Token
-        Route::group(['prefix' => 'tokens'], function () {
-            Route::get('/', [UsersTokensCtrl::class, 'index'])->name('index.users.tokens');
-            Route::get('create/', [UsersTokensCtrl::class, 'create'])->name('create.users.tokens');
-            Route::post('store/', [UsersTokensCtrl::class, 'store'])->name('store.users.tokens');
-            Route::any('destroy/{id}', [UsersTokensCtrl::class, 'destroy'])->name('destroy.users.tokens');
-        });
-    });
+    Route::resource('users', UsersCtrl::class);
+    Route::any('recovery/{id}', [UsersCtrl::class, 'recovery'])->name('users.recovery');
+
+    // Usuários (Roles)
+    Route::resource('users/all/roles', UsersRolesCtrl::class)->names([
+        'index' => 'users.roles.index',
+        'create' => 'users.roles.create',
+        'store' => 'users.roles.store',
+        'edit' => 'users.roles.edit',
+        'update' => 'users.roles.update',
+        'destroy' => 'users.roles.destroy'
+    ]);
+
+    // Usuários (Tokens)
+    Route::resource('users/all/tokens', UsersTokensCtrl::class)->names([
+        'index' => 'users.tokens.index',
+        'create' => 'users.tokens.create',
+        'store' => 'users.tokens.store',
+        'edit' => 'users.tokens.edit',
+        'update' => 'users.tokens.update',
+        'destroy' => 'users.tokens.destroy'
+    ])->only([ 'index', 'create', 'store', 'destroy' ]);
 
 })->middleware('auth');
 

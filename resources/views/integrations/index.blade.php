@@ -6,7 +6,7 @@ Integrações
 
 
 @section('buttons')
-    <a href="{{ route('create.integrations') }}" class="btn btn-primary">
+    <a href="{{ route('integrations.create') }}" class="btn btn-primary">
         <i class="bi bi-plus-lg"></i>
         <span>Novo</span>
     </a>
@@ -36,7 +36,7 @@ Integrações
                                     'url': '{{ $integration->url }}',
                                     'authentication': '{{ $integration->token ? "Token" : ($integration->user ? "Basic" : "-") }}',  
                                     'status': ({{ $integration->active }} ? '<span class="badge bg-success-subtle border border-success-subtle text-success-emphasis rounded-pill">Ativo</span>' : '<span class="badge bg-danger-subtle border border-danger-subtle text-danger-emphasis rounded-pill">Desativado</span>'), 
-                                    'operations': '<a href="{{ route('edit.integrations', $integration->id ) }}" class="btn btn-outline-secondary me-1 px-2 py-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Editar"><i class="bi bi-pencil"></i></a><a href="{{ route('destroy.integrations', $integration->id ) }}" class="btn btn-outline-secondary ms-1 px-2 py-1 destroy" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Excluir"><i class="bi bi-trash"></i></a>'
+                                    'operations': '<a href="{{ route('integrations.edit', $integration->id ) }}" class="btn btn-outline-secondary me-1 px-2 py-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Editar"><i class="bi bi-pencil"></i></a><a href="{{ route('integrations.destroy', $integration->id ) }}" class="btn btn-outline-secondary ms-1 px-2 py-1 destroy" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Excluir"><i class="bi bi-trash"></i></a>'
                                 },
                             @endforeach
                         ];
@@ -52,7 +52,7 @@ Integrações
                         // Buttons in destroy
                         $('a.destroy').on('click', function(e){
                             e.preventDefault();
-                            $('#modalDestroy').find('.confirm').attr('href', $(this).attr('href'));
+                            $('#modalDestroy').find('form').attr('action', $(this).attr('href'));
                             $('#modalDestroy').modal('show');
                         });
                     });

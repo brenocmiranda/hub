@@ -76,7 +76,7 @@ Detalhes do Lead
         </div>
         <div class="row mt-3 justify-content-end">
             <div class="col-2 d-flex justify-content-end">
-                <a href="{{ route('index.leads') }}" class="btn btn-primary"> <i class="bi bi-arrow-left px-2"></i>Voltar</a>
+                <a href="{{ route('leads.index') }}" class="btn btn-primary"> <i class="bi bi-arrow-left px-2"></i>Voltar</a>
             </div>
         </div>
     </div>

@@ -30,7 +30,7 @@ class LeadsOriginsCtrl extends Controller
             'active' => $request->active,
         ]);
 
-        return redirect()->route('index.leads.origins')->with('create', true);
+        return redirect()->route('leads.origins.index')->with('create', true);
     }
 
     public function show(string $id)
@@ -51,12 +51,12 @@ class LeadsOriginsCtrl extends Controller
             'active' => $request->active,
         ]);
 
-        return redirect()->route('index.leads.origins')->with('edit', true);
+        return redirect()->route('leads.origins.index')->with('edit', true);
     }
 
     public function destroy(string $id)
     {      
         LeadsOrigins::find($id)->delete();
-        return redirect()->route('index.leads.origins')->with('destroy', true);
+        return redirect()->route('leads.origins.index')->with('destroy', true);
     }
 }
