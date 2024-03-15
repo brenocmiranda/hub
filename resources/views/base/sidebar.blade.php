@@ -167,7 +167,7 @@
         <hr>
         <div class="d-flex gap-2 align-items-center">
             @if(Auth::user()->src)
-                <img src="{{ Auth::user()->src }}" alt="" width="40" height="40" class="rounded-circle me-1">
+                <img src="{{ Auth::user()->src ? asset('storage/profile/'. Auth::user()->src) : '' }}" alt="" width="40" height="40" class="rounded-circle me-1">
             @else
                 <div class="perfil-img rounded-circle bg-secondary fw-bold text-white me-1">
                     {{ substr(Auth::user()->name,0,1)  }}

@@ -100,3 +100,15 @@ $( '.is-phone' ).on( 'keyup', function( e ){
         this.value = v;
     }
 });
+
+// Função pré-visualização de imagem
+function image(input){
+	if(input.files && input.files[0]){
+		var reader = new FileReader();
+		reader.onload = function (oFREvent){
+            var img = $('<img src="' + oFREvent.target.result + '" width="130" height="130" class="rounded-circle me-1 object-fit-cover">');
+            $('.PreviewImage').html(img);
+		}
+		reader.readAsDataURL(input.files[0]);
+	}
+}

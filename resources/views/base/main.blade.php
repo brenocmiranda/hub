@@ -56,6 +56,13 @@
                                     <small>Usuários</small>
                                 </a>
                                 @break
+                            
+                            @case('profile')
+                                <i class="bi bi-chevron-double-right"></i>
+                                <a href="{{ route('profile.edit') }}" class="text-decoration-none text-dark">
+                                    <small>Perfil</small>
+                                </a>
+                                @break
                         @endswitch
 
                         @switch( Request::segment(3) )

@@ -8,8 +8,9 @@ use App\Http\Controllers\DashboardsCtrl;
 use App\Http\Controllers\IntegrationsCtrl;
 use App\Http\Controllers\LeadsCtrl;
 use App\Http\Controllers\LeadsOriginsCtrl;
-use App\Http\Controllers\PublicCtrl;
 use App\Http\Controllers\PrivateCtrl;
+use App\Http\Controllers\PublicCtrl;
+use App\Http\Controllers\ProfileCtrl;
 use App\Http\Controllers\UsersCtrl;
 use App\Http\Controllers\UsersRolesCtrl;
 use App\Http\Controllers\UsersTokensCtrl;
@@ -40,7 +41,7 @@ Route::group(['prefix' => 'app'], function () {
     Route::get('logout', [PrivateCtrl::class, 'logout'])->name('logout');
 
     // Perfil
-    // Route::singleton('profile', ProfileController::class);
+    Route::singleton('profile', ProfileCtrl::class);
     
     // Dashboard
     Route::group(['prefix' => 'dashboard'], function () {
