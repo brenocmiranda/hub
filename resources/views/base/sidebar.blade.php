@@ -107,11 +107,28 @@
                 </div>
             </li>
             <li class="nav-item">
-                <a href="{{ route('index.integrations') }}"
-                    class="nav-link text-white d-flex gap-2 mb-2 {{ Request::segment(2) == 'integrations' ? 'active' : '' }}">
+                <a href="#"
+                    class="nav-link text-white d-flex gap-2 mb-2 {{ Request::segment(2) == 'integrations' ? 'active' : '' }}"
+                    data-bs-toggle="collapse" data-bs-target="#integrations-collapse" aria-expanded="false">
                     <i class="bi bi-layers"></i>
                     <span class="module-name">Integrações</span>
                 </a>
+                <div class="collapse {{ Request::segment(2) == 'integrations' ? 'show' : '' }}"
+                    id="integrations-collapse">
+                    <ul class="btn-toggle-nav fw-normal small list-unstyled ps-5 ms-2">
+                        <li>
+                            <a href="{{ route('index.integrations') }}"
+                                class="d-inline-flex text-decoration-none mb-2 {{ Request::segment(2) == 'integrations' && Request::segment(3) == '' ? 'text-secondary' : '
+                                text-white' }}">Ver
+                                todas</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('create.integrations') }}"
+                                class="d-inline-flex text-decoration-none mb-2 {{ Request::segment(2) == 'integrations' && Request::segment(3) == 'create' ? 'text-secondary' : '
+                                text-white' }}">Cadastrar</a>
+                        </li>
+                    </ul>
+                </div>
             </li>
             <li class="nav-item">
                 <a href="#"
