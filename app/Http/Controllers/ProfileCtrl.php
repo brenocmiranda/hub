@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Routing\Controller;
 use App\Http\Requests\ProfileRqt;
 use Illuminate\Http\Request;
@@ -26,7 +27,12 @@ class ProfileCtrl extends Controller
 
     public function update(ProfileRqt $request)
     {    
-    
+        
+        Users::find(Auth::user()->id)->update([
+            'name' => $request->name, 
+            'email' => $request->email,
+        ]);
+
         // Handle File Upload
         if($request->hasFile('src')){
             // Get filename with the extension
@@ -47,16 +53,7 @@ class ProfileCtrl extends Controller
 
         if($request->password){
             Users::find(Auth::user()->id)->update([
-                'name' => $request->name, 
-                'email' => $request->email,
-                'src' => $fileNameToStore ? $fileNameToStore : null,
                 'password' => Hash::make($request->password)
-            ]);
-        }else {
-            Users::find(Auth::user()->id)->update([
-                'name' => $request->name, 
-                'email' => $request->email,
-                'src' => $fileNameToStore ? $fileNameToStore : null
             ]);
         }
 

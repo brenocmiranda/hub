@@ -42,7 +42,7 @@ class ProfileRqt extends FormRequest
             'name' => 'required|min:3',
             'email' => 'required|email',
             'password' => 'required_with:password_confirmation|same:password_confirmation',
-            'password_confirmation' => 'required_with:password|same:password',
+            'password_confirmation' => 'nullable',
         ];
     }
 

@@ -74,7 +74,7 @@ Meu perfil
 
                     <div class="col-12 px-4">
                         <a href="javascript:void(0)" id="password"> 
-                            <span>Alterar senha</span>
+                            <span>Alterar sua senha</span>
                             <i class="bi bi-chevron-down"></i>
                         </a>
                     </div>
