@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\BuildingsKeysRqt;
 use App\Models\Buildings;
 use App\Models\BuildingsKeys;
 use App\Models\Companies;
+use App\Models\UsersLogs;
 
 class BuildingsKeysCtrl extends Controller
 {
@@ -44,6 +46,13 @@ class BuildingsKeysCtrl extends Controller
             'active' => $request->active,
         ]);
 
+        // Salvando log
+        UsersLogs::create([
+            'title' => 'Cadastrado de nova chave',
+            'action' => 'Foi realizado o cadastro de uma nova chave: ' . $request->name . '.',
+            'user_id' => Auth::user()->id
+        ]);
+
         return redirect()->route('buildings.keys.index')->with('create', true);
     }
 
@@ -77,11 +86,25 @@ class BuildingsKeysCtrl extends Controller
             'active' => $request->active,
         ]);
 
+        // Salvando log
+        UsersLogs::create([
+            'title' => 'Atualização das informações da chave',
+            'action' => 'Foi realizado a atualização das informações da chave: ' . $request->name . '.',
+            'user_id' => Auth::user()->id
+        ]);
+
         return redirect()->route('buildings.keys.index')->with('edit', true);
     }
 
     public function destroy(string $id)
-    {      
+    {     
+        // Salvando log
+        UsersLogs::create([
+            'title' => 'Exclusão de chave',
+            'action' => 'Foi realizado a exclusão da chave: ' .  BuildingsKeys::find($id)->name . '.',
+            'user_id' => Auth::user()->id
+        ]);
+
         BuildingsKeys::find($id)->delete();
         return redirect()->route('buildings.keys.index')->with('destroy', true);
     }

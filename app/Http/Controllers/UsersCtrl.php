@@ -8,8 +8,9 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use App\Http\Requests\UsersRqt;
 use App\Models\Companies;
-use App\Models\UsersRoles;
 use App\Models\Users;
+use App\Models\UsersRoles;
+use App\Models\UsersLogs;
 use App\Notifications\FirstAccess;
 use App\Notifications\RecoveryPassword;
 
@@ -42,6 +43,13 @@ class UsersCtrl extends Controller
             'attempts' => 0,
         ]);
 
+        // Salvando log
+        UsersLogs::create([
+            'title' => 'Cadastrado de novo usuário',
+            'action' => 'Foi realizado o cadastro de um novo usuário: ' . $request->name . '.',
+            'user_id' => Auth::user()->id
+        ]);
+
         $user->notify(new FirstAccess($user));
 
         return redirect()->route('users.index')->with('create', true);
@@ -67,11 +75,25 @@ class UsersCtrl extends Controller
             'user_role_id' => $request->roles,
         ]);
 
+        // Salvando log
+        UsersLogs::create([
+            'title' => 'Atualização das informações do usuário',
+            'action' => 'Foi realizado a atualização das informações do usuário: ' . $request->name . '.',
+            'user_id' => Auth::user()->id
+        ]);
+
         return redirect()->route('users.index')->with('edit', true);
     }
 
     public function destroy(string $id)
     {      
+        // Salvando log
+        UsersLogs::create([
+            'title' => 'Exclusão de usuário',
+            'action' => 'Foi realizado a exclusão da usuário: ' .  Users::find($id)->name . '.',
+            'user_id' => Auth::user()->id
+        ]);
+
         Users::find($id)->delete();
         return redirect()->route('users.index')->with('destroy', true);
     }
@@ -79,6 +101,14 @@ class UsersCtrl extends Controller
     public function recovery(string $id)
     {    
         $user = Users::find($id);
+
+        // Salvando log
+        UsersLogs::create([
+            'title' => 'Enviando redefinição de senha',
+            'action' => 'Foi realizado o envio do link de redefinição de senha para o usuário.',
+            'user_id' => $user->id
+        ]);
+
         $user->notify(new RecoveryPassword($user));
         return redirect()->route('users.index')->with('recovery', true);
     }

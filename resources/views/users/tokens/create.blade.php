@@ -33,6 +33,7 @@ Novo token
                                 <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}" required>
                                 <label for="name">Nome <abbr>*</abbr></label>
                             </div>
+                            <small class="text-secondary opacity-75">* Esse token estará vinculado ao seu usuário.</small>
                         </div>
                         <div class="submit-field d-flex justify-content-end align-items-center gap-3">
                             <a href="{{ route('users.tokens.index') }}"> <i class="bi bi-arrow-left px-2"></i>Voltar</a>

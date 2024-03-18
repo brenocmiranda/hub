@@ -25,7 +25,7 @@ Meu perfil
                     @csrf
 
                     <div class="col-12 mb-3">
-                        <div class="perfil position-relative m-auto" style="width: 130px; height: 130px">
+                        <div class="btn-perfil position-relative m-auto" style="width: 130px; height: 130px">
                             <div class="border border-secondary-subtle rounded-circle PreviewImage">
                                 @if(Auth::user()->src)
                                     <img src="{{ Auth::user()->src ? asset('storage/profile/' . Auth::user()->src) : '' }}" alt="" width="130" height="130" class="rounded-circle me-1 object-fit-cover">
@@ -117,7 +117,7 @@ Meu perfil
 			}
 		});
 
-		$('.perfil').hover( function(){
+		$('.btn-perfil').hover( function(){
 			$('.btn-photo').fadeIn('fast');
 		} , function() {
 			$('.btn-photo').fadeOut('fast');

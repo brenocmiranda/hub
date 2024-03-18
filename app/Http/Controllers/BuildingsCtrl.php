@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\BuildingsRqt;
 use App\Models\Buildings;
 use App\Models\BuildingsIntegrations;
 use App\Models\BuildingsIntegrationsFields;
 use App\Models\Companies;
 use App\Models\Integrations;
+use App\Models\UsersLogs;
 
 class BuildingsCtrl extends Controller
 {   
@@ -55,6 +57,13 @@ class BuildingsCtrl extends Controller
             }
         }
         
+        // Salvando log
+        UsersLogs::create([
+            'title' => 'Cadastrado de novo empreendimento',
+            'action' => 'Foi realizado o cadastro de um novo empreendimento: ' . $request->name . '.',
+            'user_id' => Auth::user()->id
+        ]);
+
         return redirect()->route('buildings.index')->with('create', true);
     }
 
@@ -103,11 +112,25 @@ class BuildingsCtrl extends Controller
             }
         }
 
+        // Salvando log
+        UsersLogs::create([
+            'title' => 'Atualização das informações do empreendimento',
+            'action' => 'Foi realizado a atualização das informações do empreendimento: ' . $request->name . '.',
+            'user_id' => Auth::user()->id
+        ]);
+
         return redirect()->route('buildings.index')->with('edit', true);
     }
 
     public function destroy(string $id)
     {      
+        // Salvando log
+        UsersLogs::create([
+            'title' => 'Exclusão de empreendimento',
+            'action' => 'Foi realizado a exclusão do empreendimento: ' .  Buildings::find($id)->name . '.',
+            'user_id' => Auth::user()->id
+        ]);
+
         Buildings::find($id)->delete();
         return redirect()->route('buildings.index')->with('destroy', true);
     }

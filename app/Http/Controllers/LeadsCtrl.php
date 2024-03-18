@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\LeadsRqt;
 use App\Models\Buildings;
 use App\Models\Companies;
 use App\Models\Leads;
 use App\Models\LeadsFields;
 use App\Models\LeadsOrigins;
+use App\Models\UsersLogs;
 
 class LeadsCtrl extends Controller
 {   
@@ -60,11 +62,25 @@ class LeadsCtrl extends Controller
             }
         }
 
+        // Salvando log
+        UsersLogs::create([
+            'title' => 'Cadastrado de nova lead',
+            'action' => 'Foi realizado o cadastro de um novo lead: ' . $request->name . '.',
+            'user_id' => Auth::user()->id
+        ]);
+
         return redirect()->route('leads.index')->with('create', true);
     }
 
     public function show(string $id)
     {
+        // Salvando log
+        UsersLogs::create([
+            'title' => 'Visualização de lead',
+            'action' => 'Foi realizada a visualização das informações do lead: ' . Leads::find($id)->name . '.',
+            'user_id' => Auth::user()->id
+        ]);
+
         return view('leads.show')->with('lead', Leads::find($id));
     }
 

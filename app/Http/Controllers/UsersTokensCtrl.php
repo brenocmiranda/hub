@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\UsersTokensRqt;
+use App\Models\UsersLogs;
 
 class UsersTokensCtrl extends Controller
 {   
@@ -25,6 +26,14 @@ class UsersTokensCtrl extends Controller
     public function store(UsersTokensRqt $request)
     {      
         $token = Auth::user()->createToken($request->name);
+
+        // Salvando log
+        UsersLogs::create([
+            'title' => 'Cadastrado de novo token',
+            'action' => 'Foi realizado o cadastro de um novo token: ' . $request->name . '.',
+            'user_id' => Auth::user()->id
+        ]);
+        
         return redirect()->route('users.tokens.index')->with('create', true)->with('token', $token->plainTextToken) ;
     }
 
@@ -45,6 +54,13 @@ class UsersTokensCtrl extends Controller
 
     public function destroy(string $id)
     {      
+        // Salvando log
+        UsersLogs::create([
+            'title' => 'Exclusão de token',
+            'action' => 'Foi realizado a exclusão do token: ' . Auth::user()->tokens()->where('id', $id)->name . '.',
+            'user_id' => Auth::user()->id
+        ]);
+
         Auth::user()->tokens()->where('id', $id)->delete();
         return redirect()->route('users.tokens.index')->with('destroy', true);
     }

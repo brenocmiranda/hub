@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\LeadsOriginsRqt;
 use App\Models\LeadsOrigins;
+use App\Models\UsersLogs;
 
 class LeadsOriginsCtrl extends Controller
 {
@@ -30,6 +32,13 @@ class LeadsOriginsCtrl extends Controller
             'active' => $request->active,
         ]);
 
+        // Salvando log
+        UsersLogs::create([
+            'title' => 'Cadastrado de nova origem',
+            'action' => 'Foi realizado o cadastro de uma nova origem: ' . $request->name . '.',
+            'user_id' => Auth::user()->id
+        ]);
+
         return redirect()->route('leads.origins.index')->with('create', true);
     }
 
@@ -51,11 +60,25 @@ class LeadsOriginsCtrl extends Controller
             'active' => $request->active,
         ]);
 
+        // Salvando log
+        UsersLogs::create([
+            'title' => 'Atualização das informações da origem',
+            'action' => 'Foi realizado a atualização das informações da origem: ' . $request->name . '.',
+            'user_id' => Auth::user()->id
+        ]);
+
         return redirect()->route('leads.origins.index')->with('edit', true);
     }
 
     public function destroy(string $id)
     {      
+        // Salvando log
+        UsersLogs::create([
+            'title' => 'Exclusão da origem',
+            'action' => 'Foi realizado a exclusão da origem: ' .  LeadsOrigins::find($id)->name . '.',
+            'user_id' => Auth::user()->id
+        ]);
+
         LeadsOrigins::find($id)->delete();
         return redirect()->route('leads.origins.index')->with('destroy', true);
     }

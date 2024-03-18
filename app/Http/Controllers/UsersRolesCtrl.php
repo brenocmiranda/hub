@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\UsersRolesRqt;
 use App\Models\UsersRoles;
+use App\Models\UsersLogs;
 
 class UsersRolesCtrl extends Controller
 {   
@@ -30,6 +32,13 @@ class UsersRolesCtrl extends Controller
             'active' => $request->active,
         ]);
 
+        // Salvando log
+        UsersLogs::create([
+            'title' => 'Cadastrado de nova regra',
+            'action' => 'Foi realizado o cadastro de uma nova regra: ' . $request->name . '.',
+            'user_id' => Auth::user()->id
+        ]);
+
         return redirect()->route('users.roles.index')->with('create', true);
     }
     
@@ -51,11 +60,25 @@ class UsersRolesCtrl extends Controller
             'active' => $request->active,
         ]);
 
+        // Salvando log
+        UsersLogs::create([
+            'title' => 'Atualização das informações da regra',
+            'action' => 'Foi realizado a atualização das informações da regra: ' . $request->name . '.',
+            'user_id' => Auth::user()->id
+        ]);
+
         return redirect()->route('users.roles.index')->with('edit', true);
     }
 
     public function destroy(string $id)
     {      
+        // Salvando log
+        UsersLogs::create([
+            'title' => 'Exclusão da regra',
+            'action' => 'Foi realizado a exclusão da regra: ' .  UsersRoles::find($id)->name . '.',
+            'user_id' => Auth::user()->id
+        ]);
+
         UsersRoles::find($id)->delete();
         return redirect()->route('users.roles.index')->with('destroy', true);
     }

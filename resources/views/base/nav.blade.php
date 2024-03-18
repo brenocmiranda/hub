@@ -41,11 +41,11 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-dark text-small shadow" style="">
                             <li><a class="dropdown-item" href="{{ route('profile.edit') }}">Perfil</a></li>
-                            <li><a class="dropdown-item" href="#">Atividades</a></li>
+                            <li><a class="dropdown-item" href="{{ route('activities') }}">Atividades</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="{{ route('logout') }}">Sair</a></li>
+                            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modalExit">Sair</a></li>
                         </ul>
                     </div>
                 </div>

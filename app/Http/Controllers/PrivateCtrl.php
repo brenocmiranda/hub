@@ -6,6 +6,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Companies;
 use App\Models\Leads;
+use App\Models\UsersLogs;
 
 class PrivateCtrl extends Controller
 {   
@@ -27,7 +28,19 @@ class PrivateCtrl extends Controller
 
     public function logout()
     {
+        // Salvando log
+        UsersLogs::create([
+            'title' => 'Efetuando logout',
+            'action' => 'Foi realizado o logout da plataforma.',
+            'user_id' => Auth::user()->id
+        ]);
+
         Auth::logout();
         return redirect(route('login'));
+    }
+
+    public function activities()
+    {
+        return view('system.activities')->with('logs', UsersLogs::orderBy('created_at', 'DESC')->get());
     }
 }

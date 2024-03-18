@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\IntegrationsRqt;
 use App\Models\Integrations;
+use App\Models\UsersLogs;
 
 class IntegrationsCtrl extends Controller
 {   
@@ -35,6 +37,13 @@ class IntegrationsCtrl extends Controller
             'header' => $request->header ? $request->header : "",
         ]);
 
+        // Salvando log
+        UsersLogs::create([
+            'title' => 'Cadastrado de nova integração',
+            'action' => 'Foi realizado o cadastro de uma nova integração: ' . $request->name . '.',
+            'user_id' => Auth::user()->id
+        ]);
+
         return redirect()->route('integrations.index')->with('create', true);
     }
 
@@ -61,11 +70,25 @@ class IntegrationsCtrl extends Controller
             'header' => $request->header ? $request->header : "",
         ]);
 
+        // Salvando log
+        UsersLogs::create([
+            'title' => 'Atualização das informações da integração',
+            'action' => 'Foi realizado a atualização das informações da integração: ' . $request->name . '.',
+            'user_id' => Auth::user()->id
+        ]);
+
         return redirect()->route('integrations.index')->with('edit', true);
     }
 
     public function destroy(string $id)
     {      
+        // Salvando log
+        UsersLogs::create([
+            'title' => 'Exclusão da integração',
+            'action' => 'Foi realizado a exclusão da integração: ' .  Integrations::find($id)->name . '.',
+            'user_id' => Auth::user()->id
+        ]);
+
         Integrations::find($id)->delete();
         return redirect()->route('integrations.index')->with('destroy', true);
     }

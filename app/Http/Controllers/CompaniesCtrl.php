@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\CompaniesRqt;
 use App\Models\Companies;
+use App\Models\UsersLogs;
 
 class CompaniesCtrl extends Controller
 {   
@@ -30,6 +32,13 @@ class CompaniesCtrl extends Controller
             'active' => $request->active,
         ]);
 
+        // Salvando log
+        UsersLogs::create([
+            'title' => 'Cadastrado de nova empresa',
+            'action' => 'Foi realizado o cadastro de uma nova empresa: ' . $request->name . '.',
+            'user_id' => Auth::user()->id
+        ]);
+
         return redirect()->route('companies.index')->with('create', true);
     }
 
@@ -51,11 +60,25 @@ class CompaniesCtrl extends Controller
             'active' => $request->active,
         ]);
 
+        // Salvando log
+        UsersLogs::create([
+            'title' => 'Atualização das informações da empresa',
+            'action' => 'Foi realizado a atualização das informações da empresa: ' . $request->name . '.',
+            'user_id' => Auth::user()->id
+        ]);
+
         return redirect()->route('companies.index')->with('edit', true);
     }
 
     public function destroy(string $id)
     {      
+        // Salvando log
+        UsersLogs::create([
+            'title' => 'Exclusão da empresa',
+            'action' => 'Foi realizado a exclusão da empresa: ' .  Companies::find($id)->name . '.',
+            'user_id' => Auth::user()->id
+        ]);
+
         Companies::find($id)->delete();
         return redirect()->route('companies.index')->with('destroy', true);
     }

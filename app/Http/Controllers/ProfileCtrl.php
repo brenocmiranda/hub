@@ -8,6 +8,7 @@ use Illuminate\Routing\Controller;
 use App\Http\Requests\ProfileRqt;
 use Illuminate\Http\Request;
 use App\Models\Users;
+use App\Models\UsersLogs;
 
 class ProfileCtrl extends Controller
 {
@@ -56,6 +57,13 @@ class ProfileCtrl extends Controller
                 'password' => Hash::make($request->password)
             ]);
         }
+
+        // Salvando log
+        UsersLogs::create([
+            'title' => 'Atualização do perfil',
+            'action' => 'Foi realizado a atualização das suas informações de perfil.',
+            'user_id' => Auth::user()->id
+        ]);
 
         return redirect()->route('profile.edit')->with('edit', true);
     }

@@ -40,6 +40,9 @@ Route::group(['prefix' => 'app'], function () {
     Route::get('home', [PrivateCtrl::class, 'home'])->name('home');
     Route::get('logout', [PrivateCtrl::class, 'logout'])->name('logout');
 
+    // Atividades
+    Route::get('activities', [PrivateCtrl::class, 'activities'])->name('activities');
+
     // Perfil
     Route::singleton('profile', ProfileCtrl::class);
     

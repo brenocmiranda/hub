@@ -63,6 +63,13 @@
                                     <small>Perfil</small>
                                 </a>
                                 @break
+                            
+                            @case('activities')
+                                <i class="bi bi-chevron-double-right"></i>
+                                <a href="{{ route('activities') }}" class="text-decoration-none text-dark">
+                                    <small>Atividades</small>
+                                </a>
+                                @break
                         @endswitch
 
                         @switch( Request::segment(3) )
@@ -175,6 +182,21 @@
                     @csrf
                     <button type="submit" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0 border-end fw-bold w-100">Sim, excluir!</button>
                 </form>
+                <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0" data-bs-dismiss="modal">Não</button>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade p-4 py-md-5" tabindex="-1" role="dialog" id="modalExit" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content rounded-3 shadow">
+            <div class="modal-body p-4 text-center">
+                <h5>Tem certeza que deseja sair?</h5>
+                <p class="mb-0">Você será desconectado da plataforma.</p>
+            </div>
+            <div class="modal-footer flex-nowrap p-0">
+                <a href="{{ route('logout') }}" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0 border-end fw-bold">Sim, excluir!</a>
                 <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0" data-bs-dismiss="modal">Não</button>
             </div>
             </div>

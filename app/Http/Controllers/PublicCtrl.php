@@ -11,11 +11,7 @@ use App\Http\Requests\LoginRqt;
 use App\Http\Requests\RecoveryRqt;
 use App\Http\Requests\VerifyRqt;
 use App\Models\Users;
-use App\Models\UsersRoles;
-use App\Models\Companies;
-use App\Models\Leads;
-use App\Models\Buildings;
-use App\Models\LeadsOrigins;
+use App\Models\UsersLogs;
 use App\Notifications\RecoveryPassword;
 use App\Notifications\ResetPassword;
 
@@ -49,6 +45,14 @@ class PublicCtrl extends Controller
             if (Users::where('email', $request->email)->where('active', 1)->first()) {
                 Users::where('email', $request->email)->update(['attempts' => 0]);
                 $request->session()->regenerate();
+
+                // Salvando log
+                UsersLogs::create([
+                    'title' => 'Efetuando o logon',
+                    'action' => 'Foi realizado o logon na plataforma.',
+                    'user_id' => Users::where('email', $request->email)->first()->id
+                ]);
+
                 return redirect()->intended(route('home'));
             } elseif (Users::where('email', $request->email)->where('active', 0)->first()) {
                 return back()->withErrors([
@@ -63,6 +67,14 @@ class PublicCtrl extends Controller
                     'password' => 'A senha inserida não confere.',
                 ])->withInput($request->input());
             } else {
+
+                // Salvando log
+                UsersLogs::create([
+                    'title' => 'Bloqueio de usuário',
+                    'action' => 'Foi realizado o bloqueio do usuários devido a quantidade de tentativas falhas.',
+                    'user_id' => Users::where('email', $request->email)->first()->id
+                ]);
+
                 return back()->withErrors([
                     'active' => 'O seu usuário foi bloqueado devido a quantidade de tentativas falhas. Entre em contato com o administrador.',
                 ])->withInput($request->input());
@@ -84,6 +96,14 @@ class PublicCtrl extends Controller
         $user = Users::where('email', $request->email)->first();
         if(!empty($user->email)){ 
             $user->notify(new RecoveryPassword($user));
+           
+            // Salvando log
+            UsersLogs::create([
+                'title' => 'Solicitação de recuperação de senha',
+                'action' => 'Foi realizada a solicitação de recuperação de senha do seu usuário.',
+                'user_id' => Users::where('email', $request->email)->first()->id
+            ]);
+
             return redirect()->route('login')->with('mailto', true);
         } else {
             return back()->withErrors([
@@ -118,6 +138,13 @@ class PublicCtrl extends Controller
             'email_verified_at' => date("Y-m-d H:i:s"),
             'active' => 1,
             'attempts' => 0,
+        ]);
+
+        // Salvando log
+        UsersLogs::create([
+            'title' => 'Troca de senha',
+            'action' => 'Foi realizada a alteração da sua senha de login.',
+            'user_id' => Users::find($user->id)->id
         ]);
 
         $user->notify(new ResetPassword($user));
