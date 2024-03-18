@@ -39,8 +39,9 @@ class IntegrationsCtrl extends Controller
 
         // Salvando log
         UsersLogs::create([
-            'title' => 'Cadastrado de nova integração',
-            'action' => 'Foi realizado o cadastro de uma nova integração: ' . $request->name . '.',
+            'title' => 'Cadastro de nova integração',
+            'description' => 'Foi realizado o cadastro de uma nova integração: ' . $request->name . '.',
+            'action' => 'create',
             'user_id' => Auth::user()->id
         ]);
 
@@ -73,7 +74,8 @@ class IntegrationsCtrl extends Controller
         // Salvando log
         UsersLogs::create([
             'title' => 'Atualização das informações da integração',
-            'action' => 'Foi realizado a atualização das informações da integração: ' . $request->name . '.',
+            'description' => 'Foi realizado a atualização das informações da integração: ' . $request->name . '.',
+            'action' => 'update',
             'user_id' => Auth::user()->id
         ]);
 
@@ -85,10 +87,11 @@ class IntegrationsCtrl extends Controller
         // Salvando log
         UsersLogs::create([
             'title' => 'Exclusão da integração',
-            'action' => 'Foi realizado a exclusão da integração: ' .  Integrations::find($id)->name . '.',
+            'description' => 'Foi realizado a exclusão da integração: ' .  Integrations::find($id)->name . '.',
+            'action' => 'destroy',
             'user_id' => Auth::user()->id
         ]);
-
+        
         Integrations::find($id)->delete();
         return redirect()->route('integrations.index')->with('destroy', true);
     }

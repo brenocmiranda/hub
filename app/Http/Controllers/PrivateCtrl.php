@@ -31,7 +31,8 @@ class PrivateCtrl extends Controller
         // Salvando log
         UsersLogs::create([
             'title' => 'Efetuando logout',
-            'action' => 'Foi realizado o logout da plataforma.',
+            'description' => 'Foi realizado o logout da plataforma.',
+            'action' => 'logout',
             'user_id' => Auth::user()->id
         ]);
 

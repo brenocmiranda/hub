@@ -45,8 +45,9 @@ class UsersCtrl extends Controller
 
         // Salvando log
         UsersLogs::create([
-            'title' => 'Cadastrado de novo usuário',
-            'action' => 'Foi realizado o cadastro de um novo usuário: ' . $request->name . '.',
+            'title' => 'Cadastro de novo usuário',
+            'description' => 'Foi realizado o cadastro de um novo usuário: ' . $request->name . '.',
+            'action' => 'create',
             'user_id' => Auth::user()->id
         ]);
 
@@ -78,7 +79,8 @@ class UsersCtrl extends Controller
         // Salvando log
         UsersLogs::create([
             'title' => 'Atualização das informações do usuário',
-            'action' => 'Foi realizado a atualização das informações do usuário: ' . $request->name . '.',
+            'description' => 'Foi realizado a atualização das informações do usuário: ' . $request->name . '.',
+            'action' => 'update',
             'user_id' => Auth::user()->id
         ]);
 
@@ -86,11 +88,12 @@ class UsersCtrl extends Controller
     }
 
     public function destroy(string $id)
-    {      
+    {   
         // Salvando log
         UsersLogs::create([
             'title' => 'Exclusão de usuário',
-            'action' => 'Foi realizado a exclusão da usuário: ' .  Users::find($id)->name . '.',
+            'description' => 'Foi realizado a exclusão da usuário: ' .  Users::find($id)->name . '.',
+            'action' => 'destroy',
             'user_id' => Auth::user()->id
         ]);
 
@@ -105,7 +108,8 @@ class UsersCtrl extends Controller
         // Salvando log
         UsersLogs::create([
             'title' => 'Enviando redefinição de senha',
-            'action' => 'Foi realizado o envio do link de redefinição de senha para o usuário.',
+            'description' => 'Foi realizado o envio do link de redefinição de senha para o usuário.',
+            'action' => 'recovery',
             'user_id' => $user->id
         ]);
 

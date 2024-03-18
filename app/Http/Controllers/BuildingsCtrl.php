@@ -59,8 +59,9 @@ class BuildingsCtrl extends Controller
         
         // Salvando log
         UsersLogs::create([
-            'title' => 'Cadastrado de novo empreendimento',
-            'action' => 'Foi realizado o cadastro de um novo empreendimento: ' . $request->name . '.',
+            'title' => 'Cadastro de novo empreendimento',
+            'description' => 'Foi realizado o cadastro de um novo empreendimento: ' . $request->name . '.',
+            'action' => 'create',
             'user_id' => Auth::user()->id
         ]);
 
@@ -115,7 +116,8 @@ class BuildingsCtrl extends Controller
         // Salvando log
         UsersLogs::create([
             'title' => 'Atualização das informações do empreendimento',
-            'action' => 'Foi realizado a atualização das informações do empreendimento: ' . $request->name . '.',
+            'description' => 'Foi realizado a atualização das informações do empreendimento: ' . $request->name . '.',
+            'action' => 'update',
             'user_id' => Auth::user()->id
         ]);
 
@@ -123,14 +125,15 @@ class BuildingsCtrl extends Controller
     }
 
     public function destroy(string $id)
-    {      
+    {   
         // Salvando log
         UsersLogs::create([
             'title' => 'Exclusão de empreendimento',
-            'action' => 'Foi realizado a exclusão do empreendimento: ' .  Buildings::find($id)->name . '.',
+            'description' => 'Foi realizado a exclusão do empreendimento: ' .  Buildings::find($id)->name . '.',
+            'action' => 'destroy',
             'user_id' => Auth::user()->id
         ]);
-
+        
         Buildings::find($id)->delete();
         return redirect()->route('buildings.index')->with('destroy', true);
     }

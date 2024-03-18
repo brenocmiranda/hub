@@ -29,11 +29,12 @@ class UsersTokensCtrl extends Controller
 
         // Salvando log
         UsersLogs::create([
-            'title' => 'Cadastrado de novo token',
-            'action' => 'Foi realizado o cadastro de um novo token: ' . $request->name . '.',
+            'title' => 'Cadastro de novo token',
+            'description' => 'Foi realizado o cadastro de um novo token: ' . $request->name . '.',
+            'action' => 'create',
             'user_id' => Auth::user()->id
         ]);
-        
+
         return redirect()->route('users.tokens.index')->with('create', true)->with('token', $token->plainTextToken) ;
     }
 
@@ -56,8 +57,9 @@ class UsersTokensCtrl extends Controller
     {      
         // Salvando log
         UsersLogs::create([
-            'title' => 'Exclusão de token',
-            'action' => 'Foi realizado a exclusão do token: ' . Auth::user()->tokens()->where('id', $id)->name . '.',
+            'title' => 'Exclusão da token',
+            'description' => 'Foi realizado a exclusão do token: ' .  Auth::user()->tokens()->where('id', $id)->first()->name . '.',
+            'action' => 'destroy',
             'user_id' => Auth::user()->id
         ]);
 

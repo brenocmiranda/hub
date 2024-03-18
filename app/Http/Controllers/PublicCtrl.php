@@ -49,7 +49,8 @@ class PublicCtrl extends Controller
                 // Salvando log
                 UsersLogs::create([
                     'title' => 'Efetuando o logon',
-                    'action' => 'Foi realizado o logon na plataforma.',
+                    'description' => 'Foi realizado o logon na plataforma.',
+                    'action' => 'login',
                     'user_id' => Users::where('email', $request->email)->first()->id
                 ]);
 
@@ -71,7 +72,8 @@ class PublicCtrl extends Controller
                 // Salvando log
                 UsersLogs::create([
                     'title' => 'Bloqueio de usuário',
-                    'action' => 'Foi realizado o bloqueio do usuários devido a quantidade de tentativas falhas.',
+                    'description' => 'Foi realizado o bloqueio do usuários devido a quantidade de tentativas falhas.',
+                    'action' => 'block',
                     'user_id' => Users::where('email', $request->email)->first()->id
                 ]);
 
@@ -100,7 +102,8 @@ class PublicCtrl extends Controller
             // Salvando log
             UsersLogs::create([
                 'title' => 'Solicitação de recuperação de senha',
-                'action' => 'Foi realizada a solicitação de recuperação de senha do seu usuário.',
+                'description' => 'Foi realizada a solicitação de recuperação de senha do seu usuário.',
+                'action' => 'recovery',
                 'user_id' => Users::where('email', $request->email)->first()->id
             ]);
 
@@ -143,7 +146,8 @@ class PublicCtrl extends Controller
         // Salvando log
         UsersLogs::create([
             'title' => 'Troca de senha',
-            'action' => 'Foi realizada a alteração da sua senha de login.',
+            'description' => 'Foi realizada a alteração da sua senha de login.',
+            'reset' => 'reset',
             'user_id' => Users::find($user->id)->id
         ]);
 

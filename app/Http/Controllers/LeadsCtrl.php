@@ -64,8 +64,9 @@ class LeadsCtrl extends Controller
 
         // Salvando log
         UsersLogs::create([
-            'title' => 'Cadastrado de nova lead',
-            'action' => 'Foi realizado o cadastro de um novo lead: ' . $request->name . '.',
+            'title' => 'Cadastro de novo lead',
+            'description' => 'Foi realizado o cadastro de um novo lead: ' . $request->name . '.',
+            'action' => 'create',
             'user_id' => Auth::user()->id
         ]);
 
@@ -73,11 +74,12 @@ class LeadsCtrl extends Controller
     }
 
     public function show(string $id)
-    {
+    {   
         // Salvando log
         UsersLogs::create([
             'title' => 'Visualização de lead',
-            'action' => 'Foi realizada a visualização das informações do lead: ' . Leads::find($id)->name . '.',
+            'description' => 'Foi realizada a visualização das informações do lead: ' . Leads::find($id)->name . '.',
+            'action' => 'show',
             'user_id' => Auth::user()->id
         ]);
 

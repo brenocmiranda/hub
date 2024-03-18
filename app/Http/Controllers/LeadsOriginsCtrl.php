@@ -34,8 +34,9 @@ class LeadsOriginsCtrl extends Controller
 
         // Salvando log
         UsersLogs::create([
-            'title' => 'Cadastrado de nova origem',
-            'action' => 'Foi realizado o cadastro de uma nova origem: ' . $request->name . '.',
+            'title' => 'Cadastro de nova origem',
+            'description' => 'Foi realizado o cadastro de uma nova origem: ' . $request->name . '.',
+            'action' => 'create',
             'user_id' => Auth::user()->id
         ]);
 
@@ -63,7 +64,8 @@ class LeadsOriginsCtrl extends Controller
         // Salvando log
         UsersLogs::create([
             'title' => 'Atualização das informações da origem',
-            'action' => 'Foi realizado a atualização das informações da origem: ' . $request->name . '.',
+            'description' => 'Foi realizado a atualização das informações da origem: ' . $request->name . '.',
+            'action' => 'update',
             'user_id' => Auth::user()->id
         ]);
 
@@ -75,7 +77,8 @@ class LeadsOriginsCtrl extends Controller
         // Salvando log
         UsersLogs::create([
             'title' => 'Exclusão da origem',
-            'action' => 'Foi realizado a exclusão da origem: ' .  LeadsOrigins::find($id)->name . '.',
+            'description' => 'Foi realizado a exclusão da origem: ' .  LeadsOrigins::find($id)->name . '.',
+            'action' => 'destroy',
             'user_id' => Auth::user()->id
         ]);
 

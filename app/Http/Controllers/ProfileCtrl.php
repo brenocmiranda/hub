@@ -61,7 +61,8 @@ class ProfileCtrl extends Controller
         // Salvando log
         UsersLogs::create([
             'title' => 'Atualização do perfil',
-            'action' => 'Foi realizado a atualização das suas informações de perfil.',
+            'description' => 'Foi realizado a atualização das suas informações de perfil.',
+            'action' => 'update',
             'user_id' => Auth::user()->id
         ]);
 

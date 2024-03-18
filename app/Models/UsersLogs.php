@@ -11,6 +11,7 @@ class UsersLogs extends Model
 
     protected $fillable = [
         'title',
+        'description',
         'action',
         'user_id',
     ];

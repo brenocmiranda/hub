@@ -48,8 +48,9 @@ class BuildingsKeysCtrl extends Controller
 
         // Salvando log
         UsersLogs::create([
-            'title' => 'Cadastrado de nova chave',
-            'action' => 'Foi realizado o cadastro de uma nova chave: ' . $request->name . '.',
+            'title' => 'Cadastro de nova chave',
+            'description' => 'Foi realizado o cadastro de uma nova chave: ' . $request->name . '.',
+            'action' => 'create',
             'user_id' => Auth::user()->id
         ]);
 
@@ -89,7 +90,8 @@ class BuildingsKeysCtrl extends Controller
         // Salvando log
         UsersLogs::create([
             'title' => 'Atualização das informações da chave',
-            'action' => 'Foi realizado a atualização das informações da chave: ' . $request->name . '.',
+            'description' => 'Foi realizado a atualização das informações da chave: ' . $request->name . '.',
+            'action' => 'update',
             'user_id' => Auth::user()->id
         ]);
 
@@ -101,7 +103,8 @@ class BuildingsKeysCtrl extends Controller
         // Salvando log
         UsersLogs::create([
             'title' => 'Exclusão de chave',
-            'action' => 'Foi realizado a exclusão da chave: ' .  BuildingsKeys::find($id)->name . '.',
+            'description' => 'Foi realizado a exclusão da chave: ' .  BuildingsKeys::find($id)->name . '.',
+            'action' => 'destroy',
             'user_id' => Auth::user()->id
         ]);
 

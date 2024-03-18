@@ -34,8 +34,9 @@ class UsersRolesCtrl extends Controller
 
         // Salvando log
         UsersLogs::create([
-            'title' => 'Cadastrado de nova regra',
-            'action' => 'Foi realizado o cadastro de uma nova regra: ' . $request->name . '.',
+            'title' => 'Cadastro de nova regra',
+            'description' => 'Foi realizado o cadastro de uma nova regra: ' . $request->name . '.',
+            'action' => 'create',
             'user_id' => Auth::user()->id
         ]);
 
@@ -63,7 +64,8 @@ class UsersRolesCtrl extends Controller
         // Salvando log
         UsersLogs::create([
             'title' => 'Atualização das informações da regra',
-            'action' => 'Foi realizado a atualização das informações da regra: ' . $request->name . '.',
+            'description' => 'Foi realizado a atualização das informações da regra: ' . $request->name . '.',
+            'action' => 'update',
             'user_id' => Auth::user()->id
         ]);
 
@@ -71,11 +73,12 @@ class UsersRolesCtrl extends Controller
     }
 
     public function destroy(string $id)
-    {      
+    {   
         // Salvando log
         UsersLogs::create([
             'title' => 'Exclusão da regra',
-            'action' => 'Foi realizado a exclusão da regra: ' .  UsersRoles::find($id)->name . '.',
+            'description' => 'Foi realizado a exclusão da regra: ' .  UsersRoles::find($id)->name . '.',
+            'action' => 'destroy',
             'user_id' => Auth::user()->id
         ]);
 

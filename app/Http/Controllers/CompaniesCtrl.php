@@ -34,8 +34,9 @@ class CompaniesCtrl extends Controller
 
         // Salvando log
         UsersLogs::create([
-            'title' => 'Cadastrado de nova empresa',
-            'action' => 'Foi realizado o cadastro de uma nova empresa: ' . $request->name . '.',
+            'title' => 'Cadastro de nova empresa',
+            'description' => 'Foi realizado o cadastro de uma nova empresa: ' . $request->name . '.',
+            'action' => 'create',
             'user_id' => Auth::user()->id
         ]);
 
@@ -63,7 +64,8 @@ class CompaniesCtrl extends Controller
         // Salvando log
         UsersLogs::create([
             'title' => 'Atualização das informações da empresa',
-            'action' => 'Foi realizado a atualização das informações da empresa: ' . $request->name . '.',
+            'description' => 'Foi realizado a atualização das informações da empresa: ' . $request->name . '.',
+            'action' => 'update',
             'user_id' => Auth::user()->id
         ]);
 
@@ -71,11 +73,12 @@ class CompaniesCtrl extends Controller
     }
 
     public function destroy(string $id)
-    {      
+    {     
         // Salvando log
         UsersLogs::create([
             'title' => 'Exclusão da empresa',
-            'action' => 'Foi realizado a exclusão da empresa: ' .  Companies::find($id)->name . '.',
+            'description' => 'Foi realizado a exclusão da empresa: ' .  Companies::find($id)->name . '.',
+            'action' => 'destroy',
             'user_id' => Auth::user()->id
         ]);
 
