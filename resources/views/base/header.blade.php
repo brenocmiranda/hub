@@ -11,7 +11,7 @@
     <meta name="description" content="Plataforma de apoio a integração entre CRMs.">
     <meta name="author" content="BC Desenvolvimento">
 
-    <title>@yield('title') &bull; Hub Integrações </title>
+    <title>@hasSection('title') @yield('title') - @endif Hub Integrações </title>
 
     <!-- Icon -->
     <link rel="shortcut icon" href="{{ asset('images/favicon.ico') }}">

@@ -5,7 +5,7 @@ const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]
 const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
 
 // Menu mobile
-if(localStorage.getItem('menu') == "mobile"){
+if(localStorage.getItem('menu') == "mobile" || $(window).width() < 768){
     $('aside').removeClass('desktop');
     $('aside').addClass('mobile');
 } else {

@@ -105,9 +105,9 @@ Novo empreendimento
                 <span class="badge text-bg-secondary">$utm_source</span>
                 <span class="badge text-bg-secondary">$utm_source_xrm</span>
                 <span class="badge text-bg-secondary">$utm_medium</span>
-                <span class="badge text-bg-secondary">$utm_campaing</span>
-                <span class="badge text-bg-secondary">$utm_term</span>
+                <span class="badge text-bg-secondary">$utm_campaign</span>
                 <span class="badge text-bg-secondary">$utm_content</span>
+                <span class="badge text-bg-secondary">$utm_term</span>
                 <span class="badge text-bg-secondary">$nomeEmpreendimento</span>
                 <span class="badge text-bg-secondary">$message</span>
                 <span class="badge text-bg-secondary">$numberTicket</span>

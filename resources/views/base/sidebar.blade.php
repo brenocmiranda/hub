@@ -2,7 +2,7 @@
     <div class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark h-100">
         <a href="{{ route('home') }}" class="d-flex align-items-center justify-content-center mb-3 mb-md-0">
             <img src="{{ asset('images/logo-white.png') }}" width="170" class="img-desktop" />
-            <img src="{{ asset('images/favicon-white.png') }}" width="40" class="img-mobile rounded-2" />
+            <img src="{{ asset('images/favicon.ico') }}" width="40" class="img-mobile rounded-2" />
         </a>
         <hr>
         <ul class="nav nav-pills flex-column mb-auto">

@@ -42,6 +42,6 @@ class PrivateCtrl extends Controller
 
     public function activities()
     {
-        return view('system.activities')->with('logs', UsersLogs::orderBy('created_at', 'DESC')->get());
+        return view('system.activities')->with('logs', UsersLogs::where('user_id', Auth::user()->id)->orderBy('created_at', 'DESC')->get());
     }
 }
