@@ -79,7 +79,9 @@
                                     <small>Cadastrar</small>
                                 </a>
                                 @break
+                        @endswitch
 
+                        @switch( Request::segment(4) )
                             @case('edit')
                                 <i class="bi bi-chevron-double-right"></i>
                                 <a href="{{ '../' . Request::segment(3) . '/' . Request::segment(4) }}" class="text-decoration-none text-dark">
@@ -120,17 +122,19 @@
                                 <a href="{{ route('buildings.keys.index') }}" class="text-decoration-none text-dark">
                                     <small>Chaves</small>
                                 </a>
-                                @break                           
+                                @break
                         @endswitch
 
-                        @switch( Request::segment(4) )
+                        @switch( Request::segment(5) )
                             @case('create')
                                 <i class="bi bi-chevron-double-right"></i>
                                 <a href="{{ './' . Request::segment(4) }}" class="text-decoration-none text-dark">
                                     <small>Cadastrar</small>
                                 </a>
                                 @break
+                        @endswitch
 
+                        @switch( Request::segment(6) )
                             @case('edit')
                                 <i class="bi bi-chevron-double-right"></i>
                                 <a href="{{ '../' . Request::segment(4) . '/' . Request::segment(4) }}" class="text-decoration-none text-dark">
