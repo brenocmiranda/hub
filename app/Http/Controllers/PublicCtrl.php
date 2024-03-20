@@ -35,12 +35,6 @@ class PublicCtrl extends Controller
             'password' => ['required'],
         ]);
 
-        //$companies = Companies::factory()->create();
-        //$usersroles = UsersRoles::factory()->create();
-        //$users = Users::factory()->create();
-        //$buildings = Buildings::factory()->create();
-        //$leadsorigins = LeadsOrigins::factory()->create();
-
         if (Auth::attempt($credentials, $request->conected)) {
             if (Users::where('email', $request->email)->where('active', 1)->first()) {
                 Users::where('email', $request->email)->update(['attempts' => 0]);

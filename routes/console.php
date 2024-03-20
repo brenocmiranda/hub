@@ -2,7 +2,11 @@
 
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
-
+use App\Models\Companies;
+use App\Models\UsersRoles;
+use App\Models\Users;
+use App\Models\Buildings;
+use App\Models\LeadsOrigins;
 /*
 |--------------------------------------------------------------------------
 | Console Routes
@@ -14,6 +18,10 @@ use Illuminate\Support\Facades\Artisan;
 |
 */
 
-Artisan::command('inspire', function () {
-    $this->comment(Inspiring::quote());
-})->purpose('Display an inspiring quote');
+Artisan::command('factory', function () {
+    $companies = Companies::factory()->create();
+    $usersroles = UsersRoles::factory()->create();
+    $users = Users::factory()->create();
+    $buildings = Buildings::factory()->create();
+    $leadsorigins = LeadsOrigins::factory()->create();
+})->purpose('Executar configurações default do sistema.');
