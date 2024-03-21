@@ -7,6 +7,8 @@ use App\Models\UsersRoles;
 use App\Models\Users;
 use App\Models\Buildings;
 use App\Models\LeadsOrigins;
+use App\Jobs\ProcessIntegrationsJob;
+
 /*
 |--------------------------------------------------------------------------
 | Console Routes
@@ -25,3 +27,7 @@ Artisan::command('factory', function () {
     $buildings = Buildings::factory()->create();
     $leadsorigins = LeadsOrigins::factory()->create();
 })->purpose('Executar configurações default do sistema.');
+
+Artisan::command('integrations', function () {
+    ProcessIntegrationsJob::dispatch(2);    
+})->purpose('Testar processo de integração por lead.');

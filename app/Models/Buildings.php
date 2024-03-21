@@ -23,7 +23,7 @@ class Buildings extends Model
 
     public function RelationIntegrations()
     {
-        return $this->belongsToMany(Integrations::class, 'buildings_has_integrations', 'building_id', 'integration_id');
+        return $this->belongsToMany(Integrations::class, 'buildings_has_integrations', 'building_id', 'integration_id')->whereNull('buildings_has_integrations.deleted_at');
     }
 
     public function RelationIntegrationsFields()

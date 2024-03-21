@@ -89,7 +89,7 @@ Novo empreendimento
         <div class="modal-header p-4 justify-content-center text-center">
             <h3 class="mb-0 fw-bold">Variáveis cadastradas</h3>
         </div>
-      <div class="modal-body p-4 text-center">
+        <div class="modal-body p-4 text-center">
             <div class="d-flex flex-wrap justify-content-center gap-2 mb-4">
                 <span class="badge text-bg-secondary">$nomeCompleto</span>
                 <span class="badge text-bg-secondary">$nomeInicial</span>
@@ -101,19 +101,19 @@ Novo empreendimento
                 <span class="badge text-bg-secondary">$email</span>
                 <span class="badge text-bg-secondary">$pp</span>
                 <span class="badge text-bg-secondary">$origin</span>
-                <span class="badge text-bg-secondary">$numberContact</span>
+                <span class="badge text-bg-secondary">$utm_xrm</span>
                 <span class="badge text-bg-secondary">$utm_source</span>
-                <span class="badge text-bg-secondary">$utm_source_xrm</span>
                 <span class="badge text-bg-secondary">$utm_medium</span>
                 <span class="badge text-bg-secondary">$utm_campaign</span>
                 <span class="badge text-bg-secondary">$utm_content</span>
                 <span class="badge text-bg-secondary">$utm_term</span>
                 <span class="badge text-bg-secondary">$nomeEmpreendimento</span>
                 <span class="badge text-bg-secondary">$message</span>
-                <span class="badge text-bg-secondary">$numberTicket</span>
+                <span class="badge text-bg-secondary">$PartyNumber</span>
+                <span class="badge text-bg-secondary">$SrNumber</span>
             </div>
-            <p class="mb-0">Sempre que utilizar uma das variáveis aplicar chaves antes e após.</p>
-            <small class="fw-bold">Exemplo: @{{ $nomeCompleto }}</small>
+            <p class="mb-0">Segue o exemplo de como utilizar uma das variáveis:</p>
+            <small class="fw-bold"> $nomeCompleto </small>
       </div>
       <div class="modal-footer flex-nowrap p-0">
         <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-12 py-3 m-0 rounded-0" data-bs-dismiss="modal">Fechar</button>

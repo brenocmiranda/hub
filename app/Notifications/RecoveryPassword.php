@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class RecoveryPassword extends Notification
+class RecoveryPassword extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -51,6 +51,18 @@ class RecoveryPassword extends Notification
     {
         return [
             //
+        ];
+    }
+
+    /**
+     * Determine which queues should be used for each notification channel.
+     *
+     * @return array<string, string>
+     */
+    public function viaQueues(): array
+    {
+        return [
+            'mail' => 'email',
         ];
     }
 }

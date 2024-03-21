@@ -11,6 +11,7 @@ use App\Models\Leads;
 use App\Models\LeadsFields;
 use App\Models\LeadsOrigins;
 use App\Models\UsersLogs;
+use App\Jobs\ProcessIntegrationsJob;
 
 class LeadsCtrl extends Controller
 {   
@@ -40,11 +41,14 @@ class LeadsCtrl extends Controller
     }
 
     public function store(LeadsRqt $request)
-    {      
+    {   
+        $tel = preg_replace( '/\D/', '', str_replace( '+55', '', $request->phone ));
+	    $phone = strlen( $tel ) < 10  ? substr( $tel . str_repeat( '9', 11 ), 0, 11 ) : $tel;
+
         $lead = Leads::create([
             'api' => false, 
             'name' => $request->name, 
-            'phone' => $request->phone, 
+            'phone' => $phone, 
             'email' => $request->email,
             'building_id' => $request->building,
             'leads_origin_id' => $request->origin,
@@ -61,6 +65,9 @@ class LeadsCtrl extends Controller
                 ]);
             }
         }
+
+        // Enviando para as execução das integrações
+        ProcessIntegrationsJob::dispatch($lead->id);
 
         // Salvando log
         UsersLogs::create([

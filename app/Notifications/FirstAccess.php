@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class FirstAccess extends Notification
+class FirstAccess extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -20,6 +20,7 @@ class FirstAccess extends Notification
     {
         $this->user = $user;
     }
+    
 
     /**
      * Get the notification's delivery channels.
@@ -51,6 +52,18 @@ class FirstAccess extends Notification
     {
         return [
             //
+        ];
+    }
+
+    /**
+     * Determine which queues should be used for each notification channel.
+     *
+     * @return array<string, string>
+     */
+    public function viaQueues(): array
+    {
+        return [
+            'mail' => 'email',
         ];
     }
 }

@@ -81,25 +81,27 @@ Editar empreendimento
                                                 </select> 
                                                 <label for="integration-{{ $index }}">Integrações <abbr>*</abbr></label> 
                                             </div> 
-                                            @foreach($building->RelationIntegrationsFields as $i => $b)
-                                                @if($b->buildings_has_integrations_integration_id === $buildingIntegration->id)
-                                                    <div class="row"> 
-                                                        <div class="input-field col-6"> 
-                                                            <div class="form-floating"> 
-                                                                <input type="text" class="form-control" id="integrationFieldName-{{$i}}" name="array[{{$index}}][nameField][]" value="{{ $b->name }}" required> 
-                                                                <label for="integrationFieldName-{{$i}}">Nome do campo <abbr>*</abbr></label> 
+                                            @if($building->RelationIntegrationsFields)
+                                                @foreach($building->RelationIntegrationsFields as $i => $b)
+                                                    @if($b->buildings_has_integrations_integration_id === $buildingIntegration->id)
+                                                        <div class="row"> 
+                                                            <div class="input-field col-6"> 
+                                                                <div class="form-floating"> 
+                                                                    <input type="text" class="form-control" id="integrationFieldName-{{$i}}" name="array[{{$index}}][nameField][]" value="{{ $b->name }}" required> 
+                                                                    <label for="integrationFieldName-{{$i}}">Nome do campo <abbr>*</abbr></label> 
+                                                                </div> 
                                                             </div> 
-                                                        </div> 
-                                                        <div class="input-field col-6 d-flex align-items-center gap-2"> 
-                                                            <div class="form-floating w-100"> 
-                                                                <input type="text" class="form-control" id="integrationFieldValor-{{$i}}" name="array[{{$index}}][valueField][]" value="{{ $b->value }}" required> 
-                                                                <label for="integrationFieldValor-{{$i}}">Valor <abbr>*</abbr></label> 
-                                                            </div> 
-                                                            <a href="#" class="btn btn-sm btn-outline-dark rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Remover campo" onclick="removeField(this);"><i class="bi bi-dash"></i></a> 
+                                                            <div class="input-field col-6 d-flex align-items-center gap-2"> 
+                                                                <div class="form-floating w-100"> 
+                                                                    <input type="text" class="form-control" id="integrationFieldValor-{{$i}}" name="array[{{$index}}][valueField][]" value="{{ $b->value }}" required> 
+                                                                    <label for="integrationFieldValor-{{$i}}">Valor <abbr>*</abbr></label> 
+                                                                </div> 
+                                                                <a href="#" class="btn btn-sm btn-outline-dark rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Remover campo" onclick="removeField(this);"><i class="bi bi-dash"></i></a> 
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                @endif
-                                            @endforeach
+                                                    @endif
+                                                @endforeach
+                                            @endif
                                         </div> 
                                         <div class="d-flex gap-2"> 
                                             <a href="#" class="btn btn-sm btn-outline-dark" onclick="addField(this, {{$index}});"><i class="bi bi-plus"></i> Novo campo</a> 
@@ -143,19 +145,19 @@ Editar empreendimento
                 <span class="badge text-bg-secondary">$email</span>
                 <span class="badge text-bg-secondary">$pp</span>
                 <span class="badge text-bg-secondary">$origin</span>
-                <span class="badge text-bg-secondary">$numberContact</span>
+                <span class="badge text-bg-secondary">$utm_xrm</span>
                 <span class="badge text-bg-secondary">$utm_source</span>
-                <span class="badge text-bg-secondary">$utm_source_xrm</span>
                 <span class="badge text-bg-secondary">$utm_medium</span>
                 <span class="badge text-bg-secondary">$utm_campaign</span>
                 <span class="badge text-bg-secondary">$utm_content</span>
                 <span class="badge text-bg-secondary">$utm_term</span>
                 <span class="badge text-bg-secondary">$nomeEmpreendimento</span>
                 <span class="badge text-bg-secondary">$message</span>
-                <span class="badge text-bg-secondary">$numberTicket</span>
+                <span class="badge text-bg-secondary">$PartyNumber</span>
+                <span class="badge text-bg-secondary">$SrNumber</span>
             </div>
-            <p class="mb-0">Sempre que utilizar uma das variáveis aplicar chaves antes e após.</p>
-            <small class="fw-bold">Exemplo: @{{ $nomeCompleto }}</small>
+            <p class="mb-0">Segue o exemplo de como utilizar uma das variáveis:</p>
+            <small class="fw-bold">$nomeCompleto </small>
       </div>
       <div class="modal-footer flex-nowrap p-0">
         <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-12 py-3 m-0 rounded-0" data-bs-dismiss="modal">Fechar</button>
@@ -168,7 +170,7 @@ Editar empreendimento
 @section('js')
 <script>
     // Adicionando e removendo integrações e fields
-    var field = {{ count($building->RelationIntegrationsFields) + 1 }};
+    var field = {{ $building->RelationIntegrationsFields ? count($building->RelationIntegrationsFields) : 0 + 1 }};
     var integration = {{ count($building->RelationIntegrations) + 1 }};
 
     function addIntegration() {

@@ -8,6 +8,7 @@ use App\Models\BuildingsKeys;
 use App\Models\Leads;
 use App\Models\LeadsFields;
 use App\Models\LeadsOrigins;
+use App\Jobs\ProcessIntegrationsJob;
 
 class ApiLeadsCtrl extends Controller
 {
@@ -40,15 +41,36 @@ class ApiLeadsCtrl extends Controller
 
             // Telefone
             if($request->telefone) {
-                $phone = $request->telefone;
+                $tel = preg_replace( '/\D/', '', str_replace( '+55', '', $request->telefone ));
+	            $phone = strlen( $tel ) < 10  ? substr( $tel . str_repeat( '9', 11 ), 0, 11 ) : $tel;
             }elseif($request->celular) {
-                $phone = $request->celular;
+                $tel = preg_replace( '/\D/', '', str_replace( '+55', '', $request->celular ));
+	            $phone = strlen( $tel ) < 10  ? substr( $tel . str_repeat( '9', 11 ), 0, 11 ) : $tel;
             }elseif($request->phoneNumber) {
-                $phone = $request->phoneNumber;
+                $tel = preg_replace( '/\D/', '', str_replace( '+55', '', $request->phoneNumber ));
+	            $phone = strlen( $tel ) < 10  ? substr( $tel . str_repeat( '9', 11 ), 0, 11 ) : $tel;
+            }elseif($request->phone) {
+                $tel = preg_replace( '/\D/', '', str_replace( '+55', '', $request->phone ));
+	            $phone = strlen( $tel ) < 10  ? substr( $tel . str_repeat( '9', 11 ), 0, 11 ) : $tel;
             }else{
                 $phone = "Não recebido.";
             }
 
+            /*
+                3198612535
+                28999799035
+                21981045682
+                3183745735
+                31993553210
+                2121973643477
+                31999206192
+                21997180803
+                3198286066
+                31993436990
+                21987875454
+                62992505564
+                */
+                
             // E-mail
             if($request->email){
                 $email = $request->email ? $request->email : "naoidentificado@komuh.com";
@@ -199,10 +221,16 @@ class ApiLeadsCtrl extends Controller
             // com
             if($request->com){
                 $fields['nameField'][] = 'com';
-                $fields['valueField'][] = $request->com;
+                $fields['valueField'][] = $request->com ? 'Y' : 'N';
             }elseif($request->comunicacao){ 
                 $fields['nameField'][] = 'com';
-                $fields['valueField'][] = $request->comunicacao;
+                $fields['valueField'][] = $request->comunicacao ? 'Y' : 'N';
+            }
+
+            // pp
+            if($request->pp){
+                $fields['nameField'][] = 'pp';
+                $fields['valueField'][] = $request->com ? 'Y' : 'N';
             }
 
             // gclid
@@ -243,6 +271,9 @@ class ApiLeadsCtrl extends Controller
                 ]);
             }
         }
+
+        // Enviando para as execução das integrações
+        ProcessIntegrationsJob::dispatch($lead->id);   
 
         return response()->json([
             'status' => true,

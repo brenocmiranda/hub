@@ -71,6 +71,42 @@ Detalhes do Lead
                         <span href="#" class="ms-auto w-25 text-end">{{ $lead->created_at->format("d/m/Y H:i:s") }}</span>
                         <p class="w-100">O lead teve entrada na plataforma através {{ $lead->api ? "da API" : "do Hub"}}.</p>
                     </li>
+                    @if($lead->RelationPipelines->first())
+                        @foreach($lead->RelationPipelines as $log)
+                            @if($log->statusCode == 0)
+                                <li class="d-flex flex-wrap">
+                                    <h6 class="fw-bold w-75">Dados enviados para o processo de {{$log->RelationIntegrations->name}}.</h6>
+                                    <span href="#" class="ms-auto w-25 text-end">{{ $log->created_at->format("d/m/Y H:i:s") }}</span>
+                                    @if($log->RelationPipelinesLog->first()->response)
+                                        @foreach(json_decode($log->RelationPipelinesLog->first()->response) as $index => $response)
+                                            <small class="text-break d-block w-100">{{$index}} => {{$response}}</small> <br>
+                                        @endforeach
+                                    @endif
+                                </li>
+                            @elseif($log->statusCode == 200 || $log->statusCode == 201)
+                                <li class="d-flex flex-wrap">
+                                    <h6 class="fw-bold w-75">Execução do processo de {{$log->RelationIntegrations->name}}.</h6>
+                                    <span href="#" class="ms-auto w-25 text-end">{{ $log->created_at->format("d/m/Y H:i:s") }}</span>
+                                    <p class="w-100">A tentativa de envio do lead para integração resultou em <strong class="text-success">sucesso</strong>.</p>
+                                    <!-- <small class="text-break">{{ $log->RelationPipelinesLog->first()->response }}.</small> -->
+                                </li>
+                            @elseif($log->statusCode == 400)
+                                <li class="d-flex flex-wrap">
+                                    <h6 class="fw-bold w-75">Execução do processo de {{$log->RelationIntegrations->name}}.</h6>
+                                    <span href="#" class="ms-auto w-25 text-end">{{ $log->created_at->format("d/m/Y H:i:s") }}</span>
+                                    <p class="w-100">A tentativa de envio do lead para integração resultou em <strong class="text-danger">erro</strong>, em alguns instantes executaremos novamente.</p>
+                                    <small class="text-break d-block w-100 ps-3 text-danger">{{ $log->RelationPipelinesLog->first()->response }}.</small>
+                                </li>
+                            @else
+                                <li class="d-flex flex-wrap">
+                                    <h6 class="fw-bold w-75">Execução do processo de {{$log->RelationIntegrations->name}}.</h6>
+                                    <span href="#" class="ms-auto w-25 text-end">{{ $log->created_at->format("d/m/Y H:i:s") }}</span>
+                                    <p class="w-100">A tentativa de envio do lead para integração resultou em {{ $log->statusCode }}.</p>
+                                    <small class="text-break d-block w-100 ps-3">{{ $log->RelationPipelinesLog->first()->response }}.</small>
+                                </li>
+                            @endif
+                        @endforeach
+                    @endif
                 </ul>
             </div>
         </div>

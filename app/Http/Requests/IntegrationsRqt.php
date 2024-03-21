@@ -23,6 +23,7 @@ class IntegrationsRqt extends FormRequest
     {
         return [
             'name' => 'nome',
+            'type' => 'tipo',
             'slug' => 'slug',
             'active' => 'status',
             'url' => 'URL',
@@ -41,6 +42,7 @@ class IntegrationsRqt extends FormRequest
     {
         if($this->segment(3) == 'store'){
             return [
+                'type' => 'required|min:3',
                 'name' => 'required|min:3|unique:integrations,name',
                 'slug' => 'required|min:3',
                 'url' => 'required|min:3|url:http,https',

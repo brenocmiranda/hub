@@ -33,4 +33,9 @@ class Leads extends Model
     {
         return $this->belongsTo(Buildings::class, 'building_id', 'id');
     } 
+
+    public function RelationPipelines()
+    {
+        return $this->hasMany(Pipelines::class, 'lead_id', 'id');
+    } 
 }

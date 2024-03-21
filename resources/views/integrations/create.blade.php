@@ -41,7 +41,17 @@ Nova integração
                                 <label for="slug">Slug <abbr>*</abbr></label>
                             </div>
                         </div>
-                        <div class="input-field col-6">
+                        <div class="input-field col-2">
+                            <div class="form-floating">
+                                <select class="form-select @error('type') is-invalid @enderror" aria-label="Defina um tipo" name="type" id="type" required>
+                                    <option selected></option>
+                                    <option value="GET" {{ old('type') == 'GET' ? 'selected' : "" }}>GET</option>
+                                    <option value="POST" {{ old('type') == 'POST' ? 'selected' : "" }}>POST</option>
+                                </select>
+                                <label for="type">Tipo <abbr>*</abbr></label>
+                            </div>
+                        </div>
+                        <div class="input-field col-10">
                             <div class="form-floating">
                                 <input type="text" class="form-control @error('url') is-invalid @enderror" id="url" name="url" value="{{ old('url') }}" required>
                                 <label for="url">URL <abbr>*</abbr></label>

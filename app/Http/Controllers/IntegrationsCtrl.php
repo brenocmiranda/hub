@@ -27,6 +27,7 @@ class IntegrationsCtrl extends Controller
     public function store(IntegrationsRqt $request)
     {      
         Integrations::create([
+            'type' => $request->type, 
             'name' => $request->name, 
             'slug' => $request->slug, 
             'active' => $request->active,
@@ -61,6 +62,7 @@ class IntegrationsCtrl extends Controller
     public function update(IntegrationsRqt $request, string $id)
     {
         Integrations::find($id)->update([
+            'type' => $request->type, 
             'name' => $request->name, 
             'slug' => $request->slug, 
             'active' => $request->active,

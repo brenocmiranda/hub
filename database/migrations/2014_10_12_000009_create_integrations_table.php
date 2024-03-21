@@ -14,9 +14,10 @@ return new class extends Migration
         Schema::create('integrations', function (Blueprint $table) {
             $table->id();
             $table->boolean('active');
+            $table->string('type', 200);
             $table->string('name', 200);
             $table->string('slug', 200);
-            $table->string('url', 200);
+            $table->longText('url', 200);
             $table->string('user', 200)->nullable();
             $table->string('password', 200)->nullable();
             $table->string('token', 200)->nullable();

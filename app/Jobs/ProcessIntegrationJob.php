@@ -1,0 +1,322 @@
+<?php
+
+namespace App\Jobs;
+
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Http;
+use App\Http\Controllers\LeadsCtrl;
+use App\Models\LeadsFields;
+use App\Models\Pipelines;
+use App\Models\PipelinesLog;
+
+class ProcessIntegrationJob implements ShouldQueue
+{
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
+    /**
+     * Create a new job instance.
+     */
+    public function __construct(protected $lead, protected $integration)
+    {
+        $this->lead = $lead;
+        $this->integration = $integration;
+    }
+
+    /**
+     * Execute the job.
+     */
+    public function handle(): void
+    {      
+        // Criando body da integração
+        $bodyFields = $this->lead->RelationBuildings->RelationIntegrationsFields;
+        foreach($bodyFields as $bodyField) {
+            if( $bodyField->buildings_has_integrations_integration_id === $this->integration->id ){
+
+                if ( strpos($bodyField->value, '$nomeCompleto') !== false  ){
+                    $bodyField->value = str_replace('$nomeCompleto', $this->lead->name, $bodyField->value);
+                } 
+                
+                if ( strpos($bodyField->value, '$nomeInicial') !== false ){
+                    $arr_nome = explode(' ', $this->lead->name);
+                    $bodyField->value  = str_replace('$nomeInicial', $arr_nome[0], $bodyField->value);
+                } 
+                
+                if ( strpos($bodyField->value, '$nomeFinal') !== false ){
+                    $arr_nome = explode(' ', $this->lead->name);
+                    $bodyField->value = str_replace('$nomeFinal', $arr_nome[ count( $arr_nome ) - 1 ], $bodyField->value);
+                } 
+                
+                if ( strpos($bodyField->value, '$telefoneCompleto') !== false ){
+                    $bodyField->value = str_replace('$telefoneCompleto', $this->lead->phone, $bodyField->value);
+                } 
+
+                if ( strpos($bodyField->value, '$dda') !== false ){
+                    $bodyField->value = str_replace('$dda', '55', $bodyField->value);
+                } 
+
+                if ( strpos($bodyField->value, '$ddd') !== false ){
+                    $bodyField->value = str_replace('$ddd', substr( $this->lead->phone, 0, 2 ), $bodyField->value);
+                } 
+                
+                if ( strpos($bodyField->value, '$number') !== false ){
+                    $bodyField->value = str_replace('$number', substr( $this->lead->phone, 2 ), $bodyField->value);
+                } 
+                
+                if ( strpos($bodyField->value, '$email') !== false ){
+                    $bodyField->value = str_replace('$email', $this->lead->email, $bodyField->value);
+                }
+                
+                if ( strpos($bodyField->value, '$origin') !== false  ){
+                    $bodyField->value = str_replace('$origin', $this->lead->RelationOrigins->name, $bodyField->value);
+                } 
+                
+                if ( strpos($bodyField->value, '$nomeEmpreendimento') !== false ){
+                    $bodyField->value = str_replace('$nomeEmpreendimento', $this->lead->RelationBuildings->name, $bodyField->value);
+                } 
+                
+                if ( strpos($bodyField->value, '$pp') !== false ){
+                    $pp = $this->lead->RelationFields->where('name', 'pp')->first();
+                    $bodyField->value = str_replace('$pp', ($pp ? $pp->value : 'N'), $bodyField->value);
+                } 
+                
+                if ( strpos($bodyField->value, '$utm_source') !== false ){
+                    $utm_source = $this->lead->RelationFields->where('name', 'utm_source')->first();
+                    $bodyField->value = str_replace('$utm_source', ($utm_source ? $utm_source->value : ' '), $bodyField->value);
+                } 
+                
+                if ( strpos($bodyField->value, '$utm_xrm') !== false ){
+                    $utm_source = $this->lead->RelationFields->where('name', 'utm_source')->first();
+                    $bodyField->value = str_replace('$utm_xrm', ($utm_source ? self::get_utm_source_by_valor( $utm_source ) : ' '), $bodyField->value);
+                } 
+                
+                if ( strpos($bodyField->value, '$utm_medium') !== false ){
+                    $utm_medium = $this->lead->RelationFields->where('name', 'utm_medium')->first();
+                    $bodyField->value = str_replace('$utm_medium', ($utm_medium ? $utm_medium->value : ' '), $bodyField->value);
+                } 
+                
+                if ( strpos($bodyField->value, '$utm_campaign') !== false ){
+                    $utm_campaign = $this->lead->RelationFields->where('name', 'utm_campaign')->first();
+                    $bodyField->value = str_replace('$utm_campaign', ($utm_campaign ? $utm_campaign->value : ' '), $bodyField->value);
+                } 
+                
+                if ( strpos($bodyField->value, '$utm_content') !== false ){
+                    $utm_content = $this->lead->RelationFields->where('name', 'utm_content')->first();
+                    $bodyField->value = str_replace('$utm_content', ($utm_content ? $utm_content->value : ' '), $bodyField->value);
+                } 
+                
+                if ( strpos($bodyField->value, '$utm_term') !== false ){
+                    $utm_term = $this->lead->RelationFields->where('name', 'utm_term')->first();
+                    $bodyField->value = str_replace('$utm_term', ($utm_term ? $utm_term->value : ' '), $bodyField->value);
+                } 
+                
+                if ( strpos($bodyField->value, '$message') !== false ){
+                    $message = $this->lead->RelationFields->where('name', 'message')->first();
+                    $bodyField->value = str_replace('$message', ($message ? $message->value : ' '), $bodyField->value);
+                } 
+                
+                if ( strpos($bodyField->value, '$PartyNumber') !== false ){
+                    $PartyNumber = $this->lead->RelationFields->where('name', 'PartyNumber')->first();
+                    $bodyField->value = str_replace('$PartyNumber', ($PartyNumber ? $PartyNumber->value : ' '), $bodyField->value);
+                } 
+                
+                if ( strpos($bodyField->value, '$SrNumber') !== false ){
+                    $numberTicket = $this->lead->RelationFields->where('name', 'SrNumber')->first();
+                    $bodyField->value = str_replace('$SrNumber', ($SrNumber ? $SrNumber->value : ' '), $bodyField->value);
+                }
+
+                // Salvando no body
+                $body[$bodyField->name] = $bodyField->value;
+            }
+        }
+
+        // Salvando a pipeline com o body sending
+        $pipeline = Pipelines::create([
+            'statusCode' => 0,
+            'lead_id' => $this->lead->id,
+            'buildings_has_integrations_building_id' => $this->lead->RelationBuildings->id,
+            'buildings_has_integrations_integration_id' => $this->integration->id
+        ]);
+        PipelinesLog::create([
+            'header' => 'fields',
+            'response' => json_encode($body),
+            'pipeline_id' => $pipeline->id
+        ]);
+        
+        $url = $this->integration->url;
+        $header[] = $this->integration->header;
+
+        switch( $this->integration->type ) {
+            case 'POST':
+                if($this->integration->token){
+                    $response = Http::withHeaders($header)
+                                ->timeout(100)
+                                ->withToken($this->integration->token)
+                                ->post($url, $body);
+                }elseif($this->integration->user){
+                    $response = Http::withHeaders($header)
+                                ->timeout(100)
+                                ->withBasicAuth($this->integration->user, $this->integration->password)
+                                ->post($url, $body);
+                } else {
+                    $response = Http::withHeaders($header)
+                                ->timeout(100)
+                                ->post($url, $body);
+                }
+                break;
+            
+            case 'GET':
+                $glue = strpos($url, '?') !== false ? '&' : '?';
+                if($this->integration->token){
+                    $response = Http::withHeaders($header)
+                                ->timeout(100)
+                                ->withToken($this->integration->token)
+                                ->get($url . $glue . http_build_query($body));
+                } elseif($this->integration->user){
+                    $response = Http::withHeaders($header)
+                                ->timeout(100)
+                                ->withBasicAuth($this->integration->user, $this->integration->password)
+                                ->get($url . $glue . http_build_query($body));
+                } else {
+                    $response = Http::withHeaders($header)
+                                ->timeout(100)
+                                ->get($url . $glue . http_build_query($body));
+                }
+                break;
+        }
+
+        // Salvando a pipeline de execução da integração
+        $pipeline = Pipelines::create([
+            'statusCode' => $response->status(),
+            'lead_id' => $this->lead->id,
+            'buildings_has_integrations_building_id' => $this->lead->RelationBuildings->id,
+            'buildings_has_integrations_integration_id' => $this->integration->id
+        ]);
+        PipelinesLog::create([
+            'header' => json_encode($response->headers()),
+            'response' => json_encode($response->body()),
+            'pipeline_id' => $pipeline->id
+        ]);
+                        
+        // Validando se obtivemos sucesso no HTTP Client 
+        if( $response->successful() ){
+
+            // Retornando dados da integração vinculando ao lead
+            $result = json_decode($response->body(), true);
+            if($this->integration->slug === 'xrm-contatos-create') {
+                if( !isset($PartyNumber) ){
+                    LeadsFields::create([
+                        'name' => 'PartyNumber',
+                        'value' => $result['PartyNumber'] ? $result['PartyNumber'] : '-',
+                        'leads_id' => $this->lead->id
+                    ]);
+                }else {
+                    LeadsFields::where('leads_id', $lead->id)->where('name', 'PartyNumber')->update([
+                        'value' => $result['PartyNumber'] ? $result['PartyNumber'] : '-',
+                    ]);
+                }
+            }elseif($this->integration->slug === 'xrm-tickets-create') {
+                if( !isset($SrNumber) ){
+                    LeadsFields::create([
+                        'name' => 'SrNumber',
+                        'value' => $result['SrNumber'] ? $result['SrNumber'] : '-',
+                        'leads_id' => $this->lead->id
+                    ]);
+                }
+            }
+
+        } else {
+
+            throw new \Exception($response->body(), true);
+
+        }
+    }
+
+    /** 
+     * Function de utm_source_xrm 
+    */
+    public function get_utm_source_by_valor( $source ){
+        $sources = [
+            'acao-promocional' => 'PER_IMPACMID_ACAOPROMO',
+            'bing' => 'PER_IMPACMID_BING',
+            'evento-feira' => 'PER_IMPACMID_EVENTOFEIRA',
+            'evento' => 'PER_IMPACMID_EVENTOFEIRA',
+            'feira' => 'PER_IMPACMID_EVENTOFEIRA',
+            'instagram' => 'PER_IMPACMID_INSTAGRAM',
+            'facebook' => 'PER_IMPACMID_FACEBOOK',
+            'meta-ads' => 'PER_IMPACMID_FACEBOOK',
+            'meta' => 'PER_IMPACMID_FACEBOOK',
+            'linkedin' => 'PER_IMPACMID_LINKEDIN',
+            'google' => 'PER_IMPACMID_GOOGLE',
+            'google-ads' => 'PER_IMPACMID_GOOGLE',
+            'display' => 'PER_IMPACMID_GOOGLE',
+            'search' => 'PER_IMPACMID_GOOGLE',
+            'max-performance' => 'PER_IMPACMID_GOOGLE',
+            'zapimoveis' => 'PER_IMPACMID_ZAPIMOVEIS',
+            'zap-imoveis' => 'PER_IMPACMID_ZAPIMOVEIS',
+            'vivareal' => 'PER_IMPACMID_VIVAREAL',
+            'viva-real' => 'PER_IMPACMID_VIVAREAL',
+            'imovelweb' => 'PER_IMPACMID_IMOVELWEB',
+            'indicacao' => 'PER_IMPACMID_INDICACAOINTERNA',
+            'influenciador' => 'PER_IMPACMID_INFLUENCIADOR',
+            'interacao-nas-redes-sociais-instagram-facebook' => 'PER_IMPACMID_INTREDESSOCIAIS',
+            'redes-sociais' => 'PER_IMPACMID_INTREDESSOCIAIS',
+            'outdoor' => 'PER_IMPACMID_OUTDOOR',
+            'outros' => 'PER_IMPACMID_OUTROS',
+            'portais-imobiliarios' => 'PER_IMPACMID_PORTAISIMOB',
+            'prospeccao-e-divulgacao-do-corretor-imobiliaria' => 'PER_IMPACMID_PROSPECCORRETOR',
+            'prospeccao-corretor' => 'PER_IMPACMID_PROSPECCORRETOR',
+            'divulgacao-corretor' => 'PER_IMPACMID_PROSPECCORRETOR',
+            'prospeccao-imobiliaria' => 'PER_IMPACMID_PROSPECCORRETOR',
+            'divulgacao-imobiliaria' => 'PER_IMPACMID_PROSPECCORRETOR',
+            'revista' => 'PER_IMPACMID_REVISTA',
+            'radio' => 'PER_IMPACMID_RADIO',
+            'site' => 'PER_IMPACMID_SITE',
+            'sites' => 'PER_IMPACMID_SITE',
+            'stand' => 'PER_IMPACMID_STAND',
+            'tv' => 'PER_IMPACMID_TV',
+            'youtube' => 'PER_IMPACMID_YOUTUBE',
+            'twitter' => 'PER_IMPACMID_INTREDESSOCIAIS',
+            'portais-verticais' => 'PER_IMPACMID_PORTAISIMOB'
+        ];
+        $source = self::slugify( $source );
+        if( !$source || !isset( $sources[ $source ] ) ) return 'PER_IMPACMID_SITE';
+        return $sources[ $source ];
+    }
+
+    /** 
+     * Function de clean string 
+    */
+    public function slugify( $str = '', $divider = '-', $extras = [] ){
+
+			if( empty( $str ) ){
+				return '';
+			}
+
+			$str = strtolower( $str );
+
+			// transliterate
+			$str = iconv('utf-8', 'us-ascii//TRANSLIT', $str );
+
+			// remove unwanted characters
+			#$str = preg_replace('~[^-\w]+~', '', $str );
+			$list = array_merge( [ 'š' => 's', 'đ' => 'dj', 'ž' => 'z', 'č' => 'c', 'ć' => 'c', 'à' => 'a', 'á' => 'a', 'â' => 'a', 'ã' => 'a', 'ä' => 'a', 'å' => 'a', 'æ' => 'a', 'ç' => 'c', 'è' => 'e', 'é' => 'e', 'ê' => 'e', 'ë' => 'e', 'ì' => 'i', 'í' => 'i', 'î' => 'i', 'ï' => 'i', 'ð' => 'o', 'ñ' => 'n', 'ò' => 'o', 'ó' => 'o', 'ô' => 'o', 'õ' => 'o', 'ö' => 'o', 'ø' => 'o', 'ù' => 'u', 'ú' => 'u', 'û' => 'u', 'ý' => 'y', 'ý' => 'y', 'þ' => 'b', 'ÿ' => 'y', 'ŕ' => 'r', '/' => $divider, ' ' => $divider, '.' => $divider, '@' => 'a', '^' => '', '~' => '', '´' => '', '`' => '', '\'' => '' ], $extras );
+			$str = strtr( $str, $list );
+
+			// replace non letter or digits by divider
+			$str = preg_replace( '~[^\pL\d]+~u', $divider, $str );
+
+			// trim
+			$str = trim( $str, $divider );
+
+			// remove duplicate divider
+			$str = preg_replace('~-+~', $divider, $str );
+
+			// lowercase
+
+			return $str;
+		}
+}

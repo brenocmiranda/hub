@@ -12,6 +12,7 @@ class Integrations extends Model
 
     protected $fillable = [
         'active',
+        'type',
         'name',
         'slug',
         'url',
