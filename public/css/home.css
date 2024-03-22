@@ -24,3 +24,9 @@ main hr {
 .card small {
     font-size: 12px;
 }
+
+@media (max-width: 768px){
+    .img-home {
+        width: 100%;
+    }
+}

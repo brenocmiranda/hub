@@ -42,7 +42,7 @@ Editar integração
                                 <label for="slug">Slug <abbr>*</abbr></label>
                             </div>
                         </div>
-                        <div class="input-field col-2">
+                        <div class="input-field col-lg-2 col-12">
                             <div class="form-floating">
                                 <select class="form-select @error('type') is-invalid @enderror" aria-label="Defina um tipo" name="type" id="type" required>
                                     <option selected></option>
@@ -52,7 +52,7 @@ Editar integração
                                 <label for="type">Status <abbr>*</abbr></label>
                             </div>
                         </div>
-                        <div class="input-field col-10">
+                        <div class="input-field col-lg-10 col-12">
                             <div class="form-floating">
                                 <input type="text" class="form-control @error('url') is-invalid @enderror" id="url" name="url" value="{{ $integration->url ? $integration->url : old('url') }}" required>
                                 <label for="url">URL <abbr>*</abbr></label>

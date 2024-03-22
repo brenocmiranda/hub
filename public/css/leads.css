@@ -42,3 +42,22 @@ ul.timeline > li:before {
     height: 20px;
     z-index: 400;
 }
+
+@media (max-width: 768px) {
+    ul.timeline {
+       padding-left: 10px;
+    }
+
+    ul.timeline:before {
+        left: 9px;
+    }
+
+    ul.timeline>li:before {
+        left: 0;
+    }
+
+    ul.timeline h6,
+    ul.timeline li > span {
+        width: 100% !important;
+    }
+}

@@ -58,7 +58,7 @@ Home
             <div class="col-12">
                 <div class="d-flex justify-content-center align-items-center flex-column">
                     <div class="img-home"></div>
-                    <h2 class="text-secondary fw-bolder">Seja bem-vindo, {{ explode(" ", Auth::user()->name)[0] }}!</h2>
+                    <h2 class="text-secondary fw-bolder text-center">Seja bem-vindo, {{ explode(" ", Auth::user()->name)[0] }}!</h2>
                 </div>
             </div>
         </div>

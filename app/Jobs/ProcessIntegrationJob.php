@@ -206,7 +206,7 @@ class ProcessIntegrationJob implements ShouldQueue
 
             // Retornando dados da integração vinculando ao lead
             $result = json_decode($response->body(), true);
-            if($this->integration->slug === 'xrm-contatos-create') {
+            if($this->integration->slug === 'xrm-contatos-create' || $this->integration->slug === 'xrm-contatos') {
                 if( !isset($PartyNumber) ){
                     LeadsFields::create([
                         'name' => 'PartyNumber',
@@ -218,7 +218,7 @@ class ProcessIntegrationJob implements ShouldQueue
                         'value' => $result['PartyNumber'] ? $result['PartyNumber'] : '-',
                     ]);
                 }
-            }elseif($this->integration->slug === 'xrm-tickets-create') {
+            }elseif($this->integration->slug === 'xrm-tickets-create' || $this->integration->slug === 'xrm-tickets') {
                 if( !isset($SrNumber) ){
                     LeadsFields::create([
                         'name' => 'SrNumber',
