@@ -112,3 +112,33 @@ function image(input){
 		reader.readAsDataURL(input.files[0]);
 	}
 }
+
+// Search Lead in navbar
+$('#leadSearch').on('submit', function(e){
+    e.preventDefault();
+    let search_term = $(this).find('#search').val().toLowerCase();
+    let url = $(this).attr('action');
+
+    $.ajax({
+        type: "GET",
+        url: url,
+        data: { search: search_term },
+        datatype: "json",
+        success: function(data){
+            $('#leadSearch').find('.resultList').html('');
+            if(data[0]){
+                $.each(data, function( index, item ){
+                    $('#leadSearch').find('.resultList').append('<a href="' + item.url + '" class="text-decoration d-flex justify-content-between icon-link mb-2"><span>' + item.name + '</span><i class="bi bi-chevron-right"></i></a>');
+                    $('#leadSearch').find('.result').show();
+                });
+            } else {
+                $('#leadSearch').find('.resultList').append('<p>Nenhum registro encontrado.</span></p>');
+                $('#leadSearch').find('.result').show();
+            }
+        }
+    });
+})
+$('#leadSearch .close').on('click', function(e){
+    e.preventDefault();
+    $('#leadSearch').find('.result').hide();
+})

@@ -15,8 +15,12 @@ main hr {
     font-size: 26px;
 }
 
-.card small {
+.card span {
     font-size: 12px;
     display: flex;
     justify-content: flex-end;
+}
+
+.card small {
+    font-size: 12px;
 }

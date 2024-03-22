@@ -121,6 +121,20 @@ abbr {
     font-size: 14px;
 }
 
+.full-page nav .result {
+    max-width: 400px;
+    width: 100%;
+    transition: all .3s ease;
+}
+
+.full-page nav .result {
+    font-size: 14px;
+}
+
+.full-page nav .result small {
+    font-size: 12px;
+}
+
 .full-page nav .perfil-img {
     width: 40px;
     height: 40px;
@@ -132,12 +146,6 @@ abbr {
 
 /** Sidebar **/
 .full-page aside {}
-
-.full-page aside > div {
-    position: fixed;
-    overflow: auto;
-    z-index: 99;
-}
 
 .full-page aside .img-desktop,
 .full-page aside .img-mobile {
@@ -153,6 +161,9 @@ abbr {
     max-width: 280px;
     width: 100%;
 }
+.full-page aside.desktop + .content-wrapper {
+    max-width: calc(100% - 280px);
+}
 
 .full-page aside.desktop .img-desktop {
     display: block;
@@ -163,6 +174,9 @@ abbr {
     max-width: 80px;
     width: 100%;
     transition: all .4s ease-in-out;
+}
+.full-page aside.mobile + .content-wrapper {
+    max-width: calc(100% - 80px);
 }
 
 .full-page aside.mobile:hover,

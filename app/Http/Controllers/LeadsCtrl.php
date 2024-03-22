@@ -107,4 +107,14 @@ class LeadsCtrl extends Controller
     {      
         //
     }
+
+    public function search(){
+        $term = $_GET['search'];
+        $leads= Leads::where('name', 'like', '%'.$term.'%')->orWhere('phone', 'like', '%'.$term.'%')->orWhere('email', 'like', '%'.$term.'%')->select( 'name', 'id' )->limit(5)->get();
+
+        foreach($leads as $index => $lead) {
+            $leads[$index]['url'] = route('leads.show', $lead->id);
+        }
+        return $leads;
+    }
 }

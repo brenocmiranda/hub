@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Companies;
 use App\Models\Leads;
 use App\Models\UsersLogs;
+use App\Models\Pipelines;
 
 class PrivateCtrl extends Controller
 {   
@@ -17,10 +18,11 @@ class PrivateCtrl extends Controller
     public function home()
     {
         if (Auth::check() && Auth::user()->active) {
-            $dateNow = date('Y-m-d H:i:s');
             $leadsDay = Leads::whereDate('created_at', date('Y-m-d'))->count();
+            $requestSuccess = Pipelines::whereDate('created_at', date('Y-m-d'))->where('statusCode', 200)->orWhere('statusCode', 201)->count();
+            $requestFail = Pipelines::whereDate('created_at', date('Y-m-d'))->where('statusCode', 400)->count();
 
-            return view('system.home')->with('leadsDay', $leadsDay);
+            return view('system.home')->with('leadsDay', $leadsDay)->with('requestSuccess', $requestSuccess)->with('requestFail', $requestFail);
         } else {
             return redirect(route('login'));
         }

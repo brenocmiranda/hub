@@ -9,13 +9,21 @@
                     </a>
                 </div>
                 <div class="search">
-                    <div class="input-group flex-nowrap rounded-5 bg-transparent border border-dark">
-                        <span class="input-group-text bg-transparent rounded-circle border-0" id="search">
-                            <i class="bi bi-search"></i>
-                        </span>
-                        <input type="search" name="search" id="search" placeholder="Pesquisar por leads..."
-                            class="py-2 bg-transparent">
-                    </div>
+                    <form action="{{ route('leads.search') }}" id="leadSearch" class="position-relative">
+                        <div class="input-group flex-nowrap rounded-5 bg-transparent border border-dark">
+                            <input type="search" name="search" id="search" placeholder="Pesquisar por leads..."
+                                class="py-2 ps-4 bg-transparent w-100">
+                            <button type="submit" class="input-group-text bg-transparent rounded-circle border-0" id="search">
+                                <i class="bi bi-search"></i>
+                            </button>
+                        </div>
+                        <div class="result bg-light p-3 rounded-3 position-absolute z-3 mt-1 shadow" style="display: none;">
+                            <div class="resultList"></div>
+                            <a href="#" class="close d-block text-end">
+                                <small><i class="bi bi-chevron-up"></i> Ocultar</small>
+                            </a>
+                        </div>
+                    </form>
                 </div>
             </div>
             <div class="col-6 d-flex justify-content-end gap-3">

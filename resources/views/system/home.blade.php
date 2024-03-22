@@ -19,9 +19,9 @@ Home
                     <div class="px-4 w-100">
                         <h6 class="mb-0">Leads do dia</h6>
                         <h4 class="mb-0">{{ $leadsDay }}</h4>
-                        <small>
+                        <span>
                             <a href="{{ route('leads.index') }}">Veja mais</a>
-                        </small>
+                        </span>
                     </div>
                 </div>
             </div>
@@ -31,11 +31,11 @@ Home
                         <i class="bi bi-database-check text-white"></i>
                     </div>
                     <div class="px-4 w-100">
-                        <h6 class="mb-0">Jobs success</h6>
-                        <h4 class="mb-0">250</h4>
-                        <small>
+                        <h6 class="mb-0">Jobs success <small>(dia)</small></h6>
+                        <h4 class="mb-0">{{ $requestSuccess }}</h4>
+                        <span>
                             <a href="{{ route('leads.index') }}">Veja mais</a>
-                        </small>
+                        </span>
                     </div>
                 </div>
             </div>
@@ -45,11 +45,11 @@ Home
                         <i class="bi bi-database-exclamation text-white"></i>
                     </div>
                     <div class="px-4 w-100">
-                        <h6 class="mb-0">Jobs error</h6>
-                        <h4 class="mb-0">0</h4>
-                        <small>
+                        <h6 class="mb-0">Jobs error <small>(dia)</small></h6>
+                        <h4 class="mb-0">{{ $requestFail }}</h4>
+                        <span>
                             <a href="{{ route('leads.index') }}">Veja mais</a>
-                        </small>
+                        </span>
                     </div>
                 </div>
             </div>

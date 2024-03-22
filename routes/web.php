@@ -53,6 +53,7 @@ Route::group(['prefix' => 'app'], function () {
 
     // Leads
     Route::resource('leads', LeadsCtrl::class)->only([ 'index', 'create', 'store', 'show' ]);
+    Route::any('leads/all/s', [LeadsCtrl::class, 'search'])->name('leads.search');
 
     // Leads (Origins)
     Route::resource('leads/all/origins', LeadsOriginsCtrl::class)->names([

@@ -148,6 +148,7 @@
                 <div class="col-6 d-flex justify-content-end align-items-center gap-2">
                     @yield('buttons')
                 </div>
+                
             </div>
         </div>
         <div class="container-fluid">

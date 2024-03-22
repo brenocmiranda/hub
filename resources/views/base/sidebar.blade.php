@@ -1,5 +1,5 @@
 <aside class="desktop">
-    <div class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark h-100">
+    <div class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark h-100 position-fixed overflow-auto z-3">
         <a href="{{ route('home') }}" class="d-flex align-items-center justify-content-center mb-3 mb-md-0">
             <img src="{{ asset('images/logo-white.png') }}" width="170" class="img-desktop" />
             <img src="{{ asset('images/favicon.ico') }}" width="40" class="img-mobile rounded-2" />
