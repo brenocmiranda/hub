@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Routing\Controller;
 use App\Http\Requests\ProfileRqt;
 use Illuminate\Http\Request;
@@ -43,9 +44,10 @@ class ProfileCtrl extends Controller
             // Get just ext
             $extension = $request->file('src')->getClientOriginalExtension();
             // Filename to store
-            $fileNameToStore= $filename.'_'.time().'.'.$extension;
+            $fileNameToStore = $filename.'_'.time().'.'.$extension;
+
             // Upload Image
-            $path = $request->file('src')->storeAs('/profile', $fileNameToStore, 'public');
+            $path = $request->file('src')->storeAs('public/profile', $fileNameToStore);
 
             Users::find(Auth::user()->id)->update([
                 'src' => $fileNameToStore,

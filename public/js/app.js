@@ -5,7 +5,7 @@ const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]
 const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
 
 // Menu mobile
-if(localStorage.getItem('menu') == "mobile" || $(window).width() < 768){
+if(localStorage.getItem('menu') == "mobile" || $(window).width() < 769){
     $('aside').removeClass('desktop');
     $('aside').addClass('mobile');
 } else {
@@ -126,7 +126,7 @@ $('#leadSearch').on('submit', function(e){
         datatype: "json",
         success: function(data){
             $('#leadSearch').find('.resultList').html('');
-            if(data[0]){
+            if(search_term.length > 0 && data[0]){
                 $.each(data, function( index, item ){
                     $('#leadSearch').find('.resultList').append('<a href="' + item.url + '" class="text-decoration d-flex justify-content-between icon-link mb-2"><span>' + item.name + '</span><i class="bi bi-chevron-right"></i></a>');
                     $('#leadSearch').find('.result').show();
@@ -140,5 +140,6 @@ $('#leadSearch').on('submit', function(e){
 })
 $('#leadSearch .close').on('click', function(e){
     e.preventDefault();
+    $('#leadSearch').find('.resultList').html('');
     $('#leadSearch').find('.result').hide();
 })

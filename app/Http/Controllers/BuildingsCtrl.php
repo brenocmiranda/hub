@@ -137,4 +137,48 @@ class BuildingsCtrl extends Controller
         Buildings::find($id)->delete();
         return redirect()->route('buildings.index')->with('destroy', true);
     }
+
+    public function duplicate(string $id){
+        $building = Buildings::find($id);
+        $buildingIntegrations = BuildingsIntegrations::where('building_id', $id)->get();
+        $buildingIntegrationsFields = BuildingsIntegrationsFields::where('buildings_has_integrations_building_id', $id)->get();
+
+        // Cadastrando novo empreendimento
+        $buildingNew = Buildings::create([
+            'name' => $building->name . '_Copy', 
+            'active' => $building->active,
+            'companie_id' => $building->companie_id, 
+        ]);
+
+        // Cadastrando novas integrações e novos campos
+        if(isset($buildingIntegrations)){
+            foreach($buildingIntegrations as $integration) {
+                $buildingIntegration = BuildingsIntegrations::create([
+                    'building_id' => $buildingNew->id, 
+                    'integration_id' => $integration->integration_id,
+                ]);
+
+                foreach($buildingIntegrationsFields as $index => $field) {
+                    if($field->buildings_has_integrations_integration_id == $integration->integration_id) {
+                        BuildingsIntegrationsFields::create([
+                            'name' => $field->name, 
+                            'value' => $field->value,
+                            'buildings_has_integrations_building_id' => $buildingNew->id,
+                            'buildings_has_integrations_integration_id' => $integration->integration_id,
+                        ]);
+                    } 
+                }
+            }
+        }
+
+        // Salvando log
+        UsersLogs::create([
+            'title' => 'Duplicação do empreendimento',
+            'description' => 'Foi realizada o duplicação do empreendimento ' . $building->name . ' com o nome ' . $buildingNew->name . '.',
+            'action' => 'duplicate',
+            'user_id' => Auth::user()->id
+        ]);
+        
+        return redirect()->route('buildings.index')->with('duplicate', true);
+    }
 }

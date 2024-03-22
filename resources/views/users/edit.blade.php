@@ -35,13 +35,13 @@ Editar usuário
                                 <label for="name">Nome <abbr>*</abbr></label>
                             </div>
                         </div>
-                        <div class="input-field col-6">
+                        <div class="input-field col-lg-6 col-12">
                             <div class="form-floating">
                                 <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email') ? old('email') : $user->email }}" required>
                                 <label for="name">E-mail <abbr>*</abbr></label>
                             </div>
                         </div>
-                        <div class="input-field col-6">
+                        <div class="input-field col-lg-6 col-12">
                             <div class="form-floating">
                                 <select class="form-select @error('active') is-invalid @enderror" aria-label="Defina um status" name="active" id="active" required>
                                     <option selected></option>
@@ -51,7 +51,7 @@ Editar usuário
                                 <label for="active">Status <abbr>*</abbr></label>
                             </div>
                         </div>
-                        <div class="input-field col-6">
+                        <div class="input-field col-lg-6 col-12">
                             <div class="form-floating">
                                 <select class="form-select @error('companies') is-invalid @enderror" aria-label="Defina uma empresa" name="companies" id="companies" required>
                                     <option selected></option>
@@ -62,7 +62,7 @@ Editar usuário
                                 <label for="companies">Empresas <abbr>*</abbr></label>
                             </div>
                         </div>
-                        <div class="input-field col-6">
+                        <div class="input-field col-lg-6 col-12">
                             <div class="form-floating">
                                 <select class="form-select @error('roles') is-invalid @enderror" aria-label="Defina uma função" name="roles" id="roles" required>
                                     <option selected></option>

@@ -38,19 +38,19 @@ Novo Lead
                                 <label for="name">Nome <abbr>*</abbr></label>
                             </div>
                         </div>
-                        <div class="input-field col-6">
+                        <div class="input-field col-lg-6 col-12">
                             <div class="form-floating">
                                 <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email') }}" required>
                                 <label for="email">E-mail <abbr>*</abbr></label>
                             </div>
                         </div>
-                        <div class="input-field col-6">
+                        <div class="input-field col-lg-6 col-12">
                             <div class="form-floating">
                                 <input type="tel" class="form-control is-phone @error('phone') is-invalid @enderror" id="phone" name="phone" value="{{ old('phone') }}" required>
                                 <label for="phone">Telefone <abbr>*</abbr></label>
                             </div>
                         </div>
-                        <div class="input-field col-6">
+                        <div class="input-field col-lg-6 col-12">
                             <div class="form-floating">
                                 <select class="form-select @error('building') is-invalid @enderror" aria-label="Defina um empreendimento" name="building" id="building" required>
                                     <option selected></option>
@@ -67,7 +67,7 @@ Novo Lead
                                 <label for="building">Empreendimentos <abbr>*</abbr></label>
                             </div>
                         </div>
-                        <div class="input-field col-6">
+                        <div class="input-field col-lg-6 col-12">
                             <div class="form-floating">
                                 <select class="form-select @error('origin') is-invalid @enderror" aria-label="Defina uma origem" name="origin" id="origin" required>
                                     <option selected></option>
@@ -107,7 +107,7 @@ Novo Lead
 
     function addField(element) {
         event.preventDefault();
-        $('.fields').find('.all-fields').append(`<div class="content-fields"> <div class="row"> <div class="input-field col-6"> <div class="form-floating"> <select class="form-select" name="array[nameField][]" id="integrationFieldName-` + field + `" required> <option selected>Selecione</option> <option value="utm_source">utm_source</option> <option value="utm_medium">utm_medium</option> <option value="utm_campaign">utm_campaign</option> <option value="utm_term">utm_term</option> <option value="utm_content">utm_content</option> <option value="gclid">gclid</option> <option value="fbclid">fbclid</option> <option value="plataforma">plataforma</option> <option value="pp">pp (Política de privacidade)</option> <option value="com">com (Receber comunicações)</option> <option value="message">Mensagem</option> <option value="url">URL</option> </select> <label for="integrationFieldName-` + field + `">Nome do campo <abbr>*</abbr></label> </div> </div> <div class="input-field col-6 d-flex align-items-center gap-2"> <div class="form-floating w-100"> <input type="text" class="form-control" id="integrationFieldValor-` + field + `" name="array[valueField][]" required> <label for="integrationFieldValor-` + field + `">Valor <abbr>*</abbr></label> </div> <a href="#" class="btn btn-sm btn-outline-dark rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Remover campo" onclick="removeField(this);"><i class="bi bi-dash"></i></a> </div> </div>`);
+        $('.fields').find('.all-fields').append(`<div class="content-fields"> <div class="row"> <div class="input-field col-lg-6 col-12"> <div class="form-floating"> <select class="form-select" name="array[nameField][]" id="integrationFieldName-` + field + `" required> <option selected>Selecione</option> <option value="utm_source">utm_source</option> <option value="utm_medium">utm_medium</option> <option value="utm_campaign">utm_campaign</option> <option value="utm_term">utm_term</option> <option value="utm_content">utm_content</option> <option value="gclid">gclid</option> <option value="fbclid">fbclid</option> <option value="plataforma">plataforma</option> <option value="pp">pp (Política de privacidade)</option> <option value="com">com (Receber comunicações)</option> <option value="message">Mensagem</option> <option value="url">URL</option> </select> <label for="integrationFieldName-` + field + `">Nome do campo <abbr>*</abbr></label> </div> </div> <div class="input-field col-lg-6 col-12 d-flex align-items-center gap-2"> <div class="form-floating w-100"> <input type="text" class="form-control" id="integrationFieldValor-` + field + `" name="array[valueField][]" required> <label for="integrationFieldValor-` + field + `">Valor <abbr>*</abbr></label> </div> <a href="#" class="btn btn-sm btn-outline-dark rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Remover campo" onclick="removeField(this);"><i class="bi bi-dash"></i></a> </div> </div>`);
         field++;
 
         // Enable toltips

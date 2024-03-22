@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-6 d-flex gap-4 align-items-center">
-                <div class="menu">
+                <div class="menu d-none d-sm-block">
                     <a href="#"
                         class="d-flex p-2 text-decoration-none text-dark border border-dark bg-transparent rounded-3">
                         <i class="bi bi-list"></i>
@@ -11,9 +11,8 @@
                 <div class="search">
                     <form action="{{ route('leads.search') }}" id="leadSearch" class="position-relative">
                         <div class="input-group flex-nowrap rounded-5 bg-transparent border border-dark">
-                            <input type="search" name="search" id="search" placeholder="Pesquisar por leads..."
-                                class="py-2 ps-4 bg-transparent w-100">
-                            <button type="submit" class="input-group-text bg-transparent rounded-circle border-0" id="search">
+                            <input type="search" name="search" id="search" placeholder="Pesquisar por leads..." class="py-2 ps-4 pe-2 bg-transparent w-100">
+                            <button type="submit" class="input-group-text rounded-circle border-0 bg-secondary text-white" id="search" style="margin: 0 -1px">
                                 <i class="bi bi-search"></i>
                             </button>
                         </div>

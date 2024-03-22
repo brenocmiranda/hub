@@ -37,7 +37,7 @@ Leads
                                     'building': '{{ $lead->RelationBuildings->name }}', 
                                     'name': '{{ $lead->name }}',
                                     'email': '{{ $lead->email }}',
-                                    'operations': '<a href="{{ route('leads.show', $lead->id ) }}" class="btn btn-outline-secondary me-1 px-2 py-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Visualizar"><i class="bi bi-eye"></i></a>'
+                                    'operations': '<div class="d-flex justify-content-center align-items-center gap-2"><a href="{{ route('leads.show', $lead->id ) }}" class="btn btn-outline-secondary px-2 py-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Visualizar"><i class="bi bi-eye"></i></a></div>'
                                 },
                             @endforeach
                         ];

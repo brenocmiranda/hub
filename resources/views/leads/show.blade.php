@@ -34,13 +34,13 @@ Detalhes do Lead
                     <label for="name">Telefone</label>
                 </div>
             </div>
-            <div class="col-6">
+            <div class="col-lg-6 col-12">
                 <div class="form-floating">
                     <input type="text" class="form-control" value="{{ $lead->RelationBuildings->name }}" disabled>
                     <label for="name">Empreendimento</label>
                 </div>
             </div>
-            <div class="col-6">
+            <div class="col-lg-6 col-12">
                 <div class="form-floating">
                     <input type="text" class="form-control" value="{{ $lead->RelationOrigins->name }}" disabled>
                     <label for="name">Origem</label>
@@ -52,7 +52,7 @@ Detalhes do Lead
                     <hr>
                 </div>
                 @foreach($lead->RelationFields as $as)
-                <div class="col-6">
+                <div class="col-lg-6 col-12">
                     <div class="form-floating">
                         <input type="text" class="form-control" value="{{ $as->value }}" disabled>
                         <label for="name">{{$as->name}}</label>
@@ -65,7 +65,7 @@ Detalhes do Lead
                 <hr>
             </div>
             <div class="col-12">
-                <ul class="timeline pe-5">
+                <ul class="timeline pe-4">
                     <li class="d-flex flex-wrap">
                         <h6 class="fw-bold w-75">Entrada do Lead</h6>
                         <span href="#" class="ms-auto w-25 text-end">{{ $lead->created_at->format("d/m/Y H:i:s") }}</span>
@@ -88,7 +88,6 @@ Detalhes do Lead
                                     <h6 class="fw-bold w-75">Execução do processo de {{$log->RelationIntegrations->name}}.</h6>
                                     <span href="#" class="ms-auto w-25 text-end">{{ $log->created_at->format("d/m/Y H:i:s") }}</span>
                                     <p class="w-100">A tentativa de envio do lead para integração resultou em <strong class="text-success">sucesso</strong>.</p>
-                                    <!-- <small class="text-break">{{ $log->RelationPipelinesLog->first()->response }}.</small> -->
                                 </li>
                             @elseif($log->statusCode == 400)
                                 <li class="d-flex flex-wrap">
@@ -125,7 +124,7 @@ Detalhes do Lead
 
     function addField(element) {
         event.preventDefault();
-        $('.fields').find('.all-fields').append(`<div class="content-fields"> <div class="row"> <div class="input-field col-6"> <div class="form-floating"> <input type="text" class="form-control" id="integrationFieldName-` + field + `" name="array[nameField][]" required> <label for="integrationFieldName-` + field + `">Nome do campo <abbr>*</abbr></label> </div> </div> <div class="input-field col-6 d-flex align-items-center gap-2"> <div class="form-floating w-100"> <input type="text" class="form-control" id="integrationFieldValor-` + field + `" name="array[valueField][]" required> <label for="integrationFieldValor-` + field + `">Valor <abbr>*</abbr></label> </div> <a href="#" class="btn btn-sm btn-outline-dark rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Remover campo" onclick="removeField(this);"><i class="bi bi-dash"></i></a> </div> </div> </div> `);
+        $('.fields').find('.all-fields').append(`<div class="content-fields"> <div class="row"> <div class="input-field col-lg-6 col-12"> <div class="form-floating"> <input type="text" class="form-control" id="integrationFieldName-` + field + `" name="array[nameField][]" required> <label for="integrationFieldName-` + field + `">Nome do campo <abbr>*</abbr></label> </div> </div> <div class="input-field col-lg-6 col-12 d-flex align-items-center gap-2"> <div class="form-floating w-100"> <input type="text" class="form-control" id="integrationFieldValor-` + field + `" name="array[valueField][]" required> <label for="integrationFieldValor-` + field + `">Valor <abbr>*</abbr></label> </div> <a href="#" class="btn btn-sm btn-outline-dark rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Remover campo" onclick="removeField(this);"><i class="bi bi-dash"></i></a> </div> </div> </div> `);
         field++;
 
         // Enable toltips

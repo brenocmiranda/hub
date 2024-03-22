@@ -53,7 +53,7 @@ Route::group(['prefix' => 'app'], function () {
 
     // Leads
     Route::resource('leads', LeadsCtrl::class)->only([ 'index', 'create', 'store', 'show' ]);
-    Route::any('leads/all/s', [LeadsCtrl::class, 'search'])->name('leads.search');
+    Route::any('leads/all/search', [LeadsCtrl::class, 'search'])->name('leads.search');
 
     // Leads (Origins)
     Route::resource('leads/all/origins', LeadsOriginsCtrl::class)->names([
@@ -70,6 +70,7 @@ Route::group(['prefix' => 'app'], function () {
 
     // Buildings
     Route::resource('buildings', BuildingsCtrl::class);
+    Route::any('leads/all/duplicate/{id}', [BuildingsCtrl::class, 'duplicate'])->name('buildings.duplicate');
 
     // Buildings (Keys)
     Route::resource('buildings/all/keys', BuildingsKeysCtrl::class)->names([

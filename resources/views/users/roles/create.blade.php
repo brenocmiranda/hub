@@ -34,13 +34,13 @@ Nova função
                                 <label for="name">Nome <abbr>*</abbr></label>
                             </div>
                         </div>
-                        <div class="input-field col-6">
+                        <div class="input-field col-lg-6 col-12">
                             <div class="form-floating">
                                 <input type="number" class="form-control @error('value') is-invalid @enderror" id="value" name="value" value="{{ old('value') }}" min="1" max="100" required>
                                 <label for="value">Value <abbr>*</abbr></label>
                             </div>
                         </div>
-                        <div class="input-field col-6">
+                        <div class="input-field col-lg-6 col-12">
                             <div class="form-floating">
                                 <select class="form-select @error('active') is-invalid @enderror" aria-label="Defina um status" name="active" id="active" required>
                                     <option selected></option>

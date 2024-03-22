@@ -34,14 +34,14 @@ Nova origem
                                 <label for="name">Nome <abbr>*</abbr></label>
                             </div>
                         </div>
-                        <div class="input-field col-6">
+                        <div class="input-field col-lg-6 col-12">
                             <div class="form-floating">
                                 <input type="text" class="form-control @error('slug') is-invalid @enderror slug" value="{{ old('slug') }}" disabled>
                                 <input type="hidden" class="slug" name="slug" value="{{ old('slug') }}">
                                 <label for="slug">Slug <abbr>*</abbr></label>
                             </div>
                         </div>
-                        <div class="input-field col-6">
+                        <div class="input-field col-lg-6 col-12">
                             <div class="form-floating">
                                 <select class="form-select @error('active') is-invalid @enderror" aria-label="Defina um status" name="active" id="active" required>
                                     <option selected></option>

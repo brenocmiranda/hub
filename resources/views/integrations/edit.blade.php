@@ -29,13 +29,13 @@ Editar integração
                         @method('PUT')
                         @csrf  
                         
-                        <div class="input-field col-6">
+                        <div class="input-field col-lg-6 col-12">
                             <div class="form-floating">
                                 <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ $integration->name ? $integration->name : old('name') }}" required>
                                 <label for="name">Nome <abbr>*</abbr></label>
                             </div>
                         </div>
-                        <div class="input-field col-6">
+                        <div class="input-field col-lg-6 col-12">
                             <div class="form-floating">
                                 <input type="text" class="form-control @error('slug') is-invalid @enderror slug" value="{{ $integration->slug ? $integration->slug : old('slug') }}" disabled>
                                 <input type="hidden" class="slug" name="slug" value="{{ $integration->slug ? $integration->slug : old('slug') }}">
@@ -58,7 +58,7 @@ Editar integração
                                 <label for="url">URL <abbr>*</abbr></label>
                             </div>
                         </div>
-                        <div class="input-field col-6">
+                        <div class="input-field col-lg-6 col-12">
                             <div class="form-floating">
                                 <select class="form-select @error('active') is-invalid @enderror" aria-label="Defina um status" name="active" id="active" required>
                                     <option selected></option>
@@ -72,19 +72,19 @@ Editar integração
                             <p>Autenticação</p>
                             <hr>
                         </div>
-                        <div class="input-field col-6">
+                        <div class="input-field col-lg-6 col-12">
                             <div class="form-floating">
                                 <input type="text" class="form-control @error('user') is-invalid @enderror" id="user" name="user" value="{{ $integration->user ? $integration->user : old('user') }}">
                                 <label for="user">Usuário</label>
                             </div>
                         </div>
-                        <div class="input-field col-6">
+                        <div class="input-field col-lg-6 col-12">
                             <div class="form-floating">
                                 <input type="text" class="form-control @error('password') is-invalid @enderror" id="password" name="password" value="{{ $integration->password ? $integration->password : old('password') }}">
                                 <label for="password">Senha</label>
                             </div>
                         </div>
-                        <div class="input-field col-6">
+                        <div class="input-field col-lg-6 col-12">
                             <div class="form-floating">
                                 <input type="text" class="form-control @error('token') is-invalid @enderror" id="token" name="token" value="{{ $integration->token ? $integration->token : old('token') }}">
                                 <label for="token">Token</label>

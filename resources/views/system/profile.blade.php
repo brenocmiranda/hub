@@ -44,28 +44,28 @@ Meu perfil
                         </div>
                     </div>
 
-                    <div class="input-field col-6">
+                    <div class="input-field col-lg-6 col-12">
                         <div class="form-floating">
                             <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') ? old('name') : Auth::user()->name }}" required>
                             <label for="name">Nome <abbr>*</abbr></label>
                         </div>
                     </div>
 
-                    <div class="input-field col-6">
+                    <div class="input-field col-lg-6 col-12">
                         <div class="form-floating">
                             <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email') ? old('email') : Auth::user()->email }}" required>
                             <label for="email">E-mail <abbr>*</abbr></label>
                         </div>
                     </div>
 
-                    <div class="input-field col-6">
+                    <div class="input-field col-lg-6 col-12">
                         <div class="form-floating">
                             <input type="text" class="form-control" id="companie" value="{{ Auth::user()->RelationCompanies->name }}" disabled>
                             <label for="companie">Empresa <abbr>*</abbr></label>
                         </div>
                     </div>
 
-                    <div class="input-field col-6">
+                    <div class="input-field col-lg-6 col-12">
                         <div class="form-floating">
                             <input type="text" class="form-control" id="rule" value="{{ Auth::user()->RelationRules->name }}" disabled>
                             <label for="rule">Tipo de acesso <abbr>*</abbr></label>

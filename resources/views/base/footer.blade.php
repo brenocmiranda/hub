@@ -58,6 +58,20 @@
 </script>
 @endif
 
+@if (session('duplicate'))
+<script>
+    $.toast({
+        heading: 'Duplicação',
+        text: 'O seu registro foi duplicado no banco.',
+        icon: 'warning',
+        loader: true,        // Change it to false to disable loader
+        loaderBg: '#9EC600',  // To change the background
+        allowToastClose: true,
+        position: 'bottom-right',
+    });
+</script>
+@endif
+
 @yield('js')
 
 </body>

@@ -37,7 +37,7 @@ Tokens
                             @foreach($tokens as $token)
                                 { 
                                     'name': '{{ $token->name }}', 
-                                    'operations': '<a href="{{ route('users.tokens.destroy', $token->id ) }}" class="btn btn-outline-secondary ms-1 px-2 py-1 destroy" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Excluir"><i class="bi bi-trash"></i></a>'
+                                    'operations': '<div class="d-flex justify-content-center align-items-center gap-2"><a href="{{ route('users.tokens.destroy', $token->id ) }}" class="btn btn-outline-secondary px-2 py-1 destroy" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Excluir"><i class="bi bi-trash"></i></a></div>'
                                 },
                             @endforeach
                         ];
