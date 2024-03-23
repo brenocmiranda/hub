@@ -11,6 +11,7 @@ use App\Http\Controllers\LeadsOriginsCtrl;
 use App\Http\Controllers\PrivateCtrl;
 use App\Http\Controllers\PublicCtrl;
 use App\Http\Controllers\ProfileCtrl;
+use App\Http\Controllers\PipelinesCtrl;
 use App\Http\Controllers\UsersCtrl;
 use App\Http\Controllers\UsersRolesCtrl;
 use App\Http\Controllers\UsersTokensCtrl;
@@ -62,7 +63,19 @@ Route::group(['prefix' => 'app'], function () {
         'store' => 'leads.origins.store',
         'edit' => 'leads.origins.edit',
         'update' => 'leads.origins.update',
-        'destroy' => 'leads.origins.destroy'
+        'destroy' => 'leads.origins.destroy',
+        'show' => 'leads.origins.show'
+    ]);
+
+    // Leads (Pipelines)
+    Route::resource('leads/all/pipelines', PipelinesCtrl::class)->names([
+        'index' => 'leads.pipelines.index',
+        'create' => 'leads.pipelines.create',
+        'store' => 'leads.pipelines.store',
+        'edit' => 'leads.pipelines.edit',
+        'update' => 'leads.pipelines.update',
+        'destroy' => 'leads.pipelines.destroy',
+        'show' => 'leads.pipelines.show'
     ]);
 
     // Companies

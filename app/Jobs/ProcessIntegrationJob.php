@@ -8,29 +8,28 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Http;
-use App\Http\Controllers\LeadsCtrl;
+use Illuminate\Support\Facades\Bus;
+use Illuminate\Bus\Batchable;
+use Illuminate\Bus\Batch;
 use App\Models\LeadsFields;
 use App\Models\Pipelines;
 use App\Models\PipelinesLog;
+use Throwable;
 
 class ProcessIntegrationJob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    /**
-     * Create a new job instance.
-     */
     public function __construct(protected $lead, protected $integration)
     {
         $this->lead = $lead;
         $this->integration = $integration;
     }
 
-    /**
-     * Execute the job.
-     */
     public function handle(): void
-    {      
+    {   
+        throw new \Exception('Erro de execução em todo o processo.', true);
+
         // Criando body da integração
         $bodyFields = $this->lead->RelationBuildings->RelationIntegrationsFields;
         foreach($bodyFields as $bodyField) {
@@ -230,7 +229,7 @@ class ProcessIntegrationJob implements ShouldQueue
 
         } else {
 
-            throw new \Exception($response->body(), true);
+            throw new \Exception('Erro ' . $response->status() . ' na execução da integração. Body: /n' . $response->body(), true);
 
         }
     }

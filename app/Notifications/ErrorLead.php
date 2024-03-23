@@ -7,20 +7,20 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class FirstAccess extends Notification implements ShouldQueue
+class ErrorLead extends Notification implements ShouldQueue
 {
     use Queueable;
-
-    private $user;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct($user)
+    public function __construct(protected $user, protected $lead, protected $exception)
     {
         $this->user = $user;
+        $this->lead = $lead;
+        $this->exception = $exception;
     }
-    
+
     /**
      * Get the notification's delivery channels.
      *
@@ -31,15 +31,15 @@ class FirstAccess extends Notification implements ShouldQueue
         return ['mail'];
     }
 
-     /**
+    /**
      * Get the mail representation of the notification.
      */
     public function toMail(object $notifiable): MailMessage
-    {   
+    {
         return (new MailMessage)
                 ->from('breno.miranda@komuh.com', 'Hub Integrações')
-                ->subject('Seu primeiro acesso :)')
-                ->view('system.emails.firstAccess', ['user' => $this->user]);
+                ->subject('Erro ao executar integração')
+                ->view('system.emails.errorLead', ['user' => $this->user, 'lead' => $this->lead, 'exception' => $this->exception]);
     }
 
     /**

@@ -46,7 +46,7 @@
                                 text-white' }}">Origens</a>
                         </li>
                         <li>
-                            <a href="{{ route('leads.create') }}"
+                            <a href="{{ route('leads.pipelines.index') }}"
                                 class="d-inline-flex text-decoration-none mb-2 {{ Request::segment(2) == 'leads' && Request::segment(3) == 'jobs' ? 'text-secondary' : '
                                 text-white' }}">Pipelines</a>
                         </li>

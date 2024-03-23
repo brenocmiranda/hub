@@ -2,29 +2,30 @@
 
 namespace App\Jobs;
 
-use App\Models\Leads;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Bus;
+use Illuminate\Bus\Batchable;
+use Illuminate\Bus\Batch;
+use App\Notifications\ErrorLead;
+use App\Models\Users;
+use App\Models\UsersRoles;
+use App\Models\UsersLogs;
+use App\Models\Leads;
+use Throwable;
 
 class ProcessIntegrationsJob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    /**
-     * Create a new job instance.
-     */
     public function __construct(protected $id)  
     { 
         $this->id = $id;
     }
 
-    /**
-     * Execute the job.
-     */
     public function handle(): void
     {   
         $lead = Leads::find($this->id);
@@ -34,6 +35,16 @@ class ProcessIntegrationsJob implements ShouldQueue
             $listOfJobs[] = new ProcessIntegrationJob($lead, $integration);
         }
 
-        Bus::chain($listOfJobs)->onQueue('integrations')->dispatch();
+        Bus::batch([ $listOfJobs ])
+        ->catch(function (Batch $batch, Throwable $e) use ($lead) {
+            $usersRole = UsersRoles::where('name', "like", "%admin%")->first();
+            $users = Users::where('user_role_id', $usersRole->id)->get();
+            foreach($users as $user){
+                $user->notify(new ErrorLead( $user, $lead, $e->getMessage()));
+            }
+        })
+        ->name('Processo de integração')
+        ->onQueue('integrations')
+        ->dispatch();
     }
 }

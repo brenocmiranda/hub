@@ -116,27 +116,3 @@ Detalhes do Lead
         </div>
     </div>
 @endsection
-
-@section('js')
-<script>
-    // Adicionando e removendo fields
-    var field = 0;
-
-    function addField(element) {
-        event.preventDefault();
-        $('.fields').find('.all-fields').append(`<div class="content-fields"> <div class="row"> <div class="input-field col-lg-6 col-12"> <div class="form-floating"> <input type="text" class="form-control" id="integrationFieldName-` + field + `" name="array[nameField][]" required> <label for="integrationFieldName-` + field + `">Nome do campo <abbr>*</abbr></label> </div> </div> <div class="input-field col-lg-6 col-12 d-flex align-items-center gap-2"> <div class="form-floating w-100"> <input type="text" class="form-control" id="integrationFieldValor-` + field + `" name="array[valueField][]" required> <label for="integrationFieldValor-` + field + `">Valor <abbr>*</abbr></label> </div> <a href="#" class="btn btn-sm btn-outline-dark rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Remover campo" onclick="removeField(this);"><i class="bi bi-dash"></i></a> </div> </div> </div> `);
-        field++;
-
-        // Enable toltips
-        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
-    }
-    
-    function removeField(element) {
-        event.preventDefault();
-        if(confirm('Tem certeza que deseja remover o campo?')){
-            $(element).closest('.content-fields').remove();
-        }
-    }
-</script>
-@endsection

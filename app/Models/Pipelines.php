@@ -16,9 +16,14 @@ class Pipelines extends Model
         'buildings_has_integrations_integration_id',
     ];
 
+    public function RelationLeads()
+    {
+        return $this->belongsTo(Leads::class, 'lead_id', 'id');
+    }
+
     public function RelationPipelinesLog()
     {
-        return $this->hasMany(PipelinesLog::class, 'pipeline_id', 'id');
+        return $this->hasOne(PipelinesLog::class, 'pipeline_id', 'id');
     } 
 
     public function RelationIntegrations()
