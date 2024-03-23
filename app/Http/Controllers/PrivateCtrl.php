@@ -19,8 +19,8 @@ class PrivateCtrl extends Controller
     {
         if (Auth::check() && Auth::user()->active) {
             $leadsDay = Leads::whereDate('created_at', date('Y-m-d'))->count();
-            $requestSuccess = Pipelines::whereDate('created_at', date('Y-m-d'))->where('statusCode', 200)->orWhere('statusCode', 201)->count();
-            $requestFail = Pipelines::whereDate('created_at', date('Y-m-d'))->where('statusCode', 400)->count();
+            $requestSuccess = Pipelines::where('statusCode', 200)->orWhere('statusCode', 201)->whereDate('created_at', date('Y-m-d'))->count();
+            $requestFail = Pipelines::where('statusCode', 400)->orWhere('statusCode', 500)->whereDate('created_at', date('Y-m-d'))->count();
 
             return view('system.home')->with('leadsDay', $leadsDay)->with('requestSuccess', $requestSuccess)->with('requestFail', $requestFail);
         } else {

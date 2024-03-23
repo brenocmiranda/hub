@@ -28,8 +28,6 @@ class ProcessIntegrationJob implements ShouldQueue
 
     public function handle(): void
     {   
-        throw new \Exception('Erro de execução em todo o processo.', true);
-
         // Criando body da integração
         $bodyFields = $this->lead->RelationBuildings->RelationIntegrationsFields;
         foreach($bodyFields as $bodyField) {
