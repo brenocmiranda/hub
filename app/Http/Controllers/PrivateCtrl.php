@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use App\Models\Companies;
 use App\Models\Leads;
 use App\Models\UsersLogs;
@@ -19,8 +20,8 @@ class PrivateCtrl extends Controller
     {
         if (Auth::check() && Auth::user()->active) {
             $leadsDay = Leads::whereDate('created_at', date('Y-m-d'))->count();
-            $requestSuccess = Pipelines::where('statusCode', 200)->orWhere('statusCode', 201)->whereDate('created_at', date('Y-m-d'))->count();
-            $requestFail = Pipelines::where('statusCode', 400)->orWhere('statusCode', 500)->whereDate('created_at', date('Y-m-d'))->count();
+            $requestSuccess = DB::table('job_batches')->where(DB::raw("DATE(created_at) = '".date('Y-m-d')."'"))->whereNull('cancelled_at')->count();
+            $requestFail = DB::table('job_batches')->where(DB::raw("DATE(created_at) = '".date('Y-m-d')."'"))->whereNotNull('cancelled_at')->count();
 
             return view('system.home')->with('leadsDay', $leadsDay)->with('requestSuccess', $requestSuccess)->with('requestFail', $requestFail);
         } else {

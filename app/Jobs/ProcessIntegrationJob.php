@@ -227,6 +227,19 @@ class ProcessIntegrationJob implements ShouldQueue
 
         } else {
 
+            // Salvando a pipeline de execução da integração
+            $pipeline = Pipelines::create([
+                'statusCode' => $response->status(),
+                'lead_id' => $this->lead->id,
+                'buildings_has_integrations_building_id' => $this->lead->RelationBuildings->id,
+                'buildings_has_integrations_integration_id' => $this->integration->id
+            ]);
+            PipelinesLog::create([
+                'header' => json_encode($response->headers()),
+                'response' => json_encode($response->body()),
+                'pipeline_id' => $pipeline->id
+            ]);
+
             throw new \Exception('Erro ' . $response->status() . ' na execução da integração. Body: /n' . $response->body(), true);
 
         }

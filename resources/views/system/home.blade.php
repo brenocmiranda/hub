@@ -34,7 +34,7 @@ Home
                         <h6 class="mb-0">Jobs success <small>(dia)</small></h6>
                         <h4 class="mb-0">{{ $requestSuccess }}</h4>
                         <span>
-                            <a href="{{ route('leads.pipelines.index') }}">Veja mais</a>
+                            <a href="{{ route('leads.pipelines.index') }}">Veja todas</a>
                         </span>
                     </div>
                 </div>
@@ -48,7 +48,7 @@ Home
                         <h6 class="mb-0">Jobs error <small>(dia)</small></h6>
                         <h4 class="mb-0">{{ $requestFail }}</h4>
                         <span>
-                            <a href="{{ route('leads.pipelines.index') }}">Veja mais</a>
+                            <a href="{{ route('leads.pipelines.index') }}">Veja todas</a>
                         </span>
                     </div>
                 </div>
