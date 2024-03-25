@@ -87,7 +87,7 @@ class ProcessIntegrationJob implements ShouldQueue
                 
                 if ( strpos($bodyField->value, '$utm_xrm') !== false ){
                     $utm_source = $this->lead->RelationFields->where('name', 'utm_source')->first();
-                    $bodyField->value = str_replace('$utm_xrm', ($utm_source ? self::get_utm_source_by_valor( $utm_source ) : ' '), $bodyField->value);
+                    $bodyField->value = str_replace('$utm_xrm', ($utm_source ? self::get_utm_source_by_valor( $utm_source->value ) : ' '), $bodyField->value);
                 } 
                 
                 if ( strpos($bodyField->value, '$utm_medium') !== false ){

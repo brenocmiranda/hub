@@ -230,7 +230,7 @@ class ApiLeadsCtrl extends Controller
             // pp
             if($request->pp){
                 $fields['nameField'][] = 'pp';
-                $fields['valueField'][] = $request->com ? 'Y' : 'N';
+                $fields['valueField'][] = $request->pp ? 'Y' : 'N';
             }
 
             // gclid

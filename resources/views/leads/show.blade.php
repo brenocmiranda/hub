@@ -78,7 +78,7 @@ Detalhes do Lead
                                     <h6 class="fw-bold w-75">Dados enviados para o processo de {{$log->RelationIntegrations->name}}.</h6>
                                     <span href="#" class="me-auto ms-auto-md w-25 text-left text-md-end mb-3 mb-md-0">{{ $log->created_at->format("d/m/Y H:i:s") }}</span>
                                     @if($log->RelationPipelinesLog->first()->response)
-                                        @foreach(json_decode($log->RelationPipelinesLog->first()->response) as $index => $response)
+                                        @foreach(json_decode($log->RelationPipelinesLog->response) as $index => $response)
                                             <small class="text-break d-block w-100">{{$index}} => {{$response}}</small>
                                         @endforeach
                                     @endif

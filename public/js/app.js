@@ -143,5 +143,6 @@ $('#leadSearch').on('submit', function(e){
 $('#leadSearch .close').on('click', function(e){
     e.preventDefault();
     $('#leadSearch').find('.resultList').html('');
+    $('#leadSearch').find('#search').val('');
     $('#leadSearch').find('.result').hide();
-})
+});
