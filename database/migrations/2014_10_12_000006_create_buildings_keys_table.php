@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('buildings_keys', function (Blueprint $table) {
             $table->id();
             $table->boolean('active');
-            $table->string('name', 200);
             $table->string('value');
             $table->softDeletes($column = 'deleted_at', $precision = 0);
             $table->unsignedBigInteger('building_id');

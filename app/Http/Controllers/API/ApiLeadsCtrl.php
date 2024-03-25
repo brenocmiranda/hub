@@ -79,16 +79,16 @@ class ApiLeadsCtrl extends Controller
             // return for building
             $bdefault = BuildingsKeys::where('value', 'default')->first();
             if($request->building) {
-                $buildingNow = BuildingsKeys::where('value', $request->building)->first();
+                $buildingNow = BuildingsKeys::where('active', 1)->where('value', $request->building)->first();
                 $building = $buildingNow ? $buildingNow->building_id : $bdefault->building_id;
             }elseif($request->empreendimento) {
-                $buildingNow = BuildingsKeys::where('value', $request->empreendimento)->first();
+                $buildingNow = BuildingsKeys::where('active', 1)->where('value', $request->empreendimento)->first();
                 $building = $buildingNow ? $buildingNow->building_id : $bdefault->building_id;
             }elseif($request->originListingId) {
-                $buildingNow = BuildingsKeys::where('value', $request->originListingId)->first();
+                $buildingNow = BuildingsKeys::where('active', 1)->where('value', $request->originListingId)->first();
                 $building = $buildingNow ? $buildingNow->building_id : $bdefault->building_id;
             }elseif($request->codigoDoAnunciante) {
-                $buildingNow = BuildingsKeys::where('value', $request->codigoDoAnunciante)->first();
+                $buildingNow = BuildingsKeys::where('active', 1)->where('value', $request->codigoDoAnunciante)->first();
                 $building = $buildingNow ? $buildingNow->building_id : $bdefault->building_id;
             }else{
                 $bdefault = BuildingsKeys::where('value', 'default')->first();

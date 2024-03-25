@@ -22,7 +22,6 @@ class BuildingsKeysRqt extends FormRequest
     public function attributes(): array
     {
         return [
-            'name' => 'nome',
             'value' => 'valor',
             'building' => 'empreendimento',
             'active' => 'status',
@@ -38,14 +37,12 @@ class BuildingsKeysRqt extends FormRequest
     {
         if($this->segment(4) == 'store'){
             return [
-                'name' => 'required|min:3',
                 'value' => 'required|min:3|unique:buildings_keys,value',
                 'active' => 'required|boolean',
                 'building' => 'required|integer',
             ];
         } else {
             return [
-                'name' => 'required|min:3',
                 'value' => 'required|min:3',
                 'active' => 'required|boolean',
                 'building' => 'required|integer',

@@ -26,7 +26,7 @@ Usuários
                             <th data-field="empresa" data-align="center">Empresa</th>
                             <th data-field="function" data-align="center">Função</th>
                             <th data-field="status" data-align="center">Status</th>
-                            <th data-field="operations" data-align="center">Operações</th>
+                            <th data-field="operations" data-align="center" data-events="operateEvents">Operações</th>
                         </tr>
                     </thead>
                 </table>
@@ -44,26 +44,28 @@ Usuários
                             @endforeach
                         ];
 
+                         // Buttons click event
+                        window.operateEvents = {
+                            'click a.destroy': function (e, value, row, index) {
+                                e.preventDefault();
+                                $('#modalDestroy').find('form').attr('action', $(value).find('a.destroy').attr('href'));
+                                $('#modalDestroy').modal('show');
+                            },
+                            'click a.reset': function (e, value, row, index) {
+                                e.preventDefault();
+                                $('#modalReset').find('form').attr('action', $(value).find('a.confirm').attr('href'));
+                                $('#modalReset').modal('show');
+                            },
+                            'mouseover a': function (e, value, row, index) {
+                                $('[data-bs-toggle="tooltip"]').tooltip({
+                                    trigger: 'hover',
+                                    html: true
+                                });
+                            },
+                        };
+
                         $table.bootstrapTable('refreshOptions', {
                             data: data
-                        });
-
-                        // Enable toltips
-                        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-                        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
-
-                        // Buttons in destroy
-                        $('a.destroy').on('click', function(e){
-                            e.preventDefault();
-                            $('#modalDestroy').find('form').attr('action', $(this).attr('href'));
-                            $('#modalDestroy').modal('show');
-                        });
-
-                        // Buttons in reset password
-                        $('a.reset').on('click', function(e){
-                            e.preventDefault();
-                            $('#modalReset').find('.confirm').attr('href', $(this).attr('href'));
-                            $('#modalReset').modal('show');
                         });
                     });
                 </script>

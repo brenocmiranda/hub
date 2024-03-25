@@ -28,7 +28,7 @@
 							<p>
 								<strong>Body:</strong> <br>
 								<small style="color: #F44336;">
-									{{ $exception }}
+									{!! $exception !!}
 								</small>
 							</p>
 							<p>

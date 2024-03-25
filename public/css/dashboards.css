@@ -1,0 +1,14 @@
+/** Documento da página de Dashboards **/
+.card i {
+    font-size: 26px;
+}
+
+.card span {
+    font-size: 12px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.card small {
+    font-size: 12px;
+}

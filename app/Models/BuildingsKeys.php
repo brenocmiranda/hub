@@ -12,7 +12,6 @@ class BuildingsKeys extends Model
 
     protected $fillable = [
         'active',
-        'name',
         'value',
         'building_id',
     ];

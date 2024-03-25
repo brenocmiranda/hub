@@ -16,6 +16,7 @@ class Integrations extends Model
         'name',
         'slug',
         'url',
+        'encoded',
         'user',
         'password',
         'token',

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('name', 200);
             $table->string('slug', 200);
             $table->longText('url', 200);
+            $table->boolean('encoded');
             $table->string('user', 200)->nullable();
             $table->string('password', 200)->nullable();
             $table->string('token', 200)->nullable();

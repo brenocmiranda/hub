@@ -26,6 +26,7 @@ class IntegrationsRqt extends FormRequest
             'type' => 'tipo',
             'slug' => 'slug',
             'active' => 'status',
+            'encoded' => 'http_query_build',
             'url' => 'URL',
             'user' => 'usuário',
             'password' => 'senha',
@@ -51,6 +52,7 @@ class IntegrationsRqt extends FormRequest
                 'token' => 'min:3|nullable',
                 'header' => 'min:3|nullable',
                 'active' => 'required|boolean',
+                'encoded' => 'required|boolean',
             ];
         } else {
             return [
@@ -62,6 +64,7 @@ class IntegrationsRqt extends FormRequest
                 'token' => 'min:3|nullable',
                 'header' => 'min:3|nullable',
                 'active' => 'required|boolean',
+                'encoded' => 'required|boolean',
             ];
         }
     }

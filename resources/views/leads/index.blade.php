@@ -42,13 +42,19 @@ Leads
                             @endforeach
                         ];
 
+                        // Buttons click event
+                        window.operateEvents = {
+                            'mouseover a': function (e, value, row, index) {
+                                $('[data-bs-toggle="tooltip"]').tooltip({
+                                    trigger: 'hover',
+                                    html: true
+                                });
+                            },
+                        };
+
                         $table.bootstrapTable('refreshOptions', {
                             data: data
                         });
-
-                        // Enable toltips
-                        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-                        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
                     });
                 </script>
             </div>

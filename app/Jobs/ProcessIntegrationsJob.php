@@ -40,8 +40,10 @@ class ProcessIntegrationsJob implements ShouldQueue
             $usersRole = UsersRoles::where('name', "like", "%admin%")->first();
             $users = Users::where('user_role_id', $usersRole->id)->get();
             foreach($users as $user){
-                $user->notify(new ErrorLead( $user, $lead, $e->getMessage()));
+                $user->notify(new ErrorLead( $user, $lead, $e->getMessage() ));
             }
+
+            $batch->release(60);
         })
         ->name('Processo de integração')
         ->onQueue('integrations')

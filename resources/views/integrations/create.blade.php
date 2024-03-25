@@ -59,6 +59,16 @@ Nova integração
                         </div>
                         <div class="input-field col-lg-6 col-12">
                             <div class="form-floating">
+                                <select class="form-select @error('encoded') is-invalid @enderror" aria-label="Escolha se será enviado o body encoded" name="encoded" id="encoded" required>
+                                    <option selected></option>
+                                    <option value="1" {{ old('encoded') != null && old('encoded') == true ? 'selected' : "" }}>Sim</option>
+                                    <option value="0" {{ old('encoded') != null && old('encoded') == false ? 'selected' : "" }}>Não</option>
+                                </select>
+                                <label for="encoded">Encoded body? <abbr>*</abbr></label>
+                            </div>
+                        </div>
+                        <div class="input-field col-lg-6 col-12">
+                            <div class="form-floating">
                                 <select class="form-select @error('active') is-invalid @enderror" aria-label="Defina um status" name="active" id="active" required>
                                     <option selected></option>
                                     <option value="1" {{ old('active') != null && old('active') == true ? 'selected' : "" }}>Ativo</option>

@@ -28,19 +28,7 @@ Nova chave
                     <form action="{{ route('buildings.keys.store') }}" method="POST" class="row row-gap-3">
                         @csrf
                         
-                        <div class="input-field col-lg-6 col-12">
-                            <div class="form-floating">
-                                <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}" required>
-                                <label for="name">Nome <abbr>*</abbr></label>
-                            </div>
-                        </div>
-                        <div class="input-field col-lg-6 col-12">
-                            <div class="form-floating">
-                                <input type="text" class="form-control @error('value') is-invalid @enderror" id="value" name="value" value="{{ old('value') }}" required>
-                                <label for="value">Valor <abbr>*</abbr></label>
-                            </div>
-                        </div>
-                        <div class="input-field col-lg-6 col-12">
+                        <div class="input-field col-lg-12 col-12">
                             <div class="form-floating">
                                 <select class="form-select @error('building') is-invalid @enderror" aria-label="Defina um empreendimento" name="building" id="building" required>
                                     <option selected></option>
@@ -59,6 +47,12 @@ Nova chave
                         </div>
                         <div class="input-field col-lg-6 col-12">
                             <div class="form-floating">
+                                <input type="text" class="form-control @error('value') is-invalid @enderror" id="value" name="value" value="{{ old('value') }}" required>
+                                <label for="value">Valor <abbr>*</abbr></label>
+                            </div>
+                        </div>
+                        <div class="input-field col-lg-6 col-12">
+                            <div class="form-floating">
                                 <select class="form-select @error('active') is-invalid @enderror" aria-label="Defina um status" name="active" id="active" required>
                                     <option selected></option>
                                     <option value="1" {{ old('active') != null && old('active') == true ? 'selected' : "" }}>Ativo</option>
@@ -67,6 +61,7 @@ Nova chave
                                 <label for="active">Status <abbr>*</abbr></label>
                             </div>
                         </div>
+                        
                         <div class="submit-field d-flex justify-content-end align-items-center gap-3">
                             <a href="{{ route('buildings.keys.index') }}"> <i class="bi bi-arrow-left px-2"></i>Voltar</a>
                             <input type="submit" name="submit" id="submit" class="btn btn-dark px-5 py-2" value="Salvar" />

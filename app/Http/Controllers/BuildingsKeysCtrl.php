@@ -18,7 +18,7 @@ class BuildingsKeysCtrl extends Controller
     
     public function index()
     {
-        return view('buildings.keys.index')->with('keys', BuildingsKeys::orderBy('name', 'asc')->get());
+        return view('buildings.keys.index')->with('keys', BuildingsKeys::join('buildings', 'buildings.id', '=', 'buildings_keys.building_id')->orderBy('buildings.name', 'asc')->get());
     }
 
     public function create()
@@ -40,7 +40,6 @@ class BuildingsKeysCtrl extends Controller
     public function store(BuildingsKeysRqt $request)
     {      
         BuildingsKeys::create([
-            'name' => $request->name, 
             'value' => $request->value, 
             'building_id' => $request->building, 
             'active' => $request->active,
@@ -49,7 +48,7 @@ class BuildingsKeysCtrl extends Controller
         // Salvando log
         UsersLogs::create([
             'title' => 'Cadastro de nova chave',
-            'description' => 'Foi realizado o cadastro de uma nova chave: ' . $request->name . '.',
+            'description' => 'Foi realizado o cadastro de uma nova chave: ' . $request->value . '.',
             'action' => 'create',
             'user_id' => Auth::user()->id
         ]);
@@ -81,7 +80,6 @@ class BuildingsKeysCtrl extends Controller
     public function update(BuildingsKeysRqt $request, string $id)
     {
         BuildingsKeys::find($id)->update([
-            'name' => $request->name, 
             'value' => $request->value, 
             'building_id' => $request->building, 
             'active' => $request->active,
@@ -90,7 +88,7 @@ class BuildingsKeysCtrl extends Controller
         // Salvando log
         UsersLogs::create([
             'title' => 'Atualização das informações da chave',
-            'description' => 'Foi realizado a atualização das informações da chave: ' . $request->name . '.',
+            'description' => 'Foi realizado a atualização das informações da chave: ' . $request->value . '.',
             'action' => 'update',
             'user_id' => Auth::user()->id
         ]);
@@ -103,7 +101,7 @@ class BuildingsKeysCtrl extends Controller
         // Salvando log
         UsersLogs::create([
             'title' => 'Exclusão de chave',
-            'description' => 'Foi realizado a exclusão da chave: ' .  BuildingsKeys::find($id)->name . '.',
+            'description' => 'Foi realizado a exclusão da chave: ' .  BuildingsKeys::find($id)->value . '.',
             'action' => 'destroy',
             'user_id' => Auth::user()->id
         ]);

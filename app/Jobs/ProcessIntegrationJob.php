@@ -33,99 +33,37 @@ class ProcessIntegrationJob implements ShouldQueue
         foreach($bodyFields as $bodyField) {
             if( $bodyField->buildings_has_integrations_integration_id === $this->integration->id ){
 
-                if ( strpos($bodyField->value, '$nomeCompleto') !== false  ){
-                    $bodyField->value = str_replace('$nomeCompleto', $this->lead->name, $bodyField->value);
-                } 
-                
-                if ( strpos($bodyField->value, '$nomeInicial') !== false ){
-                    $arr_nome = explode(' ', $this->lead->name);
-                    $bodyField->value  = str_replace('$nomeInicial', $arr_nome[0], $bodyField->value);
-                } 
-                
-                if ( strpos($bodyField->value, '$nomeFinal') !== false ){
-                    $arr_nome = explode(' ', $this->lead->name);
-                    $bodyField->value = str_replace('$nomeFinal', $arr_nome[ count( $arr_nome ) - 1 ], $bodyField->value);
-                } 
-                
-                if ( strpos($bodyField->value, '$telefoneCompleto') !== false ){
-                    $bodyField->value = str_replace('$telefoneCompleto', $this->lead->phone, $bodyField->value);
-                } 
+                $arr_nome = explode(' ', $this->lead->name);
+                $array = [
+                    '$nomeCompleto' => $this->lead->name,
+                    '$nomeInicial' => $arr_nome[0],
+                    '$nomeFinal' => $arr_nome[ count( $arr_nome ) - 1 ],
+                    '$telefoneCompleto' => $this->lead->phone,
+                    '$dda' => '55',
+                    '$ddd' => substr( $this->lead->phone, 0, 2 ),
+                    '$number' => substr( $this->lead->phone, 2 ),
+                    '$email' => $this->lead->email,
+                    '$origin' => $this->lead->RelationOrigins->name,
+                    '$nomeEmpreendimento' => $this->lead->RelationBuildings->name,
+                    '$pp' => $this->lead->RelationFields->where('name', 'pp')->first() ? $this->lead->RelationFields->where('name', 'pp')->first()->value : 'N',
+                    '$utm_source' =>  $this->lead->RelationFields->where('name', 'utm_source')->first() ? $this->lead->RelationFields->where('name', 'utm_source')->first()->value : '',
+                    '$utm_xrm' => $this->lead->RelationFields->where('name', 'utm_source')->first() ? self::get_utm_source_by_valor( $this->lead->RelationFields->where('name', 'utm_source')->first()->value ) : '',
+                    '$utm_medium' => $this->lead->RelationFields->where('name', 'utm_medium')->first() ? $this->lead->RelationFields->where('name', 'utm_medium')->first()->value : '',
+                    '$utm_campaign' => $this->lead->RelationFields->where('name', 'utm_campaign')->first() ? $this->lead->RelationFields->where('name', 'utm_campaign')->first()->value : '',
+                    '$utm_content' => $this->lead->RelationFields->where('name', 'utm_content')->first() ? $this->lead->RelationFields->where('name', 'utm_content')->first()->value : '',
+                    '$utm_term' => $this->lead->RelationFields->where('name', 'utm_term')->first() ? $this->lead->RelationFields->where('name', 'utm_term')->first()->value : '',
+                    '$message' => $this->lead->RelationFields->where('name', 'message')->first() ? $this->lead->RelationFields->where('name', 'message')->first()->value : '',
+                    '$PartyNumber' => $this->lead->RelationFields->where('name', 'PartyNumber')->first() ? $this->lead->RelationFields->where('name', 'PartyNumber')->first()->value : '',
+                    '$SrNumber' => $this->lead->RelationFields->where('name', 'SrNumber')->first() ? $this->lead->RelationFields->where('name', 'SrNumber')->first()->value : '',
+                ];
 
-                if ( strpos($bodyField->value, '$dda') !== false ){
-                    $bodyField->value = str_replace('$dda', '55', $bodyField->value);
-                } 
-
-                if ( strpos($bodyField->value, '$ddd') !== false ){
-                    $bodyField->value = str_replace('$ddd', substr( $this->lead->phone, 0, 2 ), $bodyField->value);
-                } 
-                
-                if ( strpos($bodyField->value, '$number') !== false ){
-                    $bodyField->value = str_replace('$number', substr( $this->lead->phone, 2 ), $bodyField->value);
-                } 
-                
-                if ( strpos($bodyField->value, '$email') !== false ){
-                    $bodyField->value = str_replace('$email', $this->lead->email, $bodyField->value);
-                }
-                
-                if ( strpos($bodyField->value, '$origin') !== false  ){
-                    $bodyField->value = str_replace('$origin', $this->lead->RelationOrigins->name, $bodyField->value);
-                } 
-                
-                if ( strpos($bodyField->value, '$nomeEmpreendimento') !== false ){
-                    $bodyField->value = str_replace('$nomeEmpreendimento', $this->lead->RelationBuildings->name, $bodyField->value);
-                } 
-                
-                if ( strpos($bodyField->value, '$pp') !== false ){
-                    $pp = $this->lead->RelationFields->where('name', 'pp')->first();
-                    $bodyField->value = str_replace('$pp', ($pp ? $pp->value : 'N'), $bodyField->value);
-                } 
-                
-                if ( strpos($bodyField->value, '$utm_source') !== false ){
-                    $utm_source = $this->lead->RelationFields->where('name', 'utm_source')->first();
-                    $bodyField->value = str_replace('$utm_source', ($utm_source ? $utm_source->value : ' '), $bodyField->value);
-                } 
-                
-                if ( strpos($bodyField->value, '$utm_xrm') !== false ){
-                    $utm_source = $this->lead->RelationFields->where('name', 'utm_source')->first();
-                    $bodyField->value = str_replace('$utm_xrm', ($utm_source ? self::get_utm_source_by_valor( $utm_source->value ) : ' '), $bodyField->value);
-                } 
-                
-                if ( strpos($bodyField->value, '$utm_medium') !== false ){
-                    $utm_medium = $this->lead->RelationFields->where('name', 'utm_medium')->first();
-                    $bodyField->value = str_replace('$utm_medium', ($utm_medium ? $utm_medium->value : ' '), $bodyField->value);
-                } 
-                
-                if ( strpos($bodyField->value, '$utm_campaign') !== false ){
-                    $utm_campaign = $this->lead->RelationFields->where('name', 'utm_campaign')->first();
-                    $bodyField->value = str_replace('$utm_campaign', ($utm_campaign ? $utm_campaign->value : ' '), $bodyField->value);
-                } 
-                
-                if ( strpos($bodyField->value, '$utm_content') !== false ){
-                    $utm_content = $this->lead->RelationFields->where('name', 'utm_content')->first();
-                    $bodyField->value = str_replace('$utm_content', ($utm_content ? $utm_content->value : ' '), $bodyField->value);
-                } 
-                
-                if ( strpos($bodyField->value, '$utm_term') !== false ){
-                    $utm_term = $this->lead->RelationFields->where('name', 'utm_term')->first();
-                    $bodyField->value = str_replace('$utm_term', ($utm_term ? $utm_term->value : ' '), $bodyField->value);
-                } 
-                
-                if ( strpos($bodyField->value, '$message') !== false ){
-                    $message = $this->lead->RelationFields->where('name', 'message')->first();
-                    $bodyField->value = str_replace('$message', ($message ? $message->value : ' '), $bodyField->value);
-                } 
-                
-                if ( strpos($bodyField->value, '$PartyNumber') !== false ){
-                    $PartyNumber = $this->lead->RelationFields->where('name', 'PartyNumber')->first();
-                    $bodyField->value = str_replace('$PartyNumber', ($PartyNumber ? $PartyNumber->value : ' '), $bodyField->value);
-                } 
-                
-                if ( strpos($bodyField->value, '$SrNumber') !== false ){
-                    $numberTicket = $this->lead->RelationFields->where('name', 'SrNumber')->first();
-                    $bodyField->value = str_replace('$SrNumber', ($SrNumber ? $SrNumber->value : ' '), $bodyField->value);
+                foreach($array as $index => $element){
+                    $body[$bodyField->name] = $bodyField->value;
+                    if ( strpos($bodyField->value, $index) !== false ){
+                        $bodyField->value = str_replace($index, $element, $bodyField->value);
+                    } 
                 }
 
-                // Salvando no body
                 $body[$bodyField->name] = $bodyField->value;
             }
         }
@@ -144,16 +82,18 @@ class ProcessIntegrationJob implements ShouldQueue
         ]);
         
         $url = $this->integration->url;
+        $glue = strpos($url, '?') !== false ? '&' : '?';
         $header[] = $this->integration->header;
+        $body = $this->integration->encoded ? http_build_query($body) : $body;
 
         switch( $this->integration->type ) {
             case 'POST':
-                if($this->integration->token){
+                if( !empty($this->integration->token) ){
                     $response = Http::withHeaders($header)
                                 ->timeout(100)
                                 ->withToken($this->integration->token)
                                 ->post($url, $body);
-                }elseif($this->integration->user){
+                }elseif( !empty($this->integration->user) && !empty($this->integration->password) ){
                     $response = Http::withHeaders($header)
                                 ->timeout(100)
                                 ->withBasicAuth($this->integration->user, $this->integration->password)
@@ -166,21 +106,20 @@ class ProcessIntegrationJob implements ShouldQueue
                 break;
             
             case 'GET':
-                $glue = strpos($url, '?') !== false ? '&' : '?';
-                if($this->integration->token){
+                if( !empty($this->integration->token) ){
                     $response = Http::withHeaders($header)
                                 ->timeout(100)
                                 ->withToken($this->integration->token)
-                                ->get($url . $glue . http_build_query($body));
-                } elseif($this->integration->user){
+                                ->get($url . $glue . $body);
+                } elseif( !empty($this->integration->user) && !empty($this->integration->password) ){
                     $response = Http::withHeaders($header)
                                 ->timeout(100)
                                 ->withBasicAuth($this->integration->user, $this->integration->password)
-                                ->get($url . $glue . http_build_query($body));
+                                ->get($url . $glue . $body);
                 } else {
                     $response = Http::withHeaders($header)
                                 ->timeout(100)
-                                ->get($url . $glue . http_build_query($body));
+                                ->get($url . $glue . $body);
                 }
                 break;
         }
@@ -240,7 +179,7 @@ class ProcessIntegrationJob implements ShouldQueue
                 'pipeline_id' => $pipeline->id
             ]);
 
-            throw new \Exception('Erro ' . $response->status() . ' na execução da integração. Body: /n' . $response->body(), true);
+            throw new \Exception('Erro ' . $response->status() . ' na execução da integração. <br /> Body: ' . $response->body(), true);
 
         }
     }
