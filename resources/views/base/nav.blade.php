@@ -11,15 +11,15 @@
                 <div class="search">
                     <form action="{{ route('leads.search') }}" id="leadSearch" class="position-relative">
                         <div class="input-group flex-nowrap rounded-5 bg-transparent border border-dark">
-                            <input type="search" name="search" id="search" placeholder="Pesquisar por leads..." class="py-2 ps-4 pe-2 bg-transparent w-100">
+                            <input type="search" name="search" id="search" placeholder="Pesquisar por leads..." class="bg-transparent w-100 py-2 ps-4 pe-2 ">
                             <button type="submit" class="input-group-text rounded-circle border-0 bg-secondary text-white" id="search" style="margin: 0 -1px">
                                 <i class="bi bi-search"></i>
                             </button>
                         </div>
-                        <div class="result bg-light p-3 rounded-3 position-absolute z-3 mt-1 shadow" style="display: none;">
-                            <div class="resultList"></div>
-                            <a href="#" class="close d-block text-end">
-                                <small><i class="bi bi-chevron-up"></i> Ocultar</small>
+                        <div class="result bg-light rounded-3 position-absolute z-3 mt-1 shadow" style="display: none;">
+                            <div class="resultList p-3 pb-1"></div>
+                            <a href="#" class="close d-block text-center text-white">
+                                <small><i class="bi bi-chevron-up"></i></small>
                             </a>
                         </div>
                     </form>

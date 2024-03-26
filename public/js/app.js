@@ -129,7 +129,7 @@ $('#leadSearch').on('submit', function(e){
                 $('#leadSearch').find('.resultList').html('');
                 if(data[0]){
                     $.each(data, function( index, item ){
-                        $('#leadSearch').find('.resultList').append('<a href="' + item.url + '" class="text-decoration d-flex justify-content-between icon-link mb-2"><span>' + item.name + '</span><i class="bi bi-chevron-right"></i></a>');
+                        $('#leadSearch').find('.resultList').append('<a href="' + item.url + '" class="text-decoration d-flex justify-content-between text-dark mb-2"><span>' + item.name + '</span><i class="bi bi-chevron-right"></i></a>');
                         $('#leadSearch').find('.result').show();
                     });
                 } else {
