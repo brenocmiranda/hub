@@ -73,6 +73,7 @@ class ProcessIntegrationJob implements ShouldQueue
         // Salvando a pipeline com o body sending
         $pipeline = Pipelines::create([
             'statusCode' => 0,
+            'attempts' => $this->attempts(),
             'lead_id' => $this->lead->id,
             'buildings_has_integrations_building_id' => $this->lead->RelationBuildings->id,
             'buildings_has_integrations_integration_id' => $this->integration->id
@@ -95,7 +96,7 @@ class ProcessIntegrationJob implements ShouldQueue
                                 ->timeout(100)
                                 ->withToken($this->integration->token)
                                 ->post($url, $body);
-                }elseif( !empty($this->integration->user) && !empty($this->integration->password) ){
+                } elseif( !empty($this->integration->user) && !empty($this->integration->password) ){
                     $response = Http::withHeaders($header)
                                 ->timeout(100)
                                 ->withBasicAuth($this->integration->user, $this->integration->password)
@@ -129,6 +130,7 @@ class ProcessIntegrationJob implements ShouldQueue
         // Salvando a pipeline de execução da integração
         $pipeline = Pipelines::create([
             'statusCode' => $response->status(),
+            'attempts' => $this->attempts(),
             'lead_id' => $this->lead->id,
             'buildings_has_integrations_building_id' => $this->lead->RelationBuildings->id,
             'buildings_has_integrations_integration_id' => $this->integration->id
@@ -141,7 +143,6 @@ class ProcessIntegrationJob implements ShouldQueue
                         
         // Validando se obtivemos sucesso no HTTP Client 
         if( $response->successful() ){
-
             // Retornando dados da integração vinculando ao lead
             $result = json_decode($response->body(), true);
             if($this->integration->slug === 'xrm-contatos-create' || $this->integration->slug === 'xrm-contatos') {
@@ -165,26 +166,9 @@ class ProcessIntegrationJob implements ShouldQueue
                     ]);
                 }
             }
-
         } else {
-
-            // Salvando a pipeline de execução da integração
-            $pipeline = Pipelines::create([
-                'statusCode' => $response->status(),
-                'lead_id' => $this->lead->id,
-                'buildings_has_integrations_building_id' => $this->lead->RelationBuildings->id,
-                'buildings_has_integrations_integration_id' => $this->integration->id
-            ]);
-            PipelinesLog::create([
-                'header' => json_encode($response->headers()),
-                'response' => json_encode($response->body()),
-                'pipeline_id' => $pipeline->id
-            ]);
-
             $this->release(60);
-
             throw new \Exception('Erro ' . $response->status() . ' na execução da integração. <br /> ' . $response->body(), true);
-
         }
     }
 

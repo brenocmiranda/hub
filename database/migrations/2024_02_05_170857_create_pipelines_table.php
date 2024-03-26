@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('pipelines', function (Blueprint $table) {
             $table->id();
             $table->integer('statusCode');
+            $table->integer('attempts');
             $table->unsignedBigInteger('lead_id');
             $table->foreign('lead_id')->references('id')->on('leads');
             $table->unsignedBigInteger('buildings_has_integrations_building_id');

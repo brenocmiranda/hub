@@ -11,6 +11,7 @@ class Pipelines extends Model
 
     protected $fillable = [
         'statusCode',
+        'attempts',
         'lead_id',
         'buildings_has_integrations_building_id',
         'buildings_has_integrations_integration_id',
