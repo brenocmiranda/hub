@@ -1,7 +1,7 @@
 @extends('base.index')
 
 @section('title')
-Detalhes da pipeline <small>(Status: {{$pipeline->statusCode}})</small>
+Detalhes da pipeline
 @endsection
 
 @section('content-page')
@@ -66,7 +66,7 @@ Detalhes da pipeline <small>(Status: {{$pipeline->statusCode}})</small>
                 </code>
             </div>
             <div class="divider-input col-12">
-                <p class="text-break">Body</p>
+                <p class="text-break">Body (<small>{{$pipeline->statusCode}}</small>)</p>
                 <hr>
             </div>
             <div class="col-12">

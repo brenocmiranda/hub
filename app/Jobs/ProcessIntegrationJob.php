@@ -20,6 +20,8 @@ class ProcessIntegrationJob implements ShouldQueue
 {
     use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    public $tries = 3;
+
     public function __construct(protected $lead, protected $integration)
     {
         $this->lead = $lead;
@@ -179,7 +181,9 @@ class ProcessIntegrationJob implements ShouldQueue
                 'pipeline_id' => $pipeline->id
             ]);
 
-            throw new \Exception('Erro ' . $response->status() . ' na execução da integração. <br /> Body: ' . $response->body(), true);
+            $this->release(60);
+
+            throw new \Exception('Erro ' . $response->status() . ' na execução da integração. <br /> ' . $response->body(), true);
 
         }
     }

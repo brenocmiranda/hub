@@ -19,7 +19,7 @@ Dashboard
                         <i class="bi bi-database text-white bi-lg"></i>
                     </div>
                     <div class="px-4 w-100">
-                        <h6 class="mb-0">Jobs pendentes</h6>
+                        <h6 class="mb-0">Jobs executando</h6>
                         <h4 class="mb-0">{{ $requestPending }}</h4>
                         <span>
                            <a href="{{ route('leads.pipelines.index') }}">Veja todas</a>

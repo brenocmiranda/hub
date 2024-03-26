@@ -42,8 +42,6 @@ class ProcessIntegrationsJob implements ShouldQueue
             foreach($users as $user){
                 $user->notify(new ErrorLead( $user, $lead, $e->getMessage() ));
             }
-
-            $batch->release(60);
         })
         ->name('Processo de integração')
         ->onQueue('integrations')

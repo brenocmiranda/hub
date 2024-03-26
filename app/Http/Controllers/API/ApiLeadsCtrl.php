@@ -96,9 +96,12 @@ class ApiLeadsCtrl extends Controller
             }
 
             // return for origin
-            if($originLead){
                 $odefault = LeadsOrigins::where('slug', 'default')->first();
+            if($originLead){
                 $originNow = LeadsOrigins::where('slug', $originLead)->first();
+                $origin = $originNow ? $originNow->id : $odefault->id;
+            }else if($request->origin){
+                $originNow = LeadsOrigins::where('slug', $request->origin)->first();
                 $origin = $originNow ? $originNow->id : $odefault->id;
             } else {
                 $odefault = LeadsOrigins::where('slug', 'default')->first();
@@ -113,7 +116,18 @@ class ApiLeadsCtrl extends Controller
                 parse_str( $request->url_params, $output );
 
                 $fields['nameField'][] = 'utm_source';
-                $fields['valueField'][] = $output['utm_source'];
+                if($output['utm_source'] === 'fb'){
+                    $fields['valueField'][] = 'facebook';
+                }
+                if($output['utm_source'] === 'ig'){
+                    $fields['valueField'][] = 'instagram';
+                }
+                if($output['utm_source'] === 'VivaReal'){
+                    $fields['valueField'][] = 'vivareal';
+                }
+                if($output['utm_source'] === 'Zap'){
+                    $fields['valueField'][] = 'zapimoveis';
+                }
 
                 $fields['nameField'][] = 'utm_campaign';
                 $fields['valueField'][] = $output['utm_campaign'];
@@ -132,7 +146,18 @@ class ApiLeadsCtrl extends Controller
                 // utm_source
                 $fields['nameField'][] = 'utm_source';
                 if($request->utm_source) {
-                    $fields['valueField'][] = $request->utm_source;
+                    if($request->utm_source === 'fb'){
+                        $fields['valueField'][] = 'facebook';
+                    }
+                    if($request->utm_source === 'ig'){
+                        $fields['valueField'][] = 'instagram';
+                    }
+                    if($request->utm_source === 'VivaReal'){
+                        $fields['valueField'][] = 'vivareal';
+                    }
+                    if($request->utm_source === 'Zap'){
+                        $fields['valueField'][] = 'zapimoveis';
+                    }
                 }elseif($request->plataforma) {
                     if($request->plataforma === 'fb'){
                         $fields['valueField'][] = 'facebook';
@@ -140,7 +165,19 @@ class ApiLeadsCtrl extends Controller
                     if($request->plataforma === 'ig'){
                         $fields['valueField'][] = 'instagram';
                     }
+                    if($request->plataforma === 'VivaReal'){
+                        $fields['valueField'][] = 'vivareal';
+                    }
+                    if($request->plataforma === 'Zap'){
+                        $fields['valueField'][] = 'zapimoveis';
+                    }
                 }elseif($request->leadOrigin) {
+                    if($request->leadOrigin === 'fb'){
+                        $fields['valueField'][] = 'facebook';
+                    }
+                    if($request->leadOrigin === 'ig'){
+                        $fields['valueField'][] = 'instagram';
+                    }
                     if($request->leadOrigin === 'VivaReal'){
                         $fields['valueField'][] = 'vivareal';
                     }
