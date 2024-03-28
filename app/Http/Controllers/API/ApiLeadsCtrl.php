@@ -158,6 +158,9 @@ class ApiLeadsCtrl extends Controller
                     if($request->utm_source === 'Zap'){
                         $fields['valueField'][] = 'zapimoveis';
                     }
+                    else {
+                        $fields['valueField'][] = $request->utm_source;
+                    }
                 }elseif($request->plataforma) {
                     if($request->plataforma === 'fb'){
                         $fields['valueField'][] = 'facebook';
@@ -171,6 +174,9 @@ class ApiLeadsCtrl extends Controller
                     if($request->plataforma === 'Zap'){
                         $fields['valueField'][] = 'zapimoveis';
                     }
+                    else {
+                        $fields['valueField'][] = $request->plataforma;
+                    }
                 }elseif($request->leadOrigin) {
                     if($request->leadOrigin === 'fb'){
                         $fields['valueField'][] = 'facebook';
@@ -183,6 +189,9 @@ class ApiLeadsCtrl extends Controller
                     }
                     if($request->leadOrigin === 'Zap'){
                         $fields['valueField'][] = 'zapimoveis';
+                    }
+                    else {
+                        $fields['valueField'][] = $request->leadOrigin;
                     }
                 }else{
                     $fields['valueField'][] = "";

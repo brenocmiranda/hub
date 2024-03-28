@@ -19,11 +19,11 @@ class PrivateCtrl extends Controller
     public function home()
     {
         if (Auth::check() && Auth::user()->active) {
-            $leadsDay = Leads::whereDate('created_at', date('Y-m-d'))->count();
-            $requestSuccess = DB::table('job_batches')->whereNull('cancelled_at')->whereDate(DB::raw("DATE_FORMAT(FROM_UNIXTIME(created_at), '%Y-%m-%d')"), date('Y-m-d'))->count();
-            $requestFail = DB::table('job_batches')->whereNotNull('cancelled_at')->whereDate(DB::raw("DATE_FORMAT(FROM_UNIXTIME(created_at), '%Y-%m-%d')"), date('Y-m-d'))->count();
+            $requestSuccess = DB::table('job_batches')->whereNull('cancelled_at')->count();
+            $requestFail = DB::table('job_batches')->whereNotNull('cancelled_at')->count();
+            $requestPending = DB::table('job_batches')->whereNotNull('pending_jobs')->count() - $requestFail - $requestSuccess;
 
-            return view('system.home')->with('leadsDay', $leadsDay)->with('requestSuccess', $requestSuccess)->with('requestFail', $requestFail);
+            return view('system.home')->with('requestPending', $requestPending)->with('requestSuccess', $requestSuccess)->with('requestFail', $requestFail);
         } else {
             return redirect(route('login'));
         }
