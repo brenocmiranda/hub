@@ -281,7 +281,7 @@ Dashboard
             chart1.render();
 
         // Leads por origin
-            var options2 = {
+            /*var options2 = {
                 title: {
                     text: 'Leads por origin',
                 },
@@ -298,9 +298,8 @@ Dashboard
                         '{{ $lead->RelationOrigins->name }}',   
                     @endforeach
                 ]
-            };
-
-            /*var options2 = {
+            };*/
+            var options2 = {
                 chart: {
                     type: 'bar'
                 },
@@ -336,7 +335,7 @@ Dashboard
                         @endforeach
                     ]
                 }
-            }*/
+            }
             var chart2 = new ApexCharts(document.querySelector("#leadsForOrigins"), options2);
             chart2.render();
 

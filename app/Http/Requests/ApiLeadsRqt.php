@@ -40,24 +40,74 @@ class ApiLeadsRqt extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required_without:nome|min:3',
-            'nome' => 'required_without:name|min:3',
-            'phone' => 'required_without:telefone|min:3',
-            'telefone' => 'required_without:phone|min:3',
+            // Validate nome
+            'name' => 'required_without:nome|string|min:3',
+            'nome' => 'required_without:name|string|min:3',
+
+            // Validate telefone
+            'telefone' => 'required_without:celular,phoneNumber,phone|min:3',
+            'celular' => 'required_without:telefone,phoneNumber,phone|min:3',
+            'phoneNumber' => 'required_without:telefone,celular,phone|min:3',
+            'phone' => 'required_without:telefone,celular,phoneNumber|min:3',
+
+            // Validate email
             'email' => 'required|email',
-            'building' => 'required_without:empreendimento|string|min:3',
-            'empreendimento' => 'required_without:building|string|min:3',
-            'utm_source' => 'nullable',
-            'utm_medium' => 'nullable',
-            'utm_campaign' => 'nullable',
-            'utm_term' => 'nullable',
-            'utm_content' => 'nullable',
-            'gclid' => 'nullable',
-            'fbclid' => 'nullable',
-            'pp' => 'nullable',
-            'com' => 'nullable',
+
+            // Validate empreendimento
+            'building' => 'required_without:empreendimento,originListingId,codigoDoAnunciante|string|min:3',
+            'empreendimento' => 'required_without:building,originListingId,codigoDoAnunciante|string|min:3',
+            'originListingId' => 'required_without:empreendimento,building,codigoDoAnunciante|string|min:3',
+            'codigoDoAnunciante' => 'required_without:empreendimento,originListingId,building|string|min:3',
+
+            // Validate origin
+            'origin' => 'nullable|string|min:3',
+
+            // Validate others (utm_source)
+            'utm_source' => 'nullable|string',
+            'plataforma' => 'nullable|string',
+            'leadOrigin' => 'nullable|string',
+
+            // Validate others (utm_campaign)
+            'utm_campaign' => 'nullable|string',
+            'campanha' => 'nullable|string',
+            'codigoImobiliaria' => 'nullable|numeric',
+
+            // Validate others (utm_medium)
+            'utm_medium' => 'nullable|string',
+            'nome_form' => 'nullable|string',
+            'clientListingId' => 'nullable|string',
+            'planoDePublicacao' => 'nullable|string',
+
+            // Validate others (utm_content)
+            'utm_content' => 'nullable|string',
+            'ad_name' => 'nullable|string',
+
+            // Validate others (utm_term)
+            'utm_term' => 'nullable|string',
+            'adset_name' => 'nullable|string',
+
+            // Validate others (sobrenome)
+            'sobrenome' => 'nullable|string',
+
+            // Validate others (mensagem)
+            'message' => 'nullable|string',
+            'mensagem' => 'nullable|string',
+
+            // Validate others (url)
             'url' => 'nullable|url:http,https',
-            'message' => 'nullable',
+
+            // Validate others (gclid)
+            'gclid' => 'nullable|string',
+
+            // Validate others (fbclid)
+            'fbclid' => 'nullable|string',
+
+            // Validate others (pp)
+            'pp' => 'nullable|string',
+
+            // Validate others (com)
+            'com' => 'nullable|string',
+            'comunicacao' => 'nullable|string',
         ];
     }
 

@@ -55,28 +55,13 @@ class ApiLeadsCtrl extends Controller
             }else{
                 $phone = "Não recebido.";
             }
-
-            /*
-                3198612535
-                28999799035
-                21981045682
-                3183745735
-                31993553210
-                2121973643477
-                31999206192
-                21997180803
-                3198286066
-                31993436990
-                21987875454
-                62992505564
-                */
                 
             // E-mail
             if($request->email){
                 $email = $request->email ? $request->email : "naoidentificado@komuh.com";
             }
             
-            // return for building
+            // Empreendimento
             $bdefault = BuildingsKeys::where('value', 'default')->first();
             if($request->building) {
                 $buildingNow = BuildingsKeys::where('active', 1)->where('value', $request->building)->first();
@@ -95,8 +80,8 @@ class ApiLeadsCtrl extends Controller
                 $building = $b ? $b->building_id : $bdefault->building_id;
             }
 
-            // return for origin
-                $odefault = LeadsOrigins::where('slug', 'default')->first();
+            // Origin
+            $odefault = LeadsOrigins::where('slug', 'default')->first();
             if($originLead){
                 $originNow = LeadsOrigins::where('slug', $originLead)->first();
                 $origin = $originNow ? $originNow->id : $odefault->id;
@@ -109,7 +94,6 @@ class ApiLeadsCtrl extends Controller
             }
 
         /** Params optional **/
-
             // url_params
             if($request->url_params){
 
@@ -259,9 +243,15 @@ class ApiLeadsCtrl extends Controller
             }
 
             // url
-            if($request->pp){
+            if($request->url){
                 $fields['nameField'][] = 'url';
                 $fields['valueField'][] = $request->url;
+            }
+
+            // pp
+            if($request->pp){
+                $fields['nameField'][] = 'pp';
+                $fields['valueField'][] = $request->pp ? 'Y' : 'N';
             }
 
             // com
@@ -272,13 +262,7 @@ class ApiLeadsCtrl extends Controller
                 $fields['nameField'][] = 'com';
                 $fields['valueField'][] = $request->comunicacao ? 'Y' : 'N';
             }
-
-            // pp
-            if($request->pp){
-                $fields['nameField'][] = 'pp';
-                $fields['valueField'][] = $request->pp ? 'Y' : 'N';
-            }
-
+            
             // gclid
             if($request->gclid){
                 $fields['nameField'][] = 'gclid';
@@ -289,12 +273,6 @@ class ApiLeadsCtrl extends Controller
             if($request->fbclid){
                 $fields['nameField'][] = 'fbclid';
                 $fields['valueField'][] = $request->fbclid;
-            }
-
-            // plataforma
-            if($request->plataforma){
-                $fields['nameField'][] = 'plataforma';
-                $fields['valueField'][] = $request->plataforma;
             }
         
         // Create new lead
