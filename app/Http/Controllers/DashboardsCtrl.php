@@ -17,6 +17,7 @@ class DashboardsCtrl extends Controller
     {   
         $leads = Leads::count();
         $leadsDay = Leads::whereDate('created_at', date('Y-m-d'))->select( DB::raw('DATE_FORMAT(created_at, "%H") as created_at_hours, count(created_at) as count') )->groupBy('created_at_hours')->orderBy('created_at_hours', 'asc')->get();
+        $leadsDayCount = Leads::whereDate('created_at', date('Y-m-d'))->count();
         $leadsAVG = Leads::select( DB::raw('DATE_FORMAT(created_at, "%d-%b-%Y") as created_at_1, count(created_at) as count') )->groupBy('created_at_1')->get();
         $leadsTotal = Leads::select( DB::raw('DATE_FORMAT(created_at, "%d-%b-%Y") as created_at_1, count(created_at) as count') )->groupBy('created_at_1')->get();
 
@@ -29,6 +30,7 @@ class DashboardsCtrl extends Controller
         return view('dashboards.index')
             ->with('leads', $leads)
             ->with('leadsDay', $leadsDay)
+            ->with('leadsDayCount', $leadsDayCount)
             ->with('leadsAVG', $leadsAVG)
             ->with('leadsTotal', $leadsTotal)
             ->with('leadsForBuildings', $leadsForBuildings)

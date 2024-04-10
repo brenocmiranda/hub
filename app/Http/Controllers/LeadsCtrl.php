@@ -11,7 +11,7 @@ use App\Models\Leads;
 use App\Models\LeadsFields;
 use App\Models\LeadsOrigins;
 use App\Models\UsersLogs;
-use App\Jobs\ProcessIntegrationsJob;
+use App\Jobs\ProcessBuildingJobs;
 
 class LeadsCtrl extends Controller
 {   
@@ -67,7 +67,7 @@ class LeadsCtrl extends Controller
         }
 
         // Enviando para as execução das integrações
-        ProcessIntegrationsJob::dispatch($lead->id);
+        ProcessBuildingJobs::dispatch($lead->id);
 
         // Salvando log
         UsersLogs::create([

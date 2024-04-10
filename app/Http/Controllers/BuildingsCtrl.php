@@ -8,6 +8,8 @@ use App\Http\Requests\BuildingsRqt;
 use App\Models\Buildings;
 use App\Models\BuildingsIntegrations;
 use App\Models\BuildingsIntegrationsFields;
+use App\Models\BuildingsDestinatarios;
+use App\Models\BuildingsSheets;
 use App\Models\Companies;
 use App\Models\Integrations;
 use App\Models\UsersLogs;
@@ -30,12 +32,47 @@ class BuildingsCtrl extends Controller
 
     public function store(BuildingsRqt $request)
     {    
+
         // Cadastrando novo empreendimento
         $building = Buildings::create([
             'name' => $request->name, 
             'active' => $request->active,
             'companie_id' => $request->companie, 
         ]);
+
+        // Cadastrando novos destinatários
+        $destinatarios = $request->input('email');
+        if(isset($destinatarios)){
+            foreach($destinatarios as $destinatario) {
+                $buildingDestinatario = BuildingsDestinatarios::create([
+                    'building_id' => $building->id, 
+                    'email' => $destinatario,
+                ]);
+            }
+        }
+
+        // Cadastrando novos sheets
+        $sheets = $request->input('spreadsheetID');
+        if(isset($sheets)){
+            foreach($sheets as $in => $sheet) {
+
+                // Upload file
+                if($request->hasFile('file.'.$in)){
+                    $filenameWithExt = $request->file('file')[$in]->getClientOriginalName();
+                    $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+                    $extension = $request->file('file')[$in]->getClientOriginalExtension();
+                    $fileNameToStore = $filename.'_'.time().'.'.$extension;
+                    $path = $request->file('file')[$in]->storeAs('public/google', $fileNameToStore);
+                }
+
+                $buildingSheet = BuildingsSheets::create([
+                    'building_id' =>$building->id, 
+                    'sheet' => $request->input('sheet')[$in],
+                    'spreadsheetID' => $request->input('spreadsheetID')[$in],
+                    'file' => $fileNameToStore,
+                ]);
+            }
+        }
 
         // Cadastrando novas integrações e novos campos
         $integrations = $request->input('array');
@@ -81,8 +118,10 @@ class BuildingsCtrl extends Controller
     public function update(BuildingsRqt $request, $id)
     {
         // Removendo os registros anteriores
-        BuildingsIntegrationsFields::where('buildings_has_integrations_building_id', $id)->forceDelete();
+        BuildingsDestinatarios::where('building_id', $id)->forceDelete();
+        BuildingsSheets::where('building_id', $id)->forceDelete();
         BuildingsIntegrations::where('building_id', $id)->delete();
+        BuildingsIntegrationsFields::where('buildings_has_integrations_building_id', $id)->forceDelete();
 
         // Atualizando os dados do empreendimento
         Buildings::find($id)->update([
@@ -90,6 +129,50 @@ class BuildingsCtrl extends Controller
             'active' => $request->active,
             'companie_id' => $request->companie, 
         ]);
+
+        // Cadastrando novos destinatários
+        $destinatarios = $request->input('email');
+        if(isset($destinatarios)){
+            foreach($destinatarios as $destinatario) {
+                $buildingDestinatario = BuildingsDestinatarios::create([
+                    'building_id' => $id, 
+                    'email' => $destinatario,
+                ]);
+            }
+        }
+
+        // Cadastrando novos sheets
+        $sheets = $request->input('spreadsheetID');
+        if(isset($sheets)){
+            foreach($sheets as $in => $sheet) {
+
+                // Upload file
+                if($request->hasFile('file.'.$in)){
+                    $filenameWithExt = $request->file('file')[$in]->getClientOriginalName();
+                    $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+                    $extension = $request->file('file')[$in]->getClientOriginalExtension();
+                    $fileNameToStore = $filename.'_'.time().'.'.$extension;
+                    $path = $request->file('file')[$in]->storeAs('public/google', $fileNameToStore);
+
+                    $buildingSheet = BuildingsSheets::create([
+                        'building_id' => $id,
+                        'sheet' => $request->input('sheet')[$in],
+                        'spreadsheetID' => $request->input('spreadsheetID')[$in],
+                        'file' => $fileNameToStore,
+                    ]);
+                } else {
+
+                    $buildingSheet = BuildingsSheets::create([
+                        'building_id' => $id,
+                        'sheet' => $request->input('sheet')[$in],
+                        'spreadsheetID' => $request->input('spreadsheetID')[$in],
+                        'file' => BuildingsSheets::where('building_id', $id)->withTrashed()->orderBy('created_at', 'desc')->first()->file,
+                    ]);
+                }
+
+                
+            }
+        }
 
         // Cadastrando novas integrações e novos campos
         $integrations = $request->input('array');
@@ -141,6 +224,8 @@ class BuildingsCtrl extends Controller
     public function duplicate(string $id){
         $building = Buildings::find($id);
         $buildingIntegrations = BuildingsIntegrations::where('building_id', $id)->get();
+        $buildingDestinatarios = BuildingsDestinatarios::where('building_id', $id)->get();
+        $buildingSheets = BuildingsSheets::where('building_id', $id)->get();
         $buildingIntegrationsFields = BuildingsIntegrationsFields::where('buildings_has_integrations_building_id', $id)->get();
 
         // Cadastrando novo empreendimento
@@ -149,6 +234,39 @@ class BuildingsCtrl extends Controller
             'active' => $building->active,
             'companie_id' => $building->companie_id, 
         ]);
+
+        // Cadastrando novos destinatários
+        if(isset($buildingDestinatarios)){
+            foreach($destinatarios as $destinatario) {
+                $buildingDestinatario = BuildingsDestinatarios::create([
+                    'building_id' => $buildingNew->id, 
+                    'email' => $destinatario,
+                ]);
+            }
+        }
+
+         // Cadastrando novos sheets
+        $sheets = $request->input('spreadsheetID');
+        if(isset($sheets)){
+            foreach($sheets as $in => $sheet) {
+
+                // Upload file
+                if($request->hasFile('file')[$in]){
+                    $filenameWithExt = $request->file('file')[$in]->getClientOriginalName();
+                    $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+                    $extension = $request->file('file')[$in]->getClientOriginalExtension();
+                    $fileNameToStore = $filename.'_'.time().'.'.$extension;
+                    $path = $request->file('file')[$in]->storeAs('public/google', $fileNameToStore);
+                }
+
+                $buildingSheet = BuildingsSheets::create([
+                    'building_id' => $buildingNew->id,
+                    'sheet' => $request->input('sheet')[$in],
+                    'spreadsheetID' => $request->input('spreadsheetID')[$in],
+                    'file' => $fileNameToStore,
+                ]);
+            }
+        }
 
         // Cadastrando novas integrações e novos campos
         if(isset($buildingIntegrations)){

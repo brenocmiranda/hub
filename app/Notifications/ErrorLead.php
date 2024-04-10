@@ -38,7 +38,7 @@ class ErrorLead extends Notification implements ShouldQueue
     {
         return (new MailMessage)
                 ->from('breno.miranda@komuh.com', 'Hub Integrações')
-                ->subject('Erro ao executar integração')
+                ->subject('[HUB] Erro ao executar integração')
                 ->view('system.emails.errorLead', ['user' => $this->user, 'lead' => $this->lead, 'exception' => $this->exception]);
     }
 

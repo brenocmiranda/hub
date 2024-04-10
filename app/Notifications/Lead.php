@@ -7,18 +7,16 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class RecoveryPassword extends Notification implements ShouldQueue
+class Lead extends Notification implements ShouldQueue
 {
     use Queueable;
-
-    private $user;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct($user)
+    public function __construct(protected $lead)
     {
-        $this->user = $user;
+        $this->lead = $lead;
     }
 
     /**
@@ -35,11 +33,11 @@ class RecoveryPassword extends Notification implements ShouldQueue
      * Get the mail representation of the notification.
      */
     public function toMail(object $notifiable): MailMessage
-    {   
+    {
         return (new MailMessage)
                 ->from('breno.miranda@komuh.com', 'Hub Integrações')
-                ->subject('[HUB] Solicitação de redefinição de senha')
-                ->view('system.emails.recoveryPassword', ['user' => $this->user]);
+                ->subject('[HUB] Cadastrado de clientes')
+                ->view('system.emails.lead', ['lead' => $this->lead]);
     }
 
     /**

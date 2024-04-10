@@ -8,7 +8,7 @@ use App\Models\BuildingsKeys;
 use App\Models\Leads;
 use App\Models\LeadsFields;
 use App\Models\LeadsOrigins;
-use App\Jobs\ProcessIntegrationsJob;
+use App\Jobs\ProcessBuildingJobs;
 
 class ApiLeadsCtrl extends Controller
 {
@@ -297,7 +297,7 @@ class ApiLeadsCtrl extends Controller
         }
 
         // Enviando para as execução das integrações
-        ProcessIntegrationsJob::dispatch($lead->id);   
+        ProcessBuildingJobs::dispatch($lead->id);   
 
         return response()->json([
             'status' => true,

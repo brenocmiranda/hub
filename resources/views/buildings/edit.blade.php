@@ -29,7 +29,7 @@ Editar empreendimento
                         </div>
                     @endif
                     
-                    <form action="{{ route('buildings.update', $building->id) }}" method="POST" class="row row-gap-3">
+                    <form action="{{ route('buildings.update', $building->id) }}" method="POST" class="row row-gap-3" enctype="multipart/form-data">
                         @method('PUT')
                         @csrf  
                         
@@ -60,6 +60,78 @@ Editar empreendimento
                                 <label for="active">Status <abbr>*</abbr></label>
                             </div>
                         </div>
+
+                        <div class="divider-input col-12">
+                            <p>Destinatários</p>
+                            <hr>
+                        </div>
+                        <div class="emails">
+                            <div class="all-emails">
+                                @if($building->RelationDestinatarios)
+                                    @foreach($building->RelationDestinatarios as $index => $destinatarios)
+                                    <div class="single-email">
+                                        <div class="content-email">
+                                            <div class="form-floating"> 
+                                                <input type="email" class="form-control" id="email{{ $index }}" name="email[]" value="{{ $destinatarios->email }}" required> 
+                                                <label for="email{{ $index }}">E-mail <abbr>*</abbr></label> 
+                                            </div>
+                                            <div> 
+                                                <a href="#" class="btn btn-sm btn-outline-dark rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Remover campo" onclick="removeEmail(this);"><i class="bi bi-dash"></i></a> 
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @endforeach
+                                @endif
+                            </div>
+                            <div>
+                                <a href="#" onclick="addEmail()"><i class="bi bi-plus"></i> Cadastrar novo destinatário</a>
+                            </div>
+                        </div>
+                        
+                        <div class="divider-input col-12">
+                            <p>Google Sheets</p>
+                            <hr>
+                        </div>
+                        <div class="sheets">
+                            <div class="all-sheets">
+                                @if($building->RelationSheets)
+                                    @foreach($building->RelationSheets as $index => $sheet)
+                                    <div class="single-sheet">
+                                        <div class="content-sheet">
+                                            <div class="row row-gap-2">
+                                                <div class="col-6">
+                                                    <div class="form-floating"> 
+                                                        <input type="text" class="form-control" id="spreadsheetID{{ $index }}" name="spreadsheetID[]" value="{{ $sheet->spreadsheetID }}" required> 
+                                                        <label for="spreadsheetID{{ $index }}">ID do Sheet <abbr>*</abbr></label> 
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="form-floating"> 
+                                                        <input type="text" class="form-control" id="sheet{{ $index }}" name="sheet[]" value="{{ $sheet->sheet }}" required> 
+                                                        <label for="sheet{{ $index }}">Aba da planilha <abbr>*</abbr></label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="form-floating"> 
+                                                        <input type="file" class="form-control" id="file{{ $index }}" name="file[]" onchange="alternateName(this);" {{ $sheet->file ? "" : "required" }}> 
+                                                        <div class="file-exists">{{$sheet->file}}</div>
+                                                        <label for="file{{ $index }}">File de autenticação (JSON) {{ $sheet->file ? "" : "<abbr>*</abbr>" }} </label> 
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 d-flex align-items-end justify-content-end"> 
+                                                    <a href="#" class="btn btn-sm btn-outline-danger ms-auto" onclick="removeSheet(this);"><i class="bi bi-trash"></i> Excluir sheets</a> 
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @endforeach
+                                @endif
+                            </div>
+                            <div>
+                                <a href="#" onclick="addSheet()"><i class="bi bi-plus"></i> Cadastrar novo sheets</a>
+                            </div>
+                        </div>
+                        
                         <div class="divider-input col-12">
                             <p>Integrações
                                 <a href="#" class="btn btn-sm btn-secondary rounded-circle ms-1 py-0 px-1" data-bs-toggle="modal" data-bs-target="#modalInfo"><i class="bi bi-info"></i></a>
@@ -84,7 +156,7 @@ Editar empreendimento
                                             @if($building->RelationIntegrationsFields)
                                                 @foreach($building->RelationIntegrationsFields as $i => $b)
                                                     @if($b->buildings_has_integrations_integration_id === $buildingIntegration->id)
-                                                        <div class="row"> 
+                                                        <div class="row row-gap-2"> 
                                                             <div class="input-field col-lg-6 col-12"> 
                                                                 <div class="form-floating"> 
                                                                     <input type="text" class="form-control" id="integrationFieldName-{{$i}}" name="array[{{$index}}][nameField][]" value="{{ $b->name }}" required> 
@@ -170,8 +242,9 @@ Editar empreendimento
 @section('js')
 <script>
     // Adicionando e removendo integrações e fields
-    var field = {{ $building->RelationIntegrationsFields ? count($building->RelationIntegrationsFields) : 0 + 1 }};
+    var field = {{ $building->RelationIntegrationsFields ? count($building->RelationIntegrationsFields) : 1 }};
     var integration = {{ count($building->RelationIntegrations) + 1 }};
+    var count =  {{ ($building->RelationDestinatarios ? count($building->RelationDestinatarios) : 1) + ($building->RelationSheets ? count($building->RelationSheets) : 1) + 1}};
 
     function addIntegration() {
         event.preventDefault();
@@ -191,7 +264,7 @@ Editar empreendimento
     }
     function addField(element, count) {
         event.preventDefault();
-        $(element).closest('.single-integration').find('.content-integration').append(`<div class="row"> <div class="input-field col-lg-6 col-12"> <div class="form-floating"> <input type="text" class="form-control" id="integrationFieldName-` + field + `" name="array[` + count + `][nameField][]" required> <label for="integrationFieldName-` + field + `">Nome do campo <abbr>*</abbr></label> </div> </div> <div class="input-field col-lg-6 col-12 d-flex align-items-center gap-2"> <div class="form-floating w-100"> <input type="text" class="form-control" id="integrationFieldValor-` + field + `" name="array[` + count + `][valueField][]" required> <label for="integrationFieldValor-` + field + `">Valor <abbr>*</abbr></label> </div> <a href="#" class="btn btn-sm btn-outline-dark rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Remover campo" onclick="removeField(this);"><i class="bi bi-dash"></i></a> </div> </div>`);
+        $(element).closest('.single-integration').find('.content-integration').append(`<div class="row row-gap-2"> <div class="input-field col-lg-6 col-12"> <div class="form-floating"> <input type="text" class="form-control" id="integrationFieldName-` + field + `" name="array[` + count + `][nameField][]" required> <label for="integrationFieldName-` + field + `">Nome do campo <abbr>*</abbr></label> </div> </div> <div class="input-field col-lg-6 col-12 d-flex align-items-center gap-2"> <div class="form-floating w-100"> <input type="text" class="form-control" id="integrationFieldValor-` + field + `" name="array[` + count + `][valueField][]" required> <label for="integrationFieldValor-` + field + `">Valor <abbr>*</abbr></label> </div> <a href="#" class="btn btn-sm btn-outline-dark rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Remover campo" onclick="removeField(this);"><i class="bi bi-dash"></i></a> </div> </div>`);
         field++;
 
         // Enable toltips
@@ -202,6 +275,45 @@ Editar empreendimento
     function removeField(element) {
         event.preventDefault();
         $(element).closest('.row').remove();
+    }
+    
+    function addEmail() {
+        event.preventDefault();
+        $('.emails').find('.all-emails').append(`<div class="single-email"> <div class="content-email"> <div class="form-floating"> <input type="email" class="form-control" id="email ` + count + ` " name="email[]" required> <label for="email ` + count + `">E-mail <abbr>*</abbr></label> </div> <div> <a href="#" class="btn btn-sm btn-outline-dark rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Remover campo" onclick="removeEmail(this);"><i class="bi bi-dash"></i></a> </div> </div> </div>`);
+        count++;
+
+        // Enable toltips
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+    }
+
+    function removeEmail(element) {
+        event.preventDefault();
+        if(confirm('Tem certeza que deseja remover esse destinatário?')){
+            $(element).closest('.single-email').remove();
+        }
+    }
+
+    function addSheet() {
+        event.preventDefault();
+        $('.sheets').find('.all-sheets').append(`<div class="single-sheet"> <div class="content-sheet"> <div class="row row-gap-2"> <div class="col-6"> <div class="form-floating"> <input type="text" class="form-control" id="spreadsheetID` + count + `" name="spreadsheetID[]" required> <label for="spreadsheetID` + count + `">ID do Sheet <abbr>*</abbr></label> </div> </div> <div class="col-6"> <div class="form-floating"> <input type="text" class="form-control" id="sheet` + count + `" name="sheet[]" required> <label for="sheet` + count + `">Aba da planilha <abbr>*</abbr></label> </div> </div> <div class="col-12"> <div class="form-floating"> <input type="file" class="form-control" id="file` + count + `" name="file[]" required> <label for="file` + count + `">File de autenticação (JSON) <abbr>*</abbr></label> </div> </div> <div class="col-12 d-flex align-items-end justify-content-end"> <a href="#" class="btn btn-sm btn-outline-danger ms-auto" onclick="removeSheet(this);"><i class="bi bi-trash"></i> Excluir sheets</a> </div> </div> </div> </div>`);
+        count++;
+
+        // Enable toltips
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+    }
+
+    function removeSheet(element) {
+        event.preventDefault();
+        if(confirm('Tem certeza que deseja remover esse sheets?')){
+            $(element).closest('.single-sheet').remove();
+        }
+    }
+
+    function alternateName(element) {
+        event.preventDefault();
+        $(element).next('.file-exists').hide();
     }
 </script>
 @endsection

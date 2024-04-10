@@ -17,7 +17,7 @@ use App\Models\UsersLogs;
 use App\Models\Leads;
 use Throwable;
 
-class ProcessIntegrationsJob implements ShouldQueue
+class ProcessBuildingJobs implements ShouldQueue
 {
     use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -29,10 +29,23 @@ class ProcessIntegrationsJob implements ShouldQueue
     public function handle(): void
     {   
         $lead = Leads::find($this->id);
-        $integrations = $lead->RelationBuildings->RelationIntegrations;   
+        
+        // Adicionando ao lote os jobs de integração
+        if($lead->RelationBuildings->RelationIntegrations->first()) {
+            $integrations = $lead->RelationBuildings->RelationIntegrations;   
+            foreach($integrations as $integration) {
+                $listOfJobs[] = new ProcessIntegrationJob($lead, $integration);
+            }
+        }
 
-        foreach($integrations as $integration) {
-            $listOfJobs[] = new ProcessIntegrationJob($lead, $integration);
+        // Adicionando ao lote os jobs de sheets
+        if($lead->RelationBuildings->RelationSheets->first()) {
+            $listOfJobs[] = new ProcessSheetJob($lead);
+        }
+
+        // Adicionando ao lote os jobs de envio de e-mail
+        if($lead->RelationBuildings->RelationDestinatarios->first()) {
+            $listOfJobs[] = new ProcessMailJob($lead);
         }
 
         Bus::batch([ $listOfJobs ])
@@ -43,8 +56,8 @@ class ProcessIntegrationsJob implements ShouldQueue
                 $user->notify(new ErrorLead( $user, $lead, $e->getMessage() ));
             }
         })
-        ->name('Processo de integração')
-        ->onQueue('integrations')
+        ->name('Processos do empreendimento')
+        ->onQueue('buildings')
         ->dispatch();
     }
 }

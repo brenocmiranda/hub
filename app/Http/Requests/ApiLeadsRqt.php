@@ -41,23 +41,23 @@ class ApiLeadsRqt extends FormRequest
     {
         return [
             // Validate nome
-            'name' => 'required_without:nome|string|min:3',
-            'nome' => 'required_without:name|string|min:3',
+            'name' => 'required_without_all:nome|string|min:3',
+            'nome' => 'required_without_all:name|string|min:3',
 
             // Validate telefone
-            'telefone' => 'required_without:celular,phoneNumber,phone|min:3',
-            'celular' => 'required_without:telefone,phoneNumber,phone|min:3',
-            'phoneNumber' => 'required_without:telefone,celular,phone|min:3',
-            'phone' => 'required_without:telefone,celular,phoneNumber|min:3',
+            'telefone' => 'required_without_all:celular,phoneNumber,phone|min:3',
+            'celular' => 'required_without_all:telefone,phoneNumber,phone|min:3',
+            'phoneNumber' => 'required_without_all:telefone,celular,phone|min:3',
+            'phone' => 'required_without_all:telefone,celular,phoneNumber|min:3',
 
             // Validate email
             'email' => 'required|email',
 
             // Validate empreendimento
-            'building' => 'required_without:empreendimento,originListingId,codigoDoAnunciante|string|min:3',
-            'empreendimento' => 'required_without:building,originListingId,codigoDoAnunciante|string|min:3',
-            'originListingId' => 'required_without:empreendimento,building,codigoDoAnunciante|string|min:3',
-            'codigoDoAnunciante' => 'required_without:empreendimento,originListingId,building|string|min:3',
+            'building' => 'required_without_all:empreendimento,originListingId,codigoDoAnunciante|string|min:3',
+            'empreendimento' => 'required_without_all:building,originListingId,codigoDoAnunciante|string|min:3',
+            'originListingId' => 'required_without_all:empreendimento,building,codigoDoAnunciante|string|min:3',
+            'codigoDoAnunciante' => 'required_without_all:empreendimento,originListingId,building|string|min:3',
 
             // Validate origin
             'origin' => 'nullable|string|min:3',

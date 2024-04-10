@@ -29,7 +29,7 @@ Novo empreendimento
                         </div>
                     @endif
 
-                    <form action="{{ route('buildings.store') }}" method="POST" class="row row-gap-3">
+                    <form action="{{ route('buildings.store') }}" method="POST" class="row row-gap-3" enctype="multipart/form-data">
                         @csrf
  
                         <div class="input-field col-12">
@@ -59,6 +59,29 @@ Novo empreendimento
                                 <label for="active">Status <abbr>*</abbr></label>
                             </div>
                         </div>
+                        
+                        <div class="divider-input col-12">
+                            <p>Destinatários</p>
+                            <hr>
+                        </div>
+                        <div class="emails">
+                            <div class="all-emails"></div>
+                            <div>
+                                <a href="#" onclick="addEmail()"><i class="bi bi-plus"></i> Cadastrar novo destinatário</a>
+                            </div>
+                        </div>
+
+                        <div class="divider-input col-12">
+                            <p>Google Sheets</p>
+                            <hr>
+                        </div>
+                        <div class="sheets">
+                            <div class="all-sheets"></div>
+                            <div>
+                                <a href="#" onclick="addSheet()"><i class="bi bi-plus"></i> Cadastrar novo sheets</a>
+                            </div>
+                        </div>
+
                         <div class="divider-input col-12">
                             <p>Integrações
                                 <a href="#" class="btn btn-sm btn-secondary rounded-circle ms-1 py-0 px-1" data-bs-toggle="modal" data-bs-target="#modalInfo"><i class="bi bi-info"></i></a>
@@ -68,9 +91,10 @@ Novo empreendimento
                         <div class="integrations">
                             <div class="all-integration"></div>
                             <div>
-                                <a href="#" onclick="addIntegration()"><i class="bi bi-plus"></i> Criar nova integração</a>
+                                <a href="#" onclick="addIntegration()"><i class="bi bi-plus"></i> Cadastrar nova integração</a>
                             </div>
                         </div>
+
                         <div class="submit-field d-flex justify-content-end align-items-center gap-3">
                             <a href="{{ route('buildings.index') }}"> <i class="bi bi-arrow-left px-2"></i>Voltar</a>
                             <input type="submit" name="submit" id="submit" class="btn btn-dark px-5 py-2" value="Salvar" />
@@ -128,6 +152,7 @@ Novo empreendimento
     // Adicionando e removendo integrações e fields
     var field = 0;
     var integration = 0;
+    var count = 0;
 
     function addIntegration() {
         event.preventDefault();
@@ -145,9 +170,10 @@ Novo empreendimento
             $(element).closest('.single-integration').remove();
         }
     }
+
     function addField(element, count) {
         event.preventDefault();
-        $(element).closest('.single-integration').find('.content-integration').append(`<div class="row"> <div class="input-field col-lg-6 col-12"> <div class="form-floating"> <input type="text" class="form-control" id="integrationFieldName-` + field + `" name="array[` + count + `][nameField][]" required> <label for="integrationFieldName-` + field + `">Nome do campo <abbr>*</abbr></label> </div> </div> <div class="input-field col-lg-6 col-12 d-flex align-items-center gap-2"> <div class="form-floating w-100"> <input type="text" class="form-control" id="integrationFieldValor-` + field + `" name="array[` + count + `][valueField][]" required> <label for="integrationFieldValor-` + field + `">Valor <abbr>*</abbr></label> </div> <a href="#" class="btn btn-sm btn-outline-dark rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Remover campo" onclick="removeField(this);"><i class="bi bi-dash"></i></a> </div> </div>`);
+        $(element).closest('.single-integration').find('.content-integration').append(`<div class="row"> <div class="input-field col-lg-6 col-12"> <div class="form-floating"> <input type="text" class="form-control" id="integrationFieldName-` + field + `" name="array[` + count + `][nameField][]" required> <label for="integrationFieldName-` + field + `">Nome do campo <abbr>*</abbr></label> </div> </div> <div class="input-field col-lg-6 col-12 d-flex align-items-center gap-3"> <div class="form-floating w-100"> <input type="text" class="form-control" id="integrationFieldValor-` + field + `" name="array[` + count + `][valueField][]" required> <label for="integrationFieldValor-` + field + `">Valor <abbr>*</abbr></label> </div> <a href="#" class="btn btn-sm btn-outline-dark rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Remover campo" onclick="removeField(this);"><i class="bi bi-dash"></i></a> </div> </div>`);
         field++;
 
         // Enable toltips
@@ -158,6 +184,40 @@ Novo empreendimento
     function removeField(element) {
         event.preventDefault();
         $(element).closest('.row').remove();
+    }
+
+    function addEmail() {
+        event.preventDefault();
+        $('.emails').find('.all-emails').append(`<div class="single-email"> <div class="content-email"> <div class="form-floating"> <input type="email" class="form-control" id="email ` + count + ` " name="email[]" required> <label for="email ` + count + `">E-mail <abbr>*</abbr></label> </div> <div> <a href="#" class="btn btn-sm btn-outline-dark rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Remover campo" onclick="removeEmail(this);"><i class="bi bi-dash"></i></a> </div> </div> </div>`);
+        count++;
+
+        // Enable toltips
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+    }
+
+    function removeEmail(element) {
+        event.preventDefault();
+        if(confirm('Tem certeza que deseja remover esse destinatário?')){
+            $(element).closest('.single-email').remove();
+        }
+    }
+
+    function addSheet() {
+        event.preventDefault();
+        $('.sheets').find('.all-sheets').append(`<div class="single-sheet"> <div class="content-sheet"> <div class="row row-gap-2"> <div class="col-6"> <div class="form-floating"> <input type="text" class="form-control" id="spreadsheetID` + count + `" name="spreadsheetID[]" required> <label for="spreadsheetID` + count + `">ID do Sheet <abbr>*</abbr></label> </div> </div> <div class="col-6"> <div class="form-floating"> <input type="text" class="form-control" id="sheet` + count + `" name="sheet[]" required> <label for="sheet` + count + `">Aba da planilha <abbr>*</abbr></label> </div> </div> <div class="col-6"> <div class="form-floating"> <input type="text" class="form-control" id="file` + count + `" name="file[]" required> <label for="file` + count + `">File de autenticação (JSON) <abbr>*</abbr></label> </div> </div> <div class="col-12 d-flex align-items-end justify-content-end"> <a href="#" class="btn btn-sm btn-outline-danger ms-auto" onclick="removeSheet(this);"><i class="bi bi-trash"></i> Excluir sheets</a> </div> </div> </div> </div>`);
+        count++;
+
+        // Enable toltips
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+    }
+
+    function removeSheet(element) {
+        event.preventDefault();
+        if(confirm('Tem certeza que deseja remover esse sheets?')){
+            $(element).closest('.single-sheet').remove();
+        }
     }
 </script>
 @endsection

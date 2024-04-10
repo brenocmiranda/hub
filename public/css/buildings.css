@@ -16,5 +16,52 @@
     display: flex;
     flex-direction: column;
     row-gap: 10px;
+    margin-bottom: 15px;
+}
+
+.emails .all-emails .single-email {
+    border: 1px solid #c7c7c7;
+    padding: 20px;
+    border-radius: 10px;
+    width: calc(100% - 30px);
+    margin: auto;
     margin-bottom: 20px;
+}
+
+.emails .all-emails .single-email  .content-email {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.emails .all-emails .single-email .form-floating {
+    width: calc(100% - 40px);
+}
+
+.sheets .all-sheets .single-sheet {
+    border: 1px solid #c7c7c7;
+    padding: 20px;
+    border-radius: 10px;
+    width: calc(100% - 30px);
+    margin: auto;
+    margin-bottom: 20px;
+}
+
+.sheets .all-sheets .single-sheet .content-sheet {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+}
+
+.sheets .all-sheets .single-sheet .content-sheet input[type="file"]{
+    padding: 35px 1.5rem;
+}
+
+.sheets .all-sheets .single-sheet .content-sheet .file-exists {
+    position: absolute;
+    bottom: 14px;
+    left: 180px;
+    min-width: 250px;
+    width: calc(100% - 184px);
+    background: #fff;
 }

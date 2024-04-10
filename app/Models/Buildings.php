@@ -30,4 +30,14 @@ class Buildings extends Model
     {
         return $this->hasMany(BuildingsIntegrationsFields::class, 'buildings_has_integrations_building_id', 'id');
     }
+
+    public function RelationDestinatarios() 
+    {
+        return $this->hasMany(BuildingsDestinatarios::class, 'building_id', 'id');
+    }
+
+    public function RelationSheets() 
+    {
+        return $this->hasMany(BuildingsSheets::class, 'building_id', 'id');
+    }
 }

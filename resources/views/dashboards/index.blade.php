@@ -109,7 +109,7 @@ Dashboard
                 },
                 colors: ['#00D8B6'],
                 title: {
-                    text: '{{ $leadsTotal->last()->count }}',
+                    text: '{{ $leadsDayCount }}',
                     offsetX: 30,
                     style: {
                         fontSize: '24px',
