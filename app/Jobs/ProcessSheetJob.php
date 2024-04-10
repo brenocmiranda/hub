@@ -53,7 +53,7 @@ class ProcessSheetJob implements ShouldQueue
             $utm_term = $this->lead->RelationFields->where('name', 'utm_term')->first() ? $this->lead->RelationFields->where('name', 'utm_term')->first()->value : '';
             $url_params = 'utm_source=' . $utm_source . 'utm_medium=' . $utm_medium . 'utm_campaign=' . $utm_campaign . 'utm_content=' . $utm_content . 'utm_term=' . $utm_term;
 
-            Sheets::spreadsheet($sheet->spreadsheetID)->sheet($sheet->sheet)->append([
+            $sl = Sheets::spreadsheet($sheet->spreadsheetID)->sheet($sheet->sheet)->append([
                 [
                     $data,
                     $origin,
@@ -71,22 +71,20 @@ class ProcessSheetJob implements ShouldQueue
                     $url_params
                 ]
             ]);
-            $values = Sheets::all();
         }
 
-        /* Salvando a pipeline de execução da integração
+        // Salvando a pipeline de execução da integração
         $pipeline = Pipelines::create([
-            'statusCode' => 200,
+            'statusCode' => 2,
             'attempts' => $this->attempts(),
             'lead_id' => $this->lead->id,
             'buildings_has_integrations_building_id' => $this->lead->RelationBuildings->id,
-            'buildings_has_integrations_integration_id' => $this->integration->id
+            'buildings_has_integrations_integration_id' => null
         ]);
         PipelinesLog::create([
-            'header' => json_encode($response->headers()),
-            'response' => json_encode($response->body()),
+            'header' => 'Envio dos dados para o sheets',
+            'response' => json_encode($sl),
             'pipeline_id' => $pipeline->id
         ]);
-        */
      }
 }

@@ -84,9 +84,21 @@ Detalhes do Lead
                                             @endforeach
                                         @endif
                                     </li>
+                                @elseif($log->statusCode == 1)
+                                    <li class="d-flex flex-wrap flex-column flex-md-row">
+                                        <h6 class="fw-bold w-75">T: {{ $log->attempts }} - Dados envidos para os <span class="text-decoration-underline">Destinatários</span>.</h6>
+                                        <span href="#" class="me-auto ms-auto-md w-25 text-left text-md-end mb-3 mb-md-0">{{ $log->created_at->format("d/m/Y H:i:s") }}</span>
+                                        <small class="text-break d-block w-100 ps-3">{{ $log->RelationPipelinesLog->response }}.</small>
+                                    </li>
+                                @elseif($log->statusCode == 2)
+                                    <li class="d-flex flex-wrap flex-column flex-md-row">
+                                        <h6 class="fw-bold w-75">T: {{ $log->attempts }} - Dados enviados para o <span class="text-decoration-underline">Google Sheets</span>.</h6>
+                                        <span href="#" class="me-auto ms-auto-md w-25 text-left text-md-end mb-3 mb-md-0">{{ $log->created_at->format("d/m/Y H:i:s") }}</span>
+                                        <small class="text-break d-block w-100 ps-3">{{ $log->RelationPipelinesLog->response }}.</small>
+                                    </li>
                                 @elseif($log->statusCode == 200 || $log->statusCode == 201)
                                     <li class="d-flex flex-wrap flex-column flex-md-row">
-                                        <h6 class="fw-bold w-75">T: {{ $log->attempts }} -  Execução do processo de <span class="text-decoration-underline">{{$log->RelationIntegrations->name}}</span>.</h6>
+                                        <h6 class="fw-bold w-75">T: {{ $log->attempts }} - Execução do processo de <span class="text-decoration-underline">{{$log->RelationIntegrations->name}}</span>.</h6>
                                         <span href="#" class="me-auto ms-auto-md w-25 text-left text-md-end mb-3 mb-md-0">{{ $log->created_at->format("d/m/Y H:i:s") }}</span>
                                         <p class="w-100">A tentativa de envio do lead para integração resultou em <strong class="text-success">sucesso</strong>.</p>
                                     </li>
@@ -112,7 +124,8 @@ Detalhes do Lead
             </div>
         </div>
         <div class="row mt-3 justify-content-end">
-            <div class="col-lg-2 col-12 d-flex justify-content-end">
+            <div class="col-lg-4 col-12 d-flex justify-content-end gap-2">
+                <a href="#" class="btn btn-dark btn-outline" onclick="window.location.reload()"> <i class="bi bi-arrow-clockwise px-2"></i>Atualizar</a>
                 <a href="{{ route('leads.index') }}" class="btn btn-primary"> <i class="bi bi-arrow-left px-2"></i>Voltar</a>
             </div>
         </div>

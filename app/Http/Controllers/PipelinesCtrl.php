@@ -29,7 +29,7 @@ class PipelinesCtrl
         // Salvando log
         UsersLogs::create([
             'title' => 'Visualização de pipeline',
-            'description' => 'Foi realizada a visualização das informações da pipeline ' . Pipelines::find($id)->RelationIntegrations->name . ' do lead ' . Pipelines::find($id)->RelationLeads->name . '.',
+            'description' => 'Foi realizada a visualização das informações da pipeline ' . Pipelines::find($id)->statusCode == 1 ? "Disparo de e-mail" : (Pipelines::find($id)->statusCode == 2 ? "Google Sheets" : ( Pipelines::find($id)->RelationIntegrations ? Pipelines::find($id)->RelationIntegrations->name : "" )) . ' do lead ' . Pipelines::find($id)->RelationLeads->name . '.',
             'action' => 'show',
             'user_id' => Auth::user()->id
         ]);

@@ -74,6 +74,14 @@ Detalhes da pipeline
                     <code>
                         {{ $pipeline->RelationPipelinesLog->response }}
                     </code>
+                @elseif($pipeline->statusCode == 1)
+                    <code>
+                        {{ $pipeline->RelationPipelinesLog->response }}
+                    </code>
+                @elseif($pipeline->statusCode == 2)
+                    <code>
+                        {{ $pipeline->RelationPipelinesLog->response }}
+                    </code>
                 @else
                     <code>
                         {{ json_decode($pipeline->RelationPipelinesLog->response) }}

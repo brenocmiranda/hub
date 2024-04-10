@@ -79,7 +79,7 @@ class ProcessIntegrationJob implements ShouldQueue
             'buildings_has_integrations_integration_id' => $this->integration->id
         ]);
         PipelinesLog::create([
-            'header' => 'fields',
+            'header' => 'Campos enviados',
             'response' => json_encode($body),
             'pipeline_id' => $pipeline->id
         ]);
