@@ -21,6 +21,7 @@ class ProcessIntegrationJob implements ShouldQueue
     use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public $tries = 3;
+    public $backoff = 60;
 
     public function __construct(protected $lead, protected $integration)
     {
@@ -167,7 +168,6 @@ class ProcessIntegrationJob implements ShouldQueue
                 }
             }
         } else {
-            $this->release(60);
             throw new \Exception('Erro ' . $response->status() . ' na execução da integração. <br /> ' . $response->body(), true);
         }
     }
@@ -228,32 +228,31 @@ class ProcessIntegrationJob implements ShouldQueue
      * Function de clean string 
     */
     public function slugify( $str = '', $divider = '-', $extras = [] ){
+        if( empty( $str ) ){
+            return '';
+        }
 
-			if( empty( $str ) ){
-				return '';
-			}
+        $str = strtolower( $str );
 
-			$str = strtolower( $str );
+        // transliterate
+        $str = iconv('utf-8', 'us-ascii//TRANSLIT', $str );
 
-			// transliterate
-			$str = iconv('utf-8', 'us-ascii//TRANSLIT', $str );
+        // remove unwanted characters
+        #$str = preg_replace('~[^-\w]+~', '', $str );
+        $list = array_merge( [ 'š' => 's', 'đ' => 'dj', 'ž' => 'z', 'č' => 'c', 'ć' => 'c', 'à' => 'a', 'á' => 'a', 'â' => 'a', 'ã' => 'a', 'ä' => 'a', 'å' => 'a', 'æ' => 'a', 'ç' => 'c', 'è' => 'e', 'é' => 'e', 'ê' => 'e', 'ë' => 'e', 'ì' => 'i', 'í' => 'i', 'î' => 'i', 'ï' => 'i', 'ð' => 'o', 'ñ' => 'n', 'ò' => 'o', 'ó' => 'o', 'ô' => 'o', 'õ' => 'o', 'ö' => 'o', 'ø' => 'o', 'ù' => 'u', 'ú' => 'u', 'û' => 'u', 'ý' => 'y', 'ý' => 'y', 'þ' => 'b', 'ÿ' => 'y', 'ŕ' => 'r', '/' => $divider, ' ' => $divider, '.' => $divider, '@' => 'a', '^' => '', '~' => '', '´' => '', '`' => '', '\'' => '' ], $extras );
+        $str = strtr( $str, $list );
 
-			// remove unwanted characters
-			#$str = preg_replace('~[^-\w]+~', '', $str );
-			$list = array_merge( [ 'š' => 's', 'đ' => 'dj', 'ž' => 'z', 'č' => 'c', 'ć' => 'c', 'à' => 'a', 'á' => 'a', 'â' => 'a', 'ã' => 'a', 'ä' => 'a', 'å' => 'a', 'æ' => 'a', 'ç' => 'c', 'è' => 'e', 'é' => 'e', 'ê' => 'e', 'ë' => 'e', 'ì' => 'i', 'í' => 'i', 'î' => 'i', 'ï' => 'i', 'ð' => 'o', 'ñ' => 'n', 'ò' => 'o', 'ó' => 'o', 'ô' => 'o', 'õ' => 'o', 'ö' => 'o', 'ø' => 'o', 'ù' => 'u', 'ú' => 'u', 'û' => 'u', 'ý' => 'y', 'ý' => 'y', 'þ' => 'b', 'ÿ' => 'y', 'ŕ' => 'r', '/' => $divider, ' ' => $divider, '.' => $divider, '@' => 'a', '^' => '', '~' => '', '´' => '', '`' => '', '\'' => '' ], $extras );
-			$str = strtr( $str, $list );
+        // replace non letter or digits by divider
+        $str = preg_replace( '~[^\pL\d]+~u', $divider, $str );
 
-			// replace non letter or digits by divider
-			$str = preg_replace( '~[^\pL\d]+~u', $divider, $str );
+        // trim
+        $str = trim( $str, $divider );
 
-			// trim
-			$str = trim( $str, $divider );
+        // remove duplicate divider
+        $str = preg_replace('~-+~', $divider, $str );
 
-			// remove duplicate divider
-			$str = preg_replace('~-+~', $divider, $str );
+        // lowercase
 
-			// lowercase
-
-			return $str;
-		}
+        return $str;
+    }
 }

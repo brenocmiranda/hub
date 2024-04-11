@@ -125,8 +125,8 @@ Detalhes do Lead
         </div>
         <div class="row mt-3 justify-content-end">
             <div class="col-lg-4 col-12 d-flex justify-content-end gap-2">
-                <a href="#" class="btn btn-dark btn-outline" onclick="window.location.reload()"> <i class="bi bi-arrow-clockwise px-2"></i>Atualizar</a>
-                <a href="{{ route('leads.index') }}" class="btn btn-primary"> <i class="bi bi-arrow-left px-2"></i>Voltar</a>
+                <a href="#" class="btn btn-dark btn-outline" onclick="window.location.reload()"> <i class="bi bi-arrow-clockwise pe-2"></i>Atualizar</a>
+                <a href="{{ route('leads.index') }}" class="btn btn-primary"> <i class="bi bi-arrow-left pe-2"></i>Voltar</a>
             </div>
         </div>
     </div>

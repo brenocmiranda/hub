@@ -31,7 +31,7 @@ $table.bootstrapTable({
     locale: "pt-BR",
     theadClasses: 'table-dark',
     buttonsAlign: 'left',
-    pageSize: 5,
+    pageSize: 7,
     search: true,
     showSearchButton: true,
     searchable: true,

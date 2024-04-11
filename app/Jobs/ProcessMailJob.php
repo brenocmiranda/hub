@@ -22,6 +22,7 @@ class ProcessMailJob implements ShouldQueue
     use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public $tries = 3;
+    public $backoff = 60;
 
     public function __construct(protected $lead)
     {

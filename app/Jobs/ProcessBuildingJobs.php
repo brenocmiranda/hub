@@ -49,6 +49,9 @@ class ProcessBuildingJobs implements ShouldQueue
         }
 
         Bus::batch([ $listOfJobs ])
+        ->before(function (Batch $batch) use ($lead) {
+            Leads::find($lead->id)->update([ 'batches_id' => $batch->id ]);
+        })
         ->catch(function (Batch $batch, Throwable $e) use ($lead) {
             $usersRole = UsersRoles::where('name', "like", "%admin%")->first();
             $users = Users::where('user_role_id', $usersRole->id)->get();

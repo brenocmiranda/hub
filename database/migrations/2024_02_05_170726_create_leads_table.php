@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('name', 200);
             $table->string('phone', 200);
             $table->string('email', 200);
+            $table->unsignedBigInteger('batches_id')->nullable();
+            $table->foreign('batches_id')->references('id')->on('job_batches');
             $table->unsignedBigInteger('leads_origin_id');
             $table->foreign('leads_origin_id')->references('id')->on('leads_origins');
             $table->unsignedBigInteger('building_id');

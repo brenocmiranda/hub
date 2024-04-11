@@ -22,6 +22,7 @@ class ProcessSheetJob implements ShouldQueue
     use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public $tries = 3;
+    public $backoff = 60;
 
     public function __construct(protected $lead)
     {
@@ -86,5 +87,5 @@ class ProcessSheetJob implements ShouldQueue
             'response' => json_encode($sl),
             'pipeline_id' => $pipeline->id
         ]);
-     }
+    }
 }

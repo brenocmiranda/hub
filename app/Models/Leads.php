@@ -16,6 +16,7 @@ class Leads extends Model
         'phone',
         'leads_origin_id',
         'building_id',
+        'batches_id',
         'created_at',
     ];
 
@@ -37,5 +38,10 @@ class Leads extends Model
     public function RelationPipelines()
     {
         return $this->hasMany(Pipelines::class, 'lead_id', 'id');
+    } 
+
+    public function RelationBatches()
+    {
+        return $this->belongsTo(JobBatches::class, 'bactches_id', 'id');
     } 
 }
