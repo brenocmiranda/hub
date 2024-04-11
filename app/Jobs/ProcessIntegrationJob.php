@@ -61,7 +61,7 @@ class ProcessIntegrationJob implements ShouldQueue
                 ];
 
                 foreach($array as $index => $element){
-                    $body[$bodyField->name] = $bodyField->value;
+                    //$body[$bodyField->name] = $bodyField->value;
                     if ( strpos($bodyField->value, $index) !== false ){
                         $bodyField->value = str_replace($index, $element, $bodyField->value);
                     } 
@@ -70,6 +70,9 @@ class ProcessIntegrationJob implements ShouldQueue
                 $body[$bodyField->name] = $bodyField->value;
             }
         }
+
+        // Convertando name em array    
+        $body = self::dotKeyToArray( $body );
 
         // Salvando a pipeline com o body sending
         $pipeline = Pipelines::create([
@@ -255,4 +258,25 @@ class ProcessIntegrationJob implements ShouldQueue
 
         return $str;
     }
+
+    /** 
+     * Function de convert string in array (extras.conversionOrigin.source)  
+    */
+    function assignArrayByPath( &$arr, $path, $value, $separator = '.' ){
+		$keys = explode( $separator, $path );
+		foreach( $keys as $key ){
+			$arr = &$arr[$key];
+		}
+		$arr = $value;
+	}
+	function dotKeyToArray( $arr, $separator = '.' ){
+        $arr2 = json_decode( json_encode( $arr ), true );
+		foreach( $arr2 as $key => $value ){
+            if ( strpos($key, '.') !== false ){
+				self::assignArrayByPath( $arr2, $key, $value, '.' );
+				unset( $arr2[ $key ] );
+			}
+		}
+		return $arr2;
+	}
 }

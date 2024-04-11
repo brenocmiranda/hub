@@ -67,7 +67,7 @@ Editar empreendimento
                         </div>
                         <div class="emails">
                             <div class="all-emails">
-                                @if($building->RelationDestinatarios)
+                                @if($building->RelationDestinatarios->first())
                                     @foreach($building->RelationDestinatarios as $index => $destinatarios)
                                     <div class="single-email">
                                         <div class="content-email">
@@ -94,7 +94,7 @@ Editar empreendimento
                         </div>
                         <div class="sheets">
                             <div class="all-sheets">
-                                @if($building->RelationSheets)
+                                @if($building->RelationSheets->first())
                                     @foreach($building->RelationSheets as $index => $sheet)
                                     <div class="single-sheet">
                                         <div class="content-sheet">
@@ -114,7 +114,10 @@ Editar empreendimento
                                                 <div class="col-12">
                                                     <div class="form-floating"> 
                                                         <input type="file" class="form-control" id="file{{ $index }}" name="file[]" onchange="alternateName(this);" {{ $sheet->file ? "" : "required" }}> 
-                                                        <div class="file-exists">{{$sheet->file}}</div>
+                                                        <input type="hidden" name="fileexists[]" value="{{$sheet->file}}">
+                                                        @if($sheet->file)
+                                                            <div class="file-exists">{{$sheet->file}}</div>
+                                                        @endif
                                                         <label for="file{{ $index }}">File de autenticação (JSON) {{ $sheet->file ? "" : "<abbr>*</abbr>" }} </label> 
                                                     </div>
                                                 </div>
@@ -140,7 +143,7 @@ Editar empreendimento
                         </div>
                         <div class="integrations">
                             <div class="all-integration">
-                                @if($building->RelationIntegrations)
+                                @if($building->RelationIntegrations->first())
                                     @foreach($building->RelationIntegrations as $index => $buildingIntegration)
                                     <div class="single-integration"> 
                                         <div class="content-integration"> 

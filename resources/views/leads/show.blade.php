@@ -76,13 +76,9 @@ Detalhes do Lead
                             @if($log->id === $log->RelationPipelinesLog->id)
                                 @if($log->statusCode == 0)
                                     <li class="d-flex flex-wrap flex-column flex-md-row">
-                                        <h6 class="fw-bold w-75">T: {{ $log->attempts }} - Dados enviados para o processo de <span class="text-decoration-underline">{{$log->RelationIntegrations->name}}</span>.</h6>
+                                        <h6 class="fw-bold w-75">T: {{ $log->attempts }} - Payload de <span class="text-decoration-underline">{{$log->RelationIntegrations->name}}</span>.</h6>
                                         <span href="#" class="me-auto ms-auto-md w-25 text-left text-md-end mb-3 mb-md-0">{{ $log->created_at->format("d/m/Y H:i:s") }}</span>
-                                        @if($log->RelationPipelinesLog->first()->response)
-                                            @foreach(json_decode($log->RelationPipelinesLog->response) as $index => $response)
-                                                <small class="text-break d-block w-100">{{$index}} => {{$response}}</small>
-                                            @endforeach
-                                        @endif
+                                        <small class="text-break d-block w-100 ps-3">{{ $log->RelationPipelinesLog->response }}.</small>
                                     </li>
                                 @elseif($log->statusCode == 1)
                                     <li class="d-flex flex-wrap flex-column flex-md-row">

@@ -29,71 +29,84 @@ class ApiLeadsCtrl extends Controller
      */
     public function store(ApiLeadsRqt $request, $originLead = null)
     {       
-        /** Params requeried **/
+        /**
+         * Params required
+        */
             // Nome
-            if($request->name) {
-                $name = $request->name;
-            }elseif($request->nome) {
-                $name = $request->nome;
-            }else{
-                $name = "Não recebido.";
+            $array = [
+                'name' => $request->name,
+                'nome' => $request->nome,
+            ];
+            foreach($array as $ar){
+                if( $ar ){
+                    $name = $ar;
+                    break;
+                }
             }
-
+            $name = $name ? $name : "Não recebido.";
+            
             // Telefone
-            if($request->telefone) {
-                $tel = preg_replace( '/\D/', '', str_replace( '+55', '', $request->telefone ));
-	            $phone = strlen( $tel ) < 10  ? substr( $tel . str_repeat( '9', 11 ), 0, 11 ) : $tel;
-            }elseif($request->celular) {
-                $tel = preg_replace( '/\D/', '', str_replace( '+55', '', $request->celular ));
-	            $phone = strlen( $tel ) < 10  ? substr( $tel . str_repeat( '9', 11 ), 0, 11 ) : $tel;
-            }elseif($request->phoneNumber) {
-                $tel = preg_replace( '/\D/', '', str_replace( '+55', '', $request->phoneNumber ));
-	            $phone = strlen( $tel ) < 10  ? substr( $tel . str_repeat( '9', 11 ), 0, 11 ) : $tel;
-            }elseif($request->phone) {
-                $tel = preg_replace( '/\D/', '', str_replace( '+55', '', $request->phone ));
-	            $phone = strlen( $tel ) < 10  ? substr( $tel . str_repeat( '9', 11 ), 0, 11 ) : $tel;
-            }else{
-                $phone = "Não recebido.";
+            $array = [
+                'telefone' => $request->telefone,
+                'celular' => $request->celular,
+                'phoneNumber' => $request->phoneNumber,
+                'phone' => $request->phone,
+            ];
+            foreach($array as $ar){
+                if( $ar ){
+                    $tel = preg_replace( '/\D/', '', str_replace( '+55', '', $ar ));
+	                $phone = strlen( $tel ) < 10  ? substr( $tel . str_repeat( '9', 11 ), 0, 11 ) : $tel;
+                    break;
+                }
             }
-                
+            $phone = $phone ? $phone : "99999999999";
+            
             // E-mail
-            if($request->email){
-                $email = $request->email ? $request->email : "naoidentificado@komuh.com";
+            $array = [
+                'email' => $request->email,
+            ];
+            foreach($array as $ar){
+                if( $ar ){
+                    $email = $ar;
+                    break;
+                }
             }
+            $phone = $phone ? $phone : "naoidentificado@komuh.com";
             
             // Empreendimento
-            $bdefault = BuildingsKeys::where('value', 'default')->first();
-            if($request->building) {
-                $buildingNow = BuildingsKeys::where('active', 1)->where('value', $request->building)->first();
-                $building = $buildingNow ? $buildingNow->building_id : $bdefault->building_id;
-            }elseif($request->empreendimento) {
-                $buildingNow = BuildingsKeys::where('active', 1)->where('value', $request->empreendimento)->first();
-                $building = $buildingNow ? $buildingNow->building_id : $bdefault->building_id;
-            }elseif($request->originListingId) {
-                $buildingNow = BuildingsKeys::where('active', 1)->where('value', $request->originListingId)->first();
-                $building = $buildingNow ? $buildingNow->building_id : $bdefault->building_id;
-            }elseif($request->codigoDoAnunciante) {
-                $buildingNow = BuildingsKeys::where('active', 1)->where('value', $request->codigoDoAnunciante)->first();
-                $building = $buildingNow ? $buildingNow->building_id : $bdefault->building_id;
-            }else{
-                $bdefault = BuildingsKeys::where('value', 'default')->first();
-                $building = $b ? $b->building_id : $bdefault->building_id;
+            $array = [
+                'building' => BuildingsKeys::where('active', 1)->where('value', $request->building)->first(),
+                'empreendimento' => BuildingsKeys::where('active', 1)->where('value', $request->empreendimento)->first(),
+                'originListingId' => BuildingsKeys::where('active', 1)->where('value', $request->originListingId)->first(),
+                'codigoDoAnunciante' => BuildingsKeys::where('active', 1)->where('value', $request->codigoDoAnunciante)->first(),
+            ];
+            foreach($array as $ar){
+                if( $ar ){
+                    $building = $ar->building_id;
+                    break;
+                }
             }
+            $bdefault = BuildingsKeys::where('value', 'default')->first();
+            $building = isset($building) ? $building : $bdefault->building_id;
 
             // Origin
-            $odefault = LeadsOrigins::where('slug', 'default')->first();
-            if($originLead){
-                $originNow = LeadsOrigins::where('slug', $originLead)->first();
-                $origin = $originNow ? $originNow->id : $odefault->id;
-            }else if($request->origin){
-                $originNow = LeadsOrigins::where('slug', $request->origin)->first();
-                $origin = $originNow ? $originNow->id : $odefault->id;
-            } else {
-                $odefault = LeadsOrigins::where('slug', 'default')->first();
-                $origin = $odefault ? $odefault->id : "";
+            $array = [
+                'originLead' => LeadsOrigins::where('slug', $originLead)->first(),
+                'origin' => LeadsOrigins::where('slug', $request->origin)->first(),
+            ];
+            foreach($array as $ar){
+                if( $ar ){
+                    $origin = $ar->id;
+                    break;
+                }
             }
+            $odefault = LeadsOrigins::where('slug', 'default')->first();
+            $origin = isset($origin) ? $origin : $odefault->id;
 
-        /** Params optional **/
+
+        /**
+         * Params optinals
+        */
             // url_params
             if($request->url_params){
 
@@ -103,14 +116,17 @@ class ApiLeadsCtrl extends Controller
                 if($output['utm_source'] === 'fb'){
                     $fields['valueField'][] = 'facebook';
                 }
-                if($output['utm_source'] === 'ig'){
+                else if($output['utm_source'] === 'ig'){
                     $fields['valueField'][] = 'instagram';
                 }
-                if($output['utm_source'] === 'VivaReal'){
+                else if($output['utm_source'] === 'VivaReal'){
                     $fields['valueField'][] = 'vivareal';
                 }
-                if($output['utm_source'] === 'Zap'){
+                else if($output['utm_source'] === 'Zap'){
                     $fields['valueField'][] = 'zapimoveis';
+                }
+                else{
+                    $fields['valueField'][] = $output['utm_source'];
                 }
 
                 $fields['nameField'][] = 'utm_campaign';
@@ -128,151 +144,168 @@ class ApiLeadsCtrl extends Controller
             }else {
 
                 // utm_source
-                $fields['nameField'][] = 'utm_source';
-                if($request->utm_source) {
-                    if($request->utm_source === 'fb'){
-                        $fields['valueField'][] = 'facebook';
-                    }
-                    if($request->utm_source === 'ig'){
-                        $fields['valueField'][] = 'instagram';
-                    }
-                    if($request->utm_source === 'VivaReal'){
-                        $fields['valueField'][] = 'vivareal';
-                    }
-                    if($request->utm_source === 'Zap'){
-                        $fields['valueField'][] = 'zapimoveis';
-                    }
-                    else {
-                        $fields['valueField'][] = $request->utm_source;
-                    }
-                }elseif($request->plataforma) {
-                    if($request->plataforma === 'fb'){
-                        $fields['valueField'][] = 'facebook';
-                    }
-                    if($request->plataforma === 'ig'){
-                        $fields['valueField'][] = 'instagram';
-                    }
-                    if($request->plataforma === 'VivaReal'){
-                        $fields['valueField'][] = 'vivareal';
-                    }
-                    if($request->plataforma === 'Zap'){
-                        $fields['valueField'][] = 'zapimoveis';
-                    }
-                    else {
-                        $fields['valueField'][] = $request->plataforma;
-                    }
-                }elseif($request->leadOrigin) {
-                    if($request->leadOrigin === 'fb'){
-                        $fields['valueField'][] = 'facebook';
-                    }
-                    if($request->leadOrigin === 'ig'){
-                        $fields['valueField'][] = 'instagram';
-                    }
-                    if($request->leadOrigin === 'VivaReal'){
-                        $fields['valueField'][] = 'vivareal';
-                    }
-                    if($request->leadOrigin === 'Zap'){
-                        $fields['valueField'][] = 'zapimoveis';
-                    }
-                    else {
-                        $fields['valueField'][] = $request->leadOrigin;
-                    }
-                }else{
-                    $fields['valueField'][] = "";
+                $array = [
+                    'utm_source' => $request->utm_source,
+                    'plataforma' => $request->plataforma,
+                    'leadOrigin' => $request->leadOrigin,
+                ];
+                foreach($array as $ar){
+                    if( $ar ){
+                        $array2 = [
+                            'fb' => 'facebook',
+                            'ig' => 'instagram',
+                            'VivaReal' => 'vivareal',
+                            'Zap' => 'zapimoveis',
+                            'Grupo OLX' => 'zapimoveis',
+                        ];
+                        foreach($array2 as $data => $ar2){
+                            if( $ar == $data ){
+                                $fields['nameField'][] = 'utm_source';
+                                $fields['valueField'][] = $ar2;
+                                break;
+                            }
+                        }
+                    } 
                 }
-
+ 
                 // utm_campaign
-                $fields['nameField'][] = 'utm_campaign';
-                if($request->utm_campaign) {
-                    $fields['valueField'][] = $request->utm_campaign;
-                }elseif($request->campanha) {
-                    $fields['valueField'][] = $request->campanha;
-                }elseif($request->codigoImobiliaria) {
-                    $fields['valueField'][] = $request->codigoImobiliaria;
-                }else{
-                    $fields['valueField'][] = "";
+                $array = [
+                    'utm_campaign' => $request->utm_campaign,
+                    'campanha' => $request->campanha,
+                    'codigoImobiliaria' => $request->codigoImobiliaria,
+                ];
+                foreach($array as $ar){
+                    if( $ar ){
+                        $fields['nameField'][] = 'utm_campaign';
+                        $fields['valueField'][] = $ar;
+                        break;
+                    }
                 }
 
                 // utm_medium
-                $fields['nameField'][] = 'utm_medium';
-                if($request->utm_medium) {
-                    $fields['valueField'][] = $request->utm_medium;
-                }elseif($request->nome_form) {
-                    $fields['valueField'][] = $request->nome_form;
-                }elseif($request->clientListingId) {
-                    $fields['valueField'][] = $request->clientListingId;
-                }elseif($request->planoDePublicacao) {
-                    $fields['valueField'][] = $request->planoDePublicacao;
-                }else{
-                    $fields['valueField'][] = "";
+                $array = [
+                    'utm_medium' => $request->utm_medium,
+                    'nome_form' => $request->nome_form,
+                    'clientListingId' => $request->clientListingId,
+                    'planoDePublicacao' => $request->planoDePublicacao,
+                ];
+                foreach($array as $ar){
+                    if( $ar ){
+                        $fields['nameField'][] = 'utm_medium';
+                        $fields['valueField'][] = $ar;
+                        break;
+                    }
                 }
 
                 // utm_content
-                $fields['nameField'][] = 'utm_content';
-                if($request->utm_content) {
-                    $fields['valueField'][] = $request->utm_content;
-                }elseif($request->ad_name) {
-                    $fields['valueField'][] = $request->ad_name;
-                }else{
-                    $fields['valueField'][] = "";
+                $array = [
+                    'utm_content' => $request->utm_content,
+                    'ad_name' => $request->ad_name,
+                ];
+                foreach($array as $ar){
+                    if( $ar ){
+                        $fields['nameField'][] = 'utm_content';
+                        $fields['valueField'][] = $ar;
+                        break;
+                    }
                 }
 
                 // utm_term
-                $fields['nameField'][] = 'utm_term';
-                if($request->utm_term) {
-                    $fields['valueField'][] = $request->utm_term;
-                }elseif($request->adset_name) {
-                    $fields['valueField'][] = $request->adset_name;
-                }else{
-                    $fields['valueField'][] = "";
+                $array = [
+                    'utm_term' => $request->utm_term,
+                    'adset_name' => $request->adset_name,
+                ];
+                foreach($array as $ar){
+                    if( $ar ){
+                        $fields['nameField'][] = 'utm_term';
+                        $fields['valueField'][] = $ar;
+                        break;
+                    }
                 }
             }
 
             // sobrenome
-            if($request->sobrenome){
-                $name = $name . ' ' . $request->sobrenome;
+            $array = [
+                'sobrenome' => $request->sobrenome,
+            ];
+            foreach($array as $ar){
+                if( $ar ){
+                    $name = $name . ' ' . $ar;
+                }
             }
 
             // message
-            if($request->message){
-                $fields['nameField'][] = 'message';
-                $fields['valueField'][] = $request->message;
-            }elseif($request->mensagem){
-                $fields['nameField'][] = 'message';
-                $fields['valueField'][] = $request->mensagem;
+            $array = [
+                'message' => $request->message,
+                'mensagem' => $request->mensagem,
+            ];
+            foreach($array as $ar){
+                if( $ar ){
+                    $fields['nameField'][] = 'message';
+                    $fields['valueField'][] = $ar;
+                    break;
+                }
             }
 
             // url
-            if($request->url){
-                $fields['nameField'][] = 'url';
-                $fields['valueField'][] = $request->url;
+            $array = [
+                'url' => $request->url,
+            ];
+            foreach($array as $ar){
+                if( $ar ){
+                    $fields['nameField'][] = 'url';
+                    $fields['valueField'][] = $ar;
+                    break;
+                }
             }
 
             // pp
-            if($request->pp){
-                $fields['nameField'][] = 'pp';
-                $fields['valueField'][] = $request->pp ? 'Y' : 'N';
+            $array = [
+                'pp' => $request->pp,
+            ];
+            foreach($array as $ar){
+                if( $ar ){
+                    $fields['nameField'][] = 'pp';
+                    $fields['valueField'][] = $ar;
+                    break;
+                }
             }
 
             // com
-            if($request->com){
-                $fields['nameField'][] = 'com';
-                $fields['valueField'][] = $request->com ? 'Y' : 'N';
-            }elseif($request->comunicacao){ 
-                $fields['nameField'][] = 'com';
-                $fields['valueField'][] = $request->comunicacao ? 'Y' : 'N';
+            $array = [
+                'com' => $request->com,
+                'comunicacao' => $request->comunicacao,
+            ];
+            foreach($array as $ar){
+                if( $ar ){
+                    $fields['nameField'][] = 'com';
+                    $fields['valueField'][] = $ar;
+                    break;
+                }
             }
             
             // gclid
-            if($request->gclid){
-                $fields['nameField'][] = 'gclid';
-                $fields['valueField'][] = $request->gclid;
+            $array = [
+                'gclid' => $request->gclid,
+            ];
+            foreach($array as $ar){
+                if( $ar ){
+                    $fields['nameField'][] = 'gclid';
+                    $fields['valueField'][] = $ar;
+                    break;
+                }
             }
-            
+
             // fbclid
-            if($request->fbclid){
-                $fields['nameField'][] = 'fbclid';
-                $fields['valueField'][] = $request->fbclid;
+            $array = [
+                'fbclid' => $request->fbclid,
+            ];
+            foreach($array as $ar){
+                if( $ar ){
+                    $fields['nameField'][] = 'fbclid';
+                    $fields['valueField'][] = $ar;
+                    break;
+                }
             }
         
         // Create new lead

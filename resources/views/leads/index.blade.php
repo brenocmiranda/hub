@@ -19,11 +19,11 @@ Leads
                     <thead>
                         <tr>
                             <th data-field="date" data-align="center">Data</th>
-                            <th data-field="status" data-align="center">Status</th>
                             <th data-field="origin" data-align="center">Origem</th>
                             <th data-field="building" data-align="center">Empreendimento</th>
                             <th data-field="name" data-align="center">Nome</th>
-                            <th data-field="email" data-align="center">E-mail</th>
+                            <!--<th data-field="email" data-align="center">E-mail</th>-->
+                            <th data-field="status" data-align="center">Status</th>
                             <th data-field="operations" data-align="center">Operações</th>
                         </tr>
                     </thead>
@@ -34,11 +34,12 @@ Leads
                             @foreach($leads as $lead)
                                 { 
                                     'date': '{{ $lead->created_at->format("d/m/Y H:i:s") }}', 
-                                    'status': '<span class="badge {{ $lead->batches_id ? ( Bus::findBatch($lead->batches_id)->failedJobs > 0 ? "text-bg-danger" : (Bus::findBatch($lead->batches_id)->pendingJobs > 0 ? "text-bg-secondary" : "text-bg-success")) : "" }}"><i class="bi {{ $lead->batches_id ? ( Bus::findBatch($lead->batches_id)->failedJobs > 0 ? "bi-x-octagon" : (Bus::findBatch($lead->batches_id)->pendingJobs > 0 ? "bi-gear-wide-connected" : "bi-check2-circle")) : "" }} px-1"></i> {{ $lead->batches_id ? ( Bus::findBatch($lead->batches_id)->failedJobs > 0 ? "Erro" : (Bus::findBatch($lead->batches_id)->pendingJobs > 0 ? "Executando" : "Finalizado")) : "" }}</span> ', 
+                                     
                                     'origin': '{{ $lead->RelationOrigins->name }}', 
                                     'building': '{{ $lead->RelationBuildings->name }}', 
                                     'name': '{{ $lead->name }}',
                                     'email': '{{ $lead->email }}',
+                                    'status': '<span class="badge {{ $lead->batches_id ? ( Bus::findBatch($lead->batches_id)->failedJobs > 0 ? "text-bg-danger" : (Bus::findBatch($lead->batches_id)->pendingJobs > 0 ? "text-bg-secondary" : "text-bg-success")) : "" }}"><i class="bi {{ $lead->batches_id ? ( Bus::findBatch($lead->batches_id)->failedJobs > 0 ? "bi-x-octagon" : (Bus::findBatch($lead->batches_id)->pendingJobs > 0 ? "bi-gear-wide-connected" : "bi-check2-circle")) : "" }} px-1"></i> {{ $lead->batches_id ? ( Bus::findBatch($lead->batches_id)->failedJobs > 0 ? "Erro" : (Bus::findBatch($lead->batches_id)->pendingJobs > 0 ? "Executando" : "Finalizado")) : "" }}</span> ',
                                     'operations': '<div class="d-flex justify-content-center align-items-center gap-2"><a href="{{ route('leads.show', $lead->id ) }}" class="btn btn-outline-secondary px-2 py-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Visualizar"><i class="bi bi-eye"></i></a></div>'
                                 },
                             @endforeach

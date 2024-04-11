@@ -161,12 +161,11 @@ class BuildingsCtrl extends Controller
                         'file' => $fileNameToStore,
                     ]);
                 } else {
-
                     $buildingSheet = BuildingsSheets::create([
                         'building_id' => $id,
                         'sheet' => $request->input('sheet')[$in],
                         'spreadsheetID' => $request->input('spreadsheetID')[$in],
-                        'file' => BuildingsSheets::where('building_id', $id)->withTrashed()->orderBy('created_at', 'desc')->first()->file,
+                        'file' => $request->input('fileexists')[$in],
                     ]);
                 }
 
