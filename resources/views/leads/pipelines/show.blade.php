@@ -70,23 +70,9 @@ Detalhes da pipeline
                 <hr>
             </div>
             <div class="col-12">
-                @if($pipeline->statusCode == 0)
-                    <code>
-                        {{ $pipeline->RelationPipelinesLog->response }}
-                    </code>
-                @elseif($pipeline->statusCode == 1)
-                    <code>
-                        {{ $pipeline->RelationPipelinesLog->response }}
-                    </code>
-                @elseif($pipeline->statusCode == 2)
-                    <code>
-                        {{ $pipeline->RelationPipelinesLog->response }}
-                    </code>
-                @else
-                    <code>
-                        {{ json_decode($pipeline->RelationPipelinesLog->response) }}
-                    </code>
-                @endif
+                <code>
+                    {{ $pipeline->RelationPipelinesLog->response }}
+                </code>
             </div>
         </div>
         <div class="row mt-3 justify-content-end">
