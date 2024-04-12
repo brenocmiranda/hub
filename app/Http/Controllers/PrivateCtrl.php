@@ -19,9 +19,9 @@ class PrivateCtrl extends Controller
     public function home()
     {
         if (Auth::check() && Auth::user()->active) {
-            $requestSuccess = DB::table('job_batches')->whereNull('cancelled_at')->count();
-            $requestFail = DB::table('job_batches')->whereNotNull('cancelled_at')->count();
-            $requestPending = DB::table('job_batches')->whereNotNull('pending_jobs')->count() - $requestFail - $requestSuccess;
+            $requestSuccess = DB::table('job_batches')->where('pending_jobs', '=', 0)->count();
+            $requestFail = DB::table('job_batches')->where('pending_jobs', '>', 0)->where('failed_jobs', '>', 0)->count();
+            $requestPending = $requestSuccess - $requestFail - DB::table('job_batches')->count();
 
             return view('system.home')->with('requestPending', $requestPending)->with('requestSuccess', $requestSuccess)->with('requestFail', $requestFail);
         } else {

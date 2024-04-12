@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\LeadsRqt;
 use App\Models\Buildings;
@@ -116,5 +117,48 @@ class LeadsCtrl extends Controller
             $leads[$index]['url'] = route('leads.show', $lead->id);
         }
         return $leads;
+    }
+
+    public function retryAll(){ 
+        Artisan::call('queue:retry', ['id' => ['all']]);
+
+        // Salvando log
+        UsersLogs::create([
+            'title' => 'Tentar novamente todos',
+            'description' => 'Foi realizado uma nova tentativa de integração de todos os lead com erro.',
+            'action' => 'retryAll',
+            'user_id' => Auth::user()->id
+        ]);
+
+        return redirect()->route('leads.index')->with( 'retryAll', true );
+    }
+
+    public function retry($id){ 
+        $lead = Leads::find($id);
+        Artisan::call('queue:retry', ['id' => [ $lead->batches_id ]]);
+
+        // Salvando log
+        UsersLogs::create([
+            'title' => 'Tentar novamente',
+            'description' => 'Foi realizado uma nova tentativa de integração do lead: ' . Leads::find($id)->name . '.',
+            'action' => 'retry',
+            'user_id' => Auth::user()->id
+        ]);
+        
+        return redirect()->route('leads.show', $id)->with( 'retry', true );
+    }
+
+    public function resend($id){ 
+        ProcessBuildingJobs::dispatch($id);
+
+        // Salvando log
+        UsersLogs::create([
+            'title' => 'Reenvio do lead',
+            'description' => 'Foi realizado o reenvio do lead: ' . Leads::find($id)->name . '.',
+            'action' => 'resend',
+            'user_id' => Auth::user()->id
+        ]);
+
+        return redirect()->route('leads.show', $id)->with( 'resend', true );
     }
 }

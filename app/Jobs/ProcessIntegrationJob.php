@@ -56,8 +56,8 @@ class ProcessIntegrationJob implements ShouldQueue
                     '$utm_content' => $this->lead->RelationFields->where('name', 'utm_content')->first() ? $this->lead->RelationFields->where('name', 'utm_content')->first()->value : '',
                     '$utm_term' => $this->lead->RelationFields->where('name', 'utm_term')->first() ? $this->lead->RelationFields->where('name', 'utm_term')->first()->value : '',
                     '$message' => $this->lead->RelationFields->where('name', 'message')->first() ? $this->lead->RelationFields->where('name', 'message')->first()->value : '',
-                    '$PartyNumber' => $this->lead->RelationFields->where('name', 'PartyNumber')->first() ? $this->lead->RelationFields->where('name', 'PartyNumber')->first()->value : '',
-                    '$SrNumber' => $this->lead->RelationFields->where('name', 'SrNumber')->first() ? $this->lead->RelationFields->where('name', 'SrNumber')->first()->value : '',
+                    '$PartyNumber' => $this->lead->RelationFields->where('name', 'PartyNumber')->last() ? $this->lead->RelationFields->where('name', 'PartyNumber')->last()->value : '',
+                    '$SrNumber' => $this->lead->RelationFields->where('name', 'SrNumber')->last() ? $this->lead->RelationFields->where('name', 'SrNumber')->last()->value : '',
                 ];
 
                 foreach($array as $index => $element){
@@ -150,19 +150,21 @@ class ProcessIntegrationJob implements ShouldQueue
             // Retornando dados da integração vinculando ao lead
             $result = json_decode($response->body(), true);
             if($this->integration->slug === 'xrm-contatos-create' || $this->integration->slug === 'xrm-contatos') {
-                if( !isset($PartyNumber) ){
+                $PartyNumber = $this->lead->RelationFields->where('name', 'PartyNumber')->last() ? $this->lead->RelationFields->where('name', 'PartyNumber')->last()->value : null;
+                if( empty($PartyNumber) ){
                     LeadsFields::create([
                         'name' => 'PartyNumber',
                         'value' => $result['PartyNumber'] ? $result['PartyNumber'] : '-',
                         'leads_id' => $this->lead->id
                     ]);
                 }else {
-                    LeadsFields::where('leads_id', $lead->id)->where('name', 'PartyNumber')->update([
+                    LeadsFields::where('leads_id', $this->lead->id)->where('name', 'PartyNumber')->update([
                         'value' => $result['PartyNumber'] ? $result['PartyNumber'] : '-',
                     ]);
                 }
             }elseif($this->integration->slug === 'xrm-tickets-create' || $this->integration->slug === 'xrm-tickets') {
-                if( !isset($SrNumber) ){
+                $SrNumber = $this->lead->RelationFields->where('name', 'SrNumber')->last() ? $this->lead->RelationFields->where('name', 'SrNumber')->last()->value : null;
+                if( !empty($SrNumber) ){
                     LeadsFields::create([
                         'name' => 'SrNumber',
                         'value' => $result['SrNumber'] ? $result['SrNumber'] : '-',

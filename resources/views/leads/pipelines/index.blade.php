@@ -5,9 +5,9 @@ Pipelines
 @endsection
 
 @section('buttons')
-    <a href="{{ route('leads.create') }}" class="btn btn-primary">
-        <i class="bi bi-plus-lg"></i>
-        <span>Novo</span>
+    <a href="{{ route('leads.retryAll') }}" class="btn btn-danger retryAll">
+        <i class="bi bi-arrow-repeat"></i>
+        <span>Retry</span>
     </a>
 @endsection
 
@@ -60,4 +60,14 @@ Pipelines
             </div>
         </div>
     </div>
+@endsection
+
+@section('js')
+    <script>
+        $('.retryAll').on('click', function(){
+            if(!confirm('Tem certeza que deseja tentar novamente todas que estão derão erro?')){
+                return false;
+            }
+        });
+    </script>
 @endsection

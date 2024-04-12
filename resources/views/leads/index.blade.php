@@ -24,7 +24,7 @@ Leads
                             <th data-field="name" data-align="center">Nome</th>
                             <!--<th data-field="email" data-align="center">E-mail</th>-->
                             <th data-field="status" data-align="center">Status</th>
-                            <th data-field="operations" data-align="center">Operações</th>
+                            <th data-field="operations" data-align="center" data-events="operateEvents">Operações</th>
                         </tr>
                     </thead>
                 </table>
@@ -34,19 +34,24 @@ Leads
                             @foreach($leads as $lead)
                                 { 
                                     'date': '{{ $lead->created_at->format("d/m/Y H:i:s") }}', 
-                                     
                                     'origin': '{{ $lead->RelationOrigins->name }}', 
                                     'building': '{{ $lead->RelationBuildings->name }}', 
                                     'name': '{{ $lead->name }}',
                                     'email': '{{ $lead->email }}',
-                                    'status': '<span class="badge {{ $lead->batches_id ? ( Bus::findBatch($lead->batches_id)->failedJobs > 0 ? "text-bg-danger" : (Bus::findBatch($lead->batches_id)->pendingJobs > 0 ? "text-bg-secondary" : "text-bg-success")) : "" }}"><i class="bi {{ $lead->batches_id ? ( Bus::findBatch($lead->batches_id)->failedJobs > 0 ? "bi-x-octagon" : (Bus::findBatch($lead->batches_id)->pendingJobs > 0 ? "bi-gear-wide-connected" : "bi-check2-circle")) : "" }} px-1"></i> {{ $lead->batches_id ? ( Bus::findBatch($lead->batches_id)->failedJobs > 0 ? "Erro" : (Bus::findBatch($lead->batches_id)->pendingJobs > 0 ? "Executando" : "Finalizado")) : "" }}</span> ',
-                                    'operations': '<div class="d-flex justify-content-center align-items-center gap-2"><a href="{{ route('leads.show', $lead->id ) }}" class="btn btn-outline-secondary px-2 py-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Visualizar"><i class="bi bi-eye"></i></a></div>'
+                                    'status': '@if( $lead->batches_id ) @if (Bus::findBatch($lead->batches_id)->failedJobs > 0 && Bus::findBatch($lead->batches_id)->pendingJobs > 0 ) <span class="badge border rounded-pill bg-danger-subtle border-danger-subtle text-danger-emphasis"> <i class="bi bi-x-octagon px-1"></i> Erro </span> @elseif (Bus::findBatch($lead->batches_id)->pendingJobs > 0 ) <span class="badge border rounded-pill bg-secondary-subtle border-secondary-subtle text-secondary-emphasis"> <i class="bi bi-gear-wide-connected px-1"></i> Executando </span> @elseif (Bus::findBatch($lead->batches_id)->pendingJobs === 0 ) <span class="badge border rounded-pill bg-success-subtle border-success-subtle text-success-emphasis"> <i class="bi bi-check2-circle px-1"></i> Finalizado </span> @else <span class="badge border rounded-pill bg-info-subtle border-info-subtle text-info-emphasis"> <i class="bi bi-box-seam px-1"></i> Na fila </span> @endif @endif',
+                                    'operations': '<div class="d-flex justify-content-center align-items-center gap-2"> <a href="{{ route('leads.show', $lead->id ) }}" class="btn btn-outline-secondary px-2 py-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Visualizar"><i class="bi bi-eye"></i></a> @if(Bus::findBatch($lead->batches_id)->failedJobs > 0 && Bus::findBatch($lead->batches_id)->pendingJobs > 0) <a href="{{ route('leads.show', $lead->id ) }}" class="btn btn-outline-danger px-2 py-1 retry" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Tentar Novamente"><i class="bi bi-arrow-repeat"></i></a> @endif </div>'
                                 },
                             @endforeach
                         ];
 
                         // Buttons click event
                         window.operateEvents = {
+                            'click a.retry': function (e, value, row, index) {
+                                if(!confirm('Tem certeza que deseja tentar novamente?')){
+                                    return false;
+                                }
+                            },
+
                             'mouseover a': function (e, value, row, index) {
                                 $('[data-bs-toggle="tooltip"]').tooltip({
                                     trigger: 'hover',

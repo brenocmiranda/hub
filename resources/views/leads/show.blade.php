@@ -8,6 +8,21 @@ Detalhes do Lead
     <link href="{{ asset('css/leads.css') }}" rel="stylesheet">
 @endsection
 
+
+@section('buttons')
+    @if( Bus::findBatch($lead->batches_id)->failedJobs > 0 && Bus::findBatch($lead->batches_id)->pendingJobs > 0  )
+        <a href="{{ route('leads.retry', $lead->id) }}" class="btn btn-outline-danger retry">
+            <i class="bi bi-arrow-repeat"></i>
+            <span>Tentar novamente</span>
+        </a>
+    @elseif( Bus::findBatch($lead->batches_id)->pendingJobs == 0 )
+        <a href="{{ route('leads.resend', $lead->id) }}" class="btn btn-outline-dark resend">
+            <i class="bi bi-arrow-clockwise"></i>
+            <span>Reenviar</span>
+        </a>
+    @endif
+@endsection
+
 @section('content-page')
     <div class="container-fluid">
         <div class="row">
@@ -126,4 +141,20 @@ Detalhes do Lead
             </div>
         </div>
     </div>
+@endsection
+
+@section('js')
+    <script>
+        $('.resend').on('click', function(){
+            if(!confirm('Tem certeza que deseja reenviar?')){
+                return false;
+            }
+        });
+
+        $('.retry').on('click', function(){
+            if(!confirm('Tem certeza que deseja tentar novamente?')){
+                return false;
+            }
+        });
+    </script>
 @endsection

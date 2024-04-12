@@ -42,10 +42,10 @@
                                     Nome do empreendimento: {{ $lead->RelationBuildings->name }} <br>
                                 @endif
                                 @if($lead->RelationFields->where('name', 'SrNumber')->first())
-                                    Nº Ticket: {{ $lead->RelationFields->where('name', 'SrNumber')->first()->value }} <br>
+                                    Nº Ticket: {{ $lead->RelationFields->where('name', 'SrNumber')->last()->value }} <br>
                                 @endif
                                 @if($lead->RelationFields->where('name', 'PartyNumber')->first())
-                                    Nº Contato: {{ $lead->RelationFields->where('name', 'PartyNumber')->first()->value }} 
+                                    Nº Contato: {{ $lead->RelationFields->where('name', 'PartyNumber')->last()->value }} 
                                 @endif
                             </p>
 

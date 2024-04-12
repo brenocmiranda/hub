@@ -25,7 +25,10 @@ Minhas atividades
                                 'login' => 'bg-dark', 
                                 'logout' => 'bg-secondary', 
                                 'block' => 'bg-warning', 
-                                'reset' => 'bg-info'
+                                'reset' => 'bg-info',
+                                'retryAll' => 'bg-secondary',
+                                'retry' => 'bg-secondary',
+                                'resend' => 'bg-dark'
                             ]; 
                         ?>
 
