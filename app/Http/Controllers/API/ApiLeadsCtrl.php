@@ -54,13 +54,33 @@ class ApiLeadsCtrl extends Controller
             ];
             foreach($array as $ar){
                 if( $ar ){
-                    $tel = preg_replace( '/\D/', '', str_replace( '+55', '', $ar ));
-	                $phone = strlen( $tel ) < 10  ? substr( $tel . str_repeat( '9', 11 ), 0, 11 ) : $tel;
+                    $tel = preg_replace( '/\D/', '', str_replace( array('+55','55'), array('',''), ltrim($ar, 0) ));
+                    $ddd = substr( $tel, 0, 2 );
+                    $number = substr( $tel, 2 );
+	                $number = strlen( $number ) < 8  ? substr( str_repeat( '9', 9 ) . $number, 0, 9 ) : $number;
+                    $phone = $ddd . $number;
                     break;
                 }
             }
             $phone = $phone ? $phone : "99999999999";
-            
+            /*
+                0 31 991746632      => 31 991746632
+                55 31 993050551     => 31 993050551
+                (11) 95493-0351     => 11 954930351
+                +55 (31) 98789-5421 => 31 987895421
+                +55 (21) 98076-3990 => 21 980763990
+                3184755793          => 31 984755793
+                3175136202          => 31 975136202  
+                (71) 98699-1710     => 71 986991710
+                3192784654          => 31 992784654
+
+                319938205553        => 31 993820555 3
+                31997691219999      => 31 997691219 999
+                01531999787637      => 15 319997876 37
+                +31 (99) 7440-7811  => 31 997440781 1 
+                +11 (11) 95559-5358 => 11 119555953 58
+            */
+
             // E-mail
             $array = [
                 'email' => $request->email,
