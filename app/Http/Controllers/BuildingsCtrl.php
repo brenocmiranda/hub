@@ -245,24 +245,14 @@ class BuildingsCtrl extends Controller
         }
 
          // Cadastrando novos sheets
-        $sheets = $request->input('spreadsheetID');
-        if(isset($sheets)){
-            foreach($sheets as $in => $sheet) {
-
-                // Upload file
-                if($request->hasFile('file')[$in]){
-                    $filenameWithExt = $request->file('file')[$in]->getClientOriginalName();
-                    $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-                    $extension = $request->file('file')[$in]->getClientOriginalExtension();
-                    $fileNameToStore = $filename.'_'.time().'.'.$extension;
-                    $path = $request->file('file')[$in]->storeAs('public/google', $fileNameToStore);
-                }
+        if(isset($buildingSheets)){
+            foreach($buildingSheets as $in => $sheet) {
 
                 $buildingSheet = BuildingsSheets::create([
-                    'building_id' => $buildingNew->id,
-                    'sheet' => $request->input('sheet')[$in],
-                    'spreadsheetID' => $request->input('spreadsheetID')[$in],
-                    'file' => $fileNameToStore,
+                    'building_id' => $sheet->id,
+                    'sheet' => $sheet->sheet,
+                    'spreadsheetID' => $sheet->spreadsheetID,
+                    'file' => $sheet->file,
                 ]);
             }
         }
