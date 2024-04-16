@@ -236,7 +236,7 @@ class BuildingsCtrl extends Controller
 
         // Cadastrando novos destinatários
         if(isset($buildingDestinatarios)){
-            foreach($destinatarios as $destinatario) {
+            foreach($buildingDestinatarios as $destinatario) {
                 $buildingDestinatario = BuildingsDestinatarios::create([
                     'building_id' => $buildingNew->id, 
                     'email' => $destinatario,
