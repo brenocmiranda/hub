@@ -179,6 +179,7 @@ class ApiLeadsCtrl extends Controller
                             'Zap' => 'zapimoveis',
                             'Grupo OLX' => 'zapimoveis',
                         ];
+                        $field = "";
                         foreach($array2 as $data => $ar2){
                             if( $ar == $data ){
                                 $field = $ar2;
