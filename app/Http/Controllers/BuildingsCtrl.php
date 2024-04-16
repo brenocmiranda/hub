@@ -239,7 +239,7 @@ class BuildingsCtrl extends Controller
             foreach($buildingDestinatarios as $destinatario) {
                 $buildingDestinatario = BuildingsDestinatarios::create([
                     'building_id' => $buildingNew->id, 
-                    'email' => $destinatario,
+                    'email' => $destinatario->email,
                 ]);
             }
         }
@@ -249,7 +249,7 @@ class BuildingsCtrl extends Controller
             foreach($buildingSheets as $in => $sheet) {
 
                 $buildingSheet = BuildingsSheets::create([
-                    'building_id' => $sheet->id,
+                    'building_id' => $buildingNew->id,
                     'sheet' => $sheet->sheet,
                     'spreadsheetID' => $sheet->spreadsheetID,
                     'file' => $sheet->file,
