@@ -38,7 +38,6 @@
                         <a href="#"
                             class="d-flex align-items-center justify-content-end text-black text-decoration-none dropdown-toggle"
                             data-bs-toggle="dropdown" aria-expanded="false">
-                            {{ dd(Storage::disk('public')->url( Auth::user()->src )) }}
                             @if(Auth::user()->src)
                                 <img src="{{ Auth::user()->src ? asset('storage/profile/'. Auth::user()->src) : '' }}" alt="" width="40" height="40" class="rounded-circle me-1">
                             @else
