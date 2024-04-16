@@ -15,7 +15,7 @@ Detalhes do Lead
             <i class="bi bi-arrow-repeat"></i>
             <span>Tentar novamente</span>
         </a>
-    @elseif( Bus::findBatch($lead->batches_id)->pendingJobs == 0 )
+    @elseif( $lead->batches_id && Bus::findBatch($lead->batches_id)->pendingJobs == 0 )
         <a href="{{ route('leads.resend', $lead->id) }}" class="btn btn-outline-dark resend">
             <i class="bi bi-arrow-clockwise"></i>
             <span>Reenviar</span>
