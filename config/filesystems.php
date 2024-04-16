@@ -71,7 +71,6 @@ return [
 
     'links' => [
         public_path('storage') => storage_path('app/public'),
-        '/domains/brenocarvalho.com.br/public_html/hub/storage/app/public/profile' => storage_path('app/public/profile'),
     ],
 
 ];
