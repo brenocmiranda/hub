@@ -145,7 +145,7 @@ class LeadsCtrl extends Controller
             'user_id' => Auth::user()->id
         ]);
         
-        return redirect()->route('leads.show', $id)->with( 'retry', true );
+        return redirect()->back()->with( 'retry', true );
     }
 
     public function resend($id){ 
