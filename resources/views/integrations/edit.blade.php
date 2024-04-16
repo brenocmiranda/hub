@@ -60,22 +60,22 @@ Editar integração
                         </div>
                         <div class="input-field col-lg-6 col-12">
                             <div class="form-floating">
-                                <select class="form-select @error('active') is-invalid @enderror" aria-label="Defina um status" name="active" id="active" required>
-                                    <option selected></option>
-                                    <option value="1" {{ (old('active') != null && old('active') == true) || $integration->active == true ? 'selected' : "" }}>Ativo</option>
-                                    <option value="0" {{ (old('active') != null && old('active') == false) || $integration->active == false ? 'selected' : "" }}>Desativado</option>
-                                </select>
-                                <label for="active">Status <abbr>*</abbr></label>
-                            </div>
-                        </div>
-                        <div class="input-field col-lg-6 col-12">
-                            <div class="form-floating">
                                 <select class="form-select @error('encoded') is-invalid @enderror" aria-label="Defina um status" name="encoded" id="encoded" required>
                                     <option selected></option>
                                     <option value="1" {{ (old('encoded') != null && old('encoded') == true) || $integration->encoded == true ? 'selected' : "" }}>Sim</option>
                                     <option value="0" {{ (old('encoded') != null && old('encoded') == false) || $integration->encoded == false ? 'selected' : "" }}>Não</option>
                                 </select>
                                 <label for="encoded">Encoded body? <abbr>*</abbr></label>
+                            </div>
+                        </div>
+                        <div class="input-field col-lg-6 col-12">
+                            <div class="form-floating">
+                                <select class="form-select @error('active') is-invalid @enderror" aria-label="Defina um status" name="active" id="active" required>
+                                    <option selected></option>
+                                    <option value="1" {{ (old('active') != null && old('active') == true) || $integration->active == true ? 'selected' : "" }}>Ativo</option>
+                                    <option value="0" {{ (old('active') != null && old('active') == false) || $integration->active == false ? 'selected' : "" }}>Desativado</option>
+                                </select>
+                                <label for="active">Status <abbr>*</abbr></label>
                             </div>
                         </div>
                         <div class="divider-input">
