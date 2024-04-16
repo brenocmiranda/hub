@@ -10,7 +10,7 @@ Detalhes do Lead
 
 
 @section('buttons')
-    @if( Bus::findBatch($lead->batches_id)->failedJobs > 0 && Bus::findBatch($lead->batches_id)->pendingJobs > 0  )
+    @if( $lead->batches_id && Bus::findBatch($lead->batches_id)->failedJobs > 0 && Bus::findBatch($lead->batches_id)->pendingJobs > 0  )
         <a href="{{ route('leads.retry', $lead->id) }}" class="btn btn-outline-danger retry">
             <i class="bi bi-arrow-repeat"></i>
             <span>Tentar novamente</span>
