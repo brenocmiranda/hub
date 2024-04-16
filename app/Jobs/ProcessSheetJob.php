@@ -52,7 +52,7 @@ class ProcessSheetJob implements ShouldQueue
             $utm_campaign = $this->lead->RelationFields->where('name', 'utm_campaign')->first() ? $this->lead->RelationFields->where('name', 'utm_campaign')->first()->value : '';
             $utm_content = $this->lead->RelationFields->where('name', 'utm_content')->first() ? $this->lead->RelationFields->where('name', 'utm_content')->first()->value : '';
             $utm_term = $this->lead->RelationFields->where('name', 'utm_term')->first() ? $this->lead->RelationFields->where('name', 'utm_term')->first()->value : '';
-            $url_params = 'utm_source=' . $utm_source . 'utm_medium=' . $utm_medium . 'utm_campaign=' . $utm_campaign . 'utm_content=' . $utm_content . 'utm_term=' . $utm_term;
+            $url_params = '&utm_source=' . $utm_source . '&utm_medium=' . $utm_medium . '&utm_campaign=' . $utm_campaign . '&utm_content=' . $utm_content . '&utm_term=' . $utm_term;
 
             $sl = Sheets::spreadsheet($sheet->spreadsheetID)->sheet($sheet->sheet)->append([
                 [
