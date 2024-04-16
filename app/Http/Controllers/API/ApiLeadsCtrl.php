@@ -174,17 +174,24 @@ class ApiLeadsCtrl extends Controller
                         $array2 = [
                             'fb' => 'facebook',
                             'ig' => 'instagram',
+                            'in' => 'linkedin',
                             'VivaReal' => 'vivareal',
                             'Zap' => 'zapimoveis',
                             'Grupo OLX' => 'zapimoveis',
                         ];
                         foreach($array2 as $data => $ar2){
                             if( $ar == $data ){
-                                $fields['nameField'][] = 'utm_source';
-                                $fields['valueField'][] = $ar2;
+                                $field = $ar2;
                                 break;
                             }
                         }
+                        if( $field ) {
+                            $fields['nameField'][] = 'utm_source';
+                            $fields['valueField'][] = $field;
+                        }else {
+                            $fields['nameField'][] = 'utm_source';
+                            $fields['valueField'][] = $ar;
+                        } 
                     } 
                 }
  
