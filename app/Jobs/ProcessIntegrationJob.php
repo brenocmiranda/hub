@@ -163,18 +163,11 @@ class ProcessIntegrationJob implements ShouldQueue
                     ]);
                 }
             }elseif($this->integration->slug === 'xrm-tickets-create' || $this->integration->slug === 'xrm-tickets') {
-                $SrNumber = $this->lead->RelationFields->where('name', 'SrNumber')->last() ? $this->lead->RelationFields->where('name', 'SrNumber')->last()->value : null;
-                if( empty($SrNumber) ){
-                    LeadsFields::create([
-                        'name' => 'SrNumber',
-                        'value' => $result['SrNumber'] ? $result['SrNumber'] : '-',
-                        'leads_id' => $this->lead->id
-                    ]);
-                } else {
-                    LeadsFields::where('leads_id', $this->lead->id)->where('name', 'SrNumber')->update([
-                        'value' => $result['SrNumber'] ? $result['SrNumber'] : '-',
-                    ]);
-                }
+                LeadsFields::create([
+                    'name' => 'SrNumber',
+                    'value' => $result['SrNumber'] ? $result['SrNumber'] : '-',
+                    'leads_id' => $this->lead->id
+                ]);
             }
         } else {
             throw new \Exception('Erro ' . $response->status() . ' na execução da integração. <br /> ' . $response->body(), true);
