@@ -39,7 +39,7 @@
                             class="d-flex align-items-center justify-content-end text-black text-decoration-none dropdown-toggle"
                             data-bs-toggle="dropdown" aria-expanded="false">
                             @if(Auth::user()->src)
-                                <img src="{{ Auth::user()->src ? storage_path('app/public/profile/' . Auth::user()->src) : '' }}" alt="" width="40" height="40" class="rounded-circle me-1">
+                                <img src="{{ Auth::user()->src ? asset('storage/profile/'. Auth::user()->src) : '' }}" alt="" width="40" height="40" class="rounded-circle me-1">
                             @else
                                 <div class="perfil-img rounded-circle bg-secondary me-1 fw-bold text-white">
                                     {{ substr(Auth::user()->name,0,1)  }}
