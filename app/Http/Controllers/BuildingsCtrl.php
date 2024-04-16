@@ -247,7 +247,6 @@ class BuildingsCtrl extends Controller
          // Cadastrando novos sheets
         if(isset($buildingSheets)){
             foreach($buildingSheets as $in => $sheet) {
-
                 $buildingSheet = BuildingsSheets::create([
                     'building_id' => $buildingNew->id,
                     'sheet' => $sheet->sheet,
