@@ -57,13 +57,15 @@ class ApiLeadsCtrl extends Controller
                     $tel = preg_replace( '/\D/', '', str_replace( array('+55','55'), array('',''), intval($ar) ));
                     $ddd = substr( $tel, 0, 2 );
                     $number = substr( $tel, 2 );
-	                $number = strlen( $number ) < 8  ? substr( str_repeat( '9', 9 ) . $number, 0, 9 ) : $number;
+	                $number = strlen( $number ) <= 8  ? substr( str_repeat( '9', 9 ) . $number, 0, 9 ) : $number;
                     $phone = $ddd . $number;
                     break;
                 }
             }
             $phone = $phone ? $phone : "99999999999";
             /*
+            :	31 8891 2478
+
                 0 31 991746632      => 31 991746632
                 55 31 993050551     => 31 993050551
                 (11) 95493-0351     => 11 954930351
