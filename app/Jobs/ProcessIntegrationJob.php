@@ -50,7 +50,7 @@ class ProcessIntegrationJob implements ShouldQueue
                     '$nomeEmpreendimento' => $this->lead->RelationBuildings->name,
                     '$pp' => $this->lead->RelationFields->where('name', 'pp')->first() ? $this->lead->RelationFields->where('name', 'pp')->first()->value : 'N',
                     '$utm_source' =>  $this->lead->RelationFields->where('name', 'utm_source')->first() ? $this->lead->RelationFields->where('name', 'utm_source')->first()->value : '',
-                    '$utm_xrm' => self::get_utm_source_by_valor( $this->lead->RelationFields->where('name', 'utm_source')->first() ? $this->lead->RelationFields->where('name', 'utm_source')->first()->value : "default" ),
+                    '$utm_xrm' => $this->lead->RelationFields->where('name', 'utm_source')->first() ? self::get_utm_source_by_valor( $this->lead->RelationFields->where('name', 'utm_source')->first()->value ) : self::get_utm_source_by_valor( "default" ),
                     '$utm_medium' => $this->lead->RelationFields->where('name', 'utm_medium')->first() ? $this->lead->RelationFields->where('name', 'utm_medium')->first()->value : '',
                     '$utm_campaign' => $this->lead->RelationFields->where('name', 'utm_campaign')->first() ? $this->lead->RelationFields->where('name', 'utm_campaign')->first()->value : '',
                     '$utm_content' => $this->lead->RelationFields->where('name', 'utm_content')->first() ? $this->lead->RelationFields->where('name', 'utm_content')->first()->value : '',

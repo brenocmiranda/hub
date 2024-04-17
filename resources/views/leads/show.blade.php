@@ -134,7 +134,6 @@ Detalhes do Lead
                 </ul>
             </div>
         </div>
-        {{$lead->RelationFields->where('name', 'utm_source')->first() ? $lead->RelationFields->where('name', 'utm_source')->first()->value : "default"}}
         <div class="row mt-3 justify-content-end">
             <div class="col-lg-4 col-12 d-flex justify-content-end gap-2">
                 <a href="#" class="btn btn-dark btn-outline" onclick="window.location.reload()"> <i class="bi bi-arrow-clockwise pe-2"></i>Atualizar</a>
