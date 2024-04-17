@@ -74,7 +74,7 @@ class ApiLeadsCtrl extends Controller
                     break;
                 }
             }
-            $phone = $phone ? $phone : "naoidentificado@komuh.com";
+            $email = $email ? $email : "naoidentificado@komuh.com";
             
             // Empreendimento
             $array = [
