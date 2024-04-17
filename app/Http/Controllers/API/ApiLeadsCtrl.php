@@ -70,7 +70,7 @@ class ApiLeadsCtrl extends Controller
             ];
             foreach($array as $ar){
                 if( $ar ){
-                    $email = $ar;
+                    $email = strtolower($ar);
                     break;
                 }
             }
