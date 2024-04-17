@@ -26,8 +26,8 @@ jQuery( function( $ ){
 					xhr.setRequestHeader('Authorization', 'Bearer 5|lkP2h8VM0XBceENkjnrNY0jq1Lm08Ny1hwiOTf6U3dcb5413');
 				},
 				data: $mail_data,
-				success: function ( $data ) { return $data; },
-				error: function ( xhr, textStatus, errorThrown ) { console.log( xhr ); },
+				success: function ( $data ) { resolve( $data ); },
+				error: function ( xhr, textStatus, errorThrown ) { reject( console.log( xhr ) );  },
 			});
 		});
 	}
