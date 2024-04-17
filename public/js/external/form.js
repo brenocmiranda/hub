@@ -266,19 +266,19 @@ jQuery( function( $ ){
 	$('input').on('focus.rcp', function () {
 		let input = this,
 			$form = $(this).parents('form'),
-			$submit = $form.find('.submit-btn')
-			;
-		console.log({ el: this, name: this.name, $form, $submit })
+			$submit = $form.find('.submit-btn');
+
+		//console.log({ el: this, name: this.name, $form, $submit })
 		if (!$recaptcha_loaded) {
 			$.getScript('//www.google.com/recaptcha/api.js', function () {
 				$recaptcha_loaded = true;
 				$form.find('input').each((i, el) => $(el).off('.rcp'));
-				console.log('recaptcha loaded');
+				//console.log('recaptcha loaded');
 				setTimeout(() => {
 					$('.submit-btn').prop('disabled', true);
 					// $submit.attr("disabled", true);
 					if (input.name === 'pp' && input.checked ) {
-						console.log('pp => libera submit', input.name);
+						//console.log('pp => libera submit', input.name);
 						$submit.removeProp( 'disabled' );
 						// $submit.attr( "disabled", false);
 					}
