@@ -21,7 +21,7 @@ Origens
                             <th data-field="name" data-align="center">Nome</th>
                             <th data-field="slug" data-align="center">Slug</th>
                             <th data-field="status" data-align="center">Status</th>
-                            <th data-field="operations" data-align="center" data-events="operateEvents">Operações</th>
+                            <th data-field="operations" data-align="center">Operações</th>
                         </tr>
                     </thead>
                 </table>
@@ -37,22 +37,6 @@ Origens
                                 },
                             @endforeach
                         ];
-
-                        // Buttons click event
-                        window.operateEvents = {
-                            'click a.destroy': function (e, value, row, index) {
-                                e.preventDefault();
-                                $('#modalDestroy').find('form').attr('action', $(value).find('a.destroy').attr('href'));
-                                $('#modalDestroy').modal('show');
-                            },
-
-                            'mouseover a': function (e, value, row, index) {
-                                $('[data-bs-toggle="tooltip"]').tooltip({
-                                    trigger: 'hover',
-                                    html: true
-                                });
-                            },
-                        };
 
                         $table.bootstrapTable('refreshOptions', {
                             data: data

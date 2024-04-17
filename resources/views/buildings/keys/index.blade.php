@@ -21,7 +21,7 @@ Chaves
                             <th data-field="empreendimento" data-align="center">Empreendimento</th>
                             <th data-field="value" data-align="center">Valor</th>
                             <th data-field="status" data-align="center">Status</th>
-                            <th data-field="operations" data-align="center" data-events="operateEvents">Operações</th>
+                            <th data-field="operations" data-align="center">Operações</th>
                         </tr>
                     </thead>
                 </table>
@@ -37,22 +37,6 @@ Chaves
                                 },
                             @endforeach
                         ];
-
-                        // Buttons click event
-                        window.operateEvents = {
-                            'click a.destroy': function (e, value, row, index) {
-                                e.preventDefault();
-                                $('#modalDestroy').find('form').attr('action', $(value).find('a.destroy').attr('href'));
-                                $('#modalDestroy').modal('show');
-                            },
-
-                            'mouseover a': function (e, value, row, index) {
-                                $('[data-bs-toggle="tooltip"]').tooltip({
-                                    trigger: 'hover',
-                                    html: true
-                                });
-                            },
-                        };
 
                         $table.bootstrapTable('refreshOptions', {
                             data: data

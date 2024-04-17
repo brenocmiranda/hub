@@ -24,7 +24,7 @@ Leads
                             <th data-field="name" data-align="center">Nome</th>
                             <!--<th data-field="email" data-align="center">E-mail</th>-->
                             <th data-field="status" data-align="center">Status</th>
-                            <th data-field="operations" data-align="center" data-events="operateEvents">Operações</th>
+                            <th data-field="operations" data-align="center">Operações</th>
                         </tr>
                     </thead>
                 </table>
@@ -43,22 +43,6 @@ Leads
                                 },
                             @endforeach
                         ];
-
-                        // Buttons click event
-                        window.operateEvents = {
-                            'click a.retry': function (e, value, row, index) {
-                                if(!confirm('Tem certeza que deseja tentar novamente?')){
-                                    return false;
-                                }
-                            },
-
-                            'mouseover a': function (e, value, row, index) {
-                                $('[data-bs-toggle="tooltip"]').tooltip({
-                                    trigger: 'hover',
-                                    html: true
-                                });
-                            },
-                        };
 
                         $table.bootstrapTable('refreshOptions', {
                             data: data

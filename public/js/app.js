@@ -45,6 +45,36 @@ $table.bootstrapTable({
     exportTypes: ['json', 'xml', 'csv', 'txt', 'sql', 'excel', 'pdf'],
 });
 
+// Buttons click event
+$('#table').on('all.bs.table', function (name, args) {
+
+    $('a.retry').on('click', function(){
+        if(!confirm('Tem certeza que deseja tentar novamente?')){
+            return false;
+        }
+    });
+
+    $('a.recovery').on('click', function(e){
+        e.preventDefault();
+        $('#modalRecovery').find('a.confirm').attr('href', $(this).attr('href'));
+        $('#modalRecovery').modal('show');
+    });
+    
+    $('a.destroy').on('click', function(e){
+        e.preventDefault();
+        $('#modalDestroy').find('form').attr('action', $(this).attr('href'));
+        $('#modalDestroy').modal('show');
+    });
+
+    $('a').on('mouseover', function(){
+        $('[data-bs-toggle="tooltip"]').tooltip({
+            trigger: 'hover',
+            html: true
+        });
+    });
+
+});
+
 
 // Function slugify
 function slugify(str) {

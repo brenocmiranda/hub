@@ -42,16 +42,6 @@ Pipelines
                             @endforeach
                         ];
 
-                        // Buttons click event
-                        window.operateEvents = {
-                            'mouseover a': function (e, value, row, index) {
-                                $('[data-bs-toggle="tooltip"]').tooltip({
-                                    trigger: 'hover',
-                                    html: true
-                                });
-                            },
-                        };
-
                         $table.bootstrapTable('refreshOptions', {
                             data: data
                         });
