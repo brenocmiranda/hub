@@ -175,6 +175,7 @@ class ApiLeadsCtrl extends Controller
                             'fb' => 'facebook',
                             'ig' => 'instagram',
                             'in' => 'linkedin',
+                            'an' => 'audience-network',
                             'VivaReal' => 'vivareal',
                             'Zap' => 'zapimoveis',
                             'Grupo OLX' => 'zapimoveis',

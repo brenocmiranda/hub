@@ -188,6 +188,7 @@ class ProcessIntegrationJob implements ShouldQueue
             'facebook' => 'PER_IMPACMID_FACEBOOK',
             'meta-ads' => 'PER_IMPACMID_FACEBOOK',
             'meta' => 'PER_IMPACMID_FACEBOOK',
+            'audience-network' => 'PER_IMPACMID_FACEBOOK',
             'linkedin' => 'PER_IMPACMID_LINKEDIN',
             'google' => 'PER_IMPACMID_GOOGLE',
             'google-ads' => 'PER_IMPACMID_GOOGLE',

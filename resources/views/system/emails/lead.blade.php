@@ -54,8 +54,8 @@
                                 @if($lead->RelationFields->where('name', 'utm_source')->first())
                                     utm_source: {{ $lead->RelationFields->where('name', 'utm_source')->first()->value }} <br>
                                 @endif
-                                @if($lead->RelationFields->where('name', 'utm_campign')->first())
-                                    utm_campign: {{ $lead->RelationFields->where('name', 'utm_campign')->first()->value }} <br>
+                                @if($lead->RelationFields->where('name', 'utm_campaign')->first())
+                                    utm_campign: {{ $lead->RelationFields->where('name', 'utm_campaign')->first()->value }} <br>
                                 @endif
                                 @if($lead->RelationFields->where('name', 'utm_medium')->first())
                                     utm_medium: {{ $lead->RelationFields->where('name', 'utm_medium')->first()->value }} <br>
