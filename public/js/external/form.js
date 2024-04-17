@@ -1,18 +1,8 @@
-/***
- * 2024-03-07 R
- */
 jQuery( function( $ ){
 
-	function sendEmail( data ) {
-		return new Promise((resolve, reject) => {
-			let $mail_data = data;
-			$mail_data.ajax = 1;
-			$.post( "//hub.brenocarvalho.com.br/api/leads", $mail_data )
-				.done( $data => resolve( $data ) )
-				.fail( ( xhr, textStatus, errorThrown ) => reject( console.log( xhr ) ) );
-		});
-	}
-
+	/**
+	 * Validations inputs
+	 */
 	function isEmail( email ){
 		var pattern = /^([a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+(\.[a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+)*|"((([ \t]*\r\n)?[ \t]+)?([\x01-\x08\x0b\x0c\x0e-\x1f\x7f\x21\x23-\x5b\x5d-\x7e\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|\\[\x01-\x09\x0b\x0c\x0d-\x7f\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))*(([ \t]*\r\n)?[ \t]+)?")@(([a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.)+([a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.?$/i;
 		return pattern.test( email );
@@ -23,13 +13,46 @@ jQuery( function( $ ){
 		return pattern.test( phone );
 	}
 
+	/**
+	 * Send data for integration
+	 */
+	function sendEmail( data ) {
+		return new Promise((resolve, reject) => {
+			let $mail_data = data;
+			$.ajax({
+				url: '//hub.brenocarvalho.com.br/api/leads',
+				type: 'POST',
+				beforeSend: function (xhr) {
+					xhr.setRequestHeader('Authorization', 'Bearer 5|lkP2h8VM0XBceENkjnrNY0jq1Lm08Ny1hwiOTf6U3dcb5413');
+				},
+				data: $mail_data,
+				success: function ( $data ) { return $data; },
+				error: function ( xhr, textStatus, errorThrown ) { console.log( xhr ); },
+			});
+		});
+	}
+
+	/**
+	 * Disabled inputs on click submit
+	 */
 	function setDisabled( form, state ){
 		$( form ).find( 'input, select, textarea, button' ).each( function(){
 			$( this ).prop( "disabled", state );
 			$( this ).attr( "disabled", state );
 		});
 	}
+	
+	window.formSubmit = function( token ){
+		setTimeout( function(){
+			let $form = $("form.sending-form");
+			$form.find( '.submit-btn' ).prop( "disabled", true );
+		}, 10 );
+	}
 
+
+	/**
+	 * Rules for input data
+	 */
 	function mphone( v ) {
 		var r = v.replace(/\D/g, "");
 		r = r.replace(/^0/, "");
@@ -53,13 +76,6 @@ jQuery( function( $ ){
 		return r;
 	}
 
-	window.formSubmit = function( token ){
-		setTimeout( function(){
-			let $form = $("form.sending-form");
-			$form.find( '.submit-btn' ).prop( "disabled", true );
-		}, 10 );
-	}
-
 	$( '.no-space' ).on( 'keypress', function( e ){
 		if( e.which == 32 ) return false;
 	});
@@ -80,15 +96,16 @@ jQuery( function( $ ){
 
 	$( '[name="pp"]' ).on( 'change', function(){
 		let $t = $( this ),
-				$f = $t.parents( 'form' ),
-				$b = $f.find( '.submit-btn' )
-				;
+			$f = $t.parents( 'form' ),
+			$b = $f.find( '.submit-btn' );
 		$b.prop( 'disabled', !this.checked );
 	});
 
-	window.dataLayer = window.dataLayer || [];
 
-	// Envio de formulário padrão
+	/**
+	 * Send data for function sendEmail
+	 */
+	window.dataLayer = window.dataLayer || [];
 	$( '.submit-btn' ).prop( 'disabled', true ).on( 'click', function( e ){
 		e.preventDefault();
 
@@ -179,7 +196,10 @@ jQuery( function( $ ){
 		});
 	});
 
-	// Envio de formulário pelo WhatsApp
+
+	/**
+	 * Send data in modal whatsapp for function sendEmail
+	 */
 	$('.submit-whatsapp').on('click', function (e) {
 		e.preventDefault();
 
@@ -220,7 +240,7 @@ jQuery( function( $ ){
 		$form.addClass('sending-form');
 		setDisabled($form, true);
 
-		let data = { nome, email, telefone, url_params, empreendimento, whatsapp: 1, url };
+		let data = { nome, email, telefone, url_params, empreendimento, url };
 		console.log('form data', data);
 
 		sendEmail(data).then(function (em_data) {
