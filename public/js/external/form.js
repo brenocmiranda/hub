@@ -20,7 +20,7 @@ jQuery( function( $ ){
 		return new Promise((resolve, reject) => {
 			let $mail_data = data;
 			$.ajax({
-				url: '//hub.brenocarvalho.com.br/api/leads',
+				url: '//hub.brenocarvalho.com.br/api/leads/lps',
 				type: 'POST',
 				beforeSend: function (xhr) {
 					xhr.setRequestHeader('Authorization', 'Bearer 5|lkP2h8VM0XBceENkjnrNY0jq1Lm08Ny1hwiOTf6U3dcb5413');
