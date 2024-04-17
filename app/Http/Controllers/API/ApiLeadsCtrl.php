@@ -54,7 +54,7 @@ class ApiLeadsCtrl extends Controller
             ];
             foreach($array as $ar){
                 if( $ar ){
-                    $tel = preg_replace( '/\D/', '', str_replace( '+55', '', ltrim($numero, "0") ));
+                    $tel = preg_replace( '/\D/', '', str_replace( '+55', '', ltrim($ar, "0") ));
                     $ddd = substr( $tel, 0, 2 );
                     $number = substr( $tel, 2 );
                     $number = strlen( $number ) <= 8  ? substr( str_repeat( '9', 9 - strlen( $number ) ) . $number, 0, 9 ) : $number;
