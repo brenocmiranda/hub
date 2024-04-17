@@ -74,7 +74,7 @@
                                     Origem do Lead: {{ $lead->RelationOrigins->name }} <br>
                                 @endif
                                 @if($lead->RelationFields->where('name', 'url')->last())
-                                    URL: {{ $lead->RelationFields->where('name', 'url')->last()->value }}
+                                    URL: {{ $lead->RelationFields->where('name', 'url')->last()->value }} <br>
                                 @endif
                                 @if($lead->created_at)
                                     Data: {{ $lead->created_at->format("d/m/Y H:i:s") }}
