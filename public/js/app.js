@@ -48,9 +48,8 @@ $table.bootstrapTable({
 // Buttons click event
 $('#table').on('all.bs.table', function (name, args) {
 
-    $('a.retry').on('click', function(e){
-        e.preventDefault();
-        if(!confirm('Tem certeza que deseja tentar novamente?')){
+    $('a.retry').on('click', function(){
+        if( !confirm('Tem certeza que deseja tentar novamente?') ){
             return false;
         }
     });
