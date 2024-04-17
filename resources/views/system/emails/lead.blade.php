@@ -31,8 +31,8 @@
                                 @if($lead->phone)
                                     Telefone: {{ $lead->phone }} <br>
                                 @endif
-                                @if($lead->RelationFields->where('name', 'message')->first())
-                                    Mensagem: {{ $lead->RelationFields->where('name', 'message')->first() }}
+                                @if($lead->RelationFields->where('name', 'message')->last())
+                                    Mensagem: {{ $lead->RelationFields->where('name', 'message')->last() }}
                                 @endif
                             </p>
 
@@ -41,30 +41,30 @@
                                 @if($lead->RelationBuildings->name)
                                     Nome do empreendimento: {{ $lead->RelationBuildings->name }} <br>
                                 @endif
-                                @if($lead->RelationFields->where('name', 'SrNumber')->first())
+                                @if($lead->RelationFields->where('name', 'SrNumber')->last())
                                     Nº Ticket: {{ $lead->RelationFields->where('name', 'SrNumber')->last()->value }} <br>
                                 @endif
-                                @if($lead->RelationFields->where('name', 'PartyNumber')->first())
+                                @if($lead->RelationFields->where('name', 'PartyNumber')->last())
                                     Nº Contato: {{ $lead->RelationFields->where('name', 'PartyNumber')->last()->value }} 
                                 @endif
                             </p>
 
                             <h4 style="margin-bottom:0">Dados de campanha</h4>
                             <p style="margin-top: 0">
-                                @if($lead->RelationFields->where('name', 'utm_source')->first())
-                                    utm_source: {{ $lead->RelationFields->where('name', 'utm_source')->first()->value }} <br>
+                                @if($lead->RelationFields->where('name', 'utm_source')->last())
+                                    utm_source: {{ $lead->RelationFields->where('name', 'utm_source')->last()->value }} <br>
                                 @endif
-                                @if($lead->RelationFields->where('name', 'utm_campaign')->first())
-                                    utm_campaign: {{ $lead->RelationFields->where('name', 'utm_campaign')->first()->value }} <br>
+                                @if($lead->RelationFields->where('name', 'utm_campaign')->last())
+                                    utm_campaign: {{ $lead->RelationFields->where('name', 'utm_campaign')->last()->value }} <br>
                                 @endif
-                                @if($lead->RelationFields->where('name', 'utm_medium')->first())
-                                    utm_medium: {{ $lead->RelationFields->where('name', 'utm_medium')->first()->value }} <br>
+                                @if($lead->RelationFields->where('name', 'utm_medium')->last())
+                                    utm_medium: {{ $lead->RelationFields->where('name', 'utm_medium')->last()->value }} <br>
                                 @endif
-                                @if($lead->RelationFields->where('name', 'utm_content')->first())
-                                    utm_content: {{ $lead->RelationFields->where('name', 'utm_content')->first()->value }} <br>
+                                @if($lead->RelationFields->where('name', 'utm_content')->last())
+                                    utm_content: {{ $lead->RelationFields->where('name', 'utm_content')->last()->value }} <br>
                                 @endif
-                                @if($lead->RelationFields->where('name', 'utm_term')->first())
-                                    utm_term: {{ $lead->RelationFields->where('name', 'utm_term')->first()->value }}
+                                @if($lead->RelationFields->where('name', 'utm_term')->last())
+                                    utm_term: {{ $lead->RelationFields->where('name', 'utm_term')->last()->value }}
                                 @endif
                             </p>
 
@@ -72,6 +72,9 @@
                             <p style="margin-top: 0">
                                 @if($lead->RelationOrigins->name)
                                     Origem do Lead: {{ $lead->RelationOrigins->name }} <br>
+                                @endif
+                                @if($lead->RelationFields->where('name', 'url')->last())
+                                    URL: {{ $lead->RelationFields->where('name', 'url')->last()->value }}
                                 @endif
                                 @if($lead->created_at)
                                     Data: {{ $lead->created_at->format("d/m/Y H:i:s") }}
