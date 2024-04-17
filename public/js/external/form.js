@@ -180,7 +180,7 @@ jQuery( function( $ ){
 		sendEmail( data ).then(function (em_data) {
 			console.log('sendmail', em_data);
 
-			if (em_data.success) {
+			if (em_data.status) {
 				$submit.removeClass('sending');
 				$form[0].reset();
 				dataLayer.push({ 'event': 'conversao_sucesso' });
@@ -191,7 +191,7 @@ jQuery( function( $ ){
 			$("form.sending-form .submit-btn").attr("disabled", true);
 			$form.removeClass('sending-form');
 
-			$output.html(`<p>${em_data.success ? 'Dados enviados com sucesso.' : 'Erro ao enviar seus dados. Verifique e tente novamente.'}</p>`).addClass(em_data.success ? 'is-success' : 'is-error');
+			$output.html(`<p>${em_data.status ? 'Dados enviados com sucesso.' : 'Erro ao enviar seus dados. Verifique e tente novamente.'}</p>`).addClass(em_data.status ? 'is-success' : 'is-error');
 
 		});
 	});
@@ -246,7 +246,7 @@ jQuery( function( $ ){
 		sendEmail(data).then(function (em_data) {
 			console.log('sendmail', em_data);
 
-			if (em_data.success) {
+			if (em_data.status) {
 				$submit.removeClass('sending');
 				$form[0].reset();
 				dataLayer.push({ 'event': 'whatsapp_sucesso' });
