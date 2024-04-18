@@ -155,7 +155,9 @@ abbr {
 
 
 /** Sidebar **/
-.full-page aside {}
+.full-page aside {  
+    z-index: 99;
+}
 
 .full-page aside .img-desktop,
 .full-page aside .img-mobile {
