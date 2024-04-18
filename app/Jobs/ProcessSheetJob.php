@@ -53,6 +53,7 @@ class ProcessSheetJob implements ShouldQueue
             $utm_content = $this->lead->RelationFields->where('name', 'utm_content')->first() ? $this->lead->RelationFields->where('name', 'utm_content')->first()->value : '';
             $utm_term = $this->lead->RelationFields->where('name', 'utm_term')->first() ? $this->lead->RelationFields->where('name', 'utm_term')->first()->value : '';
             $url_params = ($utm_source ? 'utm_source=' . $utm_source : "") . ($utm_medium ? '&utm_medium=' . $utm_medium : "") . ($utm_campaign ? '&utm_campaign=' . $utm_campaign : "") . ($utm_content ? '&utm_content=' . $utm_content : "") . ($utm_term ? '&utm_term=' . $utm_term : "");
+            $url = $this->lead->RelationFields->where('name', 'url')->first() ? $this->lead->RelationFields->where('name', 'url')->first()->value : '';
 
             $sl = Sheets::spreadsheet($sheet->spreadsheetID)->sheet($sheet->sheet)->append([
                 [
@@ -69,7 +70,8 @@ class ProcessSheetJob implements ShouldQueue
                     $utm_campaign,
                     $utm_content,
                     $utm_term,
-                    $url_params
+                    $url_params,
+                    $url
                 ]
             ]);
         }
