@@ -148,8 +148,8 @@ Dashboard
                 series: [{
                     name: 'Média por dia de leads',
                     data: [
-                        @foreach($leadsAVG as $lead)
-                            {{ round($lead->count / $leads, 1) }},   
+                        @foreach($leadsAVG as $i => $lead)
+                            {{ round( ($lead->count / $leads) * $leadsTotal[$id]->count, 1)  }},   
                         @endforeach
                     ]
                 }],
