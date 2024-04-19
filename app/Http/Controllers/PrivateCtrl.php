@@ -23,7 +23,7 @@ class PrivateCtrl extends Controller
             $requestFail = DB::table('job_batches')->where('pending_jobs', '>', 0)->where('failed_jobs', '>', 0)->count();
             $requestPending = $requestSuccess - $requestFail - DB::table('job_batches')->count();
 
-            return view('system.home')->with('requestPending', $requestPending)->with('requestSuccess', $requestSuccess)->with('requestFail', $requestFail);
+            return view('system.home')->with('requestPending', $requestPending)->with('requestSuccess', intval($requestSuccess))->with('requestFail', $requestFail);
         } else {
             return redirect(route('login'));
         }
