@@ -18,8 +18,8 @@ class DashboardsCtrl extends Controller
         $leads = Leads::count();
         $leadsDay = Leads::whereDate('created_at', date('Y-m-d'))->select( DB::raw('DATE_FORMAT(created_at, "%H") as created_at_hours, count(created_at) as count') )->groupBy('created_at_hours')->orderBy('created_at_hours', 'asc')->get();
         $leadsDayCount = Leads::whereDate('created_at', date('Y-m-d'))->count();
-        $leadsAVG = Leads::select( DB::raw('DATE_FORMAT(created_at, "%d-%b-%Y") as created_at_1, count(created_at) as count') )->groupBy('created_at_1')->get();
         $leadsTotal = Leads::select( DB::raw('DATE_FORMAT(created_at, "%d-%b-%Y") as created_at_1, count(created_at) as count') )->groupBy('created_at_1')->get();
+        $leadsAVG = Leads::select( DB::raw('DATE_FORMAT(created_at, "%d-%b-%Y") as created_at_1, count(created_at) as count') )->groupBy('created_at_1')->get() * $leadsTotal;
 
         $leadsForBuildings = Leads::select('building_id', DB::raw('count(building_id) as count'))->groupBy('building_id')->get();
         $leadsForOrigins = Leads::select('leads_origin_id', DB::raw('count(leads_origin_id) as count'))->groupBy('leads_origin_id')->get();
