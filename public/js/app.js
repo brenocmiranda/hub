@@ -41,6 +41,7 @@ $table.bootstrapTable({
     showColumns: true,
     showColumnsToggleAll: true,
     showExport: true,
+    showRefresh: true,
     exportDataType: 'all',
     exportTypes: ['json', 'xml', 'csv', 'txt', 'sql', 'excel', 'pdf'],
 });
