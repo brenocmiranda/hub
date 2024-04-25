@@ -38,7 +38,8 @@ class LeadsCtrl extends Controller
             }
         } 
 
-        return view('leads.create')->with('origins', LeadsOrigins::where('active', 1)->orderBy('name', 'asc')->get())->with('array', isset($array) ? $array : null);
+        return view('leads.create')->with('origins', LeadsOrigins::where('active', 1)->select( 'id', 'name',
+        'leads_origin_id', 'building_id', 'batches_id', 'created_at')->orderBy('name', 'asc')->get())->with('array', isset($array) ? $array : null);
     }
 
     public function store(LeadsRqt $request)
