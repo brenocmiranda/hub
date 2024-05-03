@@ -66,7 +66,7 @@ class ApiLeadsCtrl extends Controller
 
             // E-mail
             $array = [
-                'email' => $request->email,
+                'email' => str_replace(' ', '', $request->email),
             ];
             foreach($array as $ar){
                 if( $ar ){
@@ -347,7 +347,7 @@ class ApiLeadsCtrl extends Controller
         return response()->json([
             'status' => true,
             'message' => "Lead cadastrado com sucesso!",
-            'lead' => $lead
+            //'lead' => $lead
         ], 200);
     }
 
