@@ -6,6 +6,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\BuildingsRqt;
 use App\Models\Buildings;
+use App\Models\BuildingsKeys;
 use App\Models\BuildingsIntegrations;
 use App\Models\BuildingsIntegrationsFields;
 use App\Models\BuildingsDestinatarios;
@@ -216,6 +217,7 @@ class BuildingsCtrl extends Controller
             'user_id' => Auth::user()->id
         ]);
         
+        BuildingsKeys::where('building_id', $id)->delete();
         Buildings::find($id)->delete();
         return redirect()->route('buildings.index')->with('destroy', true);
     }
