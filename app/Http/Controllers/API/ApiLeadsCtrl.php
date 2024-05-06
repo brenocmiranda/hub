@@ -28,7 +28,10 @@ class ApiLeadsCtrl extends Controller
      * Store a newly created resource in storage.
      */
     public function store(ApiLeadsRqt $request, $originLead = null)
-    {       
+    {   
+
+        Log::debug('Lead recebido:' . json_encode($request) );
+
         /**
          * Params required
         */
