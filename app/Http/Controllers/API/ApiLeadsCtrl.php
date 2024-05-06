@@ -31,9 +31,9 @@ class ApiLeadsCtrl extends Controller
     public function store(ApiLeadsRqt $request, $originLead = null)
     {   
 
-        Log::build([
+        Log::build([ 
             'driver' => 'single',
-            'path' => storage_path('logs/data-{date("d-m-Y")}.log'),
+            'path' => storage_path('logs/data-' . date("d-m-Y") . '.log'),
         ])->info('Dados do lead recebido: {request}', ['request' => json_encode($request)] );
 
         /**
