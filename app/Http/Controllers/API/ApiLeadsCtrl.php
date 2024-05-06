@@ -33,7 +33,7 @@ class ApiLeadsCtrl extends Controller
 
         Log::build([ 
             'driver' => 'single',
-            'path' => storage_path('logs/api-' . date("d-m-Y") . '.log'),
+            'path' => storage_path('logs/api/' . date("d-m-Y") . '.log'),
         ])->info('Dados do lead recebido: ' . json_encode($request->all()) );
 
         /**

@@ -6,6 +6,7 @@ use App\Models\Companies;
 use App\Models\UsersRoles;
 use App\Models\Users;
 use App\Models\Buildings;
+use App\Models\BuildingsKeys;
 use App\Models\LeadsOrigins;
 use App\Jobs\ProcessBuildingJobs;
 
@@ -25,6 +26,7 @@ Artisan::command('factory', function () {
     $usersroles = UsersRoles::factory()->create();
     $users = Users::factory()->create();
     $buildings = Buildings::factory()->create();
+    $buildingsKeys = BuildingsKeys::factory()->create();
     $leadsorigins = LeadsOrigins::factory()->create();
 })->purpose('Executar configurações default do sistema.');
 
