@@ -31,7 +31,10 @@ class ApiLeadsCtrl extends Controller
     public function store(ApiLeadsRqt $request, $originLead = null)
     {   
 
-        Log::debug('Lead recebido:' . json_encode($request) );
+        Log::build([
+            'driver' => 'single',
+            'path' => storage_path('logs/leads.log'),
+        ])->debug('Lead recebido: {request}', ['request' => json_encode($request)] );
 
         /**
          * Params required
