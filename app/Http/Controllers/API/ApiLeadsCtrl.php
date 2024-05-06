@@ -34,7 +34,7 @@ class ApiLeadsCtrl extends Controller
         Log::build([
             'driver' => 'single',
             'path' => storage_path('logs/leads.log'),
-        ])->debug('Lead recebido: {request}', ['request' => json_encode($request)] );
+        ])->info('Dados do lead recebido: {request}', ['request' => json_encode($request)] );
 
         /**
          * Params required
