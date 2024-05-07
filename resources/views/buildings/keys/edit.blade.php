@@ -28,7 +28,7 @@ Editar chave
                     <form action="{{ route('buildings.keys.update', $key->id) }}" method="POST" class="row row-gap-3">
                         @method('PUT')
                         @csrf  
-                        {{$key}}
+                        
                         <div class="input-field col-lg-12 col-12">
                             <div class="form-floating">
                                 <select class="form-select @error('building') is-invalid @enderror" aria-label="Defina um empreendimento" name="building" id="building" required>
