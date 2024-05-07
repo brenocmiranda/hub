@@ -45,7 +45,7 @@ Nova integração
                             <div class="form-floating">
                                 <select class="form-select @error('type') is-invalid @enderror" aria-label="Defina um tipo" name="type" id="type" required>
                                     <option selected></option>
-                                    <option value="GET" {{ old('type') == 'GET' ? 'selected' : "" }}>GET</option>
+                                    <option value="GET" {{ old('type') == 'GET' ? '' : "selected" }}>GET</option>
                                     <option value="POST" {{ old('type') == 'POST' ? 'selected' : "" }}>POST</option>
                                 </select>
                                 <label for="type">Tipo <abbr>*</abbr></label>
@@ -61,7 +61,7 @@ Nova integração
                             <div class="form-floating">
                                 <select class="form-select @error('encoded') is-invalid @enderror" aria-label="Escolha se será enviado o body encoded" name="encoded" id="encoded" required>
                                     <option selected></option>
-                                    <option value="1" {{ old('encoded') != null && old('encoded') == true ? 'selected' : "" }}>Sim</option>
+                                    <option value="1" {{ old('encoded') != null && old('encoded') == true ? '' : "selected" }}>Sim</option>
                                     <option value="0" {{ old('encoded') != null && old('encoded') == false ? 'selected' : "" }}>Não</option>
                                 </select>
                                 <label for="encoded">Encoded body? <abbr>*</abbr></label>
@@ -71,7 +71,7 @@ Nova integração
                             <div class="form-floating">
                                 <select class="form-select @error('active') is-invalid @enderror" aria-label="Defina um status" name="active" id="active" required>
                                     <option selected></option>
-                                    <option value="1" {{ old('active') != null && old('active') == true ? 'selected' : "" }}>Ativo</option>
+                                    <option value="1" {{ old('active') != null && old('active') == true ? '' : 'selected' }}>Ativo</option>
                                     <option value="0" {{ old('active') != null && old('active') == false ? 'selected' : "" }}>Desativado</option>
                                 </select>
                                 <label for="active">Status <abbr>*</abbr></label>
