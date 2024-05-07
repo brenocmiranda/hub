@@ -109,7 +109,7 @@ abbr {
 }
 
 .full-page nav .menu a:hover {
-    background: rgb(33, 37, 41) !important;
+    background: #6c757d !important;
     color: var(--white) !important;
 }
 
