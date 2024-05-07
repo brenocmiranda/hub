@@ -141,7 +141,7 @@ class PublicCtrl extends Controller
         UsersLogs::create([
             'title' => 'Troca de senha',
             'description' => 'Foi realizada a alteração da sua senha de login.',
-            'reset' => 'reset',
+            'action' => 'reset',
             'user_id' => Users::find($user->id)->id
         ]);
 
