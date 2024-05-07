@@ -179,13 +179,16 @@ class ProcessIntegrationJob implements ShouldQueue
     */
     public function get_utm_source_by_valor( $source ){
         $sources = [
+            'acaopromocional' => 'PER_IMPACMID_ACAOPROMO',
             'acao-promocional' => 'PER_IMPACMID_ACAOPROMO',
             'bing' => 'PER_IMPACMID_BING',
             'evento-feira' => 'PER_IMPACMID_EVENTOFEIRA',
             'evento' => 'PER_IMPACMID_EVENTOFEIRA',
             'feira' => 'PER_IMPACMID_EVENTOFEIRA',
             'instagram' => 'PER_IMPACMID_INSTAGRAM',
+            'ig' => 'PER_IMPACMID_INSTAGRAM',
             'facebook' => 'PER_IMPACMID_FACEBOOK',
+            'fb' => 'PER_IMPACMID_FACEBOOK',
             'meta-ads' => 'PER_IMPACMID_FACEBOOK',
             'meta' => 'PER_IMPACMID_FACEBOOK',
             'linkedin' => 'PER_IMPACMID_LINKEDIN',
@@ -209,6 +212,7 @@ class ProcessIntegrationJob implements ShouldQueue
             'ooh' => 'PER_IMPACMID_OUTDOOR',
             'tapume' => 'PER_IMPACMID_OUTDOOR',
             'outros' => 'PER_IMPACMID_OUTROS',
+            'programatica' => 'PER_IMPACMID_OUTROS',
             'portais-imobiliarios' => 'PER_IMPACMID_PORTAISIMOB',
             'prospeccao-e-divulgacao-do-corretor-imobiliaria' => 'PER_IMPACMID_PROSPECCORRETOR',
             'prospeccao-corretor' => 'PER_IMPACMID_PROSPECCORRETOR',
