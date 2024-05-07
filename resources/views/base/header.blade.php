@@ -21,9 +21,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.22.3/dist/bootstrap-table.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link href="{{ asset('css/fonts.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/jquery.toast.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/fonts.css') }}?" rel="stylesheet">
+    <link href="{{ asset('css/app.css') }}?" rel="stylesheet">
+    <link href="{{ asset('css/jquery.toast.css') }}?" rel="stylesheet">
     @yield('css')
     <!-- End Style Sheets -->
 
