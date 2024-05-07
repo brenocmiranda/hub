@@ -110,7 +110,7 @@ abbr {
 
 .full-page nav .menu a:hover {
     background: #6c757d !important;
-    color: var(--white) !important;
+    color: var(--white) !important; 
 }
 
 .full-page nav .search {
