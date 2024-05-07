@@ -1,7 +1,7 @@
 @extends('base.index')
 
 @section('title')
-Editar função
+Editar chave
 @endsection
 
 @section('content-page')
@@ -28,8 +28,8 @@ Editar função
                     <form action="{{ route('buildings.keys.update', $key->id) }}" method="POST" class="row row-gap-3">
                         @method('PUT')
                         @csrf  
-                        
-                        <div class="input-field col-lg-6 col-12">
+                        {{$key}}
+                        <div class="input-field col-lg-12 col-12">
                             <div class="form-floating">
                                 <select class="form-select @error('building') is-invalid @enderror" aria-label="Defina um empreendimento" name="building" id="building" required>
                                     <option selected></option>
@@ -39,7 +39,7 @@ Editar função
                                                 @foreach($arr as $building)
                                                     <option value="{{ $building->id }}" {{ (old('building') != null && old('building') == $building->id) || $building->id == $key->building_id ? 'selected' : "" }}>{{ $building->name }}</option>
                                                 @endforeach
-                                                </optgroup>
+                                            </optgroup>
                                         @endforeach
                                     @endif
                                 </select>

@@ -74,7 +74,7 @@ class BuildingsKeysCtrl extends Controller
             }
         } 
 
-        return view('buildings.keys.edit')->with('key', BuildingsKeys::find($id))->with('array', isset($array) ? $array : null);
+        return view('buildings.keys.edit')->with('key', BuildingsKeys::where('building_id', $id)->first())->with('array', isset($array) ? $array : null);
     } 
 
     public function update(BuildingsKeysRqt $request, string $id)
