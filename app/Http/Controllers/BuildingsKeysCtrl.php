@@ -18,7 +18,7 @@ class BuildingsKeysCtrl extends Controller
     
     public function index()
     {
-        return view('buildings.keys.index')->with('keys', BuildingsKeys::join('buildings', 'buildings.id', '=', 'buildings_keys.building_id')->orderBy('buildings.name', 'asc')->get());
+        return view('buildings.keys.index')->with('keys', BuildingsKeys::join('buildings', 'buildings.id', '=', 'buildings_keys.building_id')->select("buildings_keys.*")->orderBy('buildings.name', 'asc')->get());
     }
 
     public function create()
@@ -74,7 +74,7 @@ class BuildingsKeysCtrl extends Controller
             }
         } 
 
-        return view('buildings.keys.edit')->with('key', BuildingsKeys::where('building_id', $id)->first())->with('array', isset($array) ? $array : null);
+        return view('buildings.keys.edit')->with('key', BuildingsKeys::find($id))->with('array', isset($array) ? $array : null);
     } 
 
     public function update(BuildingsKeysRqt $request, string $id)
