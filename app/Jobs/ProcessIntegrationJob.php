@@ -207,6 +207,7 @@ class ProcessIntegrationJob implements ShouldQueue
             'redes-sociais' => 'PER_IMPACMID_INTREDESSOCIAIS',
             'outdoor' => 'PER_IMPACMID_OUTDOOR',
             'ooh' => 'PER_IMPACMID_OUTDOOR',
+            'tapume' => 'PER_IMPACMID_OUTDOOR',
             'outros' => 'PER_IMPACMID_OUTROS',
             'portais-imobiliarios' => 'PER_IMPACMID_PORTAISIMOB',
             'prospeccao-e-divulgacao-do-corretor-imobiliaria' => 'PER_IMPACMID_PROSPECCORRETOR',
