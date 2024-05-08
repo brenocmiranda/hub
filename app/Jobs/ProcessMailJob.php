@@ -34,7 +34,7 @@ class ProcessMailJob implements ShouldQueue
         $emails = BuildingsDestinatarios::where('building_id', $this->lead->building_id)->get();
         foreach( $emails as $email ){
             $email->notify(new Lead( $this->lead ));
-            $emt = $email->email;
+            $emt[] = $email->email;
         } 
 
         // Salvando a pipeline de execução da integração
