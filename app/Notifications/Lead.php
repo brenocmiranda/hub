@@ -35,7 +35,7 @@ class Lead extends Notification implements ShouldQueue
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-                ->from('hub@komuh.com', 'Hub Integrações')
+                ->from('postmaster@hub.komuh.com', 'Hub Integrações')
                 ->subject('[HUB] Cadastrado de clientes')
                 ->view('system.emails.lead', ['lead' => $this->lead]);
     }

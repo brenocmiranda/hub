@@ -37,7 +37,7 @@ class FirstAccess extends Notification implements ShouldQueue
     public function toMail(object $notifiable): MailMessage
     {   
         return (new MailMessage)
-                ->from('hub@komuh.com', 'Hub Integrações')
+                ->from('postmaster@hub.komuh.com', 'Hub Integrações')
                 ->subject('[HUB] Seu primeiro acesso :)')
                 ->view('system.emails.firstAccess', ['user' => $this->user]);
     }

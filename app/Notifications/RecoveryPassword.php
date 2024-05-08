@@ -37,7 +37,7 @@ class RecoveryPassword extends Notification implements ShouldQueue
     public function toMail(object $notifiable): MailMessage
     {   
         return (new MailMessage)
-                ->from('hub@komuh.com', 'Hub Integrações')
+                ->from('postmaster@hub.komuh.com', 'Hub Integrações')
                 ->subject('[HUB] Solicitação de redefinição de senha')
                 ->view('system.emails.recoveryPassword', ['user' => $this->user]);
     }

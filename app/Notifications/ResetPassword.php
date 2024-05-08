@@ -37,7 +37,7 @@ class ResetPassword extends Notification implements ShouldQueue
     public function toMail(object $notifiable): MailMessage
     {   
         return (new MailMessage)
-                ->from('hub@komuh.com', 'Hub Integrações')
+                ->from('postmaster@hub.komuh.com', 'Hub Integrações')
                 ->subject('[HUB] Sua senha foi resetada com sucesso :)')
                 ->view('system.emails.resetPassword', ['user' => $this->user]);
     }
