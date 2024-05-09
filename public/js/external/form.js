@@ -20,7 +20,7 @@ jQuery( function( $ ){
 		return new Promise((resolve, reject) => {
 			let $mail_data = data;
 			$.ajax({
-				url: '//hub.brenocarvalho.com.br/api/leads/lps',
+				url: '//hub.komuh.com.br/api/leads/lps',
 				type: 'POST',
 				beforeSend: function (xhr) {
 					xhr.setRequestHeader('Authorization', 'Bearer 5|lkP2h8VM0XBceENkjnrNY0jq1Lm08Ny1hwiOTf6U3dcb5413');
@@ -48,7 +48,6 @@ jQuery( function( $ ){
 			$form.find( '.submit-btn' ).prop( "disabled", true );
 		}, 10 );
 	}
-
 
 	/**
 	 * Rules for input data
@@ -101,7 +100,6 @@ jQuery( function( $ ){
 		$b.prop( 'disabled', !this.checked );
 	});
 
-
 	/**
 	 * Send data for function sendEmail
 	 */
@@ -153,28 +151,7 @@ jQuery( function( $ ){
 		$form.addClass('sending-form');
 		setDisabled($form, true);
 
-		/****** Integração de roleta La Reserve, DUO e Perfeito e Pronto *****/
-		let destinatarios = "";
-		let empresa = "";
-
-		if( typeof $SENDER != "undefined" && $SENDER.empresa === 'somattos' && 'sender2salesforce' in window ){
-			let array = {
-					user: {
-						name: nome,
-						email: email,
-						telefone: telefone,
-					},
-				},
-				dados = send2SalesForce( array );
-			destinatarios = $SENDER.emails;
-			empresa = $SENDER.empresa;
-
-			console.log( { action: 'sender2salesforce', dados } );
-		}
-		/****** Integração de roleta La Reserve e DUO e Perfeito e Pronto *****/
-
-
-		let data = { nome, sobrenome, email, telefone, mensagem, url_params, empreendimento, destinatarios, empresa, url };
+		let data = { nome, sobrenome, email, telefone, mensagem, empreendimento, url_params, url };
 		console.log( 'form data', data );
 
 		sendEmail( data ).then(function (em_data) {
@@ -192,10 +169,8 @@ jQuery( function( $ ){
 			$form.removeClass('sending-form');
 
 			$output.html(`<p>${em_data.status ? 'Dados enviados com sucesso.' : 'Erro ao enviar seus dados. Verifique e tente novamente.'}</p>`).addClass(em_data.status ? 'is-success' : 'is-error');
-
 		});
 	});
-
 
 	/**
 	 * Send data in modal whatsapp for function sendEmail
@@ -261,7 +236,9 @@ jQuery( function( $ ){
 
 	});
 
-	// Carregamento das libs do recaptcha
+	/**
+	 * Loading lib in recaptcha
+	 */
 	let $recaptcha_loaded = false;
 	$('input').on('focus.rcp', function () {
 		let input = this,
@@ -287,7 +264,9 @@ jQuery( function( $ ){
 		}
 	});
 
-	// Leitura de section por viewport (Adicionando class is-view quando estiver disponível a section)
+	/**
+	 * Leitura de section por viewport (Adicionando class is-view quando estiver disponível a section)
+	*/
 	$.fn.isInViewport = function () {
 		let $t = $(this),
 			elTop = $t.offset().top,
