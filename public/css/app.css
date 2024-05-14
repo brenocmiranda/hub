@@ -33,7 +33,7 @@ button,
 input,
 textarea,
 select {
-    font: 16px/1.5 var(--text-font);
+    font: 15px/1.5 var(--text-font);
     color: #222;
 }
 
