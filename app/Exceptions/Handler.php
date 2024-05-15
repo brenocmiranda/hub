@@ -32,7 +32,7 @@ class Handler extends ExceptionHandler
             if ($request->is('api/*')) {
                 return response()->json([
                 'status' => false,
-                'message' => 'Erro ao autenticar.'
+                'message' => 'Erro de autenticação.'
                 ], 401);
             }
         });
