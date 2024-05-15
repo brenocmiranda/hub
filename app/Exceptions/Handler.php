@@ -31,7 +31,7 @@ class Handler extends ExceptionHandler
         $this->renderable(function (AuthenticationException $e, $request) {
             if ($request->is('api/*')) {
                 return response()->json([
-                'success' => false,
+                'status' => false,
                 'message' => 'Erro ao autenticar.'
                 ], 401);
             }
