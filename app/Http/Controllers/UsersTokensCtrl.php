@@ -32,7 +32,7 @@ class UsersTokensCtrl extends Controller
             'title' => 'Cadastro de novo token',
             'description' => 'Foi realizado o cadastro de um novo token: ' . $request->name . '.',
             'action' => 'create',
-            'user_id' => Auth::user()->id
+            'users_id' => Auth::user()->id
         ]);
 
         return redirect()->route('users.tokens.index')->with('create', true)->with('token', $token->plainTextToken) ;
@@ -60,7 +60,7 @@ class UsersTokensCtrl extends Controller
             'title' => 'Exclusão da token',
             'description' => 'Foi realizado a exclusão do token: ' .  Auth::user()->tokens()->where('id', $id)->first()->name . '.',
             'action' => 'destroy',
-            'user_id' => Auth::user()->id
+            'users_id' => Auth::user()->id
         ]);
 
         Auth::user()->tokens()->where('id', $id)->delete();

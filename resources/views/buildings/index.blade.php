@@ -32,7 +32,7 @@ Empreendimentos
                             @foreach($buildings as $building)
                                 { 
                                     'name': '{{ $building->name }}', 
-                                    'companie': '{{ $building->RelationCompanies->name }}', 
+                                    'companie': '{{ $building->RelationPartners->where( "main" , true )->first()->RelationCompanies->name }}', 
                                     'status': ({{ $building->active }} ? '<span class="badge bg-success-subtle border border-success-subtle text-success-emphasis rounded-pill">Ativo</span>' : '<span class="badge bg-danger-subtle border border-danger-subtle text-danger-emphasis rounded-pill">Desativado</span>'), 
                                     'operations': '<div class="d-flex justify-content-center align-items-center gap-2"><a href="{{ route('buildings.edit', $building->id ) }}" class="btn btn-outline-secondary px-2 py-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Editar"><i class="bi bi-pencil"></i></a><a href="{{ route('buildings.duplicate', $building->id ) }}" class="btn btn-outline-secondary px-2 py-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Duplicar"><i class="bi bi-copy"></i></a><a href="{{ route('buildings.destroy', $building->id ) }}" class="btn btn-outline-secondary px-2 py-1 destroy" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Excluir"><i class="bi bi-trash"></i></a></div>'
                                 },

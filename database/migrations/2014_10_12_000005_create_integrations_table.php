@@ -23,6 +23,8 @@ return new class extends Migration
             $table->string('password', 200)->nullable();
             $table->string('token', 200)->nullable();
             $table->longText('header', 200)->nullable();
+            $table->unsignedBigInteger('companies_id');
+            $table->foreign('companies_id')->references('id')->on('companies');
             $table->softDeletes($column = 'deleted_at', $precision = 0);
             $table->timestamps();
         });

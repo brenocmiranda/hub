@@ -35,7 +35,7 @@
 									 </ul>
 									</li>
 									<li>
-										<a href="{{route('verify.password', $user->remember_token)}}" target="_blank">Acesse aqui para criar sua senha.</a>
+										<a href="{{ route('verify.password', $user->remember_token) }}" target="_blank">Acesse aqui para criar sua senha.</a>
 									</li>
 									<li>Faça o login com seus dados de acesso.</li>
 								</ul>	

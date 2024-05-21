@@ -24,10 +24,10 @@ class Users extends Authenticatable
         'email',
         'password',
         'attempts',
-        'companie_id',
-        'user_role_id',
         'remember_token',
         'src',
+        'companies_id',
+        'users_roles_id',
     ];
 
     /**
@@ -52,11 +52,11 @@ class Users extends Authenticatable
 
     public function RelationCompanies()
     {
-        return $this->belongsTo(Companies::class, 'companie_id', 'id');
+        return $this->belongsTo(Companies::class, 'companies_id', 'id');
     }
 
     public function RelationRules()
     {
-        return $this->belongsTo(UsersRoles::class, 'user_role_id', 'id');
+        return $this->belongsTo(UsersRoles::class, 'users_roles_id', 'id');
     }
 }

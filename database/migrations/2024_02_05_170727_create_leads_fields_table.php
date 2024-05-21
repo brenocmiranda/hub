@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('value');
             $table->unsignedBigInteger('leads_id');
             $table->foreign('leads_id')->references('id')->on('leads');
+            $table->softDeletes($column = 'deleted_at', $precision = 0);
             $table->timestamps();
         });
     }

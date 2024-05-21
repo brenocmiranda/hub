@@ -1,65 +1,66 @@
-/** Group integration **/
-.integrations {}
 
-.integrations .all-integration {}
+label {
+    width: 98%;
+}
 
-.integrations .all-integration .single-integration {
-    border: 1px solid #c7c7c7;
-    padding: 20px;
-    border-radius: 10px;
-    width: calc(100% - 30px);
+/** Acordeon **/
+.accordion {
+    gap: 20px;
+    display: flex;
+    flex-direction: column; 
+}
+
+.accordion .accordion-item, .accordion .accordion-item .accordion-button {
+    border-radius: var(--bs-border-radius) !important;
+}
+
+.accordion .accordion-item .accordion-button:not(.collapsed) {
+    background-color: #6c757d;
+    color: #fff;
+}
+
+.accordion .accordion-item .accordion-button:not(.collapsed)::after {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'%3e%3cpath d='M2 5L8 11L14 5'/%3e%3c/svg%3e");
+}
+
+.accordion .accordion-item .accordion-button:focus {
+    box-shadow: none;
+}
+
+/** Group partners **/
+.partners .all-partners .single-partner { 
     margin: auto;
+    border-bottom: 1px solid #ededed;
+    padding-bottom: 20px;
     margin-bottom: 20px;
 }
 
-.integrations .all-integration .single-integration .content-integration {
-    display: flex;
-    flex-direction: column;
-    row-gap: 10px;
-    margin-bottom: 15px;
-}
-
+/** Group emails **/
 .emails .all-emails:has(.single-email) {
-    border: 1px solid #c7c7c7;
-    padding: 20px;
-    border-radius: 10px;
-    width: calc(100% - 30px);
     margin: auto;
     margin-bottom: 20px;
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
-
-.emails .all-emails .single-email .content-email {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+.emails .all-emails .single-email .content-email a {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
 }
 
-.emails .all-emails .single-email .form-floating {
-    width: calc(100% - 40px);
-}
-
+/** Group sheets **/
 .sheets .all-sheets .single-sheet {
-    border: 1px solid #c7c7c7;
-    padding: 20px;
-    border-radius: 10px;
-    width: calc(100% - 30px);
     margin: auto;
     margin-bottom: 20px;
+    border-bottom: 1px solid #ededed;
+    padding-bottom: 20px;
 }
-
-.sheets .all-sheets .single-sheet .content-sheet {
-    display: flex;
-    flex-direction: column;
-    row-gap: 10px;
-}
-
-.sheets .all-sheets .single-sheet .content-sheet input[type="file"]{
+.sheets .all-sheets .single-sheet .content-sheet input[type="file"] {
     padding: 35px 1.5rem;
 }
-
 .sheets .all-sheets .single-sheet .content-sheet .file-exists {
     position: absolute;
     bottom: 14px;
@@ -68,3 +69,19 @@
     width: calc(100% - 184px);
     background: #fff;
 }
+
+/** Group integration **/
+.integrations .all-integration .single-integration {
+    margin: auto;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ededed;
+    padding-bottom: 20px;
+}
+.integrations .all-integration .single-integration .content-integration {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    margin-bottom: 15px;
+}
+
+

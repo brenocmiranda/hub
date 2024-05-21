@@ -19,9 +19,10 @@ Integrações
                 <table id="table">
                     <thead>
                         <tr>
-                            <th data-field="name" data-align="center" data-width="160">Nome</th>
-                            <th data-field="type" data-align="center" data-width="100">Tipo</th>
-                            <th data-field="url" data-align="left">URL</th>
+                            <th data-field="name" data-align="center">Nome</th>
+                            <th data-field="companie" data-align="center">Empresa</th>
+                            <th data-field="type" data-align="center">Tipo</th>
+                            <th data-field="url" data-align="center">URL</th>
                             <th data-field="status" data-align="center">Status</th>
                             <th data-field="operations" data-align="center">Operações</th>
                         </tr>
@@ -33,6 +34,7 @@ Integrações
                             @foreach($integrations as $integration)
                                 { 
                                     'name': '{{ $integration->name }}', 
+                                    'companie': '{{ $integration->RelationCompanies->name }}',
                                     'type': '{{ $integration->type }}',
                                     'url': '<small>{{ mb_strimwidth($integration->url, 0, 100, "...") }}</small>',
                                     'status': ({{ $integration->active }} ? '<span class="badge bg-success-subtle border border-success-subtle text-success-emphasis rounded-pill">Ativo</span>' : '<span class="badge bg-danger-subtle border border-danger-subtle text-danger-emphasis rounded-pill">Desativado</span>'), 

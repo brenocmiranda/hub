@@ -6,6 +6,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Log;
 use App\Http\Requests\ApiLeadsRqt;
 use App\Models\BuildingsKeys;
+use App\Models\BuildingsPartners;
 use App\Models\Leads;
 use App\Models\LeadsFields;
 use App\Models\LeadsOrigins;
@@ -92,12 +93,12 @@ class ApiLeadsCtrl extends Controller
             ];
             foreach($array as $ar){
                 if( $ar ){
-                    $building = $ar->building_id;
+                    $building = $ar->buildings_id;
                     break;
                 }
             }
             $bdefault = BuildingsKeys::where('value', 'default')->first();
-            $building = isset($building) ? $building : $bdefault->building_id;
+            $building = isset($building) ? $building : $bdefault->buildings_id;
 
             // Origin
             $array = [
@@ -326,6 +327,27 @@ class ApiLeadsCtrl extends Controller
                     break;
                 }
             }
+
+        // Defined partner responsible
+        $partners = BuildingsPartners::where( 'buildings_id', $building )->orderBy('created_at', 'desc')->get();
+        if( $partners->first() ){
+            foreach( $partners as $partner ){
+                if( $partner->leads == 99 ){
+                    $companie = $partner->companies_id;
+                    break;
+                } else {
+                    $countAllPartners = BuildingsPartners::where( 'buildings_id', $building )->select('leads')->sum('leads');
+                    $leads = Leads::where( 'buildings_id', $building )->orderBy('created_at', 'desc')->take( $countAllPartners - 1)->get();
+                    $leadsPartner = $leads->sortBy('created_at')->where( 'companies_id', $partner->companies_id )->count();
+ 
+                    if( $leadsPartner < $partner->leads ){
+                        $companie = $partner->companies_id;
+                        break;
+                    }
+                }
+            }
+        }   
+        $companie = isset($companie) ? $companie : BuildingsPartners::where( 'buildings_id', $building )->where('main', 1)->first()->companies_id;
         
         // Create new lead
         $lead = Leads::create([
@@ -333,8 +355,9 @@ class ApiLeadsCtrl extends Controller
             'name' => $name, 
             'phone' => $phone, 
             'email' => $email,
-            'building_id' => $building,
-            'leads_origin_id' => $origin,
+            'buildings_id' => $building,
+            'leads_origins_id' => $origin,
+            'companies_id' => $companie,
         ]);
 
         // Create fields optional

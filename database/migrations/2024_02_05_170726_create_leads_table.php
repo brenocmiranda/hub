@@ -18,10 +18,13 @@ return new class extends Migration
             $table->string('phone', 200);
             $table->string('email', 200);
             $table->string('batches_id')->nullable();
-            $table->unsignedBigInteger('leads_origin_id');
-            $table->foreign('leads_origin_id')->references('id')->on('leads_origins');
-            $table->unsignedBigInteger('building_id');
-            $table->foreign('building_id')->references('id')->on('buildings');
+            $table->unsignedBigInteger('companies_id');
+            $table->foreign('companies_id')->references('id')->on('companies');
+            $table->unsignedBigInteger('leads_origins_id');
+            $table->foreign('leads_origins_id')->references('id')->on('leads_origins');
+            $table->unsignedBigInteger('buildings_id');
+            $table->foreign('buildings_id')->references('id')->on('buildings');
+            $table->softDeletes($column = 'deleted_at', $precision = 0);
             $table->timestamps();
         });
     }

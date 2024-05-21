@@ -37,7 +37,7 @@ class CompaniesCtrl extends Controller
             'title' => 'Cadastro de nova empresa',
             'description' => 'Foi realizado o cadastro de uma nova empresa: ' . $request->name . '.',
             'action' => 'create',
-            'user_id' => Auth::user()->id
+            'users_id' => Auth::user()->id
         ]);
 
         return redirect()->route('companies.index')->with('create', true);
@@ -66,7 +66,7 @@ class CompaniesCtrl extends Controller
             'title' => 'Atualização das informações da empresa',
             'description' => 'Foi realizado a atualização das informações da empresa: ' . $request->name . '.',
             'action' => 'update',
-            'user_id' => Auth::user()->id
+            'users_id' => Auth::user()->id
         ]);
 
         return redirect()->route('companies.index')->with('edit', true);
@@ -79,7 +79,7 @@ class CompaniesCtrl extends Controller
             'title' => 'Exclusão da empresa',
             'description' => 'Foi realizado a exclusão da empresa: ' .  Companies::find($id)->name . '.',
             'action' => 'destroy',
-            'user_id' => Auth::user()->id
+            'users_id' => Auth::user()->id
         ]);
 
         Companies::find($id)->delete();

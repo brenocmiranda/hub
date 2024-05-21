@@ -5,14 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use App\Http\Requests\UsersRqt;
 use App\Models\Companies;
 use App\Models\Users;
 use App\Models\UsersRoles;
 use App\Models\UsersLogs;
-use App\Notifications\FirstAccess;
-use App\Notifications\RecoveryPassword;
+use App\Mail\FirstAccess;
+use App\Mail\RecoveryPassword;
 
 class UsersCtrl extends Controller
 {   
@@ -37,8 +38,8 @@ class UsersCtrl extends Controller
             'email' => $request->email, 
             'password' => Hash::make('komuh@220'), 
             'active' => $request->active,
-            'companie_id' => $request->companies,
-            'user_role_id' => $request->roles,
+            'companies_id' => $request->companies,
+            'users_roles_id' => $request->roles,
             'remember_token' => Str::random(10),
             'attempts' => 0,
         ]);
@@ -48,10 +49,9 @@ class UsersCtrl extends Controller
             'title' => 'Cadastro de novo usuário',
             'description' => 'Foi realizado o cadastro de um novo usuário: ' . $request->name . '.',
             'action' => 'create',
-            'user_id' => Auth::user()->id
+            'users_id' => Auth::user()->id
         ]);
-
-        $user->notify(new FirstAccess($user));
+        Mail::to( $user->email )->send(new FirstAccess($user));
 
         return redirect()->route('users.index')->with('create', true);
     }
@@ -72,8 +72,8 @@ class UsersCtrl extends Controller
             'name' => $request->name, 
             'email' => $request->email, 
             'active' => $request->active,
-            'companie_id' => $request->companies,
-            'user_role_id' => $request->roles,
+            'companies_id' => $request->companies,
+            'users_roles_id' => $request->roles,
         ]);
 
         // Salvando log
@@ -81,7 +81,7 @@ class UsersCtrl extends Controller
             'title' => 'Atualização das informações do usuário',
             'description' => 'Foi realizado a atualização das informações do usuário: ' . $request->name . '.',
             'action' => 'update',
-            'user_id' => Auth::user()->id
+            'users_id' => Auth::user()->id
         ]);
 
         return redirect()->route('users.index')->with('edit', true);
@@ -94,7 +94,7 @@ class UsersCtrl extends Controller
             'title' => 'Exclusão de usuário',
             'description' => 'Foi realizado a exclusão da usuário: ' .  Users::find($id)->name . '.',
             'action' => 'destroy',
-            'user_id' => Auth::user()->id
+            'users_id' => Auth::user()->id
         ]);
 
         Users::find($id)->delete();
@@ -110,10 +110,11 @@ class UsersCtrl extends Controller
             'title' => 'Enviando redefinição de senha',
             'description' => 'Foi realizado o envio do link de redefinição de senha para o usuário.',
             'action' => 'recovery',
-            'user_id' => $user->id
+            'users_id' => $user->id
         ]);
 
-        $user->notify(new RecoveryPassword($user));
+        Mail::to( $user->email )->send(new RecoveryPassword($user));
+
         return redirect()->route('users.index')->with('recovery', true);
     }
 }

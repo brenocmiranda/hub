@@ -15,12 +15,13 @@ return new class extends Migration
             $table->id();
             $table->integer('statusCode');
             $table->integer('attempts');
-            $table->unsignedBigInteger('lead_id');
-            $table->foreign('lead_id')->references('id')->on('leads');
-            $table->unsignedBigInteger('buildings_has_integrations_building_id');
-            $table->foreign('buildings_has_integrations_building_id', 'fk_buildings_has_integrations_building_id_pipelines')->references('building_id')->on('buildings_has_integrations');
-            $table->unsignedBigInteger('buildings_has_integrations_integration_id')->nullable();
-            $table->foreign('buildings_has_integrations_integration_id', 'fk1_buildings_has_integrations_integration_id_pipelines')->references('integration_id')->on('buildings_has_integrations');
+            $table->unsignedBigInteger('leads_id');
+            $table->foreign('leads_id')->references('id')->on('leads');
+            $table->unsignedBigInteger('buildings_id');
+            $table->foreign('buildings_id')->references('id')->on('buildings');
+            $table->unsignedBigInteger('integrations_id')->nullable();
+            $table->foreign('integrations_id')->references('id')->on('integrations');
+            $table->softDeletes($column = 'deleted_at', $precision = 0);
             $table->timestamps();
         });
     }

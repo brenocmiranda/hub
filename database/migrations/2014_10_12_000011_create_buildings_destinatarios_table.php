@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('buildings_destinatarios', function (Blueprint $table) {
             $table->id();
             $table->string('email');
+            $table->unsignedBigInteger('buildings_id');
+            $table->foreign('buildings_id')->references('id')->on('buildings');
             $table->softDeletes($column = 'deleted_at', $precision = 0);
-            $table->unsignedBigInteger('building_id');
-            $table->foreign('building_id')->references('id')->on('buildings');
             $table->timestamps();
         });
     }

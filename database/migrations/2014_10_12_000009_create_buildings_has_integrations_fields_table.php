@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('name', 200);
             $table->string('value');
-            $table->unsignedBigInteger('buildings_has_integrations_building_id');
-            $table->foreign('buildings_has_integrations_building_id', 'fk_buildings_has_integrations_building_id_fields')->references('building_id')->on('buildings_has_integrations');
-            $table->unsignedBigInteger('buildings_has_integrations_integration_id');
-            $table->foreign('buildings_has_integrations_integration_id', 'fk_buildings_has_integrations_integration_id_fields')->references('integration_id')->on('buildings_has_integrations');
+            $table->unsignedBigInteger('buildings_has_integrations_buildings_id');
+            $table->foreign('buildings_has_integrations_buildings_id', 'fk_buildings_has_integrations_buildings_id_fields')->references('buildings_id')->on('buildings_has_integrations');
+            $table->unsignedBigInteger('buildings_has_integrations_integrations_id');
+            $table->foreign('buildings_has_integrations_integrations_id', 'fk_buildings_has_integrations_integrations_id_fields')->references('integrations_id')->on('buildings_has_integrations');
             $table->softDeletes($column = 'deleted_at', $precision = 0);
             $table->timestamps();
         });

@@ -20,7 +20,7 @@
 					<td style="padding: 20px 40px;">
 						<font face="Helvetica,Arial,sans-serif" color="#222222" style="font-size:15px; line-height:25px;">
 							<p>
-								<b>Obaaa, {{explode(" ", ucfirst(strtolower($user->name)))[0]}}, sua senha foi resetada com sucesso!</b>
+								<b>Obaaa, {{explode(" ", ucfirst(strtolower($user->name)))[0]}}, sua senha foi reiniciada com sucesso!</b>
 							</p>
 							<p>
 								Você teve os seus dados de acessos atualizados na plataforma <b>{{env('APP_NAME')}}</b>. Caso você desconheça essa solicitação, entre em contato com administrador.

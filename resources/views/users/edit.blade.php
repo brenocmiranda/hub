@@ -56,7 +56,7 @@ Editar usuário
                                 <select class="form-select @error('companies') is-invalid @enderror" aria-label="Defina uma empresa" name="companies" id="companies" required>
                                     <option selected></option>
                                     @foreach($companies as $companie)
-                                        <option value="{{ $companie->id }}" {{ (old('companies') != null && old('companies') == $companie->id) || $companie->id == $user->companie_id ? 'selected' : "" }}>{{ $companie->name }}</option>
+                                        <option value="{{ $companie->id }}" {{ (old('companies') != null && old('companies') == $companie->id) || $companie->id == $user->companies_id ? 'selected' : "" }}>{{ $companie->name }}</option>
                                     @endforeach
                                 </select>
                                 <label for="companies">Empresas <abbr>*</abbr></label>
@@ -67,7 +67,7 @@ Editar usuário
                                 <select class="form-select @error('roles') is-invalid @enderror" aria-label="Defina uma função" name="roles" id="roles" required>
                                     <option selected></option>
                                     @foreach($roles as $role)
-                                        <option value="{{ $role->id }}" {{ (old('roles') != null && old('roles') == $role->id) || $role->id == $user->user_role_id ? 'selected' : "" }}>{{ $role->name }}</option>
+                                        <option value="{{ $role->id }}" {{ (old('roles') != null && old('roles') == $role->id) || $role->id == $user->users_roles_id ? 'selected' : "" }}>{{ $role->name }}</option>
                                     @endforeach
                                 </select>
                                 <label for="roles">Função <abbr>*</abbr></label>

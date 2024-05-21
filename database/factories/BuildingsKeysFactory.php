@@ -19,9 +19,8 @@ class BuildingsKeysFactory extends Factory
     {
         return [
             'active' => 1,
-            'name' => 'Default',
             'value' => 'default',
-            'building_id' => 1,
+            'buildings_id' => 1,
         ];
     }
 }

@@ -20,7 +20,6 @@ class BuildingsFactory extends Factory
         return [
             'active' => 1,
             'name' => 'Default',
-            'companie_id' => 1,
         ];
     }
 }

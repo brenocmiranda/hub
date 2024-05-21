@@ -1,0 +1,16 @@
+.list-group {
+    max-height: 400px;
+    overflow: auto;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.date > div {
+    width: calc(50% - 4px);
+}
+
+@media (max-width: 768px) {
+    .date > div {
+        width: 100%;
+    }
+}

@@ -29,8 +29,8 @@ class UsersFactory extends Factory
             'password' => static::$password ??= Hash::make('komuh@220'),
             'remember_token' => Str::random(10),
             'attempts' => 0,
-            'user_role_id' => 1,
-            'companie_id' => 1,
+            'users_roles_id' => 1,
+            'companies_id' => 1,
         ];
     }
 

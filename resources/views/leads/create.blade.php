@@ -1,7 +1,7 @@
 @extends('base.index')
 
 @section('title')
-Novo Lead
+Novo lead
 @endsection
 
 @section('css')

@@ -42,30 +42,15 @@ Editar integração
                                 <label for="slug">Slug <abbr>*</abbr></label>
                             </div>
                         </div>
-                        <div class="input-field col-lg-2 col-12">
-                            <div class="form-floating">
-                                <select class="form-select @error('type') is-invalid @enderror" aria-label="Defina um tipo" name="type" id="type" required>
-                                    <option selected></option>
-                                    <option value="GET" {{ old('type') || $integration->type == 'GET' ? 'selected' : "" }}>GET</option>
-                                    <option value="POST" {{ old('type') || $integration->type == 'POST' ? 'selected' : "" }}>POST</option>
-                                </select>
-                                <label for="type">Status <abbr>*</abbr></label>
-                            </div>
-                        </div>
-                        <div class="input-field col-lg-10 col-12">
-                            <div class="form-floating">
-                                <input type="text" class="form-control @error('url') is-invalid @enderror" id="url" name="url" value="{{ $integration->url ? $integration->url : old('url') }}" required>
-                                <label for="url">URL <abbr>*</abbr></label>
-                            </div>
-                        </div>
                         <div class="input-field col-lg-6 col-12">
                             <div class="form-floating">
-                                <select class="form-select @error('encoded') is-invalid @enderror" aria-label="Defina um status" name="encoded" id="encoded" required>
+                                <select class="form-select @error('companie') is-invalid @enderror" aria-label="Defina uma empresa" name="companie" id="companie" required>
                                     <option selected></option>
-                                    <option value="1" {{ (old('encoded') != null && old('encoded') == true) || $integration->encoded == true ? 'selected' : "" }}>Sim</option>
-                                    <option value="0" {{ (old('encoded') != null && old('encoded') == false) || $integration->encoded == false ? 'selected' : "" }}>Não</option>
+                                    @foreach($companies as $companie)
+                                        <option value="{{ $companie->id }}" {{ (old('companie') != null && old('companie') == $companie->id) || $companie->id == $integration->companies_id ? 'selected' : "" }}>{{ $companie->name }}</option>
+                                    @endforeach
                                 </select>
-                                <label for="encoded">Encoded body? <abbr>*</abbr></label>
+                                <label for="companie">Empresas <abbr>*</abbr></label>
                             </div>
                         </div>
                         <div class="input-field col-lg-6 col-12">
@@ -76,6 +61,32 @@ Editar integração
                                     <option value="0" {{ (old('active') != null && old('active') == false) || $integration->active == false ? 'selected' : "" }}>Desativado</option>
                                 </select>
                                 <label for="active">Status <abbr>*</abbr></label>
+                            </div>
+                        </div>
+                        <div class="input-field col-lg-2 col-12">
+                            <div class="form-floating">
+                                <select class="form-select @error('type') is-invalid @enderror" aria-label="Defina um tipo" name="type" id="type" required>
+                                    <option selected></option>
+                                    <option value="GET" {{ old('type') || $integration->type == 'GET' ? 'selected' : "" }}>GET</option>
+                                    <option value="POST" {{ old('type') || $integration->type == 'POST' ? 'selected' : "" }}>POST</option>
+                                </select>
+                                <label for="type">Tipo <abbr>*</abbr></label>
+                            </div>
+                        </div>
+                        <div class="input-field col-lg-8 col-12">
+                            <div class="form-floating">
+                                <input type="text" class="form-control @error('url') is-invalid @enderror" id="url" name="url" value="{{ $integration->url ? $integration->url : old('url') }}" required>
+                                <label for="url">URL <abbr>*</abbr></label>
+                            </div>
+                        </div>
+                        <div class="input-field col-lg-2 col-12">
+                            <div class="form-floating">
+                                <select class="form-select @error('encoded') is-invalid @enderror" aria-label="Defina um status" name="encoded" id="encoded" required>
+                                    <option selected></option>
+                                    <option value="1" {{ (old('encoded') != null && old('encoded') == true) || $integration->encoded == true ? 'selected' : "" }}>Sim</option>
+                                    <option value="0" {{ (old('encoded') != null && old('encoded') == false) || $integration->encoded == false ? 'selected' : "" }}>Não</option>
+                                </select>
+                                <label for="encoded">Encoded body? <abbr>*</abbr></label>
                             </div>
                         </div>
                         <div class="divider-input">

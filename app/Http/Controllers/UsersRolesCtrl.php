@@ -37,7 +37,7 @@ class UsersRolesCtrl extends Controller
             'title' => 'Cadastro de nova regra',
             'description' => 'Foi realizado o cadastro de uma nova regra: ' . $request->name . '.',
             'action' => 'create',
-            'user_id' => Auth::user()->id
+            'users_id' => Auth::user()->id
         ]);
 
         return redirect()->route('users.roles.index')->with('create', true);
@@ -66,7 +66,7 @@ class UsersRolesCtrl extends Controller
             'title' => 'Atualização das informações da regra',
             'description' => 'Foi realizado a atualização das informações da regra: ' . $request->name . '.',
             'action' => 'update',
-            'user_id' => Auth::user()->id
+            'users_id' => Auth::user()->id
         ]);
 
         return redirect()->route('users.roles.index')->with('edit', true);
@@ -79,7 +79,7 @@ class UsersRolesCtrl extends Controller
             'title' => 'Exclusão da regra',
             'description' => 'Foi realizado a exclusão da regra: ' .  UsersRoles::find($id)->name . '.',
             'action' => 'destroy',
-            'user_id' => Auth::user()->id
+            'users_id' => Auth::user()->id
         ]);
 
         UsersRoles::find($id)->delete();

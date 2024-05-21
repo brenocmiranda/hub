@@ -37,7 +37,7 @@ Editar chave
                                         @foreach($array as $index => $arr)
                                             <optgroup label="{{ $index }}"> 
                                                 @foreach($arr as $building)
-                                                    <option value="{{ $building->id }}" {{ (old('building') != null && old('building') == $building->id) || $building->id == $key->building_id ? 'selected' : "" }}>{{ $building->name }}</option>
+                                                    <option value="{{ $building->id }}" {{ (old('building') != null && old('building') == $building->id) || $building->id == $key->buildings_id ? 'selected' : "" }}>{{ $building->name }}</option>
                                                 @endforeach
                                             </optgroup>
                                         @endforeach

@@ -33,24 +33,13 @@ Editar empreendimento
                         @method('PUT')
                         @csrf  
                         
-                        <div class="input-field col-12">
+                        <div class="input-field col-lg-8 col-12">
                             <div class="form-floating">
                                 <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ $building->name ? $building->name : old('name') }}" required>
                                 <label for="name">Nome <abbr>*</abbr></label>
                             </div>
                         </div>
-                        <div class="input-field col-lg-6 col-12">
-                            <div class="form-floating">
-                                <select class="form-select @error('companie') is-invalid @enderror" aria-label="Defina uma empresa" name="companie" id="companie" required>
-                                    <option selected></option>
-                                    @foreach($companies as $companie)
-                                        <option value="{{ $companie->id }}" {{ (old('companie') != null && old('companie') == $companie->id) || $companie->id == $building->companie_id ? 'selected' : "" }}>{{ $companie->name }}</option>
-                                    @endforeach
-                                </select>
-                                <label for="companie">Empresas <abbr>*</abbr></label>
-                            </div>
-                        </div>
-                        <div class="input-field col-lg-6 col-12">
+                        <div class="input-field col-lg-4 col-12">
                             <div class="form-floating">
                                 <select class="form-select @error('active') is-invalid @enderror" aria-label="Defina um status" name="active" id="active" required>
                                     <option selected></option>
@@ -61,135 +50,224 @@ Editar empreendimento
                             </div>
                         </div>
 
-                        <div class="divider-input col-12">
-                            <p>Destinatários</p>
-                            <hr>
-                        </div>
-                        <div class="emails">
-                            <div class="all-emails">
-                                @if($building->RelationDestinatarios->first())
-                                    @foreach($building->RelationDestinatarios as $index => $destinatarios)
-                                    <div class="single-email">
-                                        <div class="content-email">
-                                            <div class="form-floating"> 
-                                                <input type="email" class="form-control" id="email{{ $index }}" name="email[]" value="{{ $destinatarios->email }}" required> 
-                                                <label for="email{{ $index }}">E-mail <abbr>*</abbr></label> 
-                                            </div>
-                                            <div> 
-                                                <a href="#" class="btn btn-sm btn-outline-dark rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Remover campo" onclick="removeEmail(this);"><i class="bi bi-dash"></i></a> 
-                                            </div>
-                                        </div>
-                                    </div>
-                                    @endforeach
-                                @endif
-                            </div>
-                            <div>
-                                <a href="#" onclick="addEmail()"><i class="bi bi-plus"></i> Cadastrar novo destinatário</a>
-                            </div>
-                        </div>
-                        
-                        <div class="divider-input col-12">
-                            <p>Google Sheets</p>
-                            <hr>
-                        </div>
-                        <div class="sheets">
-                            <div class="all-sheets">
-                                @if($building->RelationSheets->first())
-                                    @foreach($building->RelationSheets as $index => $sheet)
-                                    <div class="single-sheet">
-                                        <div class="content-sheet">
-                                            <div class="row row-gap-2">
-                                                <div class="col-6">
-                                                    <div class="form-floating"> 
-                                                        <input type="text" class="form-control" id="spreadsheetID{{ $index }}" name="spreadsheetID[]" value="{{ $sheet->spreadsheetID }}" required> 
-                                                        <label for="spreadsheetID{{ $index }}">ID do Sheet <abbr>*</abbr></label> 
-                                                    </div>
-                                                </div>
-                                                <div class="col-6">
-                                                    <div class="form-floating"> 
-                                                        <input type="text" class="form-control" id="sheet{{ $index }}" name="sheet[]" value="{{ $sheet->sheet }}" required> 
-                                                        <label for="sheet{{ $index }}">Aba da planilha <abbr>*</abbr></label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-12">
-                                                    <div class="form-floating"> 
-                                                        <input type="file" class="form-control" id="file{{ $index }}" name="file[]" onchange="alternateName(this);" {{ $sheet->file ? "" : "required" }}> 
-                                                        <input type="hidden" name="fileexists[]" value="{{$sheet->file}}">
-                                                        @if($sheet->file)
-                                                            <div class="file-exists">{{$sheet->file}}</div>
-                                                        @endif
-                                                        <label for="file{{ $index }}">File de autenticação (JSON) {{ $sheet->file ? "" : "<abbr>*</abbr>" }} </label> 
-                                                    </div>
-                                                </div>
-                                                <div class="col-12 d-flex align-items-end justify-content-end"> 
-                                                    <a href="#" class="btn btn-sm btn-outline-danger ms-auto" onclick="removeSheet(this);"><i class="bi bi-trash"></i> Excluir sheets</a> 
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    @endforeach
-                                @endif
-                            </div>
-                            <div>
-                                <a href="#" onclick="addSheet()"><i class="bi bi-plus"></i> Cadastrar novo sheets</a>
-                            </div>
-                        </div>
-                        
-                        <div class="divider-input col-12">
-                            <p>Integrações
-                                <a href="#" class="btn btn-sm btn-secondary rounded-circle ms-1 py-0 px-1" data-bs-toggle="modal" data-bs-target="#modalInfo"><i class="bi bi-info"></i></a>
-                            </p>
-                            <hr>
-                        </div>
-                        <div class="integrations">
-                            <div class="all-integration">
-                                @if($building->RelationIntegrations->first())
-                                    @foreach($building->RelationIntegrations as $index => $buildingIntegration)
-                                    <div class="single-integration"> 
-                                        <div class="content-integration"> 
-                                            <div class="form-floating"> 
-                                                <select class="form-select" aria-label="Defina uma integração" name="array[{{ $index }}][nameIntegration]" id="integration-{{ $index }}" required> 
-                                                    <option selected></option> 
-                                                    @foreach($integrations as $integration) 
-                                                        <option value="{{ $integration->id }}" {{ $integration->id == $buildingIntegration->id ? "selected" : '' }}>{{ $integration->name }}</option> 
-                                                    @endforeach 
-                                                </select> 
-                                                <label for="integration-{{ $index }}">Integrações <abbr>*</abbr></label> 
-                                            </div> 
-                                            @if($building->RelationIntegrationsFields)
-                                                @foreach($building->RelationIntegrationsFields as $i => $b)
-                                                    @if($b->buildings_has_integrations_integration_id === $buildingIntegration->id)
-                                                        <div class="row row-gap-2"> 
-                                                            <div class="input-field col-lg-6 col-12"> 
-                                                                <div class="form-floating"> 
-                                                                    <input type="text" class="form-control" id="integrationFieldName-{{$i}}" name="array[{{$index}}][nameField][]" value="{{ $b->name }}" required> 
-                                                                    <label for="integrationFieldName-{{$i}}">Nome do campo <abbr>*</abbr></label> 
-                                                                </div> 
-                                                            </div> 
-                                                            <div class="input-field col-lg-6 col-12 d-flex align-items-center gap-2"> 
-                                                                <div class="form-floating w-100"> 
-                                                                    <input type="text" class="form-control" id="integrationFieldValor-{{$i}}" name="array[{{$index}}][valueField][]" value="{{ $b->value }}" required> 
-                                                                    <label for="integrationFieldValor-{{$i}}">Valor <abbr>*</abbr></label> 
-                                                                </div> 
-                                                                <a href="#" class="btn btn-sm btn-outline-dark rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Remover campo" onclick="removeField(this);"><i class="bi bi-dash"></i></a> 
+                         <div class="accordion" id="accordionItems">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse1" aria-expanded="true" aria-controls="flush-collapse1">
+                                        Parceiros
+                                    </button>
+                                </h2>
+                                <div id="flush-collapse1" class="accordion-collapse collapse show" data-bs-parent="#accordionItems">
+                                    <div class="accordion-body">
+                                        <div class="partners">
+                                            <div class="all-partners">
+                                                @if($building->RelationPartners->first())
+                                                    @foreach($building->RelationPartners as $index => $partners)
+                                                        <div class="single-partner">
+                                                            <div class="content-partner">
+                                                                <div class="row row-gap-2">
+                                                                    <div class="input-field col-lg-5 col-12">
+                                                                        <div class="form-floating">
+                                                                            <select class="form-select" aria-label="Defina uma empresa" name="partner[]" id="companie-{{ $index }}" required>
+                                                                                <option selected></option>
+                                                                                @foreach($companies as $companie) 
+                                                                                    <option value="{{ $companie->id }}" {{ $partners->companies_id == $companie->id ? 'selected' : '' }}>{{ $companie->name }}</option>
+                                                                                @endforeach 
+                                                                            </select>
+                                                                            <label for="companie-{{ $index }}">Empresas <abbr>*</abbr></label> 
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="input-field col-lg-4 col-12">
+                                                                        <div class="form-floating">
+                                                                            <select class="form-select" aria-label="Defina a quantidade de leads" name="leads[]" id="leads-{{ $index }}" required>
+                                                                                <option value="99" {{ $partners->leads == 99 ? 'selected' : '' }}>-</option>
+                                                                                <option value="1" {{ $partners->leads == 1 ? 'selected' : '' }}>1</option>
+                                                                                <option value="2" {{ $partners->leads == 2 ? 'selected' : '' }}>2</option>
+                                                                                <option value="3" {{ $partners->leads == 3 ? 'selected' : '' }}>3</option>
+                                                                                <option value="4" {{ $partners->leads == 4 ? 'selected' : '' }}>4</option>
+                                                                                <option value="5" {{ $partners->leads == 5 ? 'selected' : '' }}>5</option>
+                                                                                <option value="6" {{ $partners->leads == 6 ? 'selected' : '' }}>6</option>
+                                                                                <option value="7" {{ $partners->leads == 7 ? 'selected' : '' }}>7</option>
+                                                                                <option value="8" {{ $partners->leads == 8 ? 'selected' : '' }}>8</option>
+                                                                                <option value="9" {{ $partners->leads == 9 ? 'selected' : '' }}>9</option>
+                                                                                <option value="10" {{ $partners->leads == 10 ? 'selected' : '' }}>10</option>
+                                                                            </select>
+                                                                            <label for="leads-{{ $index }}">Quantidade de leads <abbr>*</abbr></label> 
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="input-field col-lg-3 col-12 d-flex align-items-center gap-3">
+                                                                        <div class="form-floating w-100">
+                                                                            <select class="form-select principal" aria-label="Defina o dono" name="main[]" id="main-{{ $index }}" required>
+                                                                                <option value="1" {{ $partners->main == 1 ? 'selected' : '' }}>Sim</option>
+                                                                                <option value="0" {{ $partners->main == 0 ? 'selected' : '' }}>Não</option>
+                                                                            </select>
+                                                                            <label for="main-{{ $index }}">Principal <abbr>*</abbr></label> 
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-12 d-flex align-items-end justify-content-end"> <a href="#" class="btn btn-sm btn-outline-danger ms-auto" onclick="removePartner(this);"><i class="bi bi-trash"></i> Excluir parceiro</a> </div>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    @endif
-                                                @endforeach
-                                            @endif
-                                        </div> 
-                                        <div class="d-flex gap-2"> 
-                                            <a href="#" class="btn btn-sm btn-outline-dark" onclick="addField(this, {{$index}});"><i class="bi bi-plus"></i> Novo campo</a> 
-                                            <a href="#" class="btn btn-sm btn-outline-danger ms-auto" onclick="removeIntegration(this);"><i class="bi bi-trash"></i> Excluir integração</a>
-                                        </div> 
+                                                    @endforeach
+                                                @endif
+                                            </div>
+                                            <div class="text-center">
+                                                <a href="#" onclick="addPartner()"><i class="bi bi-person-plus pe-1"></i> Cadastrar novo parceiro</a>
+                                            </div>
+                                        </div>
                                     </div>
-                                    @endforeach
-                                @endif
+                                </div>
                             </div>
-                            <div>
-                                <a href="#" onclick="addIntegration();"><i class="bi bi-plus"></i> Criar nova integração</a>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse2" aria-expanded="false" aria-controls="flush-collapse2">
+                                        Destinatários
+                                    </button>
+                                </h2>
+                                <div id="flush-collapse2" class="accordion-collapse collapse" data-bs-parent="#accordionItems">
+                                    <div class="accordion-body">
+                                        <div class="emails">
+                                            <div class="all-emails">
+                                                @if($building->RelationDestinatarios->first())
+                                                    @foreach($building->RelationDestinatarios as $index => $destinatarios)
+                                                    <div class="single-email">
+                                                        <div class="content-email">
+                                                            <div class="form-floating"> 
+                                                                <input type="email" class="form-control" id="email-{{ $index }}" name="email[]" value="{{ $destinatarios->email }}" required> 
+                                                                <label for="email-{{ $index }}">E-mail <abbr>*</abbr></label> 
+                                                                <a href="#" class="btn btn-sm btn-outline-danger rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Remover campo" onclick="removeEmail(this);"><i class="bi bi-dash"></i></a> 
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    @endforeach
+                                                @endif
+                                            </div>
+                                            <div class="text-center">
+                                                <a href="#" onclick="addEmail()"><i class="bi bi-envelope-plus pe-1"></i> Cadastrar novo destinatário</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse3" aria-expanded="false" aria-controls="flush-collapse3">
+                                        Google Sheets
+                                    </button>
+                                </h2>
+                                <div id="flush-collapse3" class="accordion-collapse collapse" data-bs-parent="#accordionItems">
+                                    <div class="accordion-body">
+                                        <div class="sheets">
+                                            <div class="all-sheets">
+                                                @if($building->RelationSheets->first())
+                                                    @foreach($building->RelationSheets as $index => $googlesheets)
+                                                        <div class="single-sheet">
+                                                            <div class="content-sheet">
+                                                                <div class="row row-gap-2">
+                                                                    <div class="col-lg-6 col-12">
+                                                                        <div class="form-floating"> 
+                                                                            <input type="text" class="form-control" id="spreadsheetID-{{ $index }}" name="spreadsheetID[]" value="{{ $googlesheets->spreadsheetID }}" required> 
+                                                                            <label for="spreadsheetID-{{ $index }}">ID do Sheet <abbr>*</abbr></label> 
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-6 col-12">
+                                                                        <div class="form-floating"> 
+                                                                            <input type="text" class="form-control" id="sheet-{{ $index }}" name="sheet[]" value="{{ $googlesheets->sheet }}" required> 
+                                                                            <label for="sheet-{{ $index }}">Aba da planilha <abbr>*</abbr></label> 
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-12">
+                                                                        <div class="form-floating"> 
+                                                                            <input type="file" class="form-control" id="file-{{ $index }}" name="file[]" onchange="alternateName(this);" {{ $googlesheets->file ? "" : "required" }}> 
+                                                                            <input type="hidden" name="fileexists[]" value="{{$googlesheets->file}}">
+                                                                            @if($googlesheets->file)
+                                                                                <div class="file-exists">{{$googlesheets->file}}</div>
+                                                                            @endif
+                                                                            <label for="file-{{ $index }}">File de autenticação (JSON) {{ $googlesheets->file ? "" : "<abbr>*</abbr>" }} </label> 
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-12 d-flex align-items-end justify-content-end"> 
+                                                                        <a href="#" class="btn btn-sm btn-outline-danger ms-auto" onclick="removeSheet(this);"><i class="bi bi-trash"></i> Excluir sheets</a> 
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
+                                                @endif
+                                            </div>
+                                            <div class="text-center">
+                                                <a href="#" onclick="addSheet()"><i class="bi bi-cloud-plus pe-1"></i> Cadastrar novo sheets</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse4" aria-expanded="false" aria-controls="flush-collapse4">
+                                        Integrações
+                                    </button>
+                                </h2>
+                                <div id="flush-collapse4" class="accordion-collapse collapse" data-bs-parent="#accordionItems">
+                                    <div class="accordion-body">
+                                        <div class="integrations">
+                                            <div class="all-integration">
+                                                @if($building->RelationIntegrations->first())
+                                                    @foreach($building->RelationIntegrations as $index => $buildingIntegration)
+                                                        <div class="single-integration"> 
+                                                            <div class="content-integration"> 
+                                                                <div class="form-floating"> 
+                                                                    <select class="form-select" aria-label="Defina uma integração" name="array[{{ $index }}][nameIntegration]" id="integration-{{ $index }}" required> 
+                                                                        <option selected></option> 
+                                                                        @foreach($integrations as $integration) 
+                                                                            <option value="{{ $integration->id }}" {{ $integration->id == $buildingIntegration->id ? "selected" : '' }}>{{ $integration->name }}</option> 
+                                                                        @endforeach 
+                                                                    </select> 
+                                                                    <label for="integration-{{ $index }}">Integrações <abbr>*</abbr></label> 
+                                                                </div> 
+                                                                @if($building->RelationIntegrationsFields)
+                                                                    @foreach($building->RelationIntegrationsFields as $i => $b)
+                                                                        @if($b->buildings_has_integrations_integrations_id === $buildingIntegration->id)
+                                                                            <div class="row row-gap-2"> 
+                                                                                <div class="input-field col-lg-6 col-12"> 
+                                                                                    <div class="form-floating"> 
+                                                                                        <input type="text" class="form-control" id="integrationFieldName-{{$i}}" name="array[{{$index}}][nameField][]" value="{{ $b->name }}" required> 
+                                                                                        <label for="integrationFieldName-{{$i}}">Nome do campo <abbr>*</abbr></label> 
+                                                                                    </div> 
+                                                                                </div> 
+                                                                                <div class="input-field col-lg-6 col-12 d-flex align-items-center gap-2"> 
+                                                                                    <div class="form-floating w-100"> 
+                                                                                        <input type="text" class="form-control" id="integrationFieldValor-{{$i}}" name="array[{{$index}}][valueField][]" value="{{ $b->value }}" required> 
+                                                                                        <label for="integrationFieldValor-{{$i}}">Valor <abbr>*</abbr></label> 
+                                                                                    </div> 
+                                                                                    <a href="#" class="btn btn-sm btn-outline-dark rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Remover campo" onclick="removeField(this);"><i class="bi bi-dash"></i></a> 
+                                                                                </div>
+                                                                            </div>
+                                                                        @endif
+                                                                    @endforeach
+                                                                @endif
+                                                            </div> 
+                                                            <div class="d-flex gap-2"> 
+                                                                <a href="#" class="btn btn-sm btn-outline-dark" onclick="addField(this, {{$index}});"><i class="bi bi-plus"></i> Novo campo</a> 
+                                                                <a href="#" class="btn btn-sm btn-outline-danger ms-auto" onclick="removeIntegration(this);"><i class="bi bi-trash"></i> Excluir integração</a>
+                                                            </div> 
+                                                        </div>
+                                                    @endforeach
+                                                @endif
+                                            </div>
+                                            <div class="text-center">
+                                                <a href="#" onclick="addIntegration()" class="d-block mb-1"><i class="bi bi-terminal-plus pe-1"></i> Cadastrar nova integração</a>
+                                                <a href="#" class="" data-bs-toggle="modal" data-bs-target="#modalInfo"><i class="bi bi-info-circle pe-1"></i> Mais informações sobre o preenchimento dos campos</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                        
                         <div class="submit-field d-flex justify-content-end align-items-center gap-3">
                             <a href="{{ route('buildings.index') }}"> <i class="bi bi-arrow-left px-2"></i>Voltar</a>
                             <input type="submit" name="submit" id="submit" class="btn btn-dark px-5 py-2" value="Salvar" />
@@ -244,52 +322,64 @@ Editar empreendimento
 
 @section('js')
 <script>
-    // Adicionando e removendo integrações e fields
-    var field = {{ $building->RelationIntegrationsFields ? count($building->RelationIntegrationsFields) : 1 }};
-    var integration = {{ count($building->RelationIntegrations) + 1 }};
-    var count =  {{ ($building->RelationDestinatarios ? count($building->RelationDestinatarios) : 1) + ($building->RelationSheets ? count($building->RelationSheets) : 1) + 1}};
-
-    function addIntegration() {
+    // Alterando nome do file no sheets
+    function alternateName(element) {
         event.preventDefault();
-        $('.integrations').find('.all-integration').append(`<div class="single-integration"> <div class="content-integration"> <div class="form-floating"> <select class="form-select" aria-label="Defina uma integração" name="array[` + integration + `][nameIntegration]" id="integration-` + integration + `" required> <option selected></option> @foreach($integrations as $integration) <option value="{{ $integration->id }}">{{ $integration->name }}</option> @endforeach </select> <label for="integration-` + integration + `">Integrações <abbr>*</abbr></label> </div> </div> <div class="d-flex gap-2"> <a href="#" class="btn btn-sm btn-outline-dark" onclick="addField(this, ` + integration + `);"><i class="bi bi-plus"></i> Novo campo</a> <a href="#" class="btn btn-sm btn-outline-danger ms-auto" onclick="removeIntegration(this);"><i class="bi bi-trash"></i> Excluir integração</a></div> </div>`);
-        integration++;
-
-        // Enable toltips
-        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+        $(element).next('.file-exists').hide();
     }
 
-    function removeIntegration(element) {
+    // Deixando apenas um dono
+    $('.principal').on('change', function(event){
         event.preventDefault();
-        if(confirm('Tem certeza que deseja remover toda a integração?')){
-            $(element).closest('.single-integration').remove();
+        let id = $(this).attr('id');
+        $('.principal').each(function(index, element){
+            if( id != $(element).attr('id') ){
+                $(element).val(0);
+            }
+        });
+    });
+
+    var Cpartners = {{ $building->RelationPartners ? count($building->RelationPartners) : 1 }};
+    var Cdestinatarios = {{ $building->RelationDestinatarios ? count($building->RelationDestinatarios) : 1 }};
+    var Csheets = {{ $building->RelationSheets ? count($building->RelationSheets) : 1 }};
+    var Cfields = {{ $building->RelationIntegrationsFields ? count($building->RelationIntegrationsFields) : 1 }};
+    var count = Cpartners + Cdestinatarios + Csheets + Cfields + 1;
+    var integration = {{ count($building->RelationIntegrations) + 1 }};
+
+    // Partners
+    function addPartner() {
+        event.preventDefault();
+        $('.partners').find('.all-partners').append(`<div class="single-partner"> <div class="content-partner"> <div class="row row-gap-2"> <div class="input-field col-lg-5 col-12"> <div class="form-floating"> <select class="form-select" aria-label="Defina uma empresa" name="partner[]" id="companie-` + count + `" required> <option selected></option> @foreach($companies as $companie) <option value="{{ $companie->id }}">{{ $companie->name }}</option> @endforeach </select> <label for="companie-` + count + `">Empresas <abbr>*</abbr></label> </div> </div> <div class="input-field col-lg-4 col-12"> <div class="form-floating"> <select class="form-select" aria-label="Defina a quantidade de leads" name="leads[]" id="leads-` + count + `" required> <option value="99" selected>-</option> <option value="1">1</option> <option value="2">2</option> <option value="3">3</option> <option value="4">4</option> <option value="5">5</option> <option value="6">6</option> <option value="7">7</option> <option value="8">8</option> <option value="9">9</option> <option value="10">10</option> </select> <label for="leads-` + count + `">Quantidade de leads <abbr>*</abbr></label> </div> </div> <div class="input-field col-lg-3 col-12 d-flex align-items-center gap-3"> <div class="form-floating w-100"> <select class="form-select principal" aria-label="Defina o dono" name="main[]" id="main-` + count + `" required> <option value="1">Sim</option> <option value="0" selected>Não</option> </select> <label for="main-` + count + `">Principal <abbr>*</abbr></label> </div> </div> <div class="col-12 d-flex align-items-end justify-content-end"> <a href="#" class="btn btn-sm btn-outline-danger ms-auto" onclick="removePartner(this);"><i class="bi bi-trash"></i> Excluir parceiro</a> </div> </div> </div> </div>`);
+        count++;
+
+        // Deixando apenas um dono
+        $('.principal').on('change', function(event){
+            event.preventDefault();
+            let id = $(this).attr('id');
+            $('.principal').each(function(index, element){
+                if( id != $(element).attr('id') ){
+                    $(element).val(0);
+                }
+            });
+        });
+    }
+    function removePartner(element) {
+        event.preventDefault();
+        if(confirm('Tem certeza que deseja remover esse destinatário?')){
+            $(element).closest('.single-partner').remove();
         }
     }
-    function addField(element, count) {
-        event.preventDefault();
-        $(element).closest('.single-integration').find('.content-integration').append(`<div class="row row-gap-2"> <div class="input-field col-lg-6 col-12"> <div class="form-floating"> <input type="text" class="form-control" id="integrationFieldName-` + field + `" name="array[` + count + `][nameField][]" required> <label for="integrationFieldName-` + field + `">Nome do campo <abbr>*</abbr></label> </div> </div> <div class="input-field col-lg-6 col-12 d-flex align-items-center gap-2"> <div class="form-floating w-100"> <input type="text" class="form-control" id="integrationFieldValor-` + field + `" name="array[` + count + `][valueField][]" required> <label for="integrationFieldValor-` + field + `">Valor <abbr>*</abbr></label> </div> <a href="#" class="btn btn-sm btn-outline-dark rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Remover campo" onclick="removeField(this);"><i class="bi bi-dash"></i></a> </div> </div>`);
-        field++;
 
-        // Enable toltips
-        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
-    }
-    
-    function removeField(element) {
-        event.preventDefault();
-        $(element).closest('.row').remove();
-    }
-    
+    // Emails
     function addEmail() {
         event.preventDefault();
-        $('.emails').find('.all-emails').append(`<div class="single-email"> <div class="content-email"> <div class="form-floating"> <input type="email" class="form-control" id="email ` + count + ` " name="email[]" required> <label for="email ` + count + `">E-mail <abbr>*</abbr></label> </div> <div> <a href="#" class="btn btn-sm btn-outline-dark rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Remover campo" onclick="removeEmail(this);"><i class="bi bi-dash"></i></a> </div> </div> </div>`);
+        $('.emails').find('.all-emails').append(`<div class="single-email"> <div class="content-email"> <div class="form-floating"> <input type="email" class="form-control" id="email-` + count + `" name="email[]" required> <label for="email-` + count + `">E-mail <abbr>*</abbr></label> <a href="#" class="btn btn-sm btn-outline-danger rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Remover campo" onclick="removeEmail(this);"><i class="bi bi-dash"></i></a> </div> </div> </div>`);
         count++;
 
         // Enable toltips
         const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
         const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
     }
-
     function removeEmail(element) {
         event.preventDefault();
         if(confirm('Tem certeza que deseja remover esse destinatário?')){
@@ -297,16 +387,12 @@ Editar empreendimento
         }
     }
 
+    // Google Sheets
     function addSheet() {
         event.preventDefault();
-        $('.sheets').find('.all-sheets').append(`<div class="single-sheet"> <div class="content-sheet"> <div class="row row-gap-2"> <div class="col-6"> <div class="form-floating"> <input type="text" class="form-control" id="spreadsheetID` + count + `" name="spreadsheetID[]" required> <label for="spreadsheetID` + count + `">ID do Sheet <abbr>*</abbr></label> </div> </div> <div class="col-6"> <div class="form-floating"> <input type="text" class="form-control" id="sheet` + count + `" name="sheet[]" required> <label for="sheet` + count + `">Aba da planilha <abbr>*</abbr></label> </div> </div> <div class="col-12"> <div class="form-floating"> <input type="file" class="form-control" id="file` + count + `" name="file[]" required> <label for="file` + count + `">File de autenticação (JSON) <abbr>*</abbr></label> </div> </div> <div class="col-12 d-flex align-items-end justify-content-end"> <a href="#" class="btn btn-sm btn-outline-danger ms-auto" onclick="removeSheet(this);"><i class="bi bi-trash"></i> Excluir sheets</a> </div> </div> </div> </div>`);
+        $('.sheets').find('.all-sheets').append(`<div class="single-sheet"> <div class="content-sheet"> <div class="row row-gap-2"> <div class="col-lg-6 col-12"> <div class="form-floating"> <input type="text" class="form-control" id="spreadsheetID-` + count + `" name="spreadsheetID[]" required> <label for="spreadsheetID-` + count + `">ID do Sheet <abbr>*</abbr></label> </div> </div> <div class="col-lg-6 col-12"> <div class="form-floating"> <input type="text" class="form-control" id="sheet-` + count + `" name="sheet[]" required> <label for="sheet-` + count + `">Aba da planilha <abbr>*</abbr></label> </div> </div> <div class="col-12"> <div class="form-floating"> <input type="file" class="form-control" id="file-` + count + `" name="file[]" required> <label for="file-` + count + `">File de autenticação (JSON) <abbr>*</abbr></label> </div> </div> <div class="col-12 d-flex align-items-end justify-content-end"> <a href="#" class="btn btn-sm btn-outline-danger ms-auto" onclick="removeSheet(this);"><i class="bi bi-trash"></i> Excluir sheets</a> </div> </div> </div> </div>`);
         count++;
-
-        // Enable toltips
-        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
     }
-
     function removeSheet(element) {
         event.preventDefault();
         if(confirm('Tem certeza que deseja remover esse sheets?')){
@@ -314,9 +400,31 @@ Editar empreendimento
         }
     }
 
-    function alternateName(element) {
+    // Integrations
+    function addIntegration() {
         event.preventDefault();
-        $(element).next('.file-exists').hide();
+        $('.integrations').find('.all-integration').append(`<div class="single-integration"> <div class="content-integration"> <div class="form-floating"> <select class="form-select" aria-label="Defina uma integração" name="array[` + integration + `][nameIntegration]" id="integration-` + integration + `" required> <option selected></option> @foreach($integrations as $integration) <option value="{{ $integration->id }}">{{ $integration->name }}</option> @endforeach </select> <label for="integration-` + integration + `">Integrações <abbr>*</abbr></label> </div> </div> <div class="d-flex gap-2"> <a href="#" class="btn btn-sm btn-outline-dark" onclick="addField(this, ` + integration + `);"><i class="bi bi-plus"></i> Novo campo</a> <a href="#" class="btn btn-sm btn-outline-danger ms-auto" onclick="removeIntegration(this);"><i class="bi bi-trash"></i> Excluir integração</a></div> </div>`);
+        integration++;
+    }
+    function removeIntegration(element) {
+        event.preventDefault();
+        if(confirm('Tem certeza que deseja remover toda a integração?')){
+            $(element).closest('.single-integration').remove();
+        }
+    }
+
+    // Integrations (Fields)
+    function addField(element, field) {
+        event.preventDefault();
+        $(element).closest('.single-integration').find('.content-integration').append(`<div class="row row-gap-2"> <div class="input-field col-lg-6 col-12"> <div class="form-floating"> <input type="text" class="form-control" id="integrationFieldName-` + count + `" name="array[` + field + `][nameField][]" required> <label for="integrationFieldName-` + count + `">Nome do campo <abbr>*</abbr></label> </div> </div> <div class="input-field col-lg-6 col-12 d-flex align-items-center gap-3"> <div class="form-floating w-100"> <input type="text" class="form-control" id="integrationFieldValor-` + count + `" name="array[` + field + `][valueField][]" required> <label for="integrationFieldValor-` + count + `">Valor <abbr>*</abbr></label> </div> <a href="#" class="btn btn-sm btn-outline-dark rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Remover campo" onclick="removeField(this);"><i class="bi bi-dash"></i></a> </div> </div>`);
+
+        // Enable toltips
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+    }
+    function removeField(element) {
+        event.preventDefault();
+        $(element).closest('.row').remove();
     }
 </script>
 @endsection

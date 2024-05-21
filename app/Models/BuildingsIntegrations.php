@@ -13,8 +13,8 @@ class BuildingsIntegrations extends Model
     protected $table = 'buildings_has_integrations';
 
     protected $fillable = [
-        'building_id', 
-        'integration_id',
+        'buildings_id', 
+        'integrations_id',
     ];
 
 }

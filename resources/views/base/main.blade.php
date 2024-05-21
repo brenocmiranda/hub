@@ -68,6 +68,13 @@
                                         <small>Atividades</small>
                                     </a>
                                     @break
+                                
+                                @case('reports')
+                                    <i class="bi bi-chevron-double-right"></i>
+                                    <a href="#" class="text-decoration-none text-dark">
+                                        <small>Relatórios</small>
+                                    </a>
+                                    @break
                             @endswitch
 
                             @switch( Request::segment(3) )
@@ -75,6 +82,27 @@
                                     <i class="bi bi-chevron-double-right"></i>
                                     <a href="{{ './' . Request::segment(3) }}" class="text-decoration-none text-dark">
                                         <small>Cadastrar</small>
+                                    </a>
+                                    @break
+                                
+                                @case('leads')
+                                    <i class="bi bi-chevron-double-right"></i>
+                                    <a href="{{ './' . Request::segment(3) }}" class="text-decoration-none text-dark">
+                                        <small>Leads</small>
+                                    </a>
+                                    @break
+                                
+                                @case('buildings')
+                                    <i class="bi bi-chevron-double-right"></i>
+                                    <a href="{{ './' . Request::segment(3) }}" class="text-decoration-none text-dark">
+                                        <small>Empreendimentos</small>
+                                    </a>
+                                    @break
+
+                                @case('integrations')
+                                    <i class="bi bi-chevron-double-right"></i>
+                                    <a href="{{ './' . Request::segment(3) }}" class="text-decoration-none text-dark">
+                                        <small>Integrações</small>
                                     </a>
                                     @break
                             @endswitch

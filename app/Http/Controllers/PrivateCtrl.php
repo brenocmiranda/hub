@@ -36,7 +36,7 @@ class PrivateCtrl extends Controller
             'title' => 'Efetuando logout',
             'description' => 'Foi realizado o logout da plataforma.',
             'action' => 'logout',
-            'user_id' => Auth::user()->id
+            'users_id' => Auth::user()->id
         ]);
 
         Auth::logout();
@@ -45,6 +45,6 @@ class PrivateCtrl extends Controller
 
     public function activities()
     {
-        return view('system.activities')->with('logs', UsersLogs::where('user_id', Auth::user()->id)->orderBy('created_at', 'DESC')->get());
+        return view('system.activities')->with('logs', UsersLogs::where('users_id', Auth::user()->id)->orderBy('created_at', 'DESC')->get());
     }
 }

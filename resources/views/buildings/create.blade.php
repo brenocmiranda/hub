@@ -32,24 +32,13 @@ Novo empreendimento
                     <form action="{{ route('buildings.store') }}" method="POST" class="row row-gap-3" enctype="multipart/form-data">
                         @csrf
  
-                        <div class="input-field col-12">
+                        <div class="input-field col-lg-8 col-12">
                             <div class="form-floating">
                                 <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}" required>
                                 <label for="name">Nome <abbr>*</abbr></label>
                             </div>
                         </div>
-                        <div class="input-field col-lg-6 col-12">
-                            <div class="form-floating">
-                                <select class="form-select @error('companie') is-invalid @enderror" aria-label="Defina uma empresa" name="companie" id="companie" required>
-                                    <option selected></option>
-                                    @foreach($companies as $companie)
-                                        <option value="{{ $companie->id }}" {{ old('companie') != null && old('companie') == $companie->id ? 'selected' : "" }}>{{ $companie->name }}</option>
-                                    @endforeach
-                                </select>
-                                <label for="companie">Empresas <abbr>*</abbr></label>
-                            </div>
-                        </div>
-                        <div class="input-field col-lg-6 col-12">
+                        <div class="input-field col-lg-4 col-12">
                             <div class="form-floating">
                                 <select class="form-select @error('active') is-invalid @enderror" aria-label="Defina um status" name="active" id="active" required>
                                     <option selected></option>
@@ -60,38 +49,78 @@ Novo empreendimento
                             </div>
                         </div>
                         
-                        <div class="divider-input col-12">
-                            <p>Destinatários</p>
-                            <hr>
-                        </div>
-                        <div class="emails">
-                            <div class="all-emails"></div>
-                            <div>
-                                <a href="#" onclick="addEmail()"><i class="bi bi-plus"></i> Cadastrar novo destinatário</a>
+                        <div class="accordion" id="accordionItems">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse1" aria-expanded="true" aria-controls="flush-collapse1">
+                                        Parceiros
+                                    </button>
+                                </h2>
+                                <div id="flush-collapse1" class="accordion-collapse collapse show" data-bs-parent="#accordionItems">
+                                    <div class="accordion-body">
+                                        <div class="partners">
+                                            <div class="all-partners"></div>
+                                            <div class="text-center">
+                                                <a href="#" onclick="addPartner()"><i class="bi bi-person-plus pe-1"></i> Cadastrar novo parceiro</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="divider-input col-12">
-                            <p>Google Sheets</p>
-                            <hr>
-                        </div>
-                        <div class="sheets">
-                            <div class="all-sheets"></div>
-                            <div>
-                                <a href="#" onclick="addSheet()"><i class="bi bi-plus"></i> Cadastrar novo sheets</a>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse2" aria-expanded="false" aria-controls="flush-collapse2">
+                                        Destinatários
+                                    </button>
+                                </h2>
+                                <div id="flush-collapse2" class="accordion-collapse collapse" data-bs-parent="#accordionItems">
+                                    <div class="accordion-body">
+                                        <div class="emails">
+                                            <div class="all-emails"></div>
+                                            <div class="text-center">
+                                                <a href="#" onclick="addEmail()"><i class="bi bi-envelope-plus pe-1"></i> Cadastrar novo destinatário</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="divider-input col-12">
-                            <p>Integrações
-                                <a href="#" class="btn btn-sm btn-secondary rounded-circle ms-1 py-0 px-1" data-bs-toggle="modal" data-bs-target="#modalInfo"><i class="bi bi-info"></i></a>
-                            </p>
-                            <hr>
-                        </div>
-                        <div class="integrations">
-                            <div class="all-integration"></div>
-                            <div>
-                                <a href="#" onclick="addIntegration()"><i class="bi bi-plus"></i> Cadastrar nova integração</a>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse3" aria-expanded="false" aria-controls="flush-collapse3">
+                                        Google Sheets
+                                    </button>
+                                </h2>
+                                <div id="flush-collapse3" class="accordion-collapse collapse" data-bs-parent="#accordionItems">
+                                    <div class="accordion-body">
+                                        <div class="sheets">
+                                            <div class="all-sheets"></div>
+                                            <div class="text-center">
+                                                <a href="#" onclick="addSheet()"><i class="bi bi-cloud-plus pe-1"></i> Cadastrar novo sheets</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse4" aria-expanded="false" aria-controls="flush-collapse4">
+                                        Integrações
+                                    </button>
+                                </h2>
+                                <div id="flush-collapse4" class="accordion-collapse collapse" data-bs-parent="#accordionItems">
+                                    <div class="accordion-body">
+                                        <div class="integrations">
+                                            <div class="all-integration"></div>
+                                            <div class="text-center">
+                                                <a href="#" onclick="addIntegration()" class="d-block mb-1"><i class="bi bi-terminal-plus pe-1"></i> Cadastrar nova integração</a>
+                                                <a href="#" class="" data-bs-toggle="modal" data-bs-target="#modalInfo"><i class="bi bi-info-circle pe-1"></i> Mais informações sobre o preenchimento dos campos</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -149,53 +178,43 @@ Novo empreendimento
 
 @section('js')
 <script>
-    // Adicionando e removendo integrações e fields
-    var field = 0;
-    var integration = 0;
     var count = 0;
+    var integration = 0;
 
-    function addIntegration() {
+    // Partners
+    function addPartner() {
         event.preventDefault();
-        $('.integrations').find('.all-integration').append(`<div class="single-integration"> <div class="content-integration"> <div class="form-floating"> <select class="form-select" aria-label="Defina uma integração" name="array[` + integration + `][nameIntegration]" id="integration-` + integration + `" required> <option selected></option> @foreach($integrations as $integration) <option value="{{ $integration->id }}">{{ $integration->name }}</option> @endforeach </select> <label for="integration-` + integration + `">Integrações <abbr>*</abbr></label> </div> </div> <div class="d-flex gap-2"> <a href="#" class="btn btn-sm btn-outline-dark" onclick="addField(this, ` + integration + `);"><i class="bi bi-plus"></i> Novo campo</a> <a href="#" class="btn btn-sm btn-outline-danger ms-auto" onclick="removeIntegration(this);"><i class="bi bi-trash"></i> Excluir integração</a></div> </div>`);
-        integration++;
+        $('.partners').find('.all-partners').append(`<div class="single-partner"> <div class="content-partner"> <div class="row row-gap-2"> <div class="input-field col-lg-5 col-12"> <div class="form-floating"> <select class="form-select" aria-label="Defina uma empresa" name="partner[]" id="companie-` + count + `" required> <option selected></option> @foreach($companies as $companie) <option value="{{ $companie->id }}">{{ $companie->name }}</option> @endforeach </select> <label for="companie-` + count + `">Empresas <abbr>*</abbr></label> </div> </div> <div class="input-field col-lg-4 col-12"> <div class="form-floating"> <select class="form-select" aria-label="Defina a quantidade de leads" name="leads[]" id="leads-` + count + `" required> <option value="99" selected>-</option> <option value="1">1</option> <option value="2">2</option> <option value="3">3</option> <option value="4">4</option> <option value="5">5</option> <option value="6">6</option> <option value="7">7</option> <option value="8">8</option> <option value="9">9</option> <option value="10">10</option> </select> <label for="leads-` + count + `">Quantidade de leads <abbr>*</abbr></label> </div> </div> <div class="input-field col-lg-3 col-12 d-flex align-items-center gap-3"> <div class="form-floating w-100"> <select class="form-select principal" aria-label="Defina o dono" name="main[]" id="main-` + count + `" required> <option value="1">Sim</option> <option value="0" selected>Não</option> </select> <label for="main-` + count + `">Principal <abbr>*</abbr></label> </div> </div> <div class="col-12 d-flex align-items-end justify-content-end"> <a href="#" class="btn btn-sm btn-outline-danger ms-auto" onclick="removePartner(this);"><i class="bi bi-trash"></i> Excluir parceiro</a> </div> </div> </div> </div>`);
+        count++;
 
-        // Enable toltips
-        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+        // Deixando apenas um dono
+        $('.principal').on('change', function(event){
+            event.preventDefault();
+            let id = $(this).attr('id');
+            $('.principal').each(function(index, element){
+                if( id != $(element).attr('id') ){
+                    $(element).val(0);
+                }
+            });
+        });
     }
-
-    function removeIntegration(element) {
+    function removePartner(element) {
         event.preventDefault();
-        if(confirm('Tem certeza que deseja remover toda a integração?')){
-            $(element).closest('.single-integration').remove();
+        if(confirm('Tem certeza que deseja remover esse destinatário?')){
+            $(element).closest('.single-partner').remove();
         }
     }
 
-    function addField(element, count) {
-        event.preventDefault();
-        $(element).closest('.single-integration').find('.content-integration').append(`<div class="row"> <div class="input-field col-lg-6 col-12"> <div class="form-floating"> <input type="text" class="form-control" id="integrationFieldName-` + field + `" name="array[` + count + `][nameField][]" required> <label for="integrationFieldName-` + field + `">Nome do campo <abbr>*</abbr></label> </div> </div> <div class="input-field col-lg-6 col-12 d-flex align-items-center gap-3"> <div class="form-floating w-100"> <input type="text" class="form-control" id="integrationFieldValor-` + field + `" name="array[` + count + `][valueField][]" required> <label for="integrationFieldValor-` + field + `">Valor <abbr>*</abbr></label> </div> <a href="#" class="btn btn-sm btn-outline-dark rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Remover campo" onclick="removeField(this);"><i class="bi bi-dash"></i></a> </div> </div>`);
-        field++;
-
-        // Enable toltips
-        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
-    }
-    
-    function removeField(element) {
-        event.preventDefault();
-        $(element).closest('.row').remove();
-    }
-
+    // Emails
     function addEmail() {
         event.preventDefault();
-        $('.emails').find('.all-emails').append(`<div class="single-email"> <div class="content-email"> <div class="form-floating"> <input type="email" class="form-control" id="email ` + count + ` " name="email[]" required> <label for="email ` + count + `">E-mail <abbr>*</abbr></label> </div> <div> <a href="#" class="btn btn-sm btn-outline-dark rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Remover campo" onclick="removeEmail(this);"><i class="bi bi-dash"></i></a> </div> </div> </div>`);
+        $('.emails').find('.all-emails').append(`<div class="single-email"> <div class="content-email"> <div class="form-floating"> <input type="email" class="form-control" id="email-` + count + `" name="email[]" required> <label for="email-` + count + `">E-mail <abbr>*</abbr></label> <a href="#" class="btn btn-sm btn-outline-danger rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Remover campo" onclick="removeEmail(this);"><i class="bi bi-dash"></i></a> </div> </div> </div>`);
         count++;
 
         // Enable toltips
         const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
         const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
     }
-
     function removeEmail(element) {
         event.preventDefault();
         if(confirm('Tem certeza que deseja remover esse destinatário?')){
@@ -203,21 +222,44 @@ Novo empreendimento
         }
     }
 
+    // Google Sheets
     function addSheet() {
         event.preventDefault();
-        $('.sheets').find('.all-sheets').append(`<div class="single-sheet"> <div class="content-sheet"> <div class="row row-gap-2"> <div class="col-6"> <div class="form-floating"> <input type="text" class="form-control" id="spreadsheetID` + count + `" name="spreadsheetID[]" required> <label for="spreadsheetID` + count + `">ID do Sheet <abbr>*</abbr></label> </div> </div> <div class="col-6"> <div class="form-floating"> <input type="text" class="form-control" id="sheet` + count + `" name="sheet[]" required> <label for="sheet` + count + `">Aba da planilha <abbr>*</abbr></label> </div> </div> <div class="col-12"> <div class="form-floating"> <input type="file" class="form-control" id="file` + count + `" name="file[]" required> <label for="file` + count + `">File de autenticação (JSON) <abbr>*</abbr></label> </div> </div> <div class="col-12 d-flex align-items-end justify-content-end"> <a href="#" class="btn btn-sm btn-outline-danger ms-auto" onclick="removeSheet(this);"><i class="bi bi-trash"></i> Excluir sheets</a> </div> </div> </div> </div>`);
+        $('.sheets').find('.all-sheets').append(`<div class="single-sheet"> <div class="content-sheet"> <div class="row row-gap-2"> <div class="col-lg-6 col-12"> <div class="form-floating"> <input type="text" class="form-control" id="spreadsheetID-` + count + `" name="spreadsheetID[]" required> <label for="spreadsheetID-` + count + `">ID do Sheet <abbr>*</abbr></label> </div> </div> <div class="col-lg-6 col-12"> <div class="form-floating"> <input type="text" class="form-control" id="sheet-` + count + `" name="sheet[]" required> <label for="sheet-` + count + `">Aba da planilha <abbr>*</abbr></label> </div> </div> <div class="col-12"> <div class="form-floating"> <input type="file" class="form-control" id="file-` + count + `" name="file[]" required> <label for="file-` + count + `">File de autenticação (JSON) <abbr>*</abbr></label> </div> </div> <div class="col-12 d-flex align-items-end justify-content-end"> <a href="#" class="btn btn-sm btn-outline-danger ms-auto" onclick="removeSheet(this);"><i class="bi bi-trash"></i> Excluir sheets</a> </div> </div> </div> </div>`);
         count++;
-
-        // Enable toltips
-        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
     }
-
     function removeSheet(element) {
         event.preventDefault();
         if(confirm('Tem certeza que deseja remover esse sheets?')){
             $(element).closest('.single-sheet').remove();
         }
+    }
+
+    // Integrations
+    function addIntegration() {
+        event.preventDefault();
+        $('.integrations').find('.all-integration').append(`<div class="single-integration"> <div class="content-integration"> <div class="form-floating"> <select class="form-select" aria-label="Defina uma integração" name="array[` + integration + `][nameIntegration]" id="integration-` + integration + `" required> <option selected></option> @foreach($integrations as $integration) <option value="{{ $integration->id }}">{{ $integration->name }}</option> @endforeach </select> <label for="integration-` + integration + `">Integrações <abbr>*</abbr></label> </div> </div> <div class="d-flex gap-2"> <a href="#" class="btn btn-sm btn-outline-dark" onclick="addField(this, ` + integration + `);"><i class="bi bi-plus"></i> Novo campo</a> <a href="#" class="btn btn-sm btn-outline-danger ms-auto" onclick="removeIntegration(this);"><i class="bi bi-trash"></i> Excluir integração</a></div> </div>`);
+        integration++;
+    }
+    function removeIntegration(element) {
+        event.preventDefault();
+        if(confirm('Tem certeza que deseja remover toda a integração?')){
+            $(element).closest('.single-integration').remove();
+        }
+    }
+
+    // Integrations (Fields)
+    function addField(element, field) {
+        event.preventDefault();
+        $(element).closest('.single-integration').find('.content-integration').append(`<div class="row row-gap-2"> <div class="input-field col-lg-6 col-12"> <div class="form-floating"> <input type="text" class="form-control" id="integrationFieldName-` + count + `" name="array[` + field + `][nameField][]" required> <label for="integrationFieldName-` + count + `">Nome do campo <abbr>*</abbr></label> </div> </div> <div class="input-field col-lg-6 col-12 d-flex align-items-center gap-3"> <div class="form-floating w-100"> <input type="text" class="form-control" id="integrationFieldValor-` + count + `" name="array[` + field + `][valueField][]" required> <label for="integrationFieldValor-` + count + `">Valor <abbr>*</abbr></label> </div> <a href="#" class="btn btn-sm btn-outline-dark rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Remover campo" onclick="removeField(this);"><i class="bi bi-dash"></i></a> </div> </div>`);
+
+        // Enable toltips
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+    }
+    function removeField(element) {
+        event.preventDefault();
+        $(element).closest('.row').remove();
     }
 </script>
 @endsection

@@ -20,12 +20,12 @@ return new class extends Migration
             $table->string('password');
             $table->integer('attempts');
             $table->string('src')->nullable();
-            $table->softDeletes($column = 'deleted_at', $precision = 0);
-            $table->unsignedBigInteger('user_role_id');
-            $table->foreign('user_role_id')->references('id')->on('users_roles');
-            $table->unsignedBigInteger('companie_id');
-            $table->foreign('companie_id')->references('id')->on('companies');
+            $table->unsignedBigInteger('users_roles_id');
+            $table->foreign('users_roles_id')->references('id')->on('users_roles');
+            $table->unsignedBigInteger('companies_id');
+            $table->foreign('companies_id')->references('id')->on('companies');
             $table->rememberToken();
+            $table->softDeletes($column = 'deleted_at', $precision = 0);
             $table->timestamps();
         });
     }

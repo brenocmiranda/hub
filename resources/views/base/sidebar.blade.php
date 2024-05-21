@@ -7,56 +7,56 @@
         <hr>
         <ul class="nav nav-pills flex-column mb-auto">
             <li class="nav-item">
-                <a href="{{ route('home') }}"
-                    class="nav-link text-white d-flex gap-2 mb-2 {{ Request::segment(2) == 'home' ? 'active' : '' }}">
+                <a href="{{ route('home') }}" class="nav-link text-white d-flex gap-2 mb-2 {{ Request::segment(2) == 'home' ? 'active' : '' }}">
                     <i class="bi bi-house"></i>
                     <span class="module-name">Home</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{ route('dashboard.index') }}"
-                    class="nav-link text-white d-flex gap-2 mb-2 {{ Request::segment(2) == 'dashboard' ? 'active' : '' }}">
+                <a href="#" class="nav-link text-white d-flex gap-2 mb-2 collapsed {{ Request::segment(2) == 'dashboard' ? 'active' : '' }}"
+                    data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="{{ Request::segment(2) == 'dashboard' ? 'true' : 'false' }}">
                     <i class="bi bi-bar-chart"></i>
-                    <span class="module-name">Dashboard</span>
+                    <span class="module-name">Dashboards</span>
                 </a>
+                <div class="collapse {{ Request::segment(2) == 'dashboard' ? 'show' : '' }}" id="dashboard-collapse">
+                    <ul class="btn-toggle-nav fw-normal small list-unstyled ps-5 ms-2">
+                        <li>
+                            <a href="{{ route('dashboard.index') }}"
+                                class="d-inline-flex text-decoration-none mb-2 {{ Request::segment(2) == 'dashboard' && Request::segment(3) == 'geral' ? 'text-secondary' : 'text-white' }}">Geral</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('dashboard.index') }}"
+                                class="d-inline-flex text-decoration-none mb-2 {{ Request::segment(2) == 'dashboard' && Request::segment(3) == 'buildings' ? 'text-secondary' : 'text-white' }}">Empreendimentos</a>
+                        </li>
+                    </ul>
+                </div>
             </li>
             <li class="nav-item">
-                <a href="#"
-                    class="nav-link text-white d-flex gap-2 mb-2 {{ Request::segment(2) == 'leads' ? 'active' : '' }}"
-                    data-bs-toggle="collapse" data-bs-target="#leads-collapse" aria-expanded="false">
+                <a href="#" class="nav-link text-white d-flex gap-2 mb-2 collapsed {{ Request::segment(2) == 'leads' ? 'active' : '' }}"
+                    data-bs-toggle="collapse" data-bs-target="#leads-collapse" aria-expanded="{{ Request::segment(2) == 'leads' ? 'true' : 'false' }}">
                     <i class="bi bi-person-workspace"></i>
                     <span class="module-name">Leads</span>
                 </a>
                 <div class="collapse {{ Request::segment(2) == 'leads' ? 'show' : '' }}" id="leads-collapse">
                     <ul class="btn-toggle-nav fw-normal small list-unstyled ps-5 ms-2">
                         <li>
-                            <a href="{{ route('leads.index') }}"
-                                class="d-inline-flex text-decoration-none mb-2 {{ Request::segment(2) == 'leads' && Request::segment(3) == '' ? 'text-secondary' : '
-                                text-white' }}">Ver
-                                todas</a>
+                            <a href="{{ route('leads.index') }}" class="d-inline-flex text-decoration-none mb-2 {{ Request::segment(2) == 'leads' && Request::segment(3) == '' ? 'text-secondary' : 'text-white' }}">Ver todas</a>
                         </li>
                         <li>
-                            <a href="{{ route('leads.create') }}"
-                                class="d-inline-flex text-decoration-none mb-2 {{ Request::segment(2) == 'leads' && Request::segment(3) == 'create' ? 'text-secondary' : '
-                                text-white' }}">Cadastrar</a>
+                            <a href="{{ route('leads.create') }}" class="d-inline-flex text-decoration-none mb-2 {{ Request::segment(2) == 'leads' && Request::segment(3) == 'create' ? 'text-secondary' : 'text-white' }}">Cadastrar</a>
                         </li>
                         <li>
-                            <a href="{{ route('leads.origins.index') }}"
-                                class="d-inline-flex text-decoration-none mb-2 {{ Request::segment(2) == 'leads' && Request::segment(3) == 'origins' ? 'text-secondary' : '
-                                text-white' }}">Origens</a>
+                            <a href="{{ route('leads.origins.index') }}" class="d-inline-flex text-decoration-none mb-2 {{ Request::segment(2) == 'leads' && Request::segment(4) == 'origins' ? 'text-secondary' : 'text-white' }}">Origens</a>
                         </li>
                         <li>
-                            <a href="{{ route('leads.pipelines.index') }}"
-                                class="d-inline-flex text-decoration-none mb-2 {{ Request::segment(2) == 'leads' && Request::segment(3) == 'jobs' ? 'text-secondary' : '
-                                text-white' }}">Pipelines</a>
+                            <a href="{{ route('leads.pipelines.index') }}" class="d-inline-flex text-decoration-none mb-2 {{ Request::segment(2) == 'leads' && Request::segment(4) == 'pipelines' ? 'text-secondary' : 'text-white' }}">Pipelines</a>
                         </li>
                     </ul>
                 </div>
             </li>
             <li class="nav-item">
-                <a href="#"
-                    class="nav-link text-white d-flex gap-2 mb-2 {{ Request::segment(2) == 'companies' ? 'active' : '' }}"
-                    data-bs-toggle="collapse" data-bs-target="#companies-collapse" aria-expanded="false">
+                <a href="#" class="nav-link text-white d-flex gap-2 mb-2 collapsed {{ Request::segment(2) == 'companies' ? 'active' : '' }}"
+                    data-bs-toggle="collapse" data-bs-target="#companies-collapse" aria-expanded="{{ Request::segment(2) == 'companies' ? 'true' : 'false' }}">
                     <i class="bi bi-shop"></i>
                     <span class="module-name">Empresas</span>
                 </a>
@@ -65,22 +65,18 @@
                     <ul class="btn-toggle-nav fw-normal small list-unstyled ps-5 ms-2">
                         <li>
                             <a href="{{ route('companies.index') }}"
-                                class="d-inline-flex text-decoration-none mb-2 {{ Request::segment(2) == 'companies' && Request::segment(3) == '' ? 'text-secondary' : '
-                                text-white' }}">Ver
-                                todas</a>
+                                class="d-inline-flex text-decoration-none mb-2 {{ Request::segment(2) == 'companies' && Request::segment(3) == '' ? 'text-secondary' : 'text-white' }}">Ver todas</a>
                         </li>
                         <li>
                             <a href="{{ route('companies.create') }}"
-                                class="d-inline-flex text-decoration-none mb-2 {{ Request::segment(2) == 'companies' && Request::segment(3) == 'create' ? 'text-secondary' : '
-                                text-white' }}">Cadastrar</a>
+                                class="d-inline-flex text-decoration-none mb-2 {{ Request::segment(2) == 'companies' && Request::segment(3) == 'create' ? 'text-secondary' : 'text-white' }}">Cadastrar</a>
                         </li>
                     </ul>
                 </div>
             </li>
             <li class="nav-item">
-                <a href="#"
-                    class="nav-link text-white d-flex gap-2 mb-2 {{ Request::segment(2) == 'buildings' ? 'active' : '' }}"
-                    data-bs-toggle="collapse" data-bs-target="#buildings-collapse" aria-expanded="false">
+                <a href="#" class="nav-link text-white d-flex gap-2 mb-2 collapsed {{ Request::segment(2) == 'buildings' ? 'active' : '' }}"
+                    data-bs-toggle="collapse" data-bs-target="#buildings-collapse" aria-expanded="{{ Request::segment(2) == 'buildings' ? 'true' : 'false' }}">
                     <i class="bi bi-buildings"></i>
                     <span class="module-name">Empreendimentos</span>
                 </a>
@@ -89,27 +85,22 @@
                     <ul class="btn-toggle-nav fw-normal small list-unstyled ps-5 ms-2">
                         <li>
                             <a href="{{ route('buildings.index') }}"
-                                class="d-inline-flex text-decoration-none mb-2 {{ Request::segment(2) == 'buildings' && Request::segment(3) == '' ? 'text-secondary' : '
-                                text-white' }}">Ver
-                                todas</a>
+                                class="d-inline-flex text-decoration-none mb-2 {{ Request::segment(2) == 'buildings' && Request::segment(3) == '' ? 'text-secondary' : 'text-white' }}">Ver todas</a>
                         </li>
                         <li>
                             <a href="{{ route('buildings.create') }}"
-                                class="d-inline-flex text-decoration-none mb-2 {{ Request::segment(2) == 'buildings' && Request::segment(3) == 'create' ? 'text-secondary' : '
-                                text-white' }}">Cadastrar</a>
+                                class="d-inline-flex text-decoration-none mb-2 {{ Request::segment(2) == 'buildings' && Request::segment(3) == 'create' ? 'text-secondary' : 'text-white' }}">Cadastrar</a>
                         </li>
                         <li>
                             <a href="{{ route('buildings.keys.index') }}"
-                                class="d-inline-flex text-decoration-none mb-2 {{ Request::segment(2) == 'buildings' && Request::segment(3) == 'keys' ? 'text-secondary' : '
-                                text-white' }}">Chaves</a>
+                                class="d-inline-flex text-decoration-none mb-2 {{ Request::segment(2) == 'buildings' && Request::segment(4) == 'keys' ? 'text-secondary' : 'text-white' }}">Chaves</a>
                         </li>
                     </ul>
                 </div>
             </li>
             <li class="nav-item">
-                <a href="#"
-                    class="nav-link text-white d-flex gap-2 mb-2 {{ Request::segment(2) == 'integrations' ? 'active' : '' }}"
-                    data-bs-toggle="collapse" data-bs-target="#integrations-collapse" aria-expanded="false">
+                <a href="#" class="nav-link text-white d-flex gap-2 mb-2 collapsed {{ Request::segment(2) == 'integrations' ? 'active' : '' }}"
+                    data-bs-toggle="collapse" data-bs-target="#integrations-collapse" aria-expanded="{{ Request::segment(2) == 'integrations' ? 'true' : 'false' }}">
                     <i class="bi bi-layers"></i>
                     <span class="module-name">Integrações</span>
                 </a>
@@ -118,22 +109,50 @@
                     <ul class="btn-toggle-nav fw-normal small list-unstyled ps-5 ms-2">
                         <li>
                             <a href="{{ route('integrations.index') }}"
-                                class="d-inline-flex text-decoration-none mb-2 {{ Request::segment(2) == 'integrations' && Request::segment(3) == '' ? 'text-secondary' : '
-                                text-white' }}">Ver
-                                todas</a>
+                                class="d-inline-flex text-decoration-none mb-2 {{ Request::segment(2) == 'integrations' && Request::segment(3) == '' ? 'text-secondary' : 'text-white' }}">Ver todas</a>
                         </li>
                         <li>
                             <a href="{{ route('integrations.create') }}"
-                                class="d-inline-flex text-decoration-none mb-2 {{ Request::segment(2) == 'integrations' && Request::segment(3) == 'create' ? 'text-secondary' : '
-                                text-white' }}">Cadastrar</a>
+                                class="d-inline-flex text-decoration-none mb-2 {{ Request::segment(2) == 'integrations' && Request::segment(3) == 'create' ? 'text-secondary' : 'text-white' }}">Cadastrar</a>
                         </li>
                     </ul>
                 </div>
             </li>
             <li class="nav-item">
-                <a href="#"
-                    class="nav-link text-white d-flex gap-2 mb-2 {{ Request::segment(2) == 'users' ? 'active' : '' }}"
-                    data-bs-toggle="collapse" data-bs-target="#users-collapse" aria-expanded="false">
+                <a href="#" class="nav-link text-white d-flex gap-2 mb-2 collapsed {{ Request::segment(2) == 'reports' ? 'active' : '' }}"
+                    data-bs-toggle="collapse" data-bs-target="#reports-collapse" aria-expanded="{{ Request::segment(2) == 'reports' ? 'true' : 'false' }}">
+                    <i class="bi bi-file-text"></i>
+                    <span class="module-name">Relatórios</span>
+                </a>
+                <div class="collapse {{ Request::segment(2) == 'reports' ? 'show' : '' }}" id="reports-collapse">
+                    <ul class="btn-toggle-nav fw-normal small list-unstyled ps-5 ms-2">
+                        <li>
+                            <a href="{{ route('reports.leads') }}"
+                                class="d-inline-flex text-decoration-none mb-2 {{ Request::segment(2) == 'reports' && Request::segment(3) == 'leads' ? 'text-secondary' : '
+                                text-white' }}">Leads</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('reports.buildings') }}"
+                                class="d-inline-flex text-decoration-none mb-2 {{ Request::segment(2) == 'reports' && Request::segment(3) == 'buildings' ? 'text-secondary' : '
+                                text-white' }}">Empreendimentos</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('reports.integrations') }}"
+                                class="d-inline-flex text-decoration-none mb-2 {{ Request::segment(2) == 'reports' && Request::segment(3) == 'integrations' ? 'text-secondary' : '
+                                text-white' }}">Integrações</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('dashboard.index') }}" class="nav-link text-white d-flex gap-2 mb-2 {{ Request::segment(2) == 'dashboard' ? 'active' : '' }}">
+                    <i class="bi bi-cloud-upload"></i>
+                    <span class="module-name">Importações</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link text-white d-flex gap-2 mb-2 collapsed {{ Request::segment(2) == 'users' ? 'active' : '' }}"
+                    data-bs-toggle="collapse" data-bs-target="#users-collapse" aria-expanded="{{ Request::segment(2) == 'users' ? 'true' : 'false' }}">
                     <i class="bi bi-people"></i>
                     <span class="module-name">Usuários</span>
                 </a>
@@ -141,24 +160,19 @@
                     <ul class="btn-toggle-nav fw-normal small list-unstyled ps-5 ms-2">
                         <li>
                             <a href="{{ route('users.index') }}"
-                                class="d-inline-flex text-decoration-none mb-2 {{ Request::segment(2) == 'users' && Request::segment(3) == '' ? 'text-secondary' : '
-                                text-white' }}">Ver
-                                todas</a>
+                                class="d-inline-flex text-decoration-none mb-2 {{ Request::segment(2) == 'users' && Request::segment(3) == '' ? 'text-secondary' : 'text-white' }}">Ver todas</a>
                         </li>
                         <li>
                             <a href="{{ route('users.create') }}"
-                                class="d-inline-flex text-decoration-none mb-2 {{ Request::segment(2) == 'users' && Request::segment(3) == 'create' ? 'text-secondary' : '
-                                text-white' }}">Cadastrar</a>
+                                class="d-inline-flex text-decoration-none mb-2 {{ Request::segment(2) == 'users' && Request::segment(3) == 'create' ? 'text-secondary' : 'text-white' }}">Cadastrar</a>
                         </li>
                         <li>
                             <a href="{{ route('users.roles.index') }}"
-                                class="d-inline-flex text-decoration-none mb-2 {{ Request::segment(2) == 'users' && Request::segment(3) == 'roles' ? 'text-secondary' : '
-                                text-white' }}">Funções</a>
+                                class="d-inline-flex text-decoration-none mb-2 {{ Request::segment(2) == 'users' && Request::segment(4) == 'roles' ? 'text-secondary' : 'text-white' }}">Funções</a>
                         </li>
                         <li>
                             <a href="{{ route('users.tokens.index') }}"
-                                class="d-inline-flex text-decoration-none mb-2 {{ Request::segment(2) == 'users' && Request::segment(3) == 'tokens' ? 'text-secondary' : '
-                                text-white' }}">Tokens</a>
+                                class="d-inline-flex text-decoration-none mb-2 {{ Request::segment(2) == 'users' && Request::segment(4) == 'tokens' ? 'text-secondary' : 'text-white' }}">Tokens</a>
                         </li>
                     </ul>
                 </div>

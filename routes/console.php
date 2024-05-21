@@ -7,6 +7,7 @@ use App\Models\UsersRoles;
 use App\Models\Users;
 use App\Models\Buildings;
 use App\Models\BuildingsKeys;
+use App\Models\BuildingsPartners;
 use App\Models\Leads;
 use App\Models\LeadsOrigins;
 use App\Jobs\ProcessBuildingJobs;
@@ -24,12 +25,13 @@ use Illuminate\Support\Facades\Notification;
 |
 */
 
-Artisan::command('factory', function () {
+Artisan::command('new', function () {
     $companies = Companies::factory()->create();
     $usersroles = UsersRoles::factory()->create();
     $users = Users::factory()->create();
     $buildings = Buildings::factory()->create();
     $buildingsKeys = BuildingsKeys::factory()->create();
+    $buildingsPartners = BuildingsPartners::factory()->create();
     $leadsorigins = LeadsOrigins::factory()->create();
 })->purpose('Executar configurações default do sistema.');
 

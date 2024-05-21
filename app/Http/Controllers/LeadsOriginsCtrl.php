@@ -37,7 +37,7 @@ class LeadsOriginsCtrl extends Controller
             'title' => 'Cadastro de nova origem',
             'description' => 'Foi realizado o cadastro de uma nova origem: ' . $request->name . '.',
             'action' => 'create',
-            'user_id' => Auth::user()->id
+            'users_id' => Auth::user()->id
         ]);
 
         return redirect()->route('leads.origins.index')->with('create', true);
@@ -66,7 +66,7 @@ class LeadsOriginsCtrl extends Controller
             'title' => 'Atualização das informações da origem',
             'description' => 'Foi realizado a atualização das informações da origem: ' . $request->name . '.',
             'action' => 'update',
-            'user_id' => Auth::user()->id
+            'users_id' => Auth::user()->id
         ]);
 
         return redirect()->route('leads.origins.index')->with('edit', true);
@@ -79,7 +79,7 @@ class LeadsOriginsCtrl extends Controller
             'title' => 'Exclusão da origem',
             'description' => 'Foi realizado a exclusão da origem: ' .  LeadsOrigins::find($id)->name . '.',
             'action' => 'destroy',
-            'user_id' => Auth::user()->id
+            'users_id' => Auth::user()->id
         ]);
 
         LeadsOrigins::find($id)->delete();

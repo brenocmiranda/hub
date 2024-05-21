@@ -33,15 +33,9 @@ class UsersTokensRqt extends FormRequest
      */
     public function rules(): array
     {
-        if($this->segment(4) == 'store'){
-            return [
-                'name' => 'required|min:3|unique:users_roles,name',
-            ];
-        } else {
-            return [
-                'name' => 'required|min:3',
-            ];
-        }
+        return [
+            'name' => 'required|min:3|unique:users_roles,name,'.$this->segment(5),
+        ];
     }
 
     /**

@@ -1,7 +1,7 @@
 @extends('base.index')
 
 @section('title')
-Detalhes do Lead
+Detalhes do lead
 @endsection
 
 @section('css')
@@ -31,19 +31,19 @@ Detalhes do Lead
             </div>
         </div>
         <div class="row mt-2 row-gap-3">
-            <div class="col-lg-4 col-12">
+            <div class="col-lg-6 col-12">
                 <div class="form-floating">
                     <input type="text" class="form-control" value="{{ $lead->name }}" disabled>
                     <label for="name">Nome</label>
                 </div>
             </div>
-            <div class="col-lg-4 col-12">
+            <div class="col-lg-6 col-12">
                 <div class="form-floating">
                     <input type="text" class="form-control" value="{{ $lead->email }}" disabled>
                     <label for="name">E-mail</label>
                 </div>
             </div>
-            <div class="col-lg-4 col-12">
+            <div class="col-lg-6 col-12">
                 <div class="form-floating">
                     <input type="text" class="form-control" value="{{ $lead->phone }}" disabled>
                     <label for="name">Telefone</label>
@@ -53,6 +53,12 @@ Detalhes do Lead
                 <div class="form-floating">
                     <input type="text" class="form-control" value="{{ $lead->RelationBuildings->name }}" disabled>
                     <label for="name">Empreendimento</label>
+                </div>
+            </div>
+            <div class="col-lg-6 col-12">
+                <div class="form-floating">
+                    <input type="text" class="form-control" value="{{ $lead->RelationCompanies->name }}" disabled>
+                    <label for="name">Responsável</label>
                 </div>
             </div>
             <div class="col-lg-6 col-12">

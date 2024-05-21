@@ -11,9 +11,9 @@ class BuildingsSheets extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'building_id', 
-        'sheet',
         'spreadsheetID',
+        'sheet',
         'file',
+        'buildings_id', 
     ];
 }

@@ -37,23 +37,13 @@ class UsersRqt extends FormRequest
      */
     public function rules(): array
     {
-        if($this->segment(3) == 'store'){
-            return [
-                'name' => 'required|min:3',
-                'email' => 'required|min:3|unique:users,email',
-                'active' => 'required|boolean',
-                'companies' => 'required|integer',
-                'roles' => 'required|integer',
-            ];
-        } else {
-            return [
-                'name' => 'required|min:3',
-                'email' => 'required|min:3',
-                'active' => 'required|boolean',
-                'companies' => 'required|integer',
-                'roles' => 'required|integer',
-            ];
-        }
+        return [
+            'name' => 'required|min:3',
+            'email' => 'required|email|unique:users,email,'.$this->segment(3),
+            'active' => 'required|boolean',
+            'companies' => 'required|integer',
+            'roles' => 'required|integer',
+        ];
     }
 
     /**

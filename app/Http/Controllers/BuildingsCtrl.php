@@ -6,11 +6,12 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\BuildingsRqt;
 use App\Models\Buildings;
-use App\Models\BuildingsKeys;
-use App\Models\BuildingsIntegrations;
-use App\Models\BuildingsIntegrationsFields;
+use App\Models\BuildingsPartners;
 use App\Models\BuildingsDestinatarios;
 use App\Models\BuildingsSheets;
+use App\Models\BuildingsIntegrations;
+use App\Models\BuildingsIntegrationsFields;
+use App\Models\BuildingsKeys;
 use App\Models\Companies;
 use App\Models\Integrations;
 use App\Models\UsersLogs;
@@ -33,21 +34,32 @@ class BuildingsCtrl extends Controller
 
     public function store(BuildingsRqt $request)
     {    
-
         // Cadastrando novo empreendimento
         $building = Buildings::create([
             'name' => $request->name, 
             'active' => $request->active,
-            'companie_id' => $request->companie, 
         ]);
+
+        // Cadastrando novos parceiros
+        $partners = $request->input('partner');
+        if(isset($partners)){
+            foreach($partners as $index => $partner) {
+                $buildingsPartners = BuildingsPartners::create([
+                    'main' => $request->input('main')[$index], 
+                    'leads' => $request->input('leads')[$index], 
+                    'companies_id' => $request->input('partner')[$index], 
+                    'buildings_id' => $building->id, 
+                ]);
+            }
+        }
 
         // Cadastrando novos destinatários
         $destinatarios = $request->input('email');
         if(isset($destinatarios)){
             foreach($destinatarios as $destinatario) {
                 $buildingDestinatario = BuildingsDestinatarios::create([
-                    'building_id' => $building->id, 
                     'email' => $destinatario,
+                    'buildings_id' => $building->id, 
                 ]);
             }
         }
@@ -55,22 +67,20 @@ class BuildingsCtrl extends Controller
         // Cadastrando novos sheets
         $sheets = $request->input('spreadsheetID');
         if(isset($sheets)){
-            foreach($sheets as $in => $sheet) {
-
-                // Upload file
-                if($request->hasFile('file.'.$in)){
-                    $filenameWithExt = $request->file('file')[$in]->getClientOriginalName();
+            foreach($sheets as $index1 => $sheet) {
+                if($request->hasFile('file.'.$index1)){
+                    // Upload file
+                    $filenameWithExt = $request->file('file')[$index1]->getClientOriginalName();
                     $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-                    $extension = $request->file('file')[$in]->getClientOriginalExtension();
+                    $extension = $request->file('file')[$index1]->getClientOriginalExtension();
                     $fileNameToStore = $filename.'_'.time().'.'.$extension;
-                    $path = $request->file('file')[$in]->storeAs('public/google', $fileNameToStore);
+                    $path = $request->file('file')[$index1]->storeAs('public/google', $fileNameToStore);
                 }
-
                 $buildingSheet = BuildingsSheets::create([
-                    'building_id' =>$building->id, 
-                    'sheet' => $request->input('sheet')[$in],
-                    'spreadsheetID' => $request->input('spreadsheetID')[$in],
+                    'sheet' => $request->input('sheet')[$index1],
+                    'spreadsheetID' => $request->input('spreadsheetID')[$index1],
                     'file' => $fileNameToStore,
+                    'buildings_id' => $building->id, 
                 ]);
             }
         }
@@ -80,16 +90,15 @@ class BuildingsCtrl extends Controller
         if(isset($integrations)){
             foreach($integrations as $integration) {
                 $buildingIntegration = BuildingsIntegrations::create([
-                    'building_id' => $building->id, 
-                    'integration_id' => $integration['nameIntegration'],
+                    'buildings_id' => $building->id, 
+                    'integrations_id' => $integration['nameIntegration'],
                 ]);
-
-                foreach($integration['nameField'] as $index => $field) {
+                foreach($integration['nameField'] as $index2 => $field) {
                     BuildingsIntegrationsFields::create([
-                        'name' => $integration['nameField'][$index], 
-                        'value' => $integration['valueField'][$index],
-                        'buildings_has_integrations_building_id' => $building->id,
-                        'buildings_has_integrations_integration_id' => $integration['nameIntegration'],
+                        'name' => $integration['nameField'][$index2], 
+                        'value' => $integration['valueField'][$index2],
+                        'buildings_has_integrations_buildings_id' => $building->id,
+                        'buildings_has_integrations_integrations_id' => $integration['nameIntegration'],
                     ]);
                 }
             }
@@ -100,7 +109,7 @@ class BuildingsCtrl extends Controller
             'title' => 'Cadastro de novo empreendimento',
             'description' => 'Foi realizado o cadastro de um novo empreendimento: ' . $request->name . '.',
             'action' => 'create',
-            'user_id' => Auth::user()->id
+            'users_id' => Auth::user()->id
         ]);
 
         return redirect()->route('buildings.index')->with('create', true);
@@ -119,25 +128,38 @@ class BuildingsCtrl extends Controller
     public function update(BuildingsRqt $request, $id)
     {
         // Removendo os registros anteriores
-        BuildingsDestinatarios::where('building_id', $id)->forceDelete();
-        BuildingsSheets::where('building_id', $id)->forceDelete();
-        BuildingsIntegrations::where('building_id', $id)->delete();
-        BuildingsIntegrationsFields::where('buildings_has_integrations_building_id', $id)->forceDelete();
+        BuildingsPartners::where('buildings_id', $id)->forceDelete();
+        BuildingsDestinatarios::where('buildings_id', $id)->forceDelete();
+        BuildingsSheets::where('buildings_id', $id)->forceDelete();
+        BuildingsIntegrations::where('buildings_id', $id)->delete();
+        BuildingsIntegrationsFields::where('buildings_has_integrations_buildings_id', $id)->forceDelete();
 
         // Atualizando os dados do empreendimento
         Buildings::find($id)->update([
             'name' => $request->name, 
-            'active' => $request->active,
-            'companie_id' => $request->companie, 
+            'active' => $request->active, 
         ]);
+
+        // Cadastrando novos parceiros
+        $partners = $request->input('partner');
+        if(isset($partners)){
+            foreach($partners as $index => $partner) {
+                $buildingsPartners = BuildingsPartners::create([
+                    'main' => $request->input('main')[$index], 
+                    'leads' => $request->input('leads')[$index], 
+                    'companies_id' => $request->input('partner')[$index], 
+                    'buildings_id' => $id, 
+                ]);
+            }
+        }
 
         // Cadastrando novos destinatários
         $destinatarios = $request->input('email');
         if(isset($destinatarios)){
             foreach($destinatarios as $destinatario) {
                 $buildingDestinatario = BuildingsDestinatarios::create([
-                    'building_id' => $id, 
                     'email' => $destinatario,
+                    'buildings_id' => $id, 
                 ]);
             }
         }
@@ -145,32 +167,29 @@ class BuildingsCtrl extends Controller
         // Cadastrando novos sheets
         $sheets = $request->input('spreadsheetID');
         if(isset($sheets)){
-            foreach($sheets as $in => $sheet) {
-
-                // Upload file
-                if($request->hasFile('file.'.$in)){
-                    $filenameWithExt = $request->file('file')[$in]->getClientOriginalName();
+            foreach($sheets as $index1 => $sheet) {
+                if($request->hasFile('file.'.$index1)){
+                    // Upload file
+                    $filenameWithExt = $request->file('file')[$index1]->getClientOriginalName();
                     $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-                    $extension = $request->file('file')[$in]->getClientOriginalExtension();
+                    $extension = $request->file('file')[$index1]->getClientOriginalExtension();
                     $fileNameToStore = $filename.'_'.time().'.'.$extension;
-                    $path = $request->file('file')[$in]->storeAs('public/google', $fileNameToStore);
+                    $path = $request->file('file')[$index1]->storeAs('public/google', $fileNameToStore);
 
                     $buildingSheet = BuildingsSheets::create([
-                        'building_id' => $id,
-                        'sheet' => $request->input('sheet')[$in],
-                        'spreadsheetID' => $request->input('spreadsheetID')[$in],
+                        'sheet' => $request->input('sheet')[$index1],
+                        'spreadsheetID' => $request->input('spreadsheetID')[$index1],
                         'file' => $fileNameToStore,
+                        'buildings_id' => $id,
                     ]);
                 } else {
                     $buildingSheet = BuildingsSheets::create([
-                        'building_id' => $id,
-                        'sheet' => $request->input('sheet')[$in],
-                        'spreadsheetID' => $request->input('spreadsheetID')[$in],
-                        'file' => $request->input('fileexists')[$in],
+                        'sheet' => $request->input('sheet')[$index1],
+                        'spreadsheetID' => $request->input('spreadsheetID')[$index1],
+                        'file' => $request->input('fileexists')[$index1],
+                        'buildings_id' => $id,
                     ]);
                 }
-
-                
             }
         }
 
@@ -179,17 +198,16 @@ class BuildingsCtrl extends Controller
         if(isset($integrations)){
             foreach($integrations as $integration) {
                 $buildingIntegration = BuildingsIntegrations::create([
-                    'building_id' => $id, 
-                    'integration_id' => $integration['nameIntegration'],
+                    'buildings_id' => $id, 
+                    'integrations_id' => $integration['nameIntegration'],
                 ]);
-
                 if( isset($integration['nameField'][0]) ){
-                    foreach($integration['nameField'] as $index => $field) {
+                    foreach($integration['nameField'] as $index2 => $field) {
                         BuildingsIntegrationsFields::create([
-                            'name' => $integration['nameField'][$index], 
-                            'value' => $integration['valueField'][$index],
-                            'buildings_has_integrations_building_id' => $id,
-                            'buildings_has_integrations_integration_id' => $integration['nameIntegration'],
+                            'name' => $integration['nameField'][$index2], 
+                            'value' => $integration['valueField'][$index2],
+                            'buildings_has_integrations_buildings_id' => $id,
+                            'buildings_has_integrations_integrations_id' => $integration['nameIntegration'],
                         ]);
                     }
                 }
@@ -201,7 +219,7 @@ class BuildingsCtrl extends Controller
             'title' => 'Atualização das informações do empreendimento',
             'description' => 'Foi realizado a atualização das informações do empreendimento: ' . $request->name . '.',
             'action' => 'update',
-            'user_id' => Auth::user()->id
+            'users_id' => Auth::user()->id
         ]);
 
         return redirect()->route('buildings.index')->with('edit', true);
@@ -212,48 +230,60 @@ class BuildingsCtrl extends Controller
         // Salvando log
         UsersLogs::create([
             'title' => 'Exclusão de empreendimento',
-            'description' => 'Foi realizado a exclusão do empreendimento: ' .  Buildings::find($id)->name . '.',
+            'description' => 'Foi realizado a exclusão do empreendimento: ' . Buildings::find($id)->name . '.',
             'action' => 'destroy',
-            'user_id' => Auth::user()->id
+            'users_id' => Auth::user()->id
         ]);
         
-        BuildingsKeys::where('building_id', $id)->delete();
+        BuildingsKeys::where('buildings_id', $id)->delete();
         Buildings::find($id)->delete();
         return redirect()->route('buildings.index')->with('destroy', true);
     }
 
     public function duplicate(string $id){
         $building = Buildings::find($id);
-        $buildingIntegrations = BuildingsIntegrations::where('building_id', $id)->get();
-        $buildingDestinatarios = BuildingsDestinatarios::where('building_id', $id)->get();
-        $buildingSheets = BuildingsSheets::where('building_id', $id)->get();
-        $buildingIntegrationsFields = BuildingsIntegrationsFields::where('buildings_has_integrations_building_id', $id)->get();
+        $buildingsPartners = BuildingsPartners::where('buildings_id', $id)->get();
+        $buildingIntegrations = BuildingsIntegrations::where('buildings_id', $id)->get();
+        $buildingDestinatarios = BuildingsDestinatarios::where('buildings_id', $id)->get();
+        $buildingSheets = BuildingsSheets::where('buildings_id', $id)->get();
+        $buildingIntegrationsFields = BuildingsIntegrationsFields::where('buildings_has_integrations_buildings_id', $id)->get();
 
         // Cadastrando novo empreendimento
         $buildingNew = Buildings::create([
             'name' => $building->name . '_Copy', 
             'active' => $building->active,
-            'companie_id' => $building->companie_id, 
         ]);
+        
+        // Cadastrando novos parceiros
+        if(isset($buildingsPartners)){
+            foreach($buildingsPartners as $index => $partner) {
+                $buildingsPartner = BuildingsPartners::create([
+                    'main' => $partner->main, 
+                    'leads' => $partner->leads, 
+                    'companies_id' => $partner->companies_id, 
+                    'buildings_id' => $buildingNew->id, 
+                ]);
+            }
+        }
 
         // Cadastrando novos destinatários
         if(isset($buildingDestinatarios)){
             foreach($buildingDestinatarios as $destinatario) {
                 $buildingDestinatario = BuildingsDestinatarios::create([
-                    'building_id' => $buildingNew->id, 
                     'email' => $destinatario->email,
+                    'buildings_id' => $buildingNew->id, 
                 ]);
             }
         }
 
-         // Cadastrando novos sheets
+        // Cadastrando novos sheets
         if(isset($buildingSheets)){
             foreach($buildingSheets as $in => $sheet) {
                 $buildingSheet = BuildingsSheets::create([
-                    'building_id' => $buildingNew->id,
                     'sheet' => $sheet->sheet,
                     'spreadsheetID' => $sheet->spreadsheetID,
                     'file' => $sheet->file,
+                    'buildings_id' => $buildingNew->id,
                 ]);
             }
         }
@@ -262,17 +292,17 @@ class BuildingsCtrl extends Controller
         if(isset($buildingIntegrations)){
             foreach($buildingIntegrations as $integration) {
                 $buildingIntegration = BuildingsIntegrations::create([
-                    'building_id' => $buildingNew->id, 
-                    'integration_id' => $integration->integration_id,
+                    'buildings_id' => $buildingNew->id, 
+                    'integrations_id' => $integration->integrations_id,
                 ]);
 
                 foreach($buildingIntegrationsFields as $index => $field) {
-                    if($field->buildings_has_integrations_integration_id == $integration->integration_id) {
+                    if($field->buildings_has_integrations_integrations_id == $integration->integrations_id) {
                         BuildingsIntegrationsFields::create([
                             'name' => $field->name, 
                             'value' => $field->value,
-                            'buildings_has_integrations_building_id' => $buildingNew->id,
-                            'buildings_has_integrations_integration_id' => $integration->integration_id,
+                            'buildings_has_integrations_buildings_id' => $buildingNew->id,
+                            'buildings_has_integrations_integrations_id' => $integration->integrations_id,
                         ]);
                     } 
                 }
@@ -284,7 +314,7 @@ class BuildingsCtrl extends Controller
             'title' => 'Duplicação do empreendimento',
             'description' => 'Foi realizada o duplicação do empreendimento ' . $building->name . ' com o nome ' . $buildingNew->name . '.',
             'action' => 'duplicate',
-            'user_id' => Auth::user()->id
+            'users_id' => Auth::user()->id
         ]);
         
         return redirect()->route('buildings.index')->with('duplicate', true);

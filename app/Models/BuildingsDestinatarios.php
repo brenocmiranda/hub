@@ -12,7 +12,7 @@ class BuildingsDestinatarios extends Model
     use HasFactory, SoftDeletes, Notifiable;
 
     protected $fillable = [
-        'building_id', 
         'email',
+        'buildings_id', 
     ];
 }

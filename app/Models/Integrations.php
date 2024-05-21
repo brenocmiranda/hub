@@ -21,5 +21,11 @@ class Integrations extends Model
         'password',
         'token',
         'header',
+        'companies_id',
     ];
+
+    public function RelationCompanies()
+    {
+        return $this->belongsTo(Companies::class, 'companies_id', 'id');
+    }
 }

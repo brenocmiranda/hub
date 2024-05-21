@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\BuildingsKeysRqt;
 use App\Models\Buildings;
 use App\Models\BuildingsKeys;
+use App\Models\BuildingsPartners;
 use App\Models\Companies;
 use App\Models\UsersLogs;
 
@@ -18,7 +19,7 @@ class BuildingsKeysCtrl extends Controller
     
     public function index()
     {
-        return view('buildings.keys.index')->with('keys', BuildingsKeys::join('buildings', 'buildings.id', '=', 'buildings_keys.building_id')->select("buildings_keys.*")->orderBy('buildings.name', 'asc')->get());
+        return view('buildings.keys.index')->with('keys', BuildingsKeys::join('buildings', 'buildings.id', '=', 'buildings_keys.buildings_id')->select("buildings_keys.*")->orderBy('buildings.name', 'asc')->get());
     }
 
     public function create()
@@ -26,9 +27,13 @@ class BuildingsKeysCtrl extends Controller
         $companies = Companies::where('active', 1)->orderBy('name', 'asc')->get();
         $buildings = Buildings::where('active', 1)->orderBy('name', 'asc')->get();
         
+        foreach($buildings as $building){
+            $building->companie = BuildingsPartners::where('buildings_id', $building->id)->where('main', 1)->first()->companies_id;
+        }
+        
         foreach($companies as $companie){
             foreach($buildings as $building){ 
-                if($companie->id == $building->companie_id){
+                if( $companie->id == $building->companie ){
                     $array[$companie->name][] = $building;
                 }
             }
@@ -41,7 +46,7 @@ class BuildingsKeysCtrl extends Controller
     {      
         BuildingsKeys::create([
             'value' => $request->value, 
-            'building_id' => $request->building, 
+            'buildings_id' => $request->building, 
             'active' => $request->active,
         ]);
 
@@ -50,7 +55,7 @@ class BuildingsKeysCtrl extends Controller
             'title' => 'Cadastro de nova chave',
             'description' => 'Foi realizado o cadastro de uma nova chave: ' . $request->value . '.',
             'action' => 'create',
-            'user_id' => Auth::user()->id
+            'users_id' => Auth::user()->id
         ]);
 
         return redirect()->route('buildings.keys.index')->with('create', true);
@@ -66,9 +71,13 @@ class BuildingsKeysCtrl extends Controller
         $companies = Companies::where('active', 1)->orderBy('name', 'asc')->get();
         $buildings = Buildings::where('active', 1)->orderBy('name', 'asc')->get();
 
+        foreach($buildings as $building){
+            $building->companie = BuildingsPartners::where('buildings_id', $building->id)->where('main', 1)->first()->companies_id;
+        }
+        
         foreach($companies as $companie){
             foreach($buildings as $building){ 
-                if($companie->id == $building->companie_id){
+                if( $companie->id == $building->companie ){
                     $array[$companie->name][] = $building;
                 }
             }
@@ -81,7 +90,7 @@ class BuildingsKeysCtrl extends Controller
     {
         BuildingsKeys::find($id)->update([
             'value' => $request->value, 
-            'building_id' => $request->building, 
+            'buildings_id' => $request->building, 
             'active' => $request->active,
         ]);
 
@@ -90,7 +99,7 @@ class BuildingsKeysCtrl extends Controller
             'title' => 'Atualização das informações da chave',
             'description' => 'Foi realizado a atualização das informações da chave: ' . $request->value . '.',
             'action' => 'update',
-            'user_id' => Auth::user()->id
+            'users_id' => Auth::user()->id
         ]);
 
         return redirect()->route('buildings.keys.index')->with('edit', true);
@@ -103,7 +112,7 @@ class BuildingsKeysCtrl extends Controller
             'title' => 'Exclusão de chave',
             'description' => 'Foi realizado a exclusão da chave: ' .  BuildingsKeys::find($id)->value . '.',
             'action' => 'destroy',
-            'user_id' => Auth::user()->id
+            'users_id' => Auth::user()->id
         ]);
 
         BuildingsKeys::find($id)->delete();

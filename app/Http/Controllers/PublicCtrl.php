@@ -7,13 +7,14 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use App\Http\Requests\LoginRqt;
 use App\Http\Requests\RecoveryRqt;
 use App\Http\Requests\VerifyRqt;
 use App\Models\Users;
 use App\Models\UsersLogs;
-use App\Notifications\RecoveryPassword;
-use App\Notifications\ResetPassword;
+use App\Mail\RecoveryPassword;
+use App\Mail\ResetPassword;
 
 class PublicCtrl extends Controller
 {
@@ -45,7 +46,7 @@ class PublicCtrl extends Controller
                     'title' => 'Efetuando o logon',
                     'description' => 'Foi realizado o logon na plataforma.',
                     'action' => 'login',
-                    'user_id' => Users::where('email', $request->email)->first()->id
+                    'users_id' => Users::where('email', $request->email)->first()->id
                 ]);
 
                 return redirect()->intended(route('home'));
@@ -68,7 +69,7 @@ class PublicCtrl extends Controller
                     'title' => 'Bloqueio de usuário',
                     'description' => 'Foi realizado o bloqueio do usuários devido a quantidade de tentativas falhas.',
                     'action' => 'block',
-                    'user_id' => Users::where('email', $request->email)->first()->id
+                    'users_id' => Users::where('email', $request->email)->first()->id
                 ]);
 
                 return back()->withErrors([
@@ -91,14 +92,14 @@ class PublicCtrl extends Controller
     {   
         $user = Users::where('email', $request->email)->first();
         if(!empty($user->email)){ 
-            $user->notify(new RecoveryPassword($user));
+            Mail::to( $user->email )->send(new RecoveryPassword($user));
            
             // Salvando log
             UsersLogs::create([
                 'title' => 'Solicitação de recuperação de senha',
                 'description' => 'Foi realizada a solicitação de recuperação de senha do seu usuário.',
                 'action' => 'recovery',
-                'user_id' => Users::where('email', $request->email)->first()->id
+                'users_id' => Users::where('email', $request->email)->first()->id
             ]);
 
             return redirect()->route('login')->with('mailto', true);
@@ -142,10 +143,11 @@ class PublicCtrl extends Controller
             'title' => 'Troca de senha',
             'description' => 'Foi realizada a alteração da sua senha de login.',
             'action' => 'reset',
-            'user_id' => Users::find($user->id)->id
+            'users_id' => Users::find($user->id)->id
         ]);
 
-        $user->notify(new ResetPassword($user));
+        Mail::to( $user->email )->send(new ResetPassword($user));
+
         return redirect()->route('login')->with('reset', true);
     }
 }

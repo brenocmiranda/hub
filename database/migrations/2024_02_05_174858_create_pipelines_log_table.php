@@ -15,8 +15,9 @@ return new class extends Migration
             $table->id();
             $table->longText('header');
             $table->longText('response');
-            $table->unsignedBigInteger('pipeline_id');
-            $table->foreign('pipeline_id')->references('id')->on('pipelines');
+            $table->unsignedBigInteger('pipelines_id');
+            $table->foreign('pipelines_id')->references('id')->on('pipelines');
+            $table->softDeletes($column = 'deleted_at', $precision = 0);
             $table->timestamps();
         });
     }

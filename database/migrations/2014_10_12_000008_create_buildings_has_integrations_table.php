@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('buildings_has_integrations', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('building_id');
-            $table->foreign('building_id')->references('id')->on('buildings');
-            $table->unsignedBigInteger('integration_id');
-            $table->foreign('integration_id')->references('id')->on('integrations');
+            $table->unsignedBigInteger('buildings_id');
+            $table->foreign('buildings_id')->references('id')->on('buildings');
+            $table->unsignedBigInteger('integrations_id');
+            $table->foreign('integrations_id')->references('id')->on('integrations');
             $table->softDeletes($column = 'deleted_at', $precision = 0);
             $table->timestamps();
         });

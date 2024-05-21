@@ -5,10 +5,6 @@ Usuários
 @endsection
 
 @section('buttons')
-    <a href="{{ route('users.roles.index') }}" class="btn btn-dark">
-        <i class="bi bi-person-fill-gear"></i>
-        <span>Funções</span>
-    </a>
     <a href="{{ route('users.create') }}" class="btn btn-primary">
         <i class="bi bi-plus-lg"></i>
         <span>Novo</span>

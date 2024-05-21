@@ -12,6 +12,7 @@ use App\Http\Controllers\PrivateCtrl;
 use App\Http\Controllers\PublicCtrl;
 use App\Http\Controllers\ProfileCtrl;
 use App\Http\Controllers\PipelinesCtrl;
+use App\Http\Controllers\RelatoriosCtrl;
 use App\Http\Controllers\UsersCtrl;
 use App\Http\Controllers\UsersRolesCtrl;
 use App\Http\Controllers\UsersTokensCtrl;
@@ -53,7 +54,7 @@ Route::group(['prefix' => 'app'], function () {
     });
 
     // Leads
-    Route::resource('leads', LeadsCtrl::class)->only([ 'index', 'create', 'store', 'show' ]);
+    Route::resource('leads', LeadsCtrl::class)->only([ 'index', 'create', 'store', 'destroy', 'show' ]);
     Route::any('leads/all/search', [LeadsCtrl::class, 'search'])->name('leads.search');
     Route::get('retryAll', [LeadsCtrl::class, 'retryAll'])->name('leads.retryAll');
     Route::get('retry/{id}', [LeadsCtrl::class, 'retry'])->name('leads.retry');
@@ -100,6 +101,22 @@ Route::group(['prefix' => 'app'], function () {
 
     // Integrations
     Route::resource('integrations', IntegrationsCtrl::class);
+
+    // Relatórios
+    Route::group(['prefix' => 'reports'], function () {
+        Route::group(['prefix' => 'leads'], function () {
+            Route::get('/', [RelatoriosCtrl::class, 'reportsLeads'])->name('reports.leads');
+            Route::any('generate', [RelatoriosCtrl::class, 'reportsLeadsGenerate'])->name('reports.leads.generate');
+        });
+        Route::group(['prefix' => 'buildings'], function () {
+            Route::get('/', [RelatoriosCtrl::class, 'reportsBuildings'])->name('reports.buildings');
+            Route::any('generate', [RelatoriosCtrl::class, 'reportsBuildingsGenerate'])->name('reports.buildings.generate');
+        });
+        Route::group(['prefix' => 'integrations'], function () {
+            Route::get('/', [RelatoriosCtrl::class, 'reportsIntegrations'])->name('reports.integrations');
+            Route::any('generate', [RelatoriosCtrl::class, 'reportsIntegrationsGenerate'])->name('reports.integrations.generate');
+        });
+    });
 
     // Usuários
     Route::resource('users', UsersCtrl::class);

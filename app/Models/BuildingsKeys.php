@@ -13,11 +13,11 @@ class BuildingsKeys extends Model
     protected $fillable = [
         'active',
         'value',
-        'building_id',
+        'buildings_id',
     ];
 
     public function RelationBuildings()
     {
-        return $this->belongsTo(Buildings::class, 'building_id', 'id');
+        return $this->belongsTo(Buildings::class, 'buildings_id', 'id');
     }
 }

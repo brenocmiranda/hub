@@ -6,6 +6,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\IntegrationsRqt;
 use App\Models\Integrations;
+use App\Models\Companies;
 use App\Models\UsersLogs;
 
 class IntegrationsCtrl extends Controller
@@ -21,7 +22,7 @@ class IntegrationsCtrl extends Controller
 
     public function create()
     {      
-        return view('integrations.create');
+        return view('integrations.create')->with('companies', Companies::where('active', 1)->orderBy('name', 'asc')->get());
     }
 
     public function store(IntegrationsRqt $request)
@@ -37,6 +38,7 @@ class IntegrationsCtrl extends Controller
             'password' => $request->password ? $request->password : "",
             'token' => $request->token ? $request->token : "",
             'header' => $request->header ? $request->header : "",
+            'companies_id' => $request->companie
         ]);
 
         // Salvando log
@@ -44,7 +46,7 @@ class IntegrationsCtrl extends Controller
             'title' => 'Cadastro de nova integração',
             'description' => 'Foi realizado o cadastro de uma nova integração: ' . $request->name . '.',
             'action' => 'create',
-            'user_id' => Auth::user()->id
+            'users_id' => Auth::user()->id
         ]);
 
         return redirect()->route('integrations.index')->with('create', true);
@@ -57,7 +59,7 @@ class IntegrationsCtrl extends Controller
 
     public function edit(string $id)
     {      
-        return view('integrations.edit')->with('integration', Integrations::find($id));
+        return view('integrations.edit')->with('integration', Integrations::find($id))->with('companies', Companies::where('active', 1)->orderBy('name', 'asc')->get());
     } 
 
     public function update(IntegrationsRqt $request, string $id)
@@ -73,6 +75,7 @@ class IntegrationsCtrl extends Controller
             'password' => $request->password ? $request->password : "",
             'token' => $request->token ? $request->token : "",
             'header' => $request->header ? $request->header : "",
+            'companies_id' => $request->companie
         ]);
 
         // Salvando log
@@ -80,7 +83,7 @@ class IntegrationsCtrl extends Controller
             'title' => 'Atualização das informações da integração',
             'description' => 'Foi realizado a atualização das informações da integração: ' . $request->name . '.',
             'action' => 'update',
-            'user_id' => Auth::user()->id
+            'users_id' => Auth::user()->id
         ]);
 
         return redirect()->route('integrations.index')->with('edit', true);
@@ -93,7 +96,7 @@ class IntegrationsCtrl extends Controller
             'title' => 'Exclusão da integração',
             'description' => 'Foi realizado a exclusão da integração: ' .  Integrations::find($id)->name . '.',
             'action' => 'destroy',
-            'user_id' => Auth::user()->id
+            'users_id' => Auth::user()->id
         ]);
         
         Integrations::find($id)->delete();

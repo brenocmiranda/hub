@@ -21,9 +21,9 @@ class DashboardsCtrl extends Controller
         $leadsAVG = Leads::select( DB::raw('DATE_FORMAT(created_at, "%d-%b-%Y") as created_at_1, count(created_at) as count') )->groupBy('created_at_1')->get();
         $leadsTotal = Leads::select( DB::raw('DATE_FORMAT(created_at, "%d-%b-%Y") as created_at_1, count(created_at) as count') )->groupBy('created_at_1')->get();
 
-        $leadsForBuildings = Leads::select('building_id', DB::raw('count(building_id) as count'))->groupBy('building_id')->get();
-        $leadsForOrigins = Leads::select('leads_origin_id', DB::raw('count(leads_origin_id) as count'))->groupBy('leads_origin_id')->get();
-        $leadsForCompanies = Leads::join('buildings', 'leads.building_id', 'buildings.id')->join('companies', 'buildings.companie_id', 'companies.id')->select(DB::raw('count(companies.name) as count, companies.name'))->groupBy('name')->get();
+        $leadsForBuildings = Leads::select('buildings_id', DB::raw('count(buildings_id) as count'))->groupBy('buildings_id')->get();
+        $leadsForOrigins = Leads::select('leads_origins_id', DB::raw('count(leads_origins_id) as count'))->groupBy('leads_origins_id')->get();
+        $leadsForCompanies = Leads::join('buildings', 'leads.buildings_id', 'buildings.id')->join('companies', 'buildings.companies_id', 'companies.id')->select(DB::raw('count(companies.name) as count, companies.name'))->groupBy('name')->get();
         $leadsForUtmSource = Leads::join('leads_fields', 'leads_fields.leads_id', 'leads.id')->where('leads_fields.name', 'utm_source')->select(DB::raw('count(leads_fields.value) as count, leads_fields.value'))->groupBy('leads_fields.value')->get();
         $leadsForUtmCampaign = Leads::join('leads_fields', 'leads_fields.leads_id', 'leads.id')->where('leads_fields.name', 'utm_campaign')->select(DB::raw('count(leads_fields.value) as count, leads_fields.value'))->groupBy('leads_fields.value')->get();
 

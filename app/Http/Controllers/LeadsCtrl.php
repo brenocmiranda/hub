@@ -7,11 +7,14 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\LeadsRqt;
 use App\Models\Buildings;
+use App\Models\BuildingsPartners;
 use App\Models\Companies;
 use App\Models\Leads;
 use App\Models\LeadsFields;
 use App\Models\LeadsOrigins;
 use App\Models\UsersLogs;
+use App\Models\Pipelines;
+use App\Models\PipelinesLog;
 use App\Jobs\ProcessBuildingJobs;
 
 class LeadsCtrl extends Controller
@@ -22,7 +25,7 @@ class LeadsCtrl extends Controller
     
     public function index()
     {
-        return view('leads.index')->with('leads', Leads::orderBy('created_at', 'desc')->get());
+        return view('leads.index')->with('leads', Leads::select('created_at', 'name', 'companies_id', 'buildings_id', 'leads_origins_id', 'batches_id', 'id')->orderBy('created_at', 'desc')->get());
     }
 
     public function create()
@@ -30,9 +33,13 @@ class LeadsCtrl extends Controller
         $companies = Companies::where('active', 1)->orderBy('name', 'asc')->get();
         $buildings = Buildings::where('active', 1)->orderBy('name', 'asc')->get();
         
+        foreach($buildings as $building){
+            $building->companie = BuildingsPartners::where('buildings_id', $building->id)->where('main', 1)->first()->companies_id;
+        }
+        
         foreach($companies as $companie){
             foreach($buildings as $building){ 
-                if($companie->id == $building->companie_id){
+                if( $companie->id == $building->companie ){
                     $array[$companie->name][] = $building;
                 }
             }
@@ -43,16 +50,38 @@ class LeadsCtrl extends Controller
 
     public function store(LeadsRqt $request)
     {   
+        // Defined partner responsible
+        $partners = BuildingsPartners::where( 'buildings_id', $request->building )->orderBy('created_at', 'desc')->get();
+        if( $partners->first() ){
+            foreach( $partners as $partner ){
+                if( $partner->leads == 99 ){
+                    $companie = $partner->companies_id;
+                    break;
+                } else {
+                    $countAllPartners = BuildingsPartners::where( 'buildings_id', $request->building )->select('leads')->sum('leads');
+                    $leads = Leads::where( 'buildings_id', $request->building )->orderBy('created_at', 'desc')->take( $countAllPartners - 1)->get();
+                    $leadsPartner = $leads->sortBy('created_at')->where( 'companies_id', $partner->companies_id )->count();
+ 
+                    if( $leadsPartner < $partner->leads ){
+                        $companie = $partner->companies_id;
+                        break;
+                    }
+                }
+            }
+        }   
+        $companie = isset($companie) ? $companie : BuildingsPartners::where( 'buildings_id', $request->building )->where('main', 1)->first()->companies_id;
+
         $tel = preg_replace( '/\D/', '', str_replace( '+55', '', $request->phone ));
 	    $phone = strlen( $tel ) < 10  ? substr( $tel . str_repeat( '9', 11 ), 0, 11 ) : $tel;
 
         $lead = Leads::create([
             'api' => false, 
-            'name' => $request->name, 
+            'name' => ucwords($request->name), 
             'phone' => $phone, 
-            'email' => $request->email,
-            'building_id' => $request->building,
-            'leads_origin_id' => $request->origin,
+            'email' => strtolower($request->email),
+            'buildings_id' => $request->building,
+            'leads_origins_id' => $request->origin,
+            'companies_id' => $companie,
         ]);
 
         // Cadastrando novas integrações e novos campos
@@ -75,7 +104,7 @@ class LeadsCtrl extends Controller
             'title' => 'Cadastro de novo lead',
             'description' => 'Foi realizado o cadastro de um novo lead: ' . $request->name . '.',
             'action' => 'create',
-            'user_id' => Auth::user()->id
+            'users_id' => Auth::user()->id
         ]);
 
         return redirect()->route('leads.index')->with('create', true);
@@ -88,7 +117,7 @@ class LeadsCtrl extends Controller
             'title' => 'Visualização de lead',
             'description' => 'Foi realizada a visualização das informações do lead: ' . Leads::find($id)->name . '.',
             'action' => 'show',
-            'user_id' => Auth::user()->id
+            'users_id' => Auth::user()->id
         ]);
 
         return view('leads.show')->with('lead', Leads::find($id));
@@ -105,8 +134,17 @@ class LeadsCtrl extends Controller
     }
 
     public function destroy(string $id)
-    {      
-        //
+    {   
+
+        $pipelines = Pipelines::where('leads_id', $id)->get();
+        foreach( $pipelines as $pipeline ) {
+            PipelinesLog::where( 'pipelines_id', $pipeline->id )->delete();
+        }
+        Pipelines::where('leads_id', $id)->delete();
+        LeadsFields::where('leads_id', $id)->delete();
+        Leads::find($id)->delete();
+
+        return redirect()->route('leads.index')->with('destroy', true);
     }
 
     public function search(){
@@ -127,22 +165,24 @@ class LeadsCtrl extends Controller
             'title' => 'Tentar novamente todos',
             'description' => 'Foi realizado uma nova tentativa de integração de todos os lead com erro.',
             'action' => 'retryAll',
-            'user_id' => Auth::user()->id
+            'users_id' => Auth::user()->id
         ]);
 
-        return redirect()->route('leads.index')->with( 'retryAll', true );
+        return redirect()->route('leads.pipelines.index')->with( 'retryAll', true );
     }
 
+    // Problem
     public function retry($id){ 
         $lead = Leads::find($id);
-        Artisan::call('queue:retry', ['id' => [ $lead->batches_id ]]);
+        $batches = $lead->batches_id;
+        Artisan::call('queue:retry-batch', ['id' => $batches]);
 
         // Salvando log
         UsersLogs::create([
             'title' => 'Tentar novamente',
-            'description' => 'Foi realizado uma nova tentativa de integração do lead: ' . Leads::find($id)->name . '.',
+            'description' => 'Foi realizado uma nova tentativa de integração do lead: ' . $lead->name . '.',
             'action' => 'retry',
-            'user_id' => Auth::user()->id
+            'users_id' => Auth::user()->id
         ]);
         
         return redirect()->back()->with( 'retry', true );
@@ -156,7 +196,7 @@ class LeadsCtrl extends Controller
             'title' => 'Reenvio do lead',
             'description' => 'Foi realizado o reenvio do lead: ' . Leads::find($id)->name . '.',
             'action' => 'resend',
-            'user_id' => Auth::user()->id
+            'users_id' => Auth::user()->id
         ]);
 
         return redirect()->route('leads.show', $id)->with( 'resend', true );

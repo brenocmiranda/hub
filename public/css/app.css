@@ -98,9 +98,13 @@ abbr {
     background: var(--gray);
 }
 
+.full-page .content-wrapper header h2 {
+    margin-bottom: 3px;
+}
+
 /** Navbar **/
 .full-page nav {
-    padding: 20px;
+    padding: 20px 15px;
 }
 
 .full-page nav .menu a {
@@ -233,6 +237,14 @@ abbr {
     display: block;
 }
 
+.full-page aside.mobile ul .nav-item a:after {
+    display: none;
+}
+
+.full-page aside.mobile:hover ul .nav-item a:after {
+    display: block;
+}
+
 .full-page aside .perfil-img {
     width: 40px;
     height: 40px;
@@ -241,9 +253,38 @@ abbr {
     justify-content: center;
 }
 
+.full-page aside ul .nav-item a {
+    position: relative;
+}
+
+.full-page aside ul .nav-item a[aria-expanded="false"]:after {
+    content: '';
+    background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'%3e%3cpath d='M2 5L8 11L14 5'/%3e%3c/svg%3e") no-repeat center / contain;
+    width: 12px;
+    height: 12px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 15px;
+    margin: auto;
+}
+
+.full-page aside ul .nav-item a[aria-expanded="true"]:after {
+    content: '';
+    background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'%3e%3cpath d='M2 5L8 11L14 5'/%3e%3c/svg%3e") no-repeat center / contain;
+    width: 12px;
+    height: 12px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 15px;
+    margin: auto;
+    transform: rotate(180deg);
+}
+
 /** Main **/
 main:not(.login main, .verify main) {
-    padding: 20px;
+    padding: 5px 15px 10px;
     min-height: calc(100vh - 82px);
     display: flex;
     flex-direction: column;
@@ -282,15 +323,15 @@ footer {
 }
 
 /** Barra de rolagem **/
-body::-webkit-scrollbar {
+::-webkit-scrollbar {
     width: 12px;
 }
 
-body::-webkit-scrollbar-track {
+::-webkit-scrollbar-track {
     background: var(--gray-light);
 }
 
-body::-webkit-scrollbar-thumb {
+::-webkit-scrollbar-thumb {
     background-color: var(--bs-gray-500);
     border-radius: 20px;
     border: 3px solid var(--gray-light);
@@ -312,4 +353,9 @@ body::-webkit-scrollbar-thumb {
     font-weight: 500;
 }
 
-
+/** Bootstrap Table **/
+.bootstrap-table .fixed-table-toolbar .bs-bars,
+.bootstrap-table .fixed-table-toolbar .columns,
+.bootstrap-table .fixed-table-toolbar .search {
+    margin-top: 0;
+}

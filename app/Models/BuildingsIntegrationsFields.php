@@ -15,17 +15,17 @@ class BuildingsIntegrationsFields extends Model
     protected $fillable = [
         'name',
         'value', 
-        'buildings_has_integrations_building_id',
-        'buildings_has_integrations_integration_id',
+        'buildings_has_integrations_buildings_id',
+        'buildings_has_integrations_integrations_id',
     ];
 
     public function RelationBuildings()
     {
-        return $this->belongsTo(Buildings::class, 'buildings_has_integrations_building_id', 'id');
+        return $this->belongsTo(Buildings::class, 'buildings_has_integrations_buildings_id', 'id');
     }
 
     public function RelationIntegrations()
     {
-        return $this->belongsTo(Integrations::class, 'buildings_has_integrations_integration_id', 'id');
+        return $this->belongsTo(Integrations::class, 'buildings_has_integrations_integrations_id', 'id');
     }
 }

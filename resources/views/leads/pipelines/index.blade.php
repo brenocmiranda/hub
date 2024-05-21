@@ -7,7 +7,7 @@ Pipelines
 @section('buttons')
     <a href="{{ route('leads.retryAll') }}" class="btn btn-danger retryAll">
         <i class="bi bi-arrow-repeat"></i>
-        <span>Retry</span>
+        <span>Retry All</span>
     </a>
 @endsection
 
