@@ -55,6 +55,12 @@ Relatório das integrações
                         </span>
                     </label>
                     <label class="list-group-item d-flex gap-2">
+                        <input class="form-check-input flex-shrink-0" type="checkbox" name="active" checked>
+                        <span>
+                            Status
+                        </span>
+                    </label>
+                    <label class="list-group-item d-flex gap-2">
                         <input class="form-check-input flex-shrink-0" type="checkbox" name="user">
                         <span>
                             User
@@ -82,12 +88,6 @@ Relatório das integrações
                         <input class="form-check-input flex-shrink-0" type="checkbox" name="companie">
                         <span>
                             Empresa
-                        </span>
-                    </label>
-                    <label class="list-group-item d-flex gap-2">
-                        <input class="form-check-input flex-shrink-0" type="checkbox" name="active">
-                        <span>
-                            Status
                         </span>
                     </label>
                 </div>

@@ -37,6 +37,18 @@ Relatório dos empreendimentos
                         </span>
                     </label>
                     <label class="list-group-item d-flex gap-2">
+                        <input class="form-check-input flex-shrink-0" type="checkbox" name="companie" checked>
+                        <span>
+                            Empresas
+                        </span>
+                    </label>
+                    <label class="list-group-item d-flex gap-2">
+                        <input class="form-check-input flex-shrink-0" type="checkbox" name="active" checked>
+                        <span>
+                            Status
+                        </span>
+                    </label>
+                    <label class="list-group-item d-flex gap-2">
                         <input class="form-check-input flex-shrink-0" type="checkbox" name="destinatarios">
                         <span>
                             Destinatarios
@@ -52,18 +64,6 @@ Relatório dos empreendimentos
                         <input class="form-check-input flex-shrink-0" type="checkbox" name="sheets">
                         <span>
                             Sheets
-                        </span>
-                    </label>
-                    <label class="list-group-item d-flex gap-2">
-                        <input class="form-check-input flex-shrink-0" type="checkbox" name="companie" checked>
-                        <span>
-                            Empresas
-                        </span>
-                    </label>
-                    <label class="list-group-item d-flex gap-2">
-                        <input class="form-check-input flex-shrink-0" type="checkbox" name="active" checked>
-                        <span>
-                            Status
                         </span>
                     </label>
                 </div>
