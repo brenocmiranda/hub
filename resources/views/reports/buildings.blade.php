@@ -31,37 +31,37 @@ Relatório dos empreendimentos
                         </span>
                     </label>
                     <label class="list-group-item d-flex gap-2">
-                        <input class="form-check-input flex-shrink-0" type="checkbox" name="destinatarios" checked>
-                        <span>
-                            Destinatarios
-                        </span>
-                    </label>
-                    <label class="list-group-item d-flex gap-2">
-                        <input class="form-check-input flex-shrink-0" type="checkbox" name="integrations" checked>
-                        <span>
-                            Integrações
-                        </span>
-                    </label>
-                    <label class="list-group-item d-flex gap-2">
-                        <input class="form-check-input flex-shrink-0" type="checkbox" name="sheets" checked>
-                        <span>
-                            Sheets
-                        </span>
-                    </label>
-                    <label class="list-group-item d-flex gap-2">
                         <input class="form-check-input flex-shrink-0" type="checkbox" name="keys" checked>
                         <span>
                             Chaves
                         </span>
                     </label>
                     <label class="list-group-item d-flex gap-2">
-                        <input class="form-check-input flex-shrink-0" type="checkbox" name="companie">
+                        <input class="form-check-input flex-shrink-0" type="checkbox" name="destinatarios">
+                        <span>
+                            Destinatarios
+                        </span>
+                    </label>
+                    <label class="list-group-item d-flex gap-2">
+                        <input class="form-check-input flex-shrink-0" type="checkbox" name="integrations">
+                        <span>
+                            Integrações
+                        </span>
+                    </label>
+                    <label class="list-group-item d-flex gap-2">
+                        <input class="form-check-input flex-shrink-0" type="checkbox" name="sheets">
+                        <span>
+                            Sheets
+                        </span>
+                    </label>
+                    <label class="list-group-item d-flex gap-2">
+                        <input class="form-check-input flex-shrink-0" type="checkbox" name="companie" checked>
                         <span>
                             Empresas
                         </span>
                     </label>
                     <label class="list-group-item d-flex gap-2">
-                        <input class="form-check-input flex-shrink-0" type="checkbox" name="active">
+                        <input class="form-check-input flex-shrink-0" type="checkbox" name="active" checked>
                         <span>
                             Status
                         </span>

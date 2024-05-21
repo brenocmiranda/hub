@@ -2,28 +2,28 @@
     <thead bgcolor="#f3f3f3">
     <tr>
         @if( array_search('created_at', $items) !== false)
-            <th>Data</th>
+            <th align="center">Data</th>
         @endif
         @if( array_search('name', $items) !== false)
-            <th>Nome</th>
+            <th align="center">Nome</th>
         @endif
         @if( array_search('destinatarios', $items) !== false)
-            <th>Destinatarios</th>
+            <th align="center">Destinatarios</th>
         @endif
         @if( array_search('integrations', $items) !== false)
-            <th>Integrações</th>
+            <th align="center">Integrações</th>
         @endif
         @if( array_search('sheets', $items) !== false)
-            <th>Sheets</th>
+            <th align="center">Sheets</th>
         @endif
         @if( array_search('keys', $items) !== false)
-            <th>Chaves</th>
+            <th align="center">Chaves</th>
         @endif
         @if( array_search('companie', $items) !== false)
-            <th>Empresas</th>
+            <th align="center">Empresas</th>
         @endif
         @if( array_search('active', $items) !== false)
-            <th>Status</th>
+            <th align="center">Status</th>
         @endif
     </tr>
     </thead>
