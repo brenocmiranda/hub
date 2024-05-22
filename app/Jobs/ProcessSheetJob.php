@@ -24,18 +24,20 @@ class ProcessSheetJob implements ShouldQueue
     public $tries = 3;
     public $backoff = 60;
 
-    public function __construct(protected $lead, protected $sheet)
+    public function __construct(protected $lead)
     {
         $this->lead = $lead;
-        $this->sheet = $sheet;
     }
 
     public function handle(): void
     {
-        config([
-            'google.service.enable' => true,
-            'google.service.file' => storage_path('app/public/google/'. $this->sheet->file),
-        ]);
+        $sheets = BuildingsSheets::where('building_id', $this->lead->building_id)->get();
+        foreach( $sheets as $sheet ){
+
+            config([
+                'google.service.enable' => true,
+                'google.service.file' => storage_path('app/public/google/'. $sheet->file),
+            ]);
 
             $data = $this->lead->created_at->format("d/m/Y H:i:s");
             $origin = $this->lead->RelationOrigins->name;
@@ -80,14 +82,14 @@ class ProcessSheetJob implements ShouldQueue
         $pipeline = Pipelines::create([
             'statusCode' => 2,
             'attempts' => $this->attempts(),
-            'leads_id' => $this->lead->id,
-            'buildings_id' => $this->lead->buildings_id,
-            'integrations_id' => null
+            'lead_id' => $this->lead->id,
+            'buildings_has_integrations_building_id' => $this->lead->RelationBuildings->id,
+            'buildings_has_integrations_integration_id' => null
         ]);
         PipelinesLog::create([
             'header' => 'Envio dos dados para o sheets',
             'response' => json_encode($sl),
-            'pipelines_id' => $pipeline->id
+            'pipeline_id' => $pipeline->id
         ]);
     }
 }
