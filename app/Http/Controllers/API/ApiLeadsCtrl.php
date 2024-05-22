@@ -122,7 +122,7 @@ class ApiLeadsCtrl extends Controller
 
                 parse_str( $request->url_params, $output );
 
-                if($output['utm_source']) {
+                if( !empty($output['utm_source']) ) {
                     $fields['nameField'][] = 'utm_source';
                     if($output['utm_source'] === 'fb'){
                         $fields['valueField'][] = 'facebook';
