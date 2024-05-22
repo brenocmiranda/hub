@@ -34,7 +34,7 @@ Artisan::command('factory', function () {
 })->purpose('Executar configurações default do sistema.');
 
 Artisan::command('buildings', function () {
-    ProcessBuildingJobs::dispatch(1);    
+    ProcessBuildingJobs::dispatch(51);    
 })->purpose('Testar processo de integração por lead.');
 
 Artisan::command('email', function () {
