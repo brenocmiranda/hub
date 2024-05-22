@@ -123,34 +123,44 @@ class ApiLeadsCtrl extends Controller
 
                 parse_str( $request->url_params, $output );
 
-                $fields['nameField'][] = 'utm_source';
-                if($output['utm_source'] === 'fb'){
-                    $fields['valueField'][] = 'facebook';
-                }
-                else if($output['utm_source'] === 'ig'){
-                    $fields['valueField'][] = 'instagram';
-                }
-                else if($output['utm_source'] === 'VivaReal'){
-                    $fields['valueField'][] = 'vivareal';
-                }
-                else if($output['utm_source'] === 'Zap'){
-                    $fields['valueField'][] = 'zapimoveis';
-                }
-                else{
-                    $fields['valueField'][] = $output['utm_source'];
+                if( !empty($output['utm_source']) ) {
+                    $fields['nameField'][] = 'utm_source';
+                    if($output['utm_source'] === 'fb'){
+                        $fields['valueField'][] = 'facebook';
+                    }
+                    else if($output['utm_source'] === 'ig'){
+                        $fields['valueField'][] = 'instagram';
+                    }
+                    else if($output['utm_source'] === 'VivaReal'){
+                        $fields['valueField'][] = 'vivareal';
+                    }
+                    else if($output['utm_source'] === 'Zap'){
+                        $fields['valueField'][] = 'zapimoveis';
+                    }
+                    else{
+                        $fields['valueField'][] = $output['utm_source'];
+                    }
                 }
 
-                $fields['nameField'][] = 'utm_campaign';
-                $fields['valueField'][] = $output['utm_campaign'];
+                if( !empty($output['utm_campaign']) ) {
+                    $fields['nameField'][] = 'utm_campaign';
+                    $fields['valueField'][] = $output['utm_campaign'];
+                }
+                
+                if( !empty($output['utm_medium']) ) {
+                    $fields['nameField'][] = 'utm_medium';
+                    $fields['valueField'][] = $output['utm_medium'];
+                }
 
-                $fields['nameField'][] = 'utm_medium';
-                $fields['valueField'][] = $output['utm_medium'];
+                if( !empty($output['utm_content']) ) {
+                    $fields['nameField'][] = 'utm_content';
+                    $fields['valueField'][] = $output['utm_content'];
+                }
 
-                $fields['nameField'][] = 'utm_content';
-                $fields['valueField'][] = $output['utm_content'];
-
-                $fields['nameField'][] = 'utm_term';
-                $fields['valueField'][] = $output['utm_term'];
+                if( !empty($output['utm_term']) ) {
+                    $fields['nameField'][] = 'utm_term';
+                    $fields['valueField'][] = $output['utm_term'];
+                }
 
             }else {
 
