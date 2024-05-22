@@ -33,8 +33,8 @@ Artisan::command('factory', function () {
     $leadsorigins = LeadsOrigins::factory()->create();
 })->purpose('Executar configurações default do sistema.');
 
-Artisan::command('buildings', function () {
-    ProcessBuildingJobs::dispatch(51);    
+Artisan::command('buildings/{id}', function ($id) {
+    ProcessBuildingJobs::dispatch($id);    
 })->purpose('Testar processo de integração por lead.');
 
 Artisan::command('email', function () {
