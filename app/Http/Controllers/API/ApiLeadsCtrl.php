@@ -122,23 +122,25 @@ class ApiLeadsCtrl extends Controller
 
                 parse_str( $request->url_params, $output );
 
-                $fields['nameField'][] = 'utm_source';
-                if($output['utm_source'] === 'fb'){
-                    $fields['valueField'][] = 'facebook';
+                if($output['utm_source']) {
+                    $fields['nameField'][] = 'utm_source';
+                    if($output['utm_source'] === 'fb'){
+                        $fields['valueField'][] = 'facebook';
+                    }
+                    else if($output['utm_source'] === 'ig'){
+                        $fields['valueField'][] = 'instagram';
+                    }
+                    else if($output['utm_source'] === 'VivaReal'){
+                        $fields['valueField'][] = 'vivareal';
+                    }
+                    else if($output['utm_source'] === 'Zap'){
+                        $fields['valueField'][] = 'zapimoveis';
+                    }
+                    else{
+                        $fields['valueField'][] = $output['utm_source'];
+                    }
                 }
-                else if($output['utm_source'] === 'ig'){
-                    $fields['valueField'][] = 'instagram';
-                }
-                else if($output['utm_source'] === 'VivaReal'){
-                    $fields['valueField'][] = 'vivareal';
-                }
-                else if($output['utm_source'] === 'Zap'){
-                    $fields['valueField'][] = 'zapimoveis';
-                }
-                else{
-                    $fields['valueField'][] = $output['utm_source'];
-                }
-
+                
                 if($output['utm_campaign']) {
                     $fields['nameField'][] = 'utm_campaign';
                     $fields['valueField'][] = $output['utm_campaign'];
