@@ -20,7 +20,7 @@ class RelatoriosCtrl extends Controller
 		$this->middleware('auth');
 	}
 
-    public function reportsLeads()
+    public function indexLeads()
     {
         $companies = Companies::where('active', 1)->orderBy('name', 'asc')->get();
         $buildings = Buildings::where('active', 1)->orderBy('name', 'asc')->get();
@@ -40,7 +40,7 @@ class RelatoriosCtrl extends Controller
         return view('reports.leads')->with('origins', LeadsOrigins::where('active', 1)->orderBy('name', 'asc')->get())->with('array', isset($array) ? $array : null);
     }
 
-    public function reportsLeadsGenerate(Request $request)
+    public function generateLeads(Request $request)
     {   
         foreach($request->all() as $index => $element){
             if( $element === "on") {
@@ -64,12 +64,12 @@ class RelatoriosCtrl extends Controller
         }
     }
 
-    public function reportsBuildings()
+    public function indexBuildings()
     {
         return view('reports.buildings');
     }
 
-    public function reportsBuildingsGenerate(Request $request)
+    public function generateBuildings(Request $request)
     {   
         foreach($request->all() as $index => $element){
             if( $element === "on") {
@@ -89,12 +89,12 @@ class RelatoriosCtrl extends Controller
         }
     }
 
-    public function reportsIntegrations()
+    public function indexIntegrations()
     {
         return view('reports.integrations');
     }
 
-    public function reportsIntegrationsGenerate(Request $request)
+    public function generateIntegrations(Request $request)
     {   
         foreach($request->all() as $index => $element){
             if( $element === "on") {

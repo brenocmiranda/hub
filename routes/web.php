@@ -105,16 +105,16 @@ Route::group(['prefix' => 'app'], function () {
     // Relatórios
     Route::group(['prefix' => 'reports'], function () {
         Route::group(['prefix' => 'leads'], function () {
-            Route::get('/', [RelatoriosCtrl::class, 'reportsLeads'])->name('reports.leads');
-            Route::any('generate', [RelatoriosCtrl::class, 'reportsLeadsGenerate'])->name('reports.leads.generate');
+            Route::get('/', [RelatoriosCtrl::class, 'indexLeads'])->name('reports.leads');
+            Route::any('generate', [RelatoriosCtrl::class, 'generateLeads'])->name('reports.leads.generate');
         });
         Route::group(['prefix' => 'buildings'], function () {
-            Route::get('/', [RelatoriosCtrl::class, 'reportsBuildings'])->name('reports.buildings');
-            Route::any('generate', [RelatoriosCtrl::class, 'reportsBuildingsGenerate'])->name('reports.buildings.generate');
+            Route::get('/', [RelatoriosCtrl::class, 'indexBuildings'])->name('reports.buildings');
+            Route::any('generate', [RelatoriosCtrl::class, 'generateBuildings'])->name('reports.buildings.generate');
         });
         Route::group(['prefix' => 'integrations'], function () {
-            Route::get('/', [RelatoriosCtrl::class, 'reportsIntegrations'])->name('reports.integrations');
-            Route::any('generate', [RelatoriosCtrl::class, 'reportsIntegrationsGenerate'])->name('reports.integrations.generate');
+            Route::get('/', [RelatoriosCtrl::class, 'indexIntegrations'])->name('reports.integrations');
+            Route::any('generate', [RelatoriosCtrl::class, 'generateIntegrations'])->name('reports.integrations.generate');
         });
     });
 
