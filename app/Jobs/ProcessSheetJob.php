@@ -44,6 +44,7 @@ class ProcessSheetJob implements ShouldQueue
             $ticket = $this->lead->RelationFields->where('name', 'SrNumber')->first() ? $this->lead->RelationFields->where('name', 'SrNumber')->first()->value : "";
             $companie = $this->lead->RelationBuildings->RelationCompanies->name;
             $building = $this->lead->RelationBuildings->name;
+            $contact = $this->lead->RelationFields->where('name', 'PartyNumber')->first() ? $this->lead->RelationFields->where('name', 'PartyNumber')->first()->value : "";
             $name = $this->lead->name;
             $email = $this->lead->email;
             $phone = $this->lead->phone;
@@ -62,6 +63,7 @@ class ProcessSheetJob implements ShouldQueue
                     $ticket,
                     $companie, 
                     $building,
+                    $contact,
                     $name,
                     $email,
                     $phone,
