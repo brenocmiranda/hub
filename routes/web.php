@@ -16,6 +16,7 @@ use App\Http\Controllers\RelatoriosCtrl;
 use App\Http\Controllers\UsersCtrl;
 use App\Http\Controllers\UsersRolesCtrl;
 use App\Http\Controllers\UsersTokensCtrl;
+use App\Http\Controllers\ImportacoesCtrl;
 
 #---------------------------------------------------------------------
 # Área não logada
@@ -115,6 +116,14 @@ Route::group(['prefix' => 'app'], function () {
         Route::group(['prefix' => 'integrations'], function () {
             Route::get('/', [RelatoriosCtrl::class, 'indexIntegrations'])->name('reports.integrations');
             Route::any('generate', [RelatoriosCtrl::class, 'generateIntegrations'])->name('reports.integrations.generate');
+        });
+    });
+
+    // Importações
+    Route::group(['prefix' => 'imports'], function () {
+        Route::group(['prefix' => 'leads'], function () {
+            Route::get('/', [ImportacoesCtrl::class, 'indexLeads'])->name('imports.leads');
+            Route::any('store', [ImportacoesCtrl::class, 'generateLeads'])->name('imports.leads.store');
         });
     });
 

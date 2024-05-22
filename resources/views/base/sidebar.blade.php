@@ -145,7 +145,7 @@
                 </div>
             </li>
             <li class="nav-item">
-                <a href="{{ route('dashboard.index') }}" class="nav-link text-white d-flex gap-2 mb-2 {{ Request::segment(2) == 'dashboard' ? 'active' : '' }}">
+                <a href="{{ route('imports.leads') }}" class="nav-link text-white d-flex gap-2 mb-2 {{ Request::segment(2) == 'imports' ? 'active' : '' }}">
                     <i class="bi bi-cloud-upload"></i>
                     <span class="module-name">Importações</span>
                 </a>
