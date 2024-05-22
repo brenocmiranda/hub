@@ -140,23 +140,23 @@ class ApiLeadsCtrl extends Controller
                         $fields['valueField'][] = $output['utm_source'];
                     }
                 }
-                
-                if($output['utm_campaign']) {
+
+                if( !empty($output['utm_campaign']) ) {
                     $fields['nameField'][] = 'utm_campaign';
                     $fields['valueField'][] = $output['utm_campaign'];
                 }
                 
-                if($output['utm_medium']) {
+                if( !empty($output['utm_medium']) ) {
                     $fields['nameField'][] = 'utm_medium';
                     $fields['valueField'][] = $output['utm_medium'];
                 }
 
-                if($output['utm_content']) {
+                if( !empty($output['utm_content']) ) {
                     $fields['nameField'][] = 'utm_content';
                     $fields['valueField'][] = $output['utm_content'];
                 }
 
-                if($output['utm_term']) {
+                if( !empty($output['utm_term']) ) {
                     $fields['nameField'][] = 'utm_term';
                     $fields['valueField'][] = $output['utm_term'];
                 }
