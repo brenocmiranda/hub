@@ -131,8 +131,8 @@ class BuildingsCtrl extends Controller
         BuildingsPartners::where('buildings_id', $id)->forceDelete();
         BuildingsDestinatarios::where('buildings_id', $id)->forceDelete();
         BuildingsSheets::where('buildings_id', $id)->forceDelete();
-        BuildingsIntegrations::where('buildings_id', $id)->delete();
         BuildingsIntegrationsFields::where('buildings_has_integrations_buildings_id', $id)->forceDelete();
+        BuildingsIntegrations::where('buildings_id', $id)->forceDelete();
 
         // Atualizando os dados do empreendimento
         Buildings::find($id)->update([
