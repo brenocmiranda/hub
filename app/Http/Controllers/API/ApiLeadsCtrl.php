@@ -47,7 +47,7 @@ class ApiLeadsCtrl extends Controller
             ];
             foreach($array as $ar){
                 if( $ar ){
-                    $name = ucwords($ar);
+                    $name = ucwords( strtolower($ar) );
                     break;
                 }
             }
