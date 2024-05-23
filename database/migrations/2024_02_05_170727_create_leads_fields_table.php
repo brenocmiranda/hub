@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('leads_fields', function (Blueprint $table) {
             $table->id();
             $table->string('name', 200);
-            $table->string('value');
+            $table->longText('value');
             $table->unsignedBigInteger('leads_id');
             $table->foreign('leads_id')->references('id')->on('leads');
             $table->softDeletes($column = 'deleted_at', $precision = 0);
