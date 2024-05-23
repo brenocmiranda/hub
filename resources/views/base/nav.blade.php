@@ -1,10 +1,9 @@
 <nav>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-6 d-flex gap-4 align-items-center">
-                <div class="menu d-none d-sm-block">
-                    <a href="#"
-                        class="d-flex p-2 text-decoration-none text-dark border border-2 border-secondary bg-transparent rounded-3">
+            <div class="col-lg-6 col-7 d-flex gap-4 align-items-center px-0">
+                <div class="menu d-none d-md-block">
+                    <a href="#" class="d-flex p-2 text-decoration-none text-dark border border-2 border-secondary bg-transparent rounded-3">
                         <i class="bi bi-list"></i>
                     </a>
                 </div>
@@ -25,7 +24,7 @@
                     </form>
                 </div>
             </div>
-            <div class="col-6 d-flex justify-content-end gap-3">
+            <div class="col-lg-6 col-5 d-flex justify-content-end gap-3">
                 <div class="settings d-flex align-items-center">
                     <div class="notify">
                         <a href="#" class="text-decoration-none text-dark">

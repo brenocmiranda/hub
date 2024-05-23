@@ -13,6 +13,7 @@ use App\Models\BuildingsPartners;
 use App\Models\Companies;
 use App\Models\Leads;
 use App\Models\LeadsOrigins;
+use App\Models\UsersLogs;
 
 class RelatoriosCtrl extends Controller
 {
@@ -53,6 +54,14 @@ class RelatoriosCtrl extends Controller
         $building = $request->input('building');
         $origem = $request->input('origem');
 
+        // Salvando log
+        UsersLogs::create([
+            'title' => 'Geração de relatório',
+            'description' => 'Foi realizado a geração do relatório de leads.',
+            'action' => 'reports',
+            'users_id' => Auth::user()->id
+        ]);
+
         if ($format === 'pdf'){
             return Excel::download(new LeadsExport($items, $dataInicial, $dataFinal, $building, $origem), 'leads-'. date('d-m-Y-H-i-s') .'.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
         }else if($format === 'xls'){
@@ -78,6 +87,14 @@ class RelatoriosCtrl extends Controller
         }
         $format = $request->input('format');
 
+        // Salvando log
+        UsersLogs::create([
+            'title' => 'Geração de relatório',
+            'description' => 'Foi realizado a geração do relatório de empreendimentos.',
+            'action' => 'reports',
+            'users_id' => Auth::user()->id
+        ]);
+
         if ($format === 'pdf'){
             return Excel::download(new BuildingsExport($items), 'buildings-'. date('d-m-Y-H-i-s') .'.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
         }else if($format === 'xls'){
@@ -102,6 +119,14 @@ class RelatoriosCtrl extends Controller
             }
         }
         $format = $request->input('format');
+
+        // Salvando log
+        UsersLogs::create([
+            'title' => 'Geração de relatório',
+            'description' => 'Foi realizado a geração do relatório de integrações.',
+            'action' => 'reports',
+            'users_id' => Auth::user()->id
+        ]);
 
         if ($format === 'pdf'){
             return Excel::download(new IntegrationsExport($items), 'integrations-'. date('d-m-Y-H-i-s') .'.pdf', \Maatwebsite\Excel\Excel::DOMPDF);

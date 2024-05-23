@@ -136,7 +136,7 @@ Editar empreendimento
                                                             <div class="form-floating"> 
                                                                 <input type="email" class="form-control" id="email-{{ $index }}" name="email[]" value="{{ $destinatarios->email }}" required> 
                                                                 <label for="email-{{ $index }}">E-mail <abbr>*</abbr></label> 
-                                                                <a href="#" class="btn btn-sm btn-outline-danger rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Remover campo" onclick="removeEmail(this);"><i class="bi bi-dash"></i></a> 
+                                                                <a href="#" class="btn btn-sm btn-outline-danger bg-white rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Remover campo" onclick="removeEmail(this);"><i class="bi bi-dash"></i></a> 
                                                             </div>
                                                         </div>
                                                     </div>

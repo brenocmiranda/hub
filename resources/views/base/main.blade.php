@@ -171,7 +171,7 @@
                         </div>
                     @endif
                 </div>
-                <div class="col-lg-6 col-sm-4 col-12 mt-3 mt-sm-0 d-flex justify-content-end align-items-center gap-2">
+                <div class="col-lg-6 col-sm-4 col-12 mt-3 mt-sm-0 d-flex justify-content-sm-end align-items-center gap-2">
                     @yield('buttons')
                 </div>
                 
@@ -207,11 +207,11 @@
                 <h5>Tem certeza que deseja remover?</h5>
                 <p class="mb-0">O registro será excluído permanentemente da nossa base. Caso precise recuperá-lo, deve acionar o administrador.</p>
             </div>
-            <div class="modal-footer flex-nowrap p-0">
+            <div class="modal-footer flex-wrap p-0">
                 <form action="#" method="POST" class="w-100">
                     @method('DELETE')
                     @csrf
-                    <button type="submit" class="btn btn-lg btn-link fs-6 text-decoration-none col-lg-6 col-12 py-3 m-0 rounded-0 border-end fw-bold w-100">Sim, excluir!</button>
+                    <button type="submit" class="btn btn-lg btn-link fs-6 text-decoration-none col-lg-6 col-12 py-3 m-0 rounded-0 border-end fw-bold w-100 confirm">Sim, excluir!</button>
                 </form>
                 <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-lg-6 col-12 py-3 m-0 rounded-0" data-bs-dismiss="modal">Não</button>
             </div>
@@ -227,7 +227,7 @@
                 <p class="mb-0">Você será desconectado da plataforma.</p>
             </div>
             <div class="modal-footer flex-wrap p-0">
-                <a href="{{ route('logout') }}" class="btn btn-lg btn-link fs-6 text-decoration-none col-lg-6 col-12 py-3 m-0 rounded-0 border-end fw-bold">Sim, excluir!</a>
+                <a href="{{ route('logout') }}" class="btn btn-lg btn-link fs-6 text-decoration-none col-lg-6 col-12 py-3 m-0 rounded-0 fw-bold confirm">Sim, excluir!</a>
                 <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-lg-6 col-12 py-3 m-0 rounded-0" data-bs-dismiss="modal">Não</button>
             </div>
             </div>
