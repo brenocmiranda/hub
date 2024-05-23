@@ -240,7 +240,8 @@ class BuildingsCtrl extends Controller
         return redirect()->route('buildings.index')->with('destroy', true);
     }
 
-    public function duplicate(string $id){
+    public function duplicate(string $id)
+    {
         $building = Buildings::find($id);
         $buildingsPartners = BuildingsPartners::where('buildings_id', $id)->get();
         $buildingIntegrations = BuildingsIntegrations::where('buildings_id', $id)->get();

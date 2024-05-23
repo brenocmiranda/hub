@@ -20,6 +20,7 @@ Leads
                         <tr>
                             <th data-field="date" data-align="center">Data</th>
                             <th data-field="name" data-align="center">Nome</th>
+                            <th data-field="email" data-align="center" data-visible="false">E-mail</th>
                             <th data-field="companie" data-align="center">Empresa</th>
                             <th data-field="building" data-align="center">Empreendimento</th>
                             <th data-field="origin" data-align="center">Origem</th>
@@ -35,6 +36,7 @@ Leads
                                 { 
                                     'date': '{{ $lead->created_at->format("d/m/Y H:i:s") }}', 
                                     'name': '{{ $lead->name }}',
+                                    'email': '{{ $lead->email }}',
                                     'companie': '{{ $lead->RelationCompanies->name }}', 
                                     'building': '{{ $lead->RelationBuildings->name }}', 
                                     'origin': '{{ $lead->RelationOrigins->name }}', 

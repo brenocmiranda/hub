@@ -25,7 +25,7 @@ class LeadsCtrl extends Controller
     
     public function index()
     {
-        return view('leads.index')->with('leads', Leads::select('created_at', 'name', 'companies_id', 'buildings_id', 'leads_origins_id', 'batches_id', 'id')->orderBy('created_at', 'desc')->get());
+        return view('leads.index')->with('leads', Leads::select('created_at', 'name', 'email', 'companies_id', 'buildings_id', 'leads_origins_id', 'batches_id', 'id')->orderBy('created_at', 'desc')->get());
     }
 
     public function create()
