@@ -10,7 +10,7 @@
         @if( array_search('slug', $items) !== false)
             <th align="center">Slug</th>
         @endif
-        @if( array_search('type', $items) !== false)
+        @if( array_search('typeInt', $items) !== false)
             <th align="center">Tipo</th>
         @endif
         @if( array_search('url', $items) !== false)
@@ -51,7 +51,7 @@
                 @if( array_search('slug', $items) !== false)
                     <td align="center">{{ $integration->slug }}</td>
                 @endif
-                @if( array_search('type', $items) !== false)
+                @if( array_search('typeInt', $items) !== false)
                     <td align="center">{{ $integration->type }}</td>
                 @endif
                 @if( array_search('url', $items) !== false)

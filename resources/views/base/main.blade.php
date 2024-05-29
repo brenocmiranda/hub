@@ -69,9 +69,16 @@
                                     </a>
                                     @break
                                 
+                                @case('imports')
+                                    <i class="bi bi-chevron-double-right"></i>
+                                    <a href="{{ route('imports.index') }}" class="text-decoration-none text-dark">
+                                        <small>Importações</small>
+                                    </a>
+                                    @break
+                                
                                 @case('reports')
                                     <i class="bi bi-chevron-double-right"></i>
-                                    <a href="#" class="text-decoration-none text-dark">
+                                    <a href="{{ route('reports.index') }}" class="text-decoration-none text-dark">
                                         <small>Relatórios</small>
                                     </a>
                                     @break
@@ -207,7 +214,7 @@
                 <h5>Tem certeza que deseja remover?</h5>
                 <p class="mb-0">O registro será excluído permanentemente da nossa base. Caso precise recuperá-lo, deve acionar o administrador.</p>
             </div>
-            <div class="modal-footer flex-wrap p-0">
+            <div class="modal-footer flex-wrap flex-lg-nowrap p-0">
                 <form action="#" method="POST" class="w-100">
                     @method('DELETE')
                     @csrf
@@ -226,7 +233,7 @@
                 <h5>Tem certeza que deseja sair?</h5>
                 <p class="mb-0">Você será desconectado da plataforma.</p>
             </div>
-            <div class="modal-footer flex-wrap p-0">
+            <div class="modal-footer flex-wrap flex-lg-nowrap p-0">
                 <a href="{{ route('logout') }}" class="btn btn-lg btn-link fs-6 text-decoration-none col-lg-6 col-12 py-3 m-0 rounded-0 fw-bold confirm">Sim, excluir!</a>
                 <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-lg-6 col-12 py-3 m-0 rounded-0" data-bs-dismiss="modal">Não</button>
             </div>

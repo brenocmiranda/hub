@@ -10,7 +10,7 @@
         @if( array_search('destinatarios', $items) !== false)
             <th align="center">Destinatarios</th>
         @endif
-        @if( array_search('integrations', $items) !== false)
+        @if( array_search('integrationsBuild', $items) !== false)
             <th align="center">Integrações</th>
         @endif
         @if( array_search('sheets', $items) !== false)
@@ -46,7 +46,7 @@
                         {{ implode(', ', $dest) }}
                     </td>
                 @endif
-                @if( array_search('integrations', $items) !== false)
+                @if( array_search('integrationsBuild', $items) !== false)
                     <td align="center">
                         @if($building->RelationIntegrations->first())
                             @foreach($building->RelationIntegrations as $integrations)

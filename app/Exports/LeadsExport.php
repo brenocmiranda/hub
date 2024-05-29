@@ -2,19 +2,30 @@
 
 namespace App\Exports;
 
-use App\Models\Leads;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
+use Maatwebsite\Excel\Concerns\WithEvents;
+use Maatwebsite\Excel\Concerns\Exportable;
+use Maatwebsite\Excel\Concerns\RegistersEventListeners;
+use Maatwebsite\Excel\Events\BeforeExport;
+use Maatwebsite\Excel\Events\BeforeWriting;
+use Maatwebsite\Excel\Events\BeforeSheet;
+use Maatwebsite\Excel\Events\AfterSheet;
+use App\Models\UsersReports;
+use App\Models\Leads;
 
-class LeadsExport implements FromView
+class LeadsExport implements FromView, WithEvents
 {
-    public function __construct($items, $dataInicial, $dataFinal, $building, $origem)  
+    use RegistersEventListeners, Exportable;
+
+    public function __construct($report, $items, $dataInicial, $dataFinal, $building, $origem)  
     { 
         $this->items = $items;
         $this->dataInicial = $dataInicial;
         $this->dataFinal = $dataFinal;
         $this->building = $building;
         $this->origem = $origem;
+        $this->report = $report;
     }
 
     public function view(): View
@@ -27,5 +38,29 @@ class LeadsExport implements FromView
             'leads' => $leads->get(),
             'items' => $this->items,
         ]);
+    }
+
+    public function registerEvents(): array
+    {
+        return [
+            BeforeExport::class => function(BeforeExport $event) {
+                UsersReports::find($this->report->id)->update([
+                    'status' => 'Executando'
+                ]);
+            },
+
+            BeforeSheet::class => function(BeforeSheet $event) {
+                $event->sheet->getPageSetup()->setOrientation(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::ORIENTATION_LANDSCAPE);
+                UsersReports::find($this->report->id)->update([
+                    'status' => 'Arquivo sendo gerado'
+                ]);
+            },
+
+            AfterSheet::class => function(AfterSheet $event) {
+                UsersReports::find($this->report->id)->update([
+                    'status' => 'Pronto'
+                ]);
+            },
+        ];
     }
 }

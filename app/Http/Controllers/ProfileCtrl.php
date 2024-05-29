@@ -42,7 +42,6 @@ class ProfileCtrl extends Controller
             $extension = $request->file('src')->getClientOriginalExtension();
             // Filename to store
             $fileNameToStore = $filename.'_'.time().'.'.$extension;
-
             // Upload Image
             $path = $request->file('src')->storeAs('public/profile', $fileNameToStore);
 

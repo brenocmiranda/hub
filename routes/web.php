@@ -12,11 +12,11 @@ use App\Http\Controllers\PrivateCtrl;
 use App\Http\Controllers\PublicCtrl;
 use App\Http\Controllers\ProfileCtrl;
 use App\Http\Controllers\PipelinesCtrl;
-use App\Http\Controllers\RelatoriosCtrl;
 use App\Http\Controllers\UsersCtrl;
 use App\Http\Controllers\UsersRolesCtrl;
 use App\Http\Controllers\UsersTokensCtrl;
-use App\Http\Controllers\ImportacoesCtrl;
+use App\Http\Controllers\ImportsCtrl;
+use App\Http\Controllers\ReportsCtrl;
 
 #---------------------------------------------------------------------
 # Área não logada
@@ -56,10 +56,12 @@ Route::group(['prefix' => 'app'], function () {
 
     // Leads
     Route::resource('leads', LeadsCtrl::class)->only([ 'index', 'create', 'store', 'destroy', 'show' ]);
-    Route::any('leads/all/search', [LeadsCtrl::class, 'search'])->name('leads.search');
-    Route::get('retryAll', [LeadsCtrl::class, 'retryAll'])->name('leads.retryAll');
-    Route::get('retry/{id}', [LeadsCtrl::class, 'retry'])->name('leads.retry');
-    Route::get('resend/{id}', [LeadsCtrl::class, 'resend'])->name('leads.resend');
+    Route::group(['prefix' => 'leads'], function () {
+        Route::any('all/search', [LeadsCtrl::class, 'search'])->name('leads.search');
+        Route::get('retryAll', [LeadsCtrl::class, 'retryAll'])->name('leads.retryAll');
+        Route::get('retry/{id}', [LeadsCtrl::class, 'retry'])->name('leads.retry');
+        Route::get('resend/{id}', [LeadsCtrl::class, 'resend'])->name('leads.resend');
+    });    
 
     // Leads (Origins)
     Route::resource('leads/all/origins', LeadsOriginsCtrl::class)->names([
@@ -88,7 +90,9 @@ Route::group(['prefix' => 'app'], function () {
 
     // Buildings
     Route::resource('buildings', BuildingsCtrl::class);
-    Route::any('leads/all/duplicate/{id}', [BuildingsCtrl::class, 'duplicate'])->name('buildings.duplicate');
+    Route::group(['prefix' => 'buildings'], function () {
+        Route::any('duplicate/{id}', [BuildingsCtrl::class, 'duplicate'])->name('buildings.duplicate');
+    });
 
     // Buildings (Keys)
     Route::resource('buildings/all/keys', BuildingsKeysCtrl::class)->names([
@@ -104,32 +108,16 @@ Route::group(['prefix' => 'app'], function () {
     Route::resource('integrations', IntegrationsCtrl::class);
 
     // Relatórios
-    Route::group(['prefix' => 'reports'], function () {
-        Route::group(['prefix' => 'leads'], function () {
-            Route::get('/', [RelatoriosCtrl::class, 'indexLeads'])->name('reports.leads');
-            Route::any('generate', [RelatoriosCtrl::class, 'generateLeads'])->name('reports.leads.generate');
-        });
-        Route::group(['prefix' => 'buildings'], function () {
-            Route::get('/', [RelatoriosCtrl::class, 'indexBuildings'])->name('reports.buildings');
-            Route::any('generate', [RelatoriosCtrl::class, 'generateBuildings'])->name('reports.buildings.generate');
-        });
-        Route::group(['prefix' => 'integrations'], function () {
-            Route::get('/', [RelatoriosCtrl::class, 'indexIntegrations'])->name('reports.integrations');
-            Route::any('generate', [RelatoriosCtrl::class, 'generateIntegrations'])->name('reports.integrations.generate');
-        });
-    });
+    Route::resource('reports', ReportsCtrl::class)->only([ 'index', 'create', 'store', 'destroy' ]);
 
     // Importações
-    Route::group(['prefix' => 'imports'], function () {
-        Route::group(['prefix' => 'leads'], function () {
-            Route::get('/', [ImportacoesCtrl::class, 'indexLeads'])->name('imports.leads');
-            Route::any('store', [ImportacoesCtrl::class, 'generateLeads'])->name('imports.leads.store');
-        });
-    });
+    Route::resource('imports', ImportsCtrl::class)->only([ 'index', 'create', 'store', 'destroy' ]);
 
     // Usuários
     Route::resource('users', UsersCtrl::class);
-    Route::any('recovery/{id}', [UsersCtrl::class, 'recovery'])->name('users.recovery');
+    Route::group(['prefix' => 'users'], function () {
+        Route::any('recovery/{id}', [UsersCtrl::class, 'recovery'])->name('users.recovery');
+    });
 
     // Usuários (Roles)
     Route::resource('users/all/roles', UsersRolesCtrl::class)->names([

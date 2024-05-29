@@ -1,5 +1,5 @@
 .list-group {
-    max-height: 400px;
+    max-height: 350px;
     overflow: auto;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
@@ -7,6 +7,10 @@
 
 .date > div {
     width: calc(50% - 4px);
+}
+
+.tab-content:has(> #leads-tab-pane.active) {
+    border-top-left-radius: 0 !important;
 }
 
 @media (max-width: 768px) {

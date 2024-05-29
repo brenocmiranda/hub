@@ -119,33 +119,13 @@
                 </div>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link text-white d-flex gap-2 mb-2 collapsed {{ Request::segment(2) == 'reports' ? 'active' : '' }}"
-                    data-bs-toggle="collapse" data-bs-target="#reports-collapse" aria-expanded="{{ Request::segment(2) == 'reports' ? 'true' : 'false' }}">
+                <a href="{{ route('reports.index') }}" class="nav-link text-white d-flex gap-2 mb-2 {{ Request::segment(2) == 'reports' ? 'active' : '' }}">
                     <i class="bi bi-file-text"></i>
                     <span class="module-name">Relatórios</span>
                 </a>
-                <div class="collapse {{ Request::segment(2) == 'reports' ? 'show' : '' }}" id="reports-collapse">
-                    <ul class="btn-toggle-nav fw-normal small list-unstyled ps-5 ms-2">
-                        <li>
-                            <a href="{{ route('reports.leads') }}"
-                                class="d-inline-flex text-decoration-none mb-2 {{ Request::segment(2) == 'reports' && Request::segment(3) == 'leads' ? 'text-secondary' : '
-                                text-white' }}">Leads</a>
-                        </li>
-                        <li>
-                            <a href="{{ route('reports.buildings') }}"
-                                class="d-inline-flex text-decoration-none mb-2 {{ Request::segment(2) == 'reports' && Request::segment(3) == 'buildings' ? 'text-secondary' : '
-                                text-white' }}">Empreendimentos</a>
-                        </li>
-                        <li>
-                            <a href="{{ route('reports.integrations') }}"
-                                class="d-inline-flex text-decoration-none mb-2 {{ Request::segment(2) == 'reports' && Request::segment(3) == 'integrations' ? 'text-secondary' : '
-                                text-white' }}">Integrações</a>
-                        </li>
-                    </ul>
-                </div>
             </li>
             <li class="nav-item">
-                <a href="{{ route('imports.leads') }}" class="nav-link text-white d-flex gap-2 mb-2 {{ Request::segment(2) == 'imports' ? 'active' : '' }}">
+                <a href="{{ route('imports.index') }}" class="nav-link text-white d-flex gap-2 mb-2 {{ Request::segment(2) == 'imports' ? 'active' : '' }}">
                     <i class="bi bi-cloud-upload"></i>
                     <span class="module-name">Importações</span>
                 </a>
