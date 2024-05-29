@@ -1,6 +1,6 @@
 <p align="center">
     <a href="https://hub.komuh.com" target="_blank">
-        <img src="https://hub.komuh.com/images/logo-black.png" height="80" alt="Hub de Integrações">
+        <img src="https://hub.komuh.com/images/logo-white.png" height="80" alt="Hub de Integrações">
     </a>
 </p>
 
