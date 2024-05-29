@@ -2,15 +2,19 @@
 
 namespace App\Imports;
 
-use App\Models\Leads;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
+use Maatwebsite\Excel\Concerns\WithEvents;
+use Maatwebsite\Excel\Concerns\RegistersEventListeners;
+use Maatwebsite\Excel\Events\BeforeImport;
+use Maatwebsite\Excel\Events\BeforeSheet;
+use Maatwebsite\Excel\Events\AfterSheet;
+use App\Models\Leads;
 
 class LeadsImport implements ToCollection
 {
     public function collection(Collection $row)
     {   
-
         foreach ($rows as $row) 
         {
             User::create([
@@ -24,5 +28,28 @@ class LeadsImport implements ToCollection
                 'buildings_id'          => $row[6], 
             ]);
         }
+    }
+
+    public function registerEvents(): array
+    {
+        return [
+            BeforeImport::class => function(BeforeImport $event) {
+                UsersReports::find($this->report->id)->update([
+                    'status' => 'Executando'
+                ]);
+            },
+
+            BeforeSheet::class => function(BeforeSheet $event) {
+                UsersReports::find($this->report->id)->update([
+                    'status' => 'Gerando'
+                ]);
+            },
+
+            AfterSheet::class => function(AfterSheet $event) {
+                UsersReports::find($this->report->id)->update([
+                    'status' => 'Pronto'
+                ]);
+            },
+        ];
     }
 }

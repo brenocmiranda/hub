@@ -201,7 +201,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
-                    <small class="text-secondary">© Komuh {{date('Y')}} &bull; Version {{ env('APP_VERSION') }} </small>
+                    <small class="text-secondary">© Komuh {{ date('Y') }} &bull; Version {{ env('APP_VERSION') }} </small>
                 </div>
             </div>
         </div>

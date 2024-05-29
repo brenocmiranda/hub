@@ -1,66 +1,73 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
-
 <p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+    <a href="https://hub.komuh.com" target="_blank">
+        <img src="https://hub.komuh.com/images/logo-black.png" height="50" alt="Hub de Integrações">
+    </a>
 </p>
 
-## About Laravel
+## Sobre o Hub
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+O Hub de Integrações foi criada com objetivo de unificar, apoiar e dar transparência no processo de envio dos dados aos CRMs existentes no mercado. Nesse intuito foi desenvolvida uma ferramenta que executa o processo de recebimento desse lead e o integra ao CRM cadastrado na plataforma e vinculado ao empreendimento.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Versões
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+<strong>Versáo 2.0</strong>
 
-## Learning Laravel
+<ul>
+    <li>CRUD de Empresas - OK</li>
+    <li>CRUD de Empreendimentos e Chaves - OK</li>
+    <li>CRUD de Usuários e Tokens - OK</li>
+    <li>CRUD de Integrações - OK</li>
+    <li>CRUD de Leads e Pipelines - OK</li>
+    <li>CRUD de Perfil e Atividades - OK</li>
+    <li>Criação da API com autenticação Sactum - OK</li>
+    <li>Disparo de e-mail por Notify - OK</li>
+    <li>Criação de Dasboards 1 - OK</li>
+    <li>Página de login - OK</li>
+    <li>Métodos de recuperação de senha - OK</li>
+    <li>Criação de Jobs para Integrações, Google Sheets e E-mail - OK</li>
+</ul>
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+<strong>Versáo 2.1</strong>
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+<ul>
+    <li>Importações - Fazendo</li>
+    <li>Criação de Dashboards 2</li>
+    <li>Grupo de empresas ?</li>
+    <li>Função de teste em Empreendimentos</li>
+    <li>Roletas - OK</li>
+    <li>Relatórios - OK</li>
+    <li>Exclusão de dados do lead - OK</li>
+    <li>Melhoria no disparo de e-mail, com Mail - OK</li>
+    <li>Melhoria nos jobs de Integrações, Google Sheets e E-mail - OK</li>
+</ul>
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+<strong>Versáo 2.2</strong>
 
-## Laravel Sponsors
+<ul>
+    <li>Transformar Empreendimentos em Produtos</li>
+    <li>Nível de Acesso</li>
+    <li>Testes Unitários</li>
+    <li>Integrar ao Facebook</li>
+</ul>
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+<strong>Versáo 2.3</strong>
 
-### Premium Partners
+<ul>
+    <li>API de Parceiros</li>
+    <li>LGPD dos leads por Grupo</li>
+</ul>
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+## Suporte
 
-## Contributing
+O processo de ajustes e melhorias da plataforma está sendo executado constantemente, nesse contexto caso necessite reportar algum problema ou promover propostas de melhorias, entre em contato com os administradores da plataforma, através dos e-mails abaixo:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+• Breno de Carvalho (DEV) – breno.miranda@komuh.com
+• Raphael Ramos (Coordenador e DEV) – raphael.ramos@komuh.com
 
-## Code of Conduct
+## Tecnologias
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+-   HTML5
+-   CSS3
+-   jQuery
+-   Laravel
+-   MySQL

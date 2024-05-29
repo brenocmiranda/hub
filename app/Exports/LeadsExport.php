@@ -8,7 +8,6 @@ use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\RegistersEventListeners;
 use Maatwebsite\Excel\Events\BeforeExport;
-use Maatwebsite\Excel\Events\BeforeWriting;
 use Maatwebsite\Excel\Events\BeforeSheet;
 use Maatwebsite\Excel\Events\AfterSheet;
 use App\Models\UsersReports;
@@ -52,7 +51,7 @@ class LeadsExport implements FromView, WithEvents
             BeforeSheet::class => function(BeforeSheet $event) {
                 $event->sheet->getPageSetup()->setOrientation(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::ORIENTATION_LANDSCAPE);
                 UsersReports::find($this->report->id)->update([
-                    'status' => 'Arquivo sendo gerado'
+                    'status' => 'Gerando'
                 ]);
             },
 
