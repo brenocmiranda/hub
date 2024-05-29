@@ -1,6 +1,6 @@
 <p align="center">
     <a href="https://hub.komuh.com" target="_blank">
-        <img src="https://hub.komuh.com/images/logo-black.png" height="50" alt="Hub de Integrações">
+        <img src="https://hub.komuh.com/images/logo-black.png" height="80" alt="Hub de Integrações">
     </a>
 </p>
 
@@ -10,7 +10,7 @@ O Hub de Integrações foi criada com objetivo de unificar, apoiar e dar transpa
 
 ## Versões
 
-<strong>Versáo 2.0</strong>
+<strong>Versão 2.0</strong>
 
 <ul>
     <li>CRUD de Empresas - OK</li>
@@ -27,7 +27,7 @@ O Hub de Integrações foi criada com objetivo de unificar, apoiar e dar transpa
     <li>Criação de Jobs para Integrações, Google Sheets e E-mail - OK</li>
 </ul>
 
-<strong>Versáo 2.1</strong>
+<strong>Versão 2.1</strong>
 
 <ul>
     <li>Importações - Fazendo</li>
@@ -41,7 +41,7 @@ O Hub de Integrações foi criada com objetivo de unificar, apoiar e dar transpa
     <li>Melhoria nos jobs de Integrações, Google Sheets e E-mail - OK</li>
 </ul>
 
-<strong>Versáo 2.2</strong>
+<strong>Versão 2.2</strong>
 
 <ul>
     <li>Transformar Empreendimentos em Produtos</li>
@@ -50,19 +50,12 @@ O Hub de Integrações foi criada com objetivo de unificar, apoiar e dar transpa
     <li>Integrar ao Facebook</li>
 </ul>
 
-<strong>Versáo 2.3</strong>
+<strong>Versão 2.3</strong>
 
 <ul>
     <li>API de Parceiros</li>
     <li>LGPD dos leads por Grupo</li>
 </ul>
-
-## Suporte
-
-O processo de ajustes e melhorias da plataforma está sendo executado constantemente, nesse contexto caso necessite reportar algum problema ou promover propostas de melhorias, entre em contato com os administradores da plataforma, através dos e-mails abaixo:
-
-• Breno de Carvalho (DEV) – breno.miranda@komuh.com
-• Raphael Ramos (Coordenador e DEV) – raphael.ramos@komuh.com
 
 ## Tecnologias
 
@@ -71,3 +64,11 @@ O processo de ajustes e melhorias da plataforma está sendo executado constantem
 -   jQuery
 -   Laravel
 -   MySQL
+
+## Suporte
+
+<p>O processo de ajustes e melhorias da plataforma está sendo executado constantemente, nesse contexto caso necessite reportar algum problema ou promover propostas de melhorias, entre em contato com os administradores da plataforma, através dos e-mails abaixo:</p>
+<ul>
+    <li>Breno de Carvalho (DEV) – breno.miranda@komuh.com</li>
+    <li>Raphael Ramos (Coordenador e DEV) – raphael.ramos@komuh.com</li>
+</ul>
