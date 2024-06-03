@@ -45,7 +45,6 @@ class LeadsCtrl extends Controller
                 'date' => $lead->created_at->format("d/m/Y H:i:s"), 
                 'name' => $lead->name,
                 'email' => $lead->email,
-                'companie' => $lead->RelationCompanies->name, 
                 'building' => $lead->RelationBuildings->name, 
                 'origin' => $lead->RelationOrigins->name, 
                 'status' => $status,
