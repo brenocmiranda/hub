@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Bus;
 use App\Http\Requests\LeadsRqt;
 use App\Models\Buildings;
 use App\Models\BuildingsPartners;
@@ -26,38 +25,7 @@ class LeadsCtrl extends Controller
     
     public function index()
     {   
-        $leads = Leads::select('created_at', 'name', 'email', 'companies_id', 'buildings_id', 'leads_origins_id', 'batches_id', 'id')
-                        ->orderBy('created_at', 'desc')
-                        ->get();
-
-        foreach($leads as $lead){
-
-            // Status
-            if( $lead->batches_id ){
-                if (Bus::findBatch($lead->batches_id)->failedJobs > 0 && Bus::findBatch($lead->batches_id)->pendingJobs > 0 ) {
-                    $status = '<span class="badge border rounded-pill bg-danger-subtle border-danger-subtle text-danger-emphasis"> <i class="bi bi-x-octagon px-1"></i> Erro </span>';
-                } elseif (Bus::findBatch($lead->batches_id)->pendingJobs > 0 ) {
-                    $status = '<span class="badge border rounded-pill bg-secondary-subtle border-secondary-subtle text-secondary-emphasis"> <i class="bi bi-gear-wide-connected px-1"></i> Executando </span>';
-                } elseif (Bus::findBatch($lead->batches_id)->pendingJobs === 0 ) {
-                    $status = '<span class="badge border rounded-pill bg-success-subtle border-success-subtle text-success-emphasis"> <i class="bi bi-check2-circle px-1"></i> Finalizado </span>';
-                }
-            } else {
-                $status = '<span class="badge border rounded-pill bg-info-subtle border-info-subtle text-info-emphasis"> <i class="bi bi-box-seam px-1"></i> Na fila </span>';
-            }
-
-            $array[] = [ 
-                'date' => $lead->created_at->format("d/m/Y H:i:s"), 
-                'name' => $lead->name,
-                'email' => $lead->email,
-                'companie' => $lead->RelationCompanies->name, 
-                'building' => $lead->RelationBuildings->name, 
-                'origin' => $lead->RelationOrigins->name, 
-                'status' => $status,
-                'operations' => '<div class="d-flex justify-content-center align-items-center gap-2"> <a href="'. route('leads.show', $lead->id ) .'" class="btn btn-outline-secondary px-2 py-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Visualizar"><i class="bi bi-eye"></i></a> <a href="'. route('leads.destroy', $lead->id ) .'" class="btn btn-outline-secondary px-2 py-1 destroy" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Excluir"><i class="bi bi-trash"></i></a>'. ( $lead->batches_id ? ( Bus::findBatch($lead->batches_id)->failedJobs > 0 && Bus::findBatch($lead->batches_id)->pendingJobs > 0 ? '<a href="'. route('leads.retry', $lead->id ) .'" class="btn btn-outline-danger px-2 py-1 retry" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Tentar Novamente"><i class="bi bi-arrow-repeat"></i></a>' : "" ) : "") .'</div>'
-            ];
-        }
-
-        return view('leads.index')->with('leads', json_encode($array) );
+        return view('leads.index')->with('leads', Leads::select('created_at', 'name', 'email', 'companies_id', 'buildings_id', 'leads_origins_id', 'batches_id', 'id')->orderBy('created_at', 'desc')->get());
     }
 
     public function create()
