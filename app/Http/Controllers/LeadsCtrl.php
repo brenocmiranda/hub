@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Bus;
 use App\Http\Requests\LeadsRqt;
 use App\Models\Buildings;
 use App\Models\Companies;
