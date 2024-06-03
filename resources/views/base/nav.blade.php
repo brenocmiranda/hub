@@ -24,7 +24,7 @@
                     </form>
                 </div>
             </div>
-            <div class="col-lg-6 col-5 d-flex justify-content-end gap-3">
+            <div class="col-lg-6 col-5 d-flex justify-content-end gap-3 pe-0">
                 <div class="settings d-flex align-items-center">
                     <div class="notify">
                         <a href="#" class="text-decoration-none text-dark">
