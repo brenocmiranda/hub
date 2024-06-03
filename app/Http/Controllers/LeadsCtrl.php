@@ -22,9 +22,7 @@ class LeadsCtrl extends Controller
     
     public function index()
     {   
-        $leads = Leads::select('created_at', 'name', 'email', 'companies_id', 'buildings_id', 'leads_origins_id', 'batches_id', 'id')
-                        ->orderBy('created_at', 'desc')
-                        ->get();
+        $leads = Leads::orderBy('created_at', 'desc') ->get();
 
         foreach($leads as $lead){
 
