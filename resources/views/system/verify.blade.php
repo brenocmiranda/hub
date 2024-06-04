@@ -44,6 +44,7 @@ Alteração de senha
                                     <input type="hidden" name="token" value="{{ $user->remember_token }}">
                                     <div class="form-floating">
                                         <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password" aria-label="Nova senha" value="{{ old('password') }}" placeholder="" required>
+                                        <a href="#" class="bi bi-eye-fill view-password"></a>
                                         <label for="password">Nova senha</label>
                                     </div>
                                     @error('password')
@@ -54,6 +55,7 @@ Alteração de senha
                                 <div class="input-field">
                                     <div class="form-floating">
                                         <input type="password" class="form-control @error('password_confirmation') is-invalid @enderror" id="password_confirmation" name="password_confirmation" aria-label="Confirmação de senha" value="{{ old('password_confirmation') }}" placeholder="" required>
+                                        <a href="#" class="bi bi-eye-fill view-password"></a>
                                         <label for="password_confirmation">Confirme sua senha</label>
                                     </div>
                                     @error('password_confirmation')
@@ -117,6 +119,19 @@ Alteração de senha
         }else{
             $('#err').html('<div class="text-danger text-center col">As senhas não conferem.</div>')
             $('#submit').attr('disabled', 'disabled');
+        }
+	});
+
+    $('.view-password').on('click', function(e){
+        e.preventDefault();
+        if( $(this).prev('input').attr('type') == 'password' ){
+            $(this).addClass('bi-eye-slash-fill');
+            $(this).removeClass('bi-eye-fill');
+            $(this).prev('input').attr('type', 'text');
+        } else {
+            $(this).addClass('bi-eye-fill');
+            $(this).removeClass('bi-eye-slash-fill');
+            $(this).prev('input').attr('type', 'password');
         }
 	});
 </script>

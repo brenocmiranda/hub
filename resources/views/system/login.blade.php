@@ -55,6 +55,7 @@ Login
                                 <div class="input-field mb-2">
                                     <div class="form-floating">
                                         <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password" aria-label="Password" value="{{ old('password') }}" placeholder="" required>
+                                        <a href="#" class="bi bi-eye-fill view-password"></a>
                                         <label for="email">Senha</label>
                                     </div>
                                     @error('password')
@@ -87,3 +88,21 @@ Login
         </div>
     </div>
 </main>
+@extends('base.footer')
+
+@section('js')
+<script>
+    $('.view-password').on('click', function(e){
+        e.preventDefault();
+        if( $(this).prev('input').attr('type') == 'password' ){
+            $(this).addClass('bi-eye-slash-fill');
+            $(this).removeClass('bi-eye-fill');
+            $(this).prev('input').attr('type', 'text');
+        } else {
+            $(this).addClass('bi-eye-fill');
+            $(this).removeClass('bi-eye-slash-fill');
+            $(this).prev('input').attr('type', 'password');
+        }
+	});
+</script>
+@endsection

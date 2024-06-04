@@ -25,6 +25,16 @@ main>div>div {
     min-height: 400px;
 }
 
+.view-password {
+    position: absolute;
+    bottom: 50%;
+    transform: translateY(55%);
+    margin: auto;
+    right: 15px;
+    color: #000000b3;
+    font-size: 18px;
+}
+
 .perfil-img {
     width: 80px;
     height: 80px;
