@@ -35,6 +35,10 @@ main>div>div {
     font-size: 18px;
 }
 
+input.is-invalid+.view-password {
+    right: 35px;
+}
+
 .perfil-img {
     width: 80px;
     height: 80px;
