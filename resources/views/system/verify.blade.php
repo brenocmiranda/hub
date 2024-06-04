@@ -1,5 +1,5 @@
 @section('title')
-Login
+Alteração de senha
 @endsection
 
 @section('css')
@@ -10,74 +10,78 @@ Login
 <main>
     <div class="container-fluid">
         <div class="row align-items-center justify-content-center">
-            <div class="col-lg-7 col-md-5 column-image">
-                <div class="image"></div>
-            </div>
-            <div class="col-lg-5 col-md-7 col-12 column-form">
-                <div class="logo mb-5">
-                    <img src="{{ asset('images/logo-black.png') }}" loading="lazy" alt="Hub Integrações"
-                        class="img-fluid">
-                </div>
-                <div class="text-center message-verify">
-                    <div class="mb-3">
-                        @if($user->src)
-                            <img src="{{ $user->src }}" alt="" width="80" height="80" class="rounded-circle">
-                        @else
-                            <div class="perfil-img rounded-circle bg-secondary fw-bold text-white">
-                                {{ substr($user->name, 0, 1)  }}
-                            </div>
-                        @endif
+            <div class="col-lg-8 col-md-9 col-sm-10 col-11">
+                <div class="row px-4 py-5 rounded-4 bg-white card-login">
+                    <div class="col-lg-6 col-12">
+                        <div class="logo mb-4">
+                            <img src="{{ asset('images/favicon2.ico') }}" loading="lazy" alt="Hub Integrações"
+                                class="img-fluid">
+                        </div>
+                        <div>
+                            <h2>Alteração de senha</h2>
+                            <p>Preencha os campos abaixo para cadastrar sua senha.</p>
+                        </div>
                     </div>
-                    <h4>Olá, {{ $user->name }}!</h4>
-                    <p>Preencha os campos abaixo para cadastrar sua senha:</p>
-                </div>
-
-                @if ($errors->any())
-                    <div class="alert alert-danger col-12">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
-
-                <div class="formulario">
-                    <form action="{{ route('reset.password') }}" method="POST">
-                        @csrf
-                        
-                        <div class="input-field">
-                            <input type="hidden" name="token" value="{{ $user->remember_token }}">
-                            <div class="form-floating">
-                                <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password" aria-label="Nova senha" value="{{ old('password') }}" required>
-                                <label for="password">Nova senha</label>
+                    <div class="col-lg-6 col-12">
+                        <div class="text-center message-verify">
+                            <div class="mb-3">
+                                 @if($user->src)
+                                    <img src="{{ $user->src ? asset('storage/profile/' . $user->src) : '' }}" alt="" width="100" height="100" class="rounded-circle me-1 object-fit-cover">
+                                @else
+                                    <div class="rounded-circle bg-secondary me-1 fw-bold text-white d-flex align-items-center justify-content-center" style="width: 100px; height: 100px">
+                                        <h2>{{ substr($user->name,0,1) }}</h2>
+                                    </div>
+                                @endif
                             </div>
-                            @error('password')
-                                <div class="mt-2 text-danger">{{ $message }}</div>
-                            @enderror
+                            <h4>Olá, {{ $user->name }}!</h4>
                         </div>
 
-                        <div class="input-field">
-                            <div class="form-floating">
-                                <input type="password" class="form-control @error('password_confirmation') is-invalid @enderror" id="password_confirmation" name="password_confirmation" aria-label="Confirmação de senha" value="{{ old('password_confirmation') }}" required>
-                                <label for="password_confirmation">Confirme sua senha</label>
-                            </div>
-                            @error('password_confirmation')
-                                <div class="mt-2 text-danger">{{ $message }}</div>
-                            @enderror
-                            <div id="err" class="pt-3"></div>
+                        <div class="formulario mt-4">
+                            <form action="{{ route('reset.password') }}" method="POST">
+                                @csrf
+                                
+                                <div class="input-field mb-2">
+                                    <input type="hidden" name="token" value="{{ $user->remember_token }}">
+                                    <div class="form-floating">
+                                        <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password" aria-label="Nova senha" value="{{ old('password') }}" placeholder="" required>
+                                        <label for="password">Nova senha</label>
+                                    </div>
+                                    @error('password')
+                                        <div class="mt-2 text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="input-field">
+                                    <div class="form-floating">
+                                        <input type="password" class="form-control @error('password_confirmation') is-invalid @enderror" id="password_confirmation" name="password_confirmation" aria-label="Confirmação de senha" value="{{ old('password_confirmation') }}" placeholder="" required>
+                                        <label for="password_confirmation">Confirme sua senha</label>
+                                    </div>
+                                    @error('password_confirmation')
+                                        <div class="mt-2 text-danger">{{ $message }}</div>
+                                    @enderror
+                                    <div id="err" class="pt-3"></div>
+                                </div>
+                                
+                                <div class="d-flex justify-content-end align-items-center gap-4 mt-4">
+                                    <div>
+                                        <a href="{{ route('login') }}"> <i class="bi bi-arrow-left px-2"></i>Login</a>
+                                    </div>
+                                    <div class="submit-field text-end">
+                                        <input type="submit" name="submit" id="submit" class="btn btn-dark px-5 rounded-5" value="Salvar" disabled/>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                        <div class="submit-field mt-3 text-center">
-                            <input type="submit" name="submit" id="submit" class="btn btn-dark btn-block form-control" value="Salvar" disabled/>
-                        </div>
-                    </form>
-                </div>
-                <div class="mt-3 text-center">
-                    <div class="mb-5">
-                        <a href="{{ route('login') }}"> <i class="bi bi-arrow-left px-2"></i>Login</a>
                     </div>
-                    <div class="copyright">
+                </div>
+                <div class="row mt-2">
+                    <div class="col-lg-4 col-sm-5 col-12 d-none d-sm-block">
                         <small>© Komuh {{date('Y')}} &bull; Version {{ env('APP_VERSION') }} </small>
+                    </div>
+                    <div class="col-lg-8 col-sm-7 col-12 text-sm-end text-center pe-0">
+                        <a href="https://komuh.com/" target="_blank" class="btn btn-sm btn-outline-gray rounded-3 border-0 px-3"> <small>Komuh</small> </a>
+                        <a href="https://drive.google.com/file/d/144pvmzqW4E5xt6-AG1bt7cPPRyhx88Zz/view?usp=drive_link" target="_blank" class="btn btn-sm btn-outline-gray rounded-3 border-0 px-3"> <small>Documentação</small> </a>
+                        <a href="mailto:breno.miranda@komuh.com" target="_blank" class="btn btn-sm btn-outline-gray rounded-3 border-0 px-3"> <small>Ajuda</small> </a>
                     </div>
                 </div>
             </div>
