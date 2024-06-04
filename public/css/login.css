@@ -13,13 +13,6 @@ main>div>div {
     height: 100%;
 }
 
-.btn-outline-gray {
-    color: #1f1f1f8c;
-}
-
-.btn-outline-gray:hover {
-    background: #d8dde1;
-}
 
 .card-login {
     min-height: 400px;
@@ -37,6 +30,14 @@ main>div>div {
 
 input.is-invalid+.view-password {
     right: 35px;
+}
+
+.btn-outline-gray {
+    color: #1f1f1f8c;
+}
+
+.btn-outline-gray:hover {
+    background: #d8dde1;
 }
 
 .perfil-img {
