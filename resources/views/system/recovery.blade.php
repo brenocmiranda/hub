@@ -49,7 +49,7 @@ Solicitação
                     </div>
                 </div>
                 <div class="row mt-2">
-                    <div class="col-lg-4 col-sm-5 col-12 d-none d-sm-block">
+                    <div class="col-lg-4 col-sm-5 col-12 d-none d-sm-block text-secondary">
                         <small>© Komuh {{date('Y')}} &bull; Version {{ env('APP_VERSION') }} </small>
                     </div>
                     <div class="col-lg-8 col-sm-7 col-12 text-sm-end text-center pe-0">
