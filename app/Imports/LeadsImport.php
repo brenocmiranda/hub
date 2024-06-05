@@ -63,7 +63,7 @@ class LeadsImport implements ToCollection, WithHeadingRow, ShouldQueue, WithEven
                 foreach ($this->fieldsOptionalsName as $index => $fieldOptionalsName) { 
                     LeadsFields::create([
                         'name' => $this->fieldsOptionalsName[$index], 
-                        'value' => $this->fieldsOptionalsValue[$index],
+                        'value' => $row[$this->fieldsOptionalsValue[$index]],
                         'leads_id' => $lead->id,
                     ]);
                 }
