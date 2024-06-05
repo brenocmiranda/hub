@@ -4,7 +4,7 @@ main {
     height: 100%;
     display: flex;
     align-items: center;
-    background-color: var(--bs-secondary-bg-subtle) !important;
+    background: var(--gray);
     padding: 10px 0;
 }
 
@@ -37,7 +37,7 @@ input.is-invalid+.view-password {
 }
 
 .btn-outline-gray:hover {
-    background: #d8dde1;
+    background: #d5d5d5;
 }
 
 .perfil-img {

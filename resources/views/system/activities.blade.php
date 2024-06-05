@@ -15,25 +15,11 @@ Minhas atividades
             <div class="timeline-centered">
                 @if(isset($logs[0]))
                     <?php 
-                        /*$actions = [
-                            'create' => 'bg-success',
-                            'update' => 'bg-primary', 
-                            'destroy' => 'bg-danger', 
-                            'show' => 'bg-info', 
-                            'recovery' => 'bg-warning', 
-                            'login' => 'bg-dark', 
-                            'logout' => 'bg-secondary', 
-                            'block' => 'bg-warning', 
-                            'reset' => 'bg-info',
-                            'retryAll' => 'bg-secondary',
-                            'retry' => 'bg-secondary',
-                            'resend' => 'bg-dark'
-                        ];*/ 
                         $actions = [
                             'create' => 'bi-plus-circle-dotted',
-                            'update' => 'bi-arrow-clockwise', 
+                            'update' => 'bi-pencil-square', 
                             'destroy' => 'bi-trash3', 
-                            'show' => 'bi-eye', 
+                            'show' => 'bi-card-list', 
                             'recovery' => 'bi-exclamation-diamond', 
                             'login' => 'bi-door-open', 
                             'logout' => 'bi-door-closed', 
@@ -41,7 +27,8 @@ Minhas atividades
                             'reset' => 'bi-hash',
                             'retryAll' => 'bi-repeat',
                             'retry' => 'bi-repeat-1',
-                            'resend' => 'bi-send'
+                            'resend' => 'bi-send',
+                            'reports' => 'bi-file-earmark-text'
                         ];
                     ?>
 
@@ -49,7 +36,7 @@ Minhas atividades
                         <article class="timeline-entry {{ $index % 2 == 0 ? 'left-aligned' : '' }}">
                             <div class="timeline-entry-inner">
                                 <time class="timeline-time" datetime="{{ $log->created_at }}"><span>{{ $log->created_at->format('H:i') . ' ' . $log->created_at->format('A') }}</span> <span>{{ \Carbon\Carbon::parse($log->created_at)->diffForHumans() }}</span></time>
-                                <div class="timeline-icon bg-secondary">
+                                <div class="timeline-icon bg-secondary-subtle">
                                     <i class="bi {{ isset($actions[$log->action]) ? $actions[$log->action] : '' }}"></i>
                                 </div>
                                 <div class="timeline-label">
@@ -62,7 +49,7 @@ Minhas atividades
 
                     <article class="timeline-entry begin">
                         <div class="timeline-entry-inner">
-                            <div class="timeline-icon" style="-webkit-transform: rotate(-90deg); -moz-transform: rotate(-90deg);">
+                            <div class="timeline-icon bg-primary" style="-webkit-transform: rotate(-90deg); -moz-transform: rotate(-90deg);">
                                 <i class="entypo-flight"></i>
                             </div>
                         </div>

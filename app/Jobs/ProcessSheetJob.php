@@ -31,7 +31,7 @@ class ProcessSheetJob implements ShouldQueue
 
     public function handle(): void
     {
-        $sheets = BuildingsSheets::where('building_id', $this->lead->building_id)->get();
+        $sheets = BuildingsSheets::where('buildings_id', $this->lead->buildings_id)->get();
         foreach( $sheets as $sheet ){
 
             config([

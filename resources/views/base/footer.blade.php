@@ -114,6 +114,34 @@
     </script>
 @endif
 
+@if (session('reports'))
+    <script>
+        $.toast({
+            heading: 'Relatório',
+            text: 'Seu relatório está sendo gerado.',
+            icon: 'success',
+            loader: true,        // Change it to false to disable loader
+            loaderBg: '#9EC600',  // To change the background
+            allowToastClose: true,
+            position: 'bottom-right',
+        });
+    </script>
+@endif
+
+@if (session('imports'))
+    <script>
+        $.toast({
+            heading: 'Importação',
+            text: 'Seu importação está sendo executada.',
+            icon: 'success',
+            loader: true,        // Change it to false to disable loader
+            loaderBg: '#9EC600',  // To change the background
+            allowToastClose: true,
+            position: 'bottom-right',
+        });
+    </script>
+@endif
+
 @yield('js')
 
 </body>

@@ -44,6 +44,12 @@
     top: 50%;
     transform: translateY(-50%);
     z-index: 1;
+    background: #fff
+}
+.emails .all-emails .single-email .content-email a:hover {
+    color: var(--bs-btn-hover-color);
+    background-color: var(--bs-btn-hover-bg);
+    border-color: var(--bs-btn-hover-border-color);
 }
 
 /** Group sheets **/
