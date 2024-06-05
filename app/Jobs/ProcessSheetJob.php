@@ -42,7 +42,7 @@ class ProcessSheetJob implements ShouldQueue
             $data = $this->lead->created_at->format("d/m/Y H:i:s");
             $origin = $this->lead->RelationOrigins->name;
             $ticket = $this->lead->RelationFields->where('name', 'SrNumber')->first() ? $this->lead->RelationFields->where('name', 'SrNumber')->first()->value : "";
-            $companie = $this->lead->RelationBuildings->RelationCompanies->name;
+            $companie = $this->lead->RelationCompanies->name;
             $building = $this->lead->RelationBuildings->name;
             $contact = $this->lead->RelationFields->where('name', 'PartyNumber')->first() ? $this->lead->RelationFields->where('name', 'PartyNumber')->first()->value : "";
             $name = $this->lead->name;
@@ -82,14 +82,14 @@ class ProcessSheetJob implements ShouldQueue
         $pipeline = Pipelines::create([
             'statusCode' => 2,
             'attempts' => $this->attempts(),
-            'lead_id' => $this->lead->id,
-            'buildings_has_integrations_building_id' => $this->lead->RelationBuildings->id,
-            'buildings_has_integrations_integration_id' => null
+            'leads_id' => $this->lead->id,
+            'buildings_id' => $this->lead->buildings_id,
+            'integrations_id' => null
         ]);
         PipelinesLog::create([
             'header' => 'Envio dos dados para o sheets',
             'response' => json_encode($sl),
-            'pipeline_id' => $pipeline->id
+            'pipelines_id' => $pipeline->id
         ]);
     }
 }

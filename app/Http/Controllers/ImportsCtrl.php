@@ -101,6 +101,14 @@ class ImportsCtrl extends Controller
 
     public function destroy(string $id)
     {
-        //
+        /* Remove file
+        $report = UsersImports::find($id);
+        $file = storage_path('app/public/imports/') . $report->name;
+        if ( file_exists($file) ) {
+            unlink($file);
+        }*/
+
+        UsersImports::find($id)->delete();
+        return redirect()->route('imports.index')->with('destroy', true);
     }
 }
