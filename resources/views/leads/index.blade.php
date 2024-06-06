@@ -15,7 +15,7 @@ Leads
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
-                <table id="table" data-url="{{ route("leads.data") }}" data-side-pagination="server">
+                <table id="table" data-url="{{ route("leads.data") }}" data-side-pagination="server" data-pagination="true" data-page-size="5">
                     <thead>
                         <tr>
                             <th data-field="date" data-align="center">Data</th>
