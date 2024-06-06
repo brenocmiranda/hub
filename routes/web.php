@@ -22,11 +22,12 @@ use App\Http\Controllers\ReportsCtrl;
 # Área não logada
 #---------------------------------------------------------------------
 Route::group(['prefix' => '/'], function () {
-    // Funções externas
+    // Login e Auth
     Route::get('/', [PublicCtrl::class, 'login'])->name('login');
     Route::post('authentication', [PublicCtrl::class, 'authentication'])->name('authentication');
+
+    // Recuperação de senha
     Route::group(['prefix' => 'password'], function () {
-        // Recuperação de senha
         Route::get('/', [PublicCtrl::class, 'recovery'])->name('recovery.password');
         Route::post('recovering', [PublicCtrl::class, 'recovering'])->name('recovering.password');
         Route::get('verify/{token}', [PublicCtrl::class, 'verify'])->name('verify.password');
@@ -39,7 +40,7 @@ Route::group(['prefix' => '/'], function () {
 #---------------------------------------------------------------------
 Route::group(['prefix' => 'app'], function () {
 
-    // Funções internas
+    // Home e Logout
     Route::get('home', [PrivateCtrl::class, 'home'])->name('home');
     Route::get('logout', [PrivateCtrl::class, 'logout'])->name('logout');
 
@@ -56,7 +57,7 @@ Route::group(['prefix' => 'app'], function () {
 
     // Leads
     Route::resource('leads', LeadsCtrl::class)->only([ 'index', 'create', 'store', 'destroy', 'show' ]);
-    Route::group(['prefix' => 'leads'], function () {
+    Route::group(['prefix' => 'leads/all/'], function () {
         Route::get('data', [LeadsCtrl::class, 'data'])->name('leads.data');
         Route::get('search', [LeadsCtrl::class, 'search'])->name('leads.search');
         Route::get('retryAll', [LeadsCtrl::class, 'retryAll'])->name('leads.retryAll');
@@ -91,7 +92,7 @@ Route::group(['prefix' => 'app'], function () {
 
     // Buildings
     Route::resource('buildings', BuildingsCtrl::class);
-    Route::group(['prefix' => 'buildings'], function () {
+    Route::group(['prefix' => 'buildings/all/'], function () {
         Route::any('duplicate/{id}', [BuildingsCtrl::class, 'duplicate'])->name('buildings.duplicate');
     });
 
@@ -116,7 +117,7 @@ Route::group(['prefix' => 'app'], function () {
 
     // Usuários
     Route::resource('users', UsersCtrl::class);
-    Route::group(['prefix' => 'users'], function () {
+    Route::group(['prefix' => 'users/all/'], function () {
         Route::any('recovery/{id}', [UsersCtrl::class, 'recovery'])->name('users.recovery');
     });
 
