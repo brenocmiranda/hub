@@ -36,7 +36,7 @@ Leads
                             <td>{{ $lead->name }}</td>
                             <td>{{ $lead->email }}</td>
                             <td>@if( $lead->batches_id ) 
-                                    @if(Bus::findBatch($lead->batches_id)->failedJobs > 0 && Bus::findBatch($lead->batches_id)->pendingJobs > 0 ){
+                                    @if(Bus::findBatch($lead->batches_id)->failedJobs > 0 && Bus::findBatch($lead->batches_id)->pendingJobs > 0 )
                                         <span class="badge border rounded-pill bg-danger-subtle border-danger-subtle text-danger-emphasis"> <i class="bi bi-x-octagon px-1"></i> Erro </span>
                                     @elseif(Bus::findBatch($lead->batches_id)->pendingJobs > 0 )
                                         <span class="badge border rounded-pill bg-secondary-subtle border-secondary-subtle text-secondary-emphasis"> <i class="bi bi-gear-wide-connected px-1"></i> Executando </span>
