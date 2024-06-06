@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Bus;
+use Illuminate\Http\Request;
 use App\Http\Requests\LeadsRqt;
 use App\Models\Buildings;
 use App\Models\BuildingsPartners;
@@ -16,8 +18,6 @@ use App\Models\UsersLogs;
 use App\Models\Pipelines;
 use App\Models\PipelinesLog;
 use App\Jobs\ProcessBuildingJobs;
-
-use Illuminate\Http\Request;
 
 class LeadsCtrl extends Controller
 {   
