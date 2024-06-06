@@ -48,36 +48,40 @@ class LeadsCtrl extends Controller
         // Apply Length
         $leads = $leads->skip($skip)->take($pageLength)->get();
         
-        foreach($leads as $lead) {
-            // Status
-            if( $lead->batches_id ) {
-                if (Bus::findBatch($lead->batches_id)->failedJobs > 0 && Bus::findBatch($lead->batches_id)->pendingJobs > 0 ){
-                    $status = '<span class="badge border rounded-pill bg-danger-subtle border-danger-subtle text-danger-emphasis"> <i class="bi bi-x-octagon px-1"></i> Erro </span>';
-                } elseif (Bus::findBatch($lead->batches_id)->pendingJobs > 0 ) {
-                    $status = '<span class="badge border rounded-pill bg-secondary-subtle border-secondary-subtle text-secondary-emphasis"> <i class="bi bi-gear-wide-connected px-1"></i> Executando </span>';
-                } elseif (Bus::findBatch($lead->batches_id)->pendingJobs === 0 ){
-                    $status = '<span class="badge border rounded-pill bg-success-subtle border-success-subtle text-success-emphasis"> <i class="bi bi-check2-circle px-1"></i> Finalizado </span>';
-                }  
-            } else { 
-                $status = '<span class="badge border rounded-pill bg-info-subtle border-info-subtle text-info-emphasis"> <i class="bi bi-box-seam px-1"></i> Na fila </span>';
-            } 
+        if ($leads){
+            foreach($leads as $lead) {
+                // Status
+                if( $lead->batches_id ) {
+                    if (Bus::findBatch($lead->batches_id)->failedJobs > 0 && Bus::findBatch($lead->batches_id)->pendingJobs > 0 ){
+                        $status = '<span class="badge border rounded-pill bg-danger-subtle border-danger-subtle text-danger-emphasis"> <i class="bi bi-x-octagon px-1"></i> Erro </span>';
+                    } elseif (Bus::findBatch($lead->batches_id)->pendingJobs > 0 ) {
+                        $status = '<span class="badge border rounded-pill bg-secondary-subtle border-secondary-subtle text-secondary-emphasis"> <i class="bi bi-gear-wide-connected px-1"></i> Executando </span>';
+                    } elseif (Bus::findBatch($lead->batches_id)->pendingJobs === 0 ){
+                        $status = '<span class="badge border rounded-pill bg-success-subtle border-success-subtle text-success-emphasis"> <i class="bi bi-check2-circle px-1"></i> Finalizado </span>';
+                    }  
+                } else { 
+                    $status = '<span class="badge border rounded-pill bg-info-subtle border-info-subtle text-info-emphasis"> <i class="bi bi-box-seam px-1"></i> Na fila </span>';
+                } 
 
-            // Operações
-            $operations = '<div class="d-flex justify-content-center align-items-center gap-2"> <a href="' . route('leads.show', $lead->id ) . '" class="btn btn-outline-secondary px-2 py-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Visualizar"><i class="bi bi-eye"></i></a>' . ($lead->batches_id && Bus::findBatch($lead->batches_id)->failedJobs > 0 && Bus::findBatch($lead->batches_id)->pendingJobs > 0 ? '<a href="'. route('leads.retry', $lead->id ) .'" class="btn btn-outline-danger px-2 py-1 retry" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Tentar Novamente"><i class="bi bi-arrow-repeat"></i></a>' : "") . '</div>';
-            
-            // Array do emp
-            $array[] = [
-                'date'  => $lead->created_at->format("d/m/Y H:i:s"),
-                'origin' => $lead->RelationOrigins->name, 
-                'building' => $lead->RelationBuildings->name, 
-                'name' => $lead->name,
-                'email'=> $lead->email,
-                'status' => $status,
-                'operations' => $operations
-            ];
+                // Operações
+                $operations = '<div class="d-flex justify-content-center align-items-center gap-2"> <a href="' . route('leads.show', $lead->id ) . '" class="btn btn-outline-secondary px-2 py-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Visualizar"><i class="bi bi-eye"></i></a>' . ($lead->batches_id && Bus::findBatch($lead->batches_id)->failedJobs > 0 && Bus::findBatch($lead->batches_id)->pendingJobs > 0 ? '<a href="'. route('leads.retry', $lead->id ) .'" class="btn btn-outline-danger px-2 py-1 retry" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Tentar Novamente"><i class="bi bi-arrow-repeat"></i></a>' : "") . '</div>';
+                
+                // Array do emp
+                $array[] = [
+                    'date'  => $lead->created_at->format("d/m/Y H:i:s"),
+                    'origin' => $lead->RelationOrigins->name, 
+                    'building' => $lead->RelationBuildings->name, 
+                    'name' => $lead->name,
+                    'email'=> $lead->email,
+                    'status' => $status,
+                    'operations' => $operations
+                ];
+            }
+        } else {
+            $array = [];
         }
 
-        return response()->json(["total" => $recordsTotal, "totalNotFiltered" => $leads->count(), 'rows' => $array ? $array : []], 200);
+        return response()->json(["total" => $recordsTotal, "totalNotFiltered" => $leads->count(), 'rows' => $array], 200);
     }
 
     public function create()
