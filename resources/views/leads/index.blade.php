@@ -15,7 +15,7 @@ Leads
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
-                <table id="table" data-url="{{ route("leads.data") }}" data-side-pagination="server">
+                <table id="table" data-url="{{ route("leads.data") }}">
                     <thead>
                         <tr>
                             <th data-field="date" data-align="center">Data</th>
@@ -29,7 +29,7 @@ Leads
                     </thead>
                 </table>
                 <script>
-                    $(function () {});
+                    $(function (){});
                 </script>
             </div>
         </div>
