@@ -34,7 +34,7 @@ Leads
                                 <td> {{ $lead->RelationOrigins->name }} </td>
                                 <td> {{ $lead->RelationBuildings->name }} </td>
                                 <td> {{ $lead->name }} </td>
-                                <td> {{ $lead->email }} </td>
+                                <!--<td> {{ $lead->email }} </td>-->
                                 <td> 
                                     @if( $lead->batches_id ) 
                                         @if (Bus::findBatch($lead->batches_id)->failedJobs > 0 && Bus::findBatch($lead->batches_id)->pendingJobs > 0 ) 
