@@ -32,7 +32,7 @@ Leads
                     $(function () {
                         // your custom ajax request here
                         function ajaxRequest(params) {
-                            var url = {{ route('leads.data') }};
+                            var url = '{{ route("leads.data") }}';
                             $.get(url + '?' + $.param(params.data)).then(function (res) {
                                 params.success(res);
                             });
