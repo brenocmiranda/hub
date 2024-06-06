@@ -15,7 +15,7 @@ Leads
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
-                <table id="table" data-ajax="ajaxRequest" data-side-pagination="server">
+                <table id="table" data-ajax="ajaxRequest" data-side-pagination="server" data-pagination="true">
                     <thead>
                         <tr>
                             <th data-field="date" data-align="center">Data</th>
@@ -35,7 +35,6 @@ Leads
                             var url = '{{ route("leads.data") }}';
                             $.get(url + '?' + $.param(params.data)).then(function (res) {
                                 params.success(res);
-                                console.log(res);
                             });
                         }
                     });
