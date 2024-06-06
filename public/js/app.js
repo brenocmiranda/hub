@@ -33,7 +33,6 @@ $table.bootstrapTable({
     buttonsAlign: 'left',
     pageSize: 6,
     search: true,
-    showSearchButton: true,
     searchable: true,
     pagination: true,
     paginationPreText: '<',
