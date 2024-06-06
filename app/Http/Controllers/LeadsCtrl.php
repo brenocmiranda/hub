@@ -35,15 +35,15 @@ class LeadsCtrl extends Controller
         $skip       = $request->offset;
 
         // Get data from leads all
-        $leadsAll = Leads::orderBy('created_at', 'desc');
+        $leads = Leads::orderBy('created_at', 'desc');
         $recordsTotal = Leads::orderBy('created_at', 'desc')->count();
 
         // Search
         $search = $request->search;
-        $leads = $leadsAll->where( function($leadsAll) use ($search){
-            $leadsAll->orWhere('name', 'like', "%".$search."%");
-            $leadsAll->orWhere('email', 'like', "%".$search."%");
-            $leadsAll->orWhere('phone', 'like', "%".$search."%");
+        $leads = $leads->where( function($leads) use ($search){
+            $leads->orWhere('name', 'like', "%".$search."%");
+            $leads->orWhere('email', 'like', "%".$search."%");
+            $leads->orWhere('phone', 'like', "%".$search."%");
         });
 
         // Apply Length
