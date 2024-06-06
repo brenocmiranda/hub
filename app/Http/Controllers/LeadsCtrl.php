@@ -30,7 +30,7 @@ class LeadsCtrl extends Controller
 
     public function data(Request $request)
     {
-        $leads = Leads::select('created_at', 'name', 'email', 'building_id', 'leads_origin_id', 'batches_id', 'id')->orderBy('created_at', 'desc')->paginate(7);
+        $leads = Leads::select('created_at', 'name', 'email', 'building_id', 'leads_origin_id', 'batches_id', 'id')->orderBy('created_at', 'desc')->get();
         foreach($leads as $lead) {
             // Status
             if( $lead->batches_id ) {
