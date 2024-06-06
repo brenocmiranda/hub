@@ -282,7 +282,7 @@ footer {
 }
 
 .loading-text {
-    font-size: 1.1rem;
+    font-size: 1.1rem !important;
 }
 
 /** Barra de rolagem **/
