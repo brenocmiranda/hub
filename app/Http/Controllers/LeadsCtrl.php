@@ -47,7 +47,8 @@ class LeadsCtrl extends Controller
             $leads->orWhere('buildings.name', 'like', "%".$search."%");
         });
 
-        // Apply Length
+        // Apply Length and Capture RecordsFilters
+        $recordsFiltered = $recordsTotal = $leads->count();
         $leads = $leads->skip($skip)->take($pageLength)->get();
         
         if ($leads->first()){
@@ -83,7 +84,7 @@ class LeadsCtrl extends Controller
             $array = [];
         }
 
-        return response()->json(["total" => $recordsTotal, "totalNotFiltered" => $leads->count(), 'rows' => $array], 200);
+        return response()->json(["total" => $recordsTotal, "totalNotFiltered" => $recordsFiltered, 'rows' => $array], 200);
     }
 
     public function create()
