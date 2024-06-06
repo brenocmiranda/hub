@@ -325,7 +325,7 @@ footer {
     margin-bottom: 0;
 }
 
-/** Pagination Tables **/
+/** Tables **/
 .active>.page-link,
 .page-link.active {
     background: #6c757d;
@@ -336,6 +336,10 @@ footer {
 .active>.page-link,
 .page-link {
     color: rgb(33, 37, 41)
+}
+
+.loading-text {
+    font-size: 1.1rem !important;
 }
 
 /** Barra de rolagem **/

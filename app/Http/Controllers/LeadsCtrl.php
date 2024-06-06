@@ -17,6 +17,8 @@ use App\Models\Pipelines;
 use App\Models\PipelinesLog;
 use App\Jobs\ProcessBuildingJobs;
 
+use Illuminate\Http\Request;
+
 class LeadsCtrl extends Controller
 {   
     public function __construct(){
@@ -25,7 +27,60 @@ class LeadsCtrl extends Controller
     
     public function index()
     {   
-        return view('leads.index')->with('leads', Leads::select('created_at', 'name', 'email', 'companies_id', 'buildings_id', 'leads_origins_id', 'batches_id', 'id')->orderBy('created_at', 'desc')->get());
+        return view('leads.index');
+    }
+
+    public function data(Request $request)
+    {   
+        // Page Length
+        $pageLength = $request->limit;
+        $skip       = $request->offset;
+
+        // Get data from leads all
+        $leads = Leads::orderBy('created_at', 'desc');
+        $recordsTotal = Leads::orderBy('created_at', 'desc')->count();
+
+        // Search
+        $search = $request->search;
+        $leads = $leads->where( function($leads) use ($search){
+            $leads->orWhere('name', 'like', "%".$search."%");
+            $leads->orWhere('email', 'like', "%".$search."%");
+            $leads->orWhere('phone', 'like', "%".$search."%");
+        });
+
+        // Apply Length
+        $leads = $leads->skip($skip)->take($pageLength)->get();
+        
+        foreach($leads as $lead) {
+            // Status
+            if( $lead->batches_id ) {
+                if (Bus::findBatch($lead->batches_id)->failedJobs > 0 && Bus::findBatch($lead->batches_id)->pendingJobs > 0 ){
+                    $status = '<span class="badge border rounded-pill bg-danger-subtle border-danger-subtle text-danger-emphasis"> <i class="bi bi-x-octagon px-1"></i> Erro </span>';
+                } elseif (Bus::findBatch($lead->batches_id)->pendingJobs > 0 ) {
+                    $status = '<span class="badge border rounded-pill bg-secondary-subtle border-secondary-subtle text-secondary-emphasis"> <i class="bi bi-gear-wide-connected px-1"></i> Executando </span>';
+                } elseif (Bus::findBatch($lead->batches_id)->pendingJobs === 0 ){
+                    $status = '<span class="badge border rounded-pill bg-success-subtle border-success-subtle text-success-emphasis"> <i class="bi bi-check2-circle px-1"></i> Finalizado </span>';
+                }  
+            } else { 
+                $status = '<span class="badge border rounded-pill bg-info-subtle border-info-subtle text-info-emphasis"> <i class="bi bi-box-seam px-1"></i> Na fila </span>';
+            } 
+
+            // Operações
+            $operations = '<div class="d-flex justify-content-center align-items-center gap-2"> <a href="' . route('leads.show', $lead->id ) . '" class="btn btn-outline-secondary px-2 py-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Visualizar"><i class="bi bi-eye"></i></a>' . ($lead->batches_id && Bus::findBatch($lead->batches_id)->failedJobs > 0 && Bus::findBatch($lead->batches_id)->pendingJobs > 0 ? '<a href="'. route('leads.retry', $lead->id ) .'" class="btn btn-outline-danger px-2 py-1 retry" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Tentar Novamente"><i class="bi bi-arrow-repeat"></i></a>' : "") . '</div>';
+            
+            // Array do emp
+            $array[] = [
+                'date'  => $lead->created_at->format("d/m/Y H:i:s"),
+                'origin' => $lead->RelationOrigins->name, 
+                'building' => $lead->RelationBuildings->name, 
+                'name' => $lead->name,
+                'email'=> $lead->email,
+                'status' => $status,
+                'operations' => $operations
+            ];
+        }
+
+        return response()->json(["total" => $recordsTotal, "totalNotFiltered" => $leads->count(), 'rows' => $array ? $array : []], 200);
     }
 
     public function create()
@@ -147,7 +202,8 @@ class LeadsCtrl extends Controller
         return redirect()->route('leads.index')->with('destroy', true);
     }
 
-    public function search(){
+    public function search()
+    {
         $term = $_GET['search'];
         $leads= Leads::where('name', 'like', '%'.$term.'%')->orWhere('phone', 'like', '%'.$term.'%')->orWhere('email', 'like', '%'.$term.'%')->select( 'name', 'id' )->limit(5)->get();
 
@@ -157,7 +213,8 @@ class LeadsCtrl extends Controller
         return $leads;
     }
 
-    public function retryAll(){ 
+    public function retryAll()
+    { 
         Artisan::call('queue:retry', ['id' => ['all']]);
 
         // Salvando log
@@ -171,8 +228,8 @@ class LeadsCtrl extends Controller
         return redirect()->route('leads.pipelines.index')->with( 'retryAll', true );
     }
 
-    // Problem
-    public function retry($id){ 
+    public function retry($id)
+    { 
         $lead = Leads::find($id);
         $batches = $lead->batches_id;
         Artisan::call('queue:retry-batch', ['id' => $batches]);
@@ -188,7 +245,8 @@ class LeadsCtrl extends Controller
         return redirect()->back()->with( 'retry', true );
     }
 
-    public function resend($id){ 
+    public function resend($id)
+    { 
         ProcessBuildingJobs::dispatch($id);
 
         // Salvando log

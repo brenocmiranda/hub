@@ -15,7 +15,7 @@ Leads
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
-                <table id="table">
+                <table id="table" data-ajax="ajaxRequest" data-side-pagination="server">
                     <thead>
                         <tr>
                             <th data-field="date" data-align="center">Data</th>
@@ -30,33 +30,13 @@ Leads
                     </thead>
                 </table>
                 <script>
-                    $(function () {
-                        var data = [
-                            @foreach($leads as $lead)
-                                { 
-                                    'date': '{{ $lead->created_at->format("d/m/Y H:i:s") }}', 
-                                    'name': '{{ $lead->name }}',
-                                    'email': '{{ $lead->email }}',
-                                    'companie': '{{ $lead->RelationCompanies->name }}', 
-                                    'building': '{{ $lead->RelationBuildings->name }}', 
-                                    'origin': '{{ $lead->RelationOrigins->name }}', 
-                                    'status': '@if( $lead->batches_id ) @if (Bus::findBatch($lead->batches_id)->failedJobs > 0 && Bus::findBatch($lead->batches_id)->pendingJobs > 0 ) <span class="badge border rounded-pill bg-danger-subtle border-danger-subtle text-danger-emphasis"> <i class="bi bi-x-octagon px-1"></i> Erro </span> @elseif (Bus::findBatch($lead->batches_id)->pendingJobs > 0 ) <span class="badge border rounded-pill bg-secondary-subtle border-secondary-subtle text-secondary-emphasis"> <i class="bi bi-gear-wide-connected px-1"></i> Executando </span> @elseif (Bus::findBatch($lead->batches_id)->pendingJobs === 0 ) <span class="badge border rounded-pill bg-success-subtle border-success-subtle text-success-emphasis"> <i class="bi bi-check2-circle px-1"></i> Finalizado </span> @endif @else <span class="badge border rounded-pill bg-info-subtle border-info-subtle text-info-emphasis"> <i class="bi bi-box-seam px-1"></i> Na fila </span> @endif',
-                                    'operations': '<div class="d-flex justify-content-center align-items-center gap-2"> <a href="{{ route('leads.show', $lead->id ) }}" class="btn btn-outline-secondary px-2 py-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Visualizar"><i class="bi bi-eye"></i></a> <a href="{{ route('leads.destroy', $lead->id ) }}" class="btn btn-outline-secondary px-2 py-1 destroy" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Excluir"><i class="bi bi-trash"></i></a> @if($lead->batches_id && Bus::findBatch($lead->batches_id)->failedJobs > 0 && Bus::findBatch($lead->batches_id)->pendingJobs > 0) <a href="{{ route('leads.retry', $lead->id ) }}" class="btn btn-outline-danger px-2 py-1 retry" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Tentar Novamente"><i class="bi bi-arrow-repeat"></i></a> @endif </div>'
-                                },
-                            @endforeach
-                        ];
-
-                        $table.bootstrapTable('refreshOptions', {
-                            data: data
-                        });
-
-                        $('a.retry').on('click', function(){
-                            let confirmation = confirm('Tem certeza que deseja tentar novamente?');
-                            if ( confirmation === false ) {
-                                return false;
-                            }
-                        });
-                    });
+                // your custom ajax request here
+                function ajaxRequest(params) {
+                    var url = '{{ route('leads.data') }}'
+                    $.get(url + '?' + $.param(params.data)).then(function (res) {
+                        params.success(res)
+                    })
+                }
                 </script>
             </div>
         </div>
