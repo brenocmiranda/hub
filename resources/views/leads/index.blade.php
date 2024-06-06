@@ -15,7 +15,7 @@ Leads
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
-                <table id="table">
+                <table id="table" data-ajax="ajaxRequest" data-side-pagination="server">
                     <thead>
                         <tr>
                             <th data-field="date" data-align="center">Data</th>
@@ -27,14 +27,14 @@ Leads
                             <th data-field="operations" data-align="center">Operações</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <!--<tbody>
                         @foreach($leads as $lead)
                         <tr>
                             <td>{{ $lead->created_at->format("d/m/Y H:i:s") }}</td>
                             <td>{{ $lead->RelationOrigins->name }}</td>
                             <td>{{ $lead->RelationBuildings->name }}</td>
                             <td>{{ $lead->name }}</td>
-                            <!--<td>{{ $lead->email }}</td>-->
+                            <td>{{ $lead->email }}</td>
                             <td>
                                 @if( $lead->batches_id ) 
                                     @if(Bus::findBatch($lead->batches_id)->failedJobs > 0 && Bus::findBatch($lead->batches_id)->pendingJobs > 0 )
@@ -56,8 +56,17 @@ Leads
                             </td>
                         </tr>
                         @endforeach
-                    </tbody>
+                    </tbody>-->
                 </table>
+                <script>
+                // your custom ajax request here
+                function ajaxRequest(params) {
+                    var url = '{{ route('leads.data') }}'
+                    $.get(url + '?' + $.param(params.data)).then(function (res) {
+                        params.success(res)
+                    })
+                }
+                </script>
             </div>
         </div>
     </div>
