@@ -15,7 +15,7 @@ Leads
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
-                <table id="table">
+                <table id="table" data-url="{{ route('leads.data') }}">
                     <thead>
                         <tr>
                             <th data-field="date" data-align="center">Data</th>
@@ -30,7 +30,7 @@ Leads
                 </table>
                 <script>
                     $(function () {
-                        var data = [
+                        /*var data = [
                             @foreach($leads as $lead)
                                 { 
                                     'date': '{{ $lead->created_at->format("d/m/Y H:i:s") }}', 
@@ -46,7 +46,7 @@ Leads
 
                         $table.bootstrapTable('refreshOptions', {
                             data: data
-                        });
+                        });*/
                     });
                 </script>
             </div>

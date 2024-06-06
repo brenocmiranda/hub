@@ -25,6 +25,24 @@ class LeadsCtrl extends Controller
         return view('leads.index')->with('leads', Leads::orderBy('created_at', 'desc')->get());
     }
 
+    public function data()
+    {
+        $leads = Leads::orderBy('created_at', 'desc')->get();
+
+        foreach($leads as $lead) {
+            $array[] = [
+                'date'  => $lead->created_at->format("d/m/Y H:i:s"),
+                'origin' => $lead->RelationOrigins->name, 
+                'building' => $lead->RelationBuildings->name, 
+                'name' => $lead->name,
+                'email'=> $lead->email,
+                'status' => $lead->batches_id,
+                'operations' => '<div class="d-flex justify-content-center align-items-center gap-2"> <a href="' . route('leads.show', $lead->id ) .'" class="btn btn-outline-secondary px-2 py-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Visualizar"><i class="bi bi-eye"></i></a> </div>'
+            ];
+        }
+        return json_encode($array);
+    }
+
     public function create()
     {   
         $companies = Companies::where('active', 1)->orderBy('name', 'asc')->get();
