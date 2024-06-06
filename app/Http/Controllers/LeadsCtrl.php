@@ -28,9 +28,26 @@ class LeadsCtrl extends Controller
         return view('leads.index');
     }
 
-    public function data()
-    {      
-        $leads = Leads::select('created_at', 'name', 'email', 'building_id', 'leads_origin_id', 'batches_id', 'id')->orderBy('created_at', 'desc')->get();
+    public function data(Request $request)
+    {   
+        // Page Length
+        $pageLength = $request->limit;
+        $skip       = $request->offset;
+
+        // Get data from leads all
+        $leadsAll = Leads::orderBy('created_at', 'desc');
+        $recordsTotal = Leads::orderBy('created_at', 'desc')->count();
+
+        // Search
+        $search = $request->search;
+        $leads = $leadsAll->where( function($leadsAll) use ($search){
+            $leadsAll->orWhere('name', 'like', "%".$search."%");
+            $leadsAll->orWhere('email', 'like', "%".$search."%");
+            $leadsAll->orWhere('phone', 'like', "%".$search."%");
+        });
+
+        // Apply Length
+        $leads = $leads->skip($skip)->take($pageLength)->get();
         
         foreach($leads as $lead) {
             // Status
@@ -50,7 +67,7 @@ class LeadsCtrl extends Controller
             $operations = '<div class="d-flex justify-content-center align-items-center gap-2"> <a href="' . route('leads.show', $lead->id ) . '" class="btn btn-outline-secondary px-2 py-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Visualizar"><i class="bi bi-eye"></i></a>' . ($lead->batches_id && Bus::findBatch($lead->batches_id)->failedJobs > 0 && Bus::findBatch($lead->batches_id)->pendingJobs > 0 ? '<a href="'. route('leads.retry', $lead->id ) .'" class="btn btn-outline-danger px-2 py-1 retry" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Tentar Novamente"><i class="bi bi-arrow-repeat"></i></a>' : "") . '</div>';
             
             // Array do emp
-            $array['rows'][] = [
+            $array[] = [
                 'date'  => $lead->created_at->format("d/m/Y H:i:s"),
                 'origin' => $lead->RelationOrigins->name, 
                 'building' => $lead->RelationBuildings->name, 
@@ -61,10 +78,7 @@ class LeadsCtrl extends Controller
             ];
         }
 
-        $array['total'] = $leads->count();
-        $array['totalNotFiltered'] = $leads->count();
-
-        return $array;
+        return response()->json(["total" => $recordsTotal, "totalNotFiltered" => $leads->count(), 'rows' => $array], 200);
     }
 
     public function create()
@@ -151,7 +165,8 @@ class LeadsCtrl extends Controller
         //
     }
 
-    public function search(){
+    public function search()
+    {
         $term = $_GET['search'];
         $leads= Leads::where('name', 'like', '%'.$term.'%')->orWhere('phone', 'like', '%'.$term.'%')->orWhere('email', 'like', '%'.$term.'%')->select( 'name', 'id' )->limit(5)->get();
 
@@ -161,7 +176,8 @@ class LeadsCtrl extends Controller
         return $leads;
     }
 
-    public function retryAll(){ 
+    public function retryAll()
+    { 
         Artisan::call('queue:retry', ['id' => ['all']]);
 
         // Salvando log
@@ -175,7 +191,8 @@ class LeadsCtrl extends Controller
         return redirect()->route('leads.index')->with( 'retryAll', true );
     }
 
-    public function retry($id){ 
+    public function retry($id)
+    { 
         $lead = Leads::find($id);
         Artisan::call('queue:retry', ['id' => [ $lead->batches_id ]]);
 
@@ -190,7 +207,8 @@ class LeadsCtrl extends Controller
         return redirect()->back()->with( 'retry', true );
     }
 
-    public function resend($id){ 
+    public function resend($id)
+    { 
         ProcessBuildingJobs::dispatch($id);
 
         // Salvando log
