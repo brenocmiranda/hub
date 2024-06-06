@@ -15,7 +15,7 @@ Leads
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
-                <table id="table" data-ajax="ajaxRequest" data-side-pagination="server">
+                <table id="table" data-ajax="ajaxRequest">
                     <thead>
                         <tr>
                             <th data-field="date" data-align="center">Data</th>
