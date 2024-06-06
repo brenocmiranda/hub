@@ -28,9 +28,6 @@ Leads
                         </tr>
                     </thead>
                 </table>
-                <script>
-                    $(function (){});
-                </script>
             </div>
         </div>
     </div>
