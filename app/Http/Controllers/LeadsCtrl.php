@@ -78,7 +78,7 @@ class LeadsCtrl extends Controller
             ];
         }
 
-        return response()->json(["total" => $recordsTotal, "totalNotFiltered" => $leads->count(), 'rows' => $array ? $array : 0], 200);
+        return response()->json(["total" => $recordsTotal, "totalNotFiltered" => $leads->count(), 'rows' => $array ? $array : []], 200);
     }
 
     public function create()
