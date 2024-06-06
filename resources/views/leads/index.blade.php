@@ -35,7 +35,8 @@ Leads
                             <td>{{ $lead->RelationBuildings->name }}</td>
                             <td>{{ $lead->name }}</td>
                             <td>{{ $lead->email }}</td>
-                            <td>@if( $lead->batches_id ) 
+                            <td>
+                                @if( $lead->batches_id ) 
                                     @if(Bus::findBatch($lead->batches_id)->failedJobs > 0 && Bus::findBatch($lead->batches_id)->pendingJobs > 0 )
                                         <span class="badge border rounded-pill bg-danger-subtle border-danger-subtle text-danger-emphasis"> <i class="bi bi-x-octagon px-1"></i> Erro </span>
                                     @elseif(Bus::findBatch($lead->batches_id)->pendingJobs > 0 )
@@ -49,13 +50,18 @@ Leads
                             </td>
                             <td>
                                 <div class="d-flex justify-content-center align-items-center gap-2"> 
-                                    <a href="{{ route('leads.show', $lead->id ) }}" class="btn btn-outline-secondary px-2 py-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Visualizar"><i class="bi bi-eye"></i></a> {!! ($lead->batches_id && Bus::findBatch($lead->batches_id)->failedJobs > 0 && Bus::findBatch($lead->batches_id)->pendingJobs > 0 ? '<a href="'. route('leads.retry', $lead->id ) .'" class="btn btn-outline-danger px-2 py-1 retry" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Tentar Novamente"><i class="bi bi-arrow-repeat"></i></a>' : "") !!} 
+                                    <a href="{{ route('leads.show', $lead->id ) }}" class="btn btn-outline-secondary px-2 py-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Visualizar"><i class="bi bi-eye"></i></a> 
+                                    {!! ($lead->batches_id && Bus::findBatch($lead->batches_id)->failedJobs > 0 && Bus::findBatch($lead->batches_id)->pendingJobs > 0 ? '<a href="'. route('leads.retry', $lead->id ) .'" class="btn btn-outline-danger px-2 py-1 retry" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Tentar Novamente"><i class="bi bi-arrow-repeat"></i></a>' : "") !!} 
                                 </div>
                             </td>
                         </tr>
                         @endforeach
                     </tbody>
                 </table>
+
+                <div>
+                    {{ $leads->links() }}
+                </div>
             </div>
         </div>
     </div>
