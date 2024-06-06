@@ -44,7 +44,6 @@ class LeadsCtrl extends Controller
             $leadsAll->orWhere('name', 'like', "%".$search."%");
             $leadsAll->orWhere('email', 'like', "%".$search."%");
             $leadsAll->orWhere('phone', 'like', "%".$search."%");
-            $leadsAll->orWhere('created_at', 'like', "%".$search."%");
         });
 
         // Apply Length
@@ -79,7 +78,7 @@ class LeadsCtrl extends Controller
             ];
         }
 
-        return response()->json(["total" => $recordsTotal, "totalNotFiltered" => $leads->count(), 'rows' => $array], 200);
+        return response()->json(["total" => $recordsTotal, "totalNotFiltered" => $leads->count(), 'rows' => $array ? $array : 0], 200);
     }
 
     public function create()
