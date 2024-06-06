@@ -25,7 +25,7 @@ class LeadsCtrl extends Controller
     
     public function index()
     {
-        return view('leads.index');
+        return view('leads.index')->with('leads', Leads::orderBy('created_at', 'desc')->paginate(7));
     }
 
     public function data(Request $request)
