@@ -37,15 +37,17 @@ class LeadsCtrl extends Controller
         $skip       = $request->offset;
 
         // Get data from leads all
-        $leads = Leads::orderBy('created_at', 'desc');
+        $leads = Leads::orderBy('created_at', 'desc')->join('leads_origins', 'leads.leads_origin_id', '=', 'leads_origins.id')->join('buildings', 'leads.building_id', '=', 'buildings.id')->select('leads.*', 'leads_origins.name as origin', 'buildings.name as building');
         $recordsTotal = Leads::orderBy('created_at', 'desc')->count();
 
         // Search
         $search = $request->search;
         $leads = $leads->where( function($leads) use ($search){
-            $leads->orWhere('name', 'like', "%".$search."%");
-            $leads->orWhere('email', 'like', "%".$search."%");
-            $leads->orWhere('phone', 'like', "%".$search."%");
+            $leads->orWhere('leads.name', 'like', "%".$search."%");
+            $leads->orWhere('leads.email', 'like', "%".$search."%");
+            $leads->orWhere('leads.phone', 'like', "%".$search."%");
+            $leads->orWhere('leads_origins.name', 'like', "%".$search."%");
+            $leads->orWhere('buildings.name', 'like', "%".$search."%");
         });
 
         // Apply Length
@@ -72,8 +74,8 @@ class LeadsCtrl extends Controller
                 // Array do emp
                 $array[] = [
                     'date'  => $lead->created_at->format("d/m/Y H:i:s"),
-                    'origin' => $lead->RelationOrigins->name, 
-                    'building' => $lead->RelationBuildings->name, 
+                    'origin' => $lead->origin, 
+                    'building' => $lead->building, 
                     'name' => $lead->name,
                     'email'=> $lead->email,
                     'status' => $status,
