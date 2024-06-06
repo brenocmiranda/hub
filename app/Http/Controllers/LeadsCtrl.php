@@ -48,7 +48,7 @@ class LeadsCtrl extends Controller
             // Operações
             $operations = '<div class="d-flex justify-content-center align-items-center gap-2"> <a href="' . route('leads.show', $lead->id ) . '" class="btn btn-outline-secondary px-2 py-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Visualizar"><i class="bi bi-eye"></i></a>' . ($lead->batches_id && Bus::findBatch($lead->batches_id)->failedJobs > 0 && Bus::findBatch($lead->batches_id)->pendingJobs > 0 ? '<a href="'. route('leads.retry', $lead->id ) .'" class="btn btn-outline-danger px-2 py-1 retry" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Tentar Novamente"><i class="bi bi-arrow-repeat"></i></a>' : "") . '</div>';
 
-            $array['rows'][] = [
+            $array[] = [
                 'date'  => $lead->created_at->format("d/m/Y H:i:s"),
                 'origin' => $lead->RelationOrigins->name, 
                 'building' => $lead->RelationBuildings->name, 
@@ -58,10 +58,6 @@ class LeadsCtrl extends Controller
                 'operations' => $operations
             ];
         }
-
-        $array['total'] = $leads->count();
-        $array['totalNotFiltered'] = $leads->count();
-        
         return json_encode($array);
     }
 
