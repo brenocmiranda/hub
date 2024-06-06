@@ -35,6 +35,7 @@ Leads
                             var url = '{{ route("leads.data") }}';
                             $.get(url + '?' + $.param(params.data)).then(function (res) {
                                 params.success(res);
+                                console.log(res);
                             });
                         }
                     });
