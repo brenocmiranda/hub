@@ -22,7 +22,7 @@ class LeadsCtrl extends Controller
     
     public function index()
     {
-        return view('leads.index')->with('leads', Leads::orderBy('created_at', 'desc')->get());
+        return view('leads.index');
     }
 
     public function data()
