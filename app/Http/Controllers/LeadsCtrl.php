@@ -48,7 +48,7 @@ class LeadsCtrl extends Controller
         // Apply Length
         $leads = $leads->skip($skip)->take($pageLength)->get();
         
-        if ($leads){
+        if ($leads->first()){
             foreach($leads as $lead) {
                 // Status
                 if( $lead->batches_id ) {

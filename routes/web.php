@@ -54,13 +54,11 @@ Route::group(['prefix' => 'app'], function () {
 
     // Leads
     Route::resource('leads', LeadsCtrl::class)->only([ 'index', 'create', 'store', 'show' ]);
-
-    Route::get('data', [LeadsCtrl::class, 'data'])->name('leads.data');
-
     Route::any('leads/all/search', [LeadsCtrl::class, 'search'])->name('leads.search');
     Route::get('retryAll', [LeadsCtrl::class, 'retryAll'])->name('leads.retryAll');
     Route::get('retry/{id}', [LeadsCtrl::class, 'retry'])->name('leads.retry');
     Route::get('resend/{id}', [LeadsCtrl::class, 'resend'])->name('leads.resend');
+    Route::get('data', [LeadsCtrl::class, 'data'])->name('leads.data');
 
     // Leads (Origins)
     Route::resource('leads/all/origins', LeadsOriginsCtrl::class)->names([
