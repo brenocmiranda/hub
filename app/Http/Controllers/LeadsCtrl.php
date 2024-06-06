@@ -44,6 +44,7 @@ class LeadsCtrl extends Controller
             $leadsAll->orWhere('name', 'like', "%".$search."%");
             $leadsAll->orWhere('email', 'like', "%".$search."%");
             $leadsAll->orWhere('phone', 'like', "%".$search."%");
+            $leadsAll->orWhere('created_at', 'like', "%".$search."%");
         });
 
         // Apply Length
