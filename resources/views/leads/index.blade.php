@@ -15,7 +15,7 @@ Leads
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
-                <table id="table" data-url="{{ route("leads.data") }}" data-side-pagination="server" data-pagination="true" data-page-size="5">
+                <table id="table" data-ajax="ajaxRequest" data-side-pagination="server">
                     <thead>
                         <tr>
                             <th data-field="date" data-align="center">Data</th>
@@ -29,8 +29,13 @@ Leads
                     </thead>
                 </table>
                 <script>
-                    $(function () {
-                    });
+                    // your custom ajax request here
+                    function ajaxRequest(params) {
+                        var url = '{{ route("leads.data") }}';
+                        $.get(url + '?' + $.param(params.data)).then(function (res) {
+                            params.success(res)
+                        })
+                    }
                 </script>
             </div>
         </div>
