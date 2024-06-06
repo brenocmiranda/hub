@@ -30,7 +30,6 @@ class LeadsCtrl extends Controller
     {
         $leads = Leads::orderBy('created_at', 'desc')->get();
         foreach($leads as $lead) {
-
             // Status
             if( $lead->batches_id ) {
                 if (Bus::findBatch($lead->batches_id)->failedJobs > 0 && Bus::findBatch($lead->batches_id)->pendingJobs > 0 ){
