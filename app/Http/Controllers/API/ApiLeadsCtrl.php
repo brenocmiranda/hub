@@ -382,7 +382,9 @@ class ApiLeadsCtrl extends Controller
         }
 
         // Enviando para as execução das integrações
-        ProcessBuildingJobs::dispatch($lead->id);   
+        if ( stripos( $name, 'teste' ) === false ) {
+            ProcessBuildingJobs::dispatch($lead->id);  
+        }
 
         return response()->json([
             'status' => true,

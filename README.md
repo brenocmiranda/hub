@@ -25,20 +25,27 @@ O Hub de Integrações foi criada com objetivo de unificar, apoiar e dar transpa
     <li>Página de login - OK</li>
     <li>Métodos de recuperação de senha - OK</li>
     <li>Criação de Jobs para Integrações, Google Sheets e E-mail - OK</li>
+    <li>Retentativa e reenvio de leads - OK</li>
 </ul>
 
 <strong>Versão 2.1</strong>
 
 <ul>
-    <li>Importações - Fazendo</li>
-    <li>Criação de Dashboards 2</li>
-    <li>Grupo de empresas ?</li>
-    <li>Função de teste em Empreendimentos</li>
+    <li>Melhoria na exibição das tabelas, aplicando request ajax - Fazendo</li>
+    <li>Função de teste em Empreendimentos - Para fazer</li>
+    <li>Melhoria no Dashboards Geral - Para fazer</li>
+    <li>Criação de Dashboards Empreendimentos - Para fazer</li>
+    <li>Importações - OK</li>
     <li>Roletas - OK</li>
     <li>Relatórios - OK</li>
     <li>Exclusão de dados do lead - OK</li>
     <li>Melhoria no disparo de e-mail, com Mail - OK</li>
     <li>Melhoria nos jobs de Integrações, Google Sheets e E-mail - OK</li>
+    <li>Melhoria no processo de login e recuperação - OK</li>
+    <li>Melhoria na página de atividades - OK</li>
+    <li>Correção de erros na retentativa de leads - OK</li>
+    <li>Vinculando empresa a integrações</li>
+    <li>Melhoria no processo de cadastrado de empreendimentos</li>
 </ul>
 
 <strong>Versão 2.2</strong>
@@ -48,6 +55,7 @@ O Hub de Integrações foi criada com objetivo de unificar, apoiar e dar transpa
     <li>Nível de Acesso</li>
     <li>Testes Unitários</li>
     <li>Integrar ao Facebook</li>
+    <li>Grupo de empresas (Avaliar)</li>
 </ul>
 
 <strong>Versão 2.3</strong>
