@@ -16,7 +16,7 @@ class LeadsOriginsCtrl extends Controller
     
     public function index()
     {
-        return view('leads.origins.index')->with('origins', LeadsOrigins::orderBy('name', 'asc')->get());
+        return view('leads.origins.index')->with('origins', LeadsOrigins::orderBy('active', 'desc')->orderBy('name', 'asc')->get());
     }
 
     public function create()

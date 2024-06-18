@@ -16,7 +16,7 @@ class UsersRolesCtrl extends Controller
     
     public function index()
     {   
-        return view('users.roles.index')->with('roles', UsersRoles::orderBy('name', 'asc')->get());
+        return view('users.roles.index')->with('roles', UsersRoles::orderBy('active', 'desc')->orderBy('name', 'asc')->get());
     }
 
     public function create()

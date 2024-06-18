@@ -16,7 +16,7 @@ class IntegrationsCtrl extends Controller
     
     public function index()
     {
-        return view('integrations.index')->with('integrations', Integrations::orderBy('name', 'asc')->get());
+        return view('integrations.index')->with('integrations', Integrations::orderBy('active', 'desc')->orderBy('name', 'asc')->get());
     }
 
     public function create()

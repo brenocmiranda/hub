@@ -22,7 +22,7 @@ class UsersCtrl extends Controller
 
     public function index()
     {
-        return view('users.index')->with('users', Users::orderBy('name', 'asc')->where('id', '!=', Auth::user()->id)->get());
+        return view('users.index')->with('users', Users::orderBy('active', 'desc')->orderBy('name', 'asc')->where('id', '!=', Auth::user()->id)->get());
     }
 
     public function create()

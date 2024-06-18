@@ -16,7 +16,7 @@ class CompaniesCtrl extends Controller
     
     public function index()
     {
-        return view('companies.index')->with('companies', Companies::orderBy('name', 'asc')->get());
+        return view('companies.index')->with('companies', Companies::orderBy('active', 'desc')->orderBy('name', 'asc')->get());
     }
 
     public function create()
