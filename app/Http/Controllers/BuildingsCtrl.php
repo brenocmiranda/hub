@@ -24,7 +24,7 @@ class BuildingsCtrl extends Controller
     
     public function index()
     {
-        return view('buildings.index')->with('buildings', Buildings::orderBy('name', 'asc')->get());
+        return view('buildings.index')->with('buildings', Buildings::orderBy('active', 'desc')->orderBy('name', 'asc')->get());
     }
 
     public function create()

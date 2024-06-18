@@ -19,7 +19,7 @@ class BuildingsKeysCtrl extends Controller
     
     public function index()
     {
-        return view('buildings.keys.index')->with('keys', BuildingsKeys::join('buildings', 'buildings.id', '=', 'buildings_keys.buildings_id')->select("buildings_keys.*")->orderBy('buildings.name', 'asc')->get());
+        return view('buildings.keys.index')->with('keys', BuildingsKeys::join('buildings', 'buildings.id', '=', 'buildings_keys.buildings_id')->select("buildings_keys.*")->orderBy('buildings_keys.active', 'desc')->orderBy('buildings.name', 'asc')->get());
     }
 
     public function create()
