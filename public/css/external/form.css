@@ -6,7 +6,7 @@
     background-size: auto 50% !important;
     background-repeat: no-repeat !important;
     transition: none !important;
-    opacity: 1 !important;
+    opacity: .5 !important;
 }
 
 .submit-btn[disabled] {
