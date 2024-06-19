@@ -291,4 +291,12 @@ jQuery( function( $ ){
 	}
 	$(window).on('resize scroll', checkInView);
 	checkInView();
+
+
+	/**
+	 * Removendo loader de carregamento
+	*/
+	setTimeout(() => {
+		$('.loading').fadeOut();
+	}, 300);
 });
