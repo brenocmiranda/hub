@@ -17,6 +17,10 @@
     margin: 20px 0;
 }
 
+.form-output p {
+    margin: 0;
+}
+
 .form-output.is-success {
     background-color: #43A047;
     padding: 12px 16px;
