@@ -102,8 +102,8 @@ class ApiLeadsCtrl extends Controller
 
             // Origin
             $array = [
-                'originLead' => LeadsOrigins::where('slug', $originLead)->first(),
                 'origin' => LeadsOrigins::where('slug', $request->origin)->first(),
+                'originLead' => LeadsOrigins::where('slug', $originLead)->first(),
             ];
             foreach($array as $ar){
                 if( $ar ){
