@@ -49,6 +49,7 @@ class ProcessIntegrationJob implements ShouldQueue
                     '$origin' => $this->lead->RelationOrigins->name,
                     '$nomeEmpreendimento' => $this->lead->RelationBuildings->name,
                     '$pp' => $this->lead->RelationFields->where('name', 'pp')->last() ? $this->lead->RelationFields->where('name', 'pp')->last()->value : 'Y',
+                    '$com' => $this->lead->RelationFields->where('name', 'com')->last() ? 'Y' : 'F',
                     '$utm_source' => $this->lead->RelationFields->where('name', 'utm_source')->last() ? $this->lead->RelationFields->where('name', 'utm_source')->last()->value : '',
                     '$utm_xrm' => $this->lead->RelationFields->where('name', 'utm_source')->last() ? self::get_utm_source_by_valor( $this->lead->RelationFields->where('name', 'utm_source')->last()->value ) : self::get_utm_source_by_valor( "default" ),
                     '$utm_medium' => $this->lead->RelationFields->where('name', 'utm_medium')->last() ? $this->lead->RelationFields->where('name', 'utm_medium')->last()->value : '',

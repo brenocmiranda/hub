@@ -124,6 +124,7 @@ Novo empreendimento
                 <span class="badge text-bg-secondary">$number</span>
                 <span class="badge text-bg-secondary">$email</span>
                 <span class="badge text-bg-secondary">$pp</span>
+                <span class="badge text-bg-secondary">$com</span>
                 <span class="badge text-bg-secondary">$origin</span>
                 <span class="badge text-bg-secondary">$utm_xrm</span>
                 <span class="badge text-bg-secondary">$utm_source</span>
