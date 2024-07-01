@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Routing\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Pipelines;
 use App\Models\UsersLogs;
@@ -11,7 +12,68 @@ class PipelinesCtrl
 {
     public function index()
     {
-        return view('leads.pipelines.index')->with('pipelines', Pipelines::all()->reverse());
+        return view('leads.pipelines.index');
+    }
+
+    public function data(Request $request)
+    {   
+        // Page Length
+        $pageLength = $request->limit;
+        $skip       = $request->offset;
+
+        // Get data from leads all
+        $pipelines = Pipelines::orderBy('created_at', 'desc')
+        ->join('integrations', 'pipelines.buildings_has_integrations_integration_id', '=', 'integrations.id')
+        ->join('buildings', 'pipelines.buildings_has_integrations_building_id', '=', 'buildings.id')
+        ->join('leads', 'pipelines.lead_id', '=', 'leads.id')
+        ->join('leads_origins', 'leads.id', '=', 'leads_origins.id')
+        ->select('pipelines.*', 'integrations.name as integration', 'buildings.name as building', 'leads.name as lead', 'leads_origins.name as origin');
+        $recordsTotal = Pipelines::orderBy('created_at', 'desc')->count();
+
+        // Search
+        $search = $request->search;
+        $pipelines = $pipelines->where( function($pipelines) use ($search){
+            $pipelines->orWhere('pipelines.statusCode', 'like', "%".$search."%");
+            $pipelines->orWhere('integrations.name', 'like', "%".$search."%");
+            $pipelines->orWhere('buildings.name', 'like', "%".$search."%");
+            $pipelines->orWhere('leads.name', 'like', "%".$search."%");
+            $pipelines->orWhere('leads_origins.name', 'like', "%".$search."%");
+        });
+
+        // Apply Length and Capture RecordsFilters
+        $recordsFiltered = $recordsTotal = $pipelines->count();
+        $pipelines = $pipelines->skip($skip)->take($pageLength)->get();
+        
+        if ($pipelines->first()){
+            foreach($pipelines as $pipeline) {
+                // Integration
+                if ($pipeline->statusCode == 0){
+                    $integration = "Payload (" . $pipeline->RelationIntegrations->name . ")";
+                }else if( $pipeline->statusCode == 1){
+                    $integration = "Disparo de e-mail";
+                }else if( $pipeline->statusCode == 2){
+                    $integration = "Google Sheets";
+                }else if( $pipeline->RelationIntegrations ){
+                    $integration = $pipeline->RelationIntegrations->name;
+                }
+
+                // Operações
+                $operations = '<div class="d-flex justify-content-center align-items-center gap-2"><a href="' . route('leads.pipelines.show', $pipeline->id ) .'" class="btn btn-outline-secondary px-2 py-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Visualizar"><i class="bi bi-eye"></i></a></div>';
+                
+                // Array do emp
+                $array[] = [
+                    'date'  => $pipeline->created_at->format("d/m/Y H:i:s"),
+                    'status' => $pipeline->statusCode, 
+                    'integration' => $integration, 
+                    'origin' => $pipeline->RelationLeads->RelationOrigins->name,
+                    'lead'=> $pipeline->RelationLeads->name,
+                    'operations' => $operations
+                ];
+            }
+        } else {
+            $array = [];
+        }
+        return response()->json(["total" => $recordsTotal, "totalNotFiltered" => $recordsFiltered, 'rows' => $array], 200);
     }
 
     public function create()

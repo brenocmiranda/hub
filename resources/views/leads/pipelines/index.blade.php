@@ -15,7 +15,7 @@ Pipelines
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
-                <table id="table">
+                <table id="table" data-ajax="ajaxRequest" data-side-pagination="server">
                     <thead>
                         <tr>
                             <th data-field="date" data-align="center">Data</th>
@@ -28,24 +28,13 @@ Pipelines
                     </thead>
                 </table>
                 <script>
-                    $(function () {
-                        var data = [
-                            @foreach($pipelines as $pipeline)
-                                { 
-                                    'date': '{{ $pipeline->created_at->format("d/m/Y H:i:s") }}', 
-                                    'status': '{{ $pipeline->statusCode }}', 
-                                    'integration': '{{ $pipeline->statusCode == 0 ? "Payload (" . $pipeline->RelationIntegrations->name . ")" : ($pipeline->statusCode == 1 ? "Disparo de e-mail" : ($pipeline->statusCode == 2 ? "Google Sheets" : ( $pipeline->RelationIntegrations ? $pipeline->RelationIntegrations->name : "" )))}}',
-                                    'origin': '{{ $pipeline->RelationLeads->RelationOrigins->name }}',
-                                    'lead': '{{ $pipeline->RelationLeads->name }}',
-                                    'operations': '<div class="d-flex justify-content-center align-items-center gap-2"><a href="{{ route('leads.pipelines.show', $pipeline->id ) }}" class="btn btn-outline-secondary px-2 py-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Visualizar"><i class="bi bi-eye"></i></a></div>'
-                                },
-                            @endforeach
-                        ];
-
-                        $table.bootstrapTable('refreshOptions', {
-                            data: data
-                        });
-                    });
+                // your custom ajax request here
+                function ajaxRequest(params) {
+                    var url = '{{ route('pipelines.data') }}'
+                    $.get(url + '?' + $.param(params.data)).then(function (res) {
+                        params.success(res)
+                    })
+                }
                 </script>
             </div>
         </div>
