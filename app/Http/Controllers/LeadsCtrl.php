@@ -37,7 +37,10 @@ class LeadsCtrl extends Controller
         $skip       = $request->offset;
 
         // Get data from leads all
-        $leads = Leads::orderBy('created_at', 'desc')->join('leads_origins', 'leads.leads_originS_id', '=', 'leads_origins.id')->join('buildings', 'leads.buildingS_id', '=', 'buildings.id')->select('leads.*', 'leads_origins.name as origin', 'buildings.name as building');
+        $leads = Leads::orderBy('created_at', 'desc')
+                        ->join('leads_origins', 'leads.leads_origin_id', '=', 'leads_origins.id')
+                        ->join('buildings', 'leads.building_id', '=', 'buildings.id')
+                        ->select('leads.*', 'leads_origins.name as origin', 'buildings.name as building');
         $recordsTotal = Leads::orderBy('created_at', 'desc')->count();
 
         // Search

@@ -86,6 +86,7 @@ Route::group(['prefix' => 'app'], function () {
         'destroy' => 'leads.pipelines.destroy',
         'show' => 'leads.pipelines.show'
     ]);
+    Route::get('pipelines/data', [PipelinesCtrl::class, 'data'])->name('pipelines.data');
 
     // Companies
     Route::resource('companies', CompaniesCtrl::class);
