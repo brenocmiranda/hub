@@ -38,8 +38,8 @@ class LeadsCtrl extends Controller
 
         // Get data from leads all
         $leads = Leads::orderBy('created_at', 'desc')
-                        ->join('leads_origins', 'leads.leads_origin_id', '=', 'leads_origins.id')
-                        ->join('buildings', 'leads.building_id', '=', 'buildings.id')
+                        ->join('leads_origins', 'leads.leads_origins_id', '=', 'leads_origins.id')
+                        ->join('buildings', 'leads.buildings_id', '=', 'buildings.id')
                         ->select('leads.*', 'leads_origins.name as origin', 'buildings.name as building');
         $recordsTotal = Leads::orderBy('created_at', 'desc')->count();
 

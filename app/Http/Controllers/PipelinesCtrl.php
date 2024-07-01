@@ -23,9 +23,9 @@ class PipelinesCtrl
 
         // Get data from leads all
         $pipelines = Pipelines::orderBy('created_at', 'desc')
-        ->join('leads', 'pipelines.lead_id', '=', 'leads.id')
+        ->join('leads', 'pipelines.leads_id', '=', 'leads.id')
         ->leftJoin('leads_origins', 'leads.id', '=', 'leads_origins.id')
-        ->leftJoin('integrations', 'pipelines.buildings_has_integrations_integration_id', '=', 'integrations.id')
+        ->leftJoin('integrations', 'pipelines.integrations_id', '=', 'integrations.id')
         ->select('pipelines.*', 'integrations.name as integration', 'leads.name as lead', 'leads_origins.name as origin');
         $recordsTotal = Pipelines::orderBy('created_at', 'desc')->count();
 
