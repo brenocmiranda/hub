@@ -203,7 +203,8 @@ class LeadsCtrl extends Controller
     public function retry($id)
     { 
         $lead = Leads::find($id);
-        Artisan::call('queue:retry', ['id' => [ $lead->batches_id ]]);
+        $batches = $lead->batches_id;
+        Artisan::call('queue:retry-batch', ['id' => $batches]);
 
         // Salvando log
         UsersLogs::create([
