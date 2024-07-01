@@ -23,21 +23,19 @@ class PipelinesCtrl
 
         // Get data from leads all
         $pipelines = Pipelines::orderBy('created_at', 'desc')
-        ->join('integrations', 'pipelines.buildings_has_integrations_integration_id', '=', 'integrations.id')
-        ->join('buildings', 'pipelines.buildings_has_integrations_building_id', '=', 'buildings.id')
         ->join('leads', 'pipelines.lead_id', '=', 'leads.id')
-        ->join('leads_origins', 'leads.id', '=', 'leads_origins.id')
-        ->select('pipelines.*', 'integrations.name as integration', 'buildings.name as building', 'leads.name as lead', 'leads_origins.name as origin');
+        ->leftJoin('leads_origins', 'leads.id', '=', 'leads_origins.id')
+        ->leftJoin('integrations', 'pipelines.buildings_has_integrations_integration_id', '=', 'integrations.id')
+        ->select('pipelines.*', 'integrations.name as integration', 'leads.name as lead', 'leads_origins.name as origin');
         $recordsTotal = Pipelines::orderBy('created_at', 'desc')->count();
 
         // Search
         $search = $request->search;
         $pipelines = $pipelines->where( function($pipelines) use ($search){
             $pipelines->orWhere('pipelines.statusCode', 'like', "%".$search."%");
-            $pipelines->orWhere('integrations.name', 'like', "%".$search."%");
-            $pipelines->orWhere('buildings.name', 'like', "%".$search."%");
             $pipelines->orWhere('leads.name', 'like', "%".$search."%");
             $pipelines->orWhere('leads_origins.name', 'like', "%".$search."%");
+            $pipelines->orWhere('integrations.name', 'like', "%".$search."%");
         });
 
         // Apply Length and Capture RecordsFilters
