@@ -270,12 +270,13 @@ jQuery( function( $ ){
 	*/
 	if (window.ID_GTM) {
 		document.addEventListener('DOMContentLoaded', () => {
-			/** init gtm after 3500 seconds - this could be adjusted */
-			setTimeout(initGTM, 3500);
+			/** init gtm after 1500 seconds - this could be adjusted */
+			setTimeout(initGTM, 1500);
 		});
 		document.addEventListener('scroll', initGTMOnEvent);
 		document.addEventListener('mousemove', initGTMOnEvent);
 		document.addEventListener('touchstart', initGTMOnEvent);
+		document.addEventListener('click', initGTMOnEvent);
 	}
 	function initGTMOnEvent(event) {
 		initGTM();
