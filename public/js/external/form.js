@@ -301,7 +301,7 @@ jQuery( function( $ ){
 	/**
 	 * Loading in Chat
 	*/
-	document.getElementsByClassName('chat').onclick = function(){
+	$('.chat').on('click', function(){
 		var self = window.location.toString();
 		var querystring = self.split("?");
 		if (querystring.length > 1) {
@@ -317,7 +317,7 @@ jQuery( function( $ ){
 		$.getScript('https://www.patrimar.com.br/hotsites/integracoes/chat.php?empreendimento=' + window.building + '&utm_source=' + utm_source + '&url=' + window.location, function(){
 			XRM_Chat.open();
 		});
-	}
+	});
 
 	/**
 	 * Leitura de section por viewport (Adicionando class is-view quando estiver disponível a section)
