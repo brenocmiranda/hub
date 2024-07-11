@@ -314,8 +314,7 @@ jQuery( function( $ ){
 			}
 		}
 		var utm_source = sessionStorage.getItem('utm_source');
-		
-		$.getScript('https://www.patrimar.com.br/hotsites/integracoes/chat.php?empreendimento=brickell&utm_source=' + utm_source + '&url=https://brickell.patrimar.com.br', function(){
+		$.getScript('https://www.patrimar.com.br/hotsites/integracoes/chat.php?empreendimento=' + window.building + '&utm_source=' + utm_source + '&url=' + window.location, function(){
 			XRM_Chat.open();
 		});
 	});
