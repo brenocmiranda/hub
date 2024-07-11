@@ -267,9 +267,11 @@ jQuery( function( $ ){
 	/**
 	 * Loading Patrimar and Novolar (1s)
 	*/
-	setTimeout(() => {
-		$('.loading').fadeOut();
-	}, 1000);
+	if( $('.loading').length ){
+		setTimeout(() => {
+			$('.loading').fadeOut();
+		}, 1000);
+	}
 
 	/**
 	 * Loading lib in GTM (1s)
@@ -279,10 +281,7 @@ jQuery( function( $ ){
 			/** init gtm after 1000 seconds - this could be adjusted */
 			setTimeout(initGTM, 1000);
 		});
-		document.addEventListener('scroll', initGTMOnEvent);
-		document.addEventListener('mousemove', initGTMOnEvent);
-		document.addEventListener('touchstart', initGTMOnEvent);
-		document.addEventListener('click', initGTMOnEvent);
+		$(document).on('scroll mousemove touchstart click', initGTMOnEvent);
 	}
 	function initGTMOnEvent(event) {
 		initGTM();
@@ -293,41 +292,36 @@ jQuery( function( $ ){
 			return false;
 		}
 		window.gtmDidInit = true; // flag to ensure script does not get added to DOM more than once.
-		const script = document.createElement('script');
-		script.type = 'text/javascript';
-		script.async = true;
-		// ensure PageViews is always tracked (on script load)
-		script.onload = () => {
+		$.getScript('https://www.googletagmanager.com/gtm.js?id=' + window.ID_GTM, function(){
 			dataLayer.push({ event: 'gtm.js', 'gtm.start': new Date().getTime(), 'gtm.uniqueEventId': 0 });
-		};
-		script.src = 'https://www.googletagmanager.com/gtm.js?id=' + window.ID_GTM;
-		document.head.appendChild(script);
+		});
 	}
 
 	/**
 	 * Loading lib in Chat (Click)
 	*/
-	$('.chat').on('click', function(){
-		var self = window.location.toString();
-		var querystring = self.split("?");
-		if (querystring.length > 1) {
-			var pairs = querystring[1].split("&");
-			for (i in pairs) {
-				var keyval = pairs[i].split("=");
-				if (sessionStorage.getItem(keyval[0]) === null) {
-					sessionStorage.setItem(keyval[0], decodeURIComponent(keyval[1]));
+	if(window.building && $('.chat').length){
+		$('.chat').on('click', function(){
+			var self = window.location.toString();
+			var querystring = self.split("?");
+			if (querystring.length > 1) {
+				var pairs = querystring[1].split("&");
+				for (i in pairs) {
+					var keyval = pairs[i].split("=");
+					if (sessionStorage.getItem(keyval[0]) === null) {
+						sessionStorage.setItem(keyval[0], decodeURIComponent(keyval[1]));
+					}
 				}
 			}
-		}
-		var utm_source = sessionStorage.getItem('utm_source');
-		var utm_campaign = sessionStorage.getItem('utm_campaign');
-		var utm_medium = sessionStorage.getItem('utm_medium');
-		if(window.building){
+			var utm_source = sessionStorage.getItem('utm_source') || "";
+			var utm_campaign = sessionStorage.getItem('utm_campaign') || "";
+			var utm_medium = sessionStorage.getItem('utm_medium') || "";
+
 			$.getScript('https://www.patrimar.com.br/hotsites/integracoes/chat.php?empreendimento=' + window.building + '&url=' + window.location.pathname + '&utm_source=' + utm_source + '&campanha=' + utm_campaign + '&midia=' + utm_medium, function(){
 				XRM_Chat.open();
 			});
-		}
-	});
+		});
+	}
 
 	/**
 	 * Loading lib in recaptcha (Click)
@@ -360,43 +354,40 @@ jQuery( function( $ ){
 	/**
 	 * Loading in iframe (Click)
 	 */
-	$( 'a[href*="vimeo.com"]' ).on( 'click', function( e ){
-		e.preventDefault();
-		let match = /vimeo.*\/(\d+)/i.exec( this.href );
-		if( match ){
-			$.colorbox({
-				iframe: true,
-				href: '//player.vimeo.com/video/' + match[ 1 ] + '?autoplay=1',
-				innerWidth: 960,
-				innerHeight: 402,
-				maxWidth: '90%',
-				maxHeight: '90%',
-				fixed: true
-			});
-		}
-	});
-	$( 'a[href*="youtube.com"]' ).on( 'click', function( e ){
-		e.preventDefault();
-		let regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/,
-				match = this.href.match( regExp );
-		if( match && match[ 7 ].length == 11 ){
-			$.colorbox({
-				iframe: true,
-				href: '//www.youtube.com/embed/' + match[ 7 ] + '?autoplay=1',
-				innerWidth: 960,
-				innerHeight: 540,
-				maxWidth: '90%',
-				maxHeight: '90%',
-				fixed: true
-			});
-		}
-	});
+	function abrirVideoColorbox(params) {
+		let $params = $.extend({
+			iframe: true,
+			innerWidth: 960,
+			innerHeight: 540,
+			maxWidth: '90%',
+			maxHeight: '90%',
+			fixed: true
+		}, params);
 
+		$.colorbox($params);
+	}
+	if( !!$().colorbox ){
+		$( 'a[href*="vimeo.com"]' ).on( 'click', function( e ){
+			e.preventDefault();
+			let match = /vimeo.*\/(\d+)/i.exec( this.href );
+			if( match ){
+				abrirVideoColorbox({ href: '//player.vimeo.com/video/' + match[ 1 ] + '?autoplay=1', innerHeight: 402 });
+			}
+		});
+		$( 'a[href*="youtube.com"]' ).on( 'click', function( e ){
+			e.preventDefault();
+			let regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/,
+					match = this.href.match( regExp );
+			if( match && match[ 7 ].length == 11 ){
+				abrirVideoColorbox({ href: '//www.youtube.com/embed/' + match[ 7 ] + '?autoplay=1' });
+			}
+		});
+	}
 	
 	/**
 	 * Loading lib in Onetrust (1s)
 	 */
-
+	
 
 	/**
 	 * Loading lib in GoogleMaps (Click)
