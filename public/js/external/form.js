@@ -266,7 +266,7 @@ jQuery( function( $ ){
 	});
 
 	/**
-	 * Adiar o carregamento do GTM
+	 * Loading in GTM
 	*/
 	if (window.ID_GTM) {
 		document.addEventListener('DOMContentLoaded', () => {
@@ -297,6 +297,28 @@ jQuery( function( $ ){
 		script.src = 'https://www.googletagmanager.com/gtm.js?id=' + window.ID_GTM;
 		document.head.appendChild(script);
 	}
+
+	/**
+	 * Loading in Chat
+	*/
+	$('.chat').on('click', function(){
+		var self = window.location.toString();
+		var querystring = self.split("?");
+		if (querystring.length > 1) {
+			var pairs = querystring[1].split("&");
+			for (i in pairs) {
+				var keyval = pairs[i].split("=");
+				if (sessionStorage.getItem(keyval[0]) === null) {
+					sessionStorage.setItem(keyval[0], decodeURIComponent(keyval[1]));
+				}
+			}
+		}
+		var utm_source = sessionStorage.getItem('utm_source');
+		
+		$.getScript('https://www.patrimar.com.br/hotsites/integracoes/chat.php?empreendimento=brickell&utm_source=' + utm_source + '&url=https://brickell.patrimar.com.br', function(){
+			XRM_Chat.open();
+		});
+	});
 
 	/**
 	 * Leitura de section por viewport (Adicionando class is-view quando estiver disponível a section)
