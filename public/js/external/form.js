@@ -314,7 +314,9 @@ jQuery( function( $ ){
 			}
 		}
 		var utm_source = sessionStorage.getItem('utm_source');
-		$.getScript('https://www.patrimar.com.br/hotsites/integracoes/chat.php?empreendimento=' + window.building + '&utm_source=' + utm_source + '&url=' + window.location, function(){
+		var utm_campaign = sessionStorage.getItem('utm_campaign');
+		var utm_medium = sessionStorage.getItem('utm_medium');
+		$.getScript('https://www.patrimar.com.br/hotsites/integracoes/chat.php?empreendimento=' + window.building + '&url=' + window.location + '&utm_source=' + utm_source + '&campanha=' + utm_campaign + '&midia=' + utm_medium, function(){
 			XRM_Chat.open();
 		});
 	});
