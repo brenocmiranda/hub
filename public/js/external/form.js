@@ -238,40 +238,46 @@ jQuery( function( $ ){
 	});
 
 	/**
-	 * Loading lib in recaptcha
-	 */
-	let $recaptcha_loaded = false;
-	$('input').on('focus.rcp', function () {
-		let input = this,
-			$form = $(this).parents('form'),
-			$submit = $form.find('.submit-btn');
-
-		//console.log({ el: this, name: this.name, $form, $submit })
-		if (!$recaptcha_loaded) {
-			$.getScript('//www.google.com/recaptcha/api.js', function () {
-				$recaptcha_loaded = true;
-				$form.find('input').each((i, el) => $(el).off('.rcp'));
-				//console.log('recaptcha loaded');
-				setTimeout(() => {
-					$('.submit-btn').prop('disabled', true);
-					// $submit.attr("disabled", true);
-					if (input.name === 'pp' && input.checked ) {
-						//console.log('pp => libera submit', input.name);
-						$submit.removeProp( 'disabled' );
-						// $submit.attr( "disabled", false);
-					}
-				}, 100);
-			});
-		}
-	});
+	 * Leitura de section por viewport (Adicionando class is-view quando estiver disponível a section)
+	*/
+	$.fn.isInViewport = function () {
+		let $t = $(this),
+			elTop = $t.offset().top,
+			elBottom = elTop + $t.outerHeight(),
+			$w = $(window),
+			wHeight = $w.height(),
+			scTop = $w.scrollTop(),
+			scBottom = scTop + wHeight,
+			middle = scTop + (wHeight / 2);
+		//console.log( { el: $t.attr( 'id' ), middle, elTop, elBottom, scTop, scBottom, wHeight } );
+		return elBottom > scTop && elTop < scBottom;
+		//	return middle > elTop;
+	};
+	let $inView = $('section, .inview');
+	function checkInView() {
+		$inView.each(function () {
+			if ($(this).isInViewport()) {
+				$(this).addClass('is-inview');
+			}
+		});
+	}
+	$(window).on('resize scroll', checkInView);
+	checkInView();
 
 	/**
-	 * Loading in GTM
+	 * Loading Patrimar and Novolar (1s)
+	*/
+	setTimeout(() => {
+		$('.loading').fadeOut();
+	}, 1000);
+
+	/**
+	 * Loading lib in GTM (1s)
 	*/
 	if (window.ID_GTM) {
 		document.addEventListener('DOMContentLoaded', () => {
-			/** init gtm after 1500 seconds - this could be adjusted */
-			setTimeout(initGTM, 1500);
+			/** init gtm after 1000 seconds - this could be adjusted */
+			setTimeout(initGTM, 1000);
 		});
 		document.addEventListener('scroll', initGTMOnEvent);
 		document.addEventListener('mousemove', initGTMOnEvent);
@@ -299,7 +305,7 @@ jQuery( function( $ ){
 	}
 
 	/**
-	 * Loading in Chat
+	 * Loading lib in Chat (Click)
 	*/
 	$('.chat').on('click', function(){
 		var self = window.location.toString();
@@ -316,43 +322,84 @@ jQuery( function( $ ){
 		var utm_source = sessionStorage.getItem('utm_source');
 		var utm_campaign = sessionStorage.getItem('utm_campaign');
 		var utm_medium = sessionStorage.getItem('utm_medium');
-		$.getScript('https://www.patrimar.com.br/hotsites/integracoes/chat.php?empreendimento=' + window.building + '&url=' + window.location.pathname + '&utm_source=' + utm_source + '&campanha=' + utm_campaign + '&midia=' + utm_medium, function(){
-			XRM_Chat.open();
-		});
+		if(window.building){
+			$.getScript('https://www.patrimar.com.br/hotsites/integracoes/chat.php?empreendimento=' + window.building + '&url=' + window.location.pathname + '&utm_source=' + utm_source + '&campanha=' + utm_campaign + '&midia=' + utm_medium, function(){
+				XRM_Chat.open();
+			});
+		}
 	});
 
 	/**
-	 * Leitura de section por viewport (Adicionando class is-view quando estiver disponível a section)
-	*/
-	$.fn.isInViewport = function () {
-		let $t = $(this),
-			elTop = $t.offset().top,
-			elBottom = elTop + $t.outerHeight(),
-			$w = $(window),
-			wHeight = $w.height(),
-			scTop = $w.scrollTop(),
-			scBottom = scTop + wHeight,
-			middle = scTop + (wHeight / 2);
-		//console.log( { el: $t.attr( 'id' ), middle, elTop, elBottom, scTop, scBottom, wHeight } );
-		return elBottom > scTop && elTop < scBottom;
-		//	return middle > elTop;
-	};
-	let $inView = $('section, .inview');
-	function checkInView() {
-		$inView.each(function () {
-			if ($(this).isInViewport()) {
-				$(this).addClass('is-inview');
-			}
-		});
-	}
-	$(window).on('resize scroll', checkInView);
-	checkInView();
+	 * Loading lib in recaptcha (Click)
+	 */
+	let $recaptcha_loaded = false;
+	$('input').on('focus.rcp', function () {
+		let input = this,
+			$form = $(this).parents('form'),
+			$submit = $form.find('.submit-btn');
+
+		//console.log({ el: this, name: this.name, $form, $submit })
+		if (!$recaptcha_loaded) {
+			$.getScript('//www.google.com/recaptcha/api.js', function () {
+				$recaptcha_loaded = true;
+				$form.find('input').each((i, el) => $(el).off('.rcp'));
+				//console.log('recaptcha loaded');
+				setTimeout(() => {
+					$('.submit-btn').prop('disabled', true);
+					// $submit.attr("disabled", true);
+					if (input.name === 'pp' && input.checked ) {
+						//console.log('pp => libera submit', input.name);
+						$submit.removeProp( 'disabled' );
+						// $submit.attr( "disabled", false);
+					}
+				}, 100);
+			});
+		}
+	});
+
+	/**
+	 * Loading in iframe (Click)
+	 */
+	$( 'a[href*="vimeo.com"]' ).on( 'click', function( e ){
+		e.preventDefault();
+		let match = /vimeo.*\/(\d+)/i.exec( this.href );
+		if( match ){
+			$.colorbox({
+				iframe: true,
+				href: '//player.vimeo.com/video/' + match[ 1 ] + '?autoplay=1',
+				innerWidth: 960,
+				innerHeight: 402,
+				maxWidth: '90%',
+				maxHeight: '90%',
+				fixed: true
+			});
+		}
+	});
+	$( 'a[href*="youtube.com"]' ).on( 'click', function( e ){
+		e.preventDefault();
+		let regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/,
+				match = this.href.match( regExp );
+		if( match && match[ 7 ].length == 11 ){
+			$.colorbox({
+				iframe: true,
+				href: '//www.youtube.com/embed/' + match[ 7 ] + '?autoplay=1',
+				innerWidth: 960,
+				innerHeight: 540,
+				maxWidth: '90%',
+				maxHeight: '90%',
+				fixed: true
+			});
+		}
+	});
+
+	
+	/**
+	 * Loading lib in Onetrust (1s)
+	 */
 
 
 	/**
-	 * Removendo loader de carregamento
-	*/
-	setTimeout(() => {
-		$('.loading').fadeOut();
-	}, 300);
+	 * Loading lib in GoogleMaps (Click)
+	 */
+	
 });
