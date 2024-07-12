@@ -238,7 +238,92 @@ jQuery( function( $ ){
 	});
 
 	/**
-	 * Loading lib in recaptcha
+	 * Leitura de section por viewport (Adicionando class is-view quando estiver disponível a section)
+	*/
+	$.fn.isInViewport = function () {
+		let $t = $(this),
+			elTop = $t.offset().top,
+			elBottom = elTop + $t.outerHeight(),
+			$w = $(window),
+			wHeight = $w.height(),
+			scTop = $w.scrollTop(),
+			scBottom = scTop + wHeight,
+			middle = scTop + (wHeight / 2);
+		//console.log( { el: $t.attr( 'id' ), middle, elTop, elBottom, scTop, scBottom, wHeight } );
+		return elBottom > scTop && elTop < scBottom;
+		//	return middle > elTop;
+	};
+	let $inView = $('section, .inview');
+	function checkInView() {
+		$inView.each(function () {
+			if ($(this).isInViewport()) {
+				$(this).addClass('is-inview');
+			}
+		});
+	}
+	$(window).on('resize scroll', checkInView);
+	checkInView();
+
+	/**
+	 * Loading Patrimar and Novolar (3s)
+	*/
+	if( $('.loading').length ){
+		setTimeout(() => {
+			$('.loading').fadeOut();
+		}, 3000);
+	}
+
+	/**
+	 * Loading lib in GTM (3s)
+	*/
+	if (window.ID_GTM) {
+		document.addEventListener('DOMContentLoaded', () => {
+			setTimeout(initGTM, 3000);
+		});
+		$(document).on('scroll mousemove touchstart click', initGTMOnEvent);
+	}
+	function initGTMOnEvent(event) {
+		initGTM();
+		event.currentTarget.removeEventListener(event.type, initGTMOnEvent); // remove the event listener that got triggered
+	}
+	function initGTM() {
+		if (window.gtmDidInit) {
+			return false;
+		}
+		window.gtmDidInit = true; // flag to ensure script does not get added to DOM more than once.
+		$.getScript('https://www.googletagmanager.com/gtm.js?id=' + window.ID_GTM, function(){
+			dataLayer.push({ event: 'gtm.js', 'gtm.start': new Date().getTime(), 'gtm.uniqueEventId': 0 });
+		});
+	}
+
+	/**
+	 * Loading lib in Chat (Click)
+	*/
+	if(window.building && $('.chat').length){
+		$('.chat').on('click', function(){
+			var self = window.location.toString();
+			var querystring = self.split("?");
+			if (querystring.length > 1) {
+				var pairs = querystring[1].split("&");
+				for (i in pairs) {
+					var keyval = pairs[i].split("=");
+					if (sessionStorage.getItem(keyval[0]) === null) {
+						sessionStorage.setItem(keyval[0], decodeURIComponent(keyval[1]));
+					}
+				}
+			}
+			var utm_source = sessionStorage.getItem('utm_source') || "";
+			var utm_campaign = sessionStorage.getItem('utm_campaign') || "";
+			var utm_medium = sessionStorage.getItem('utm_medium') || "";
+
+			$.getScript('https://www.patrimar.com.br/hotsites/integracoes/chat.php?empreendimento=' + window.building + '&url=' + window.location.pathname + '&utm_source=' + utm_source + '&campanha=' + utm_campaign + '&midia=' + utm_medium, function(){
+				XRM_Chat.open();
+			});
+		});
+	}
+
+	/**
+	 * Loading lib in recaptcha (Click)
 	 */
 	let $recaptcha_loaded = false;
 	$('input').on('focus.rcp', function () {
@@ -266,37 +351,57 @@ jQuery( function( $ ){
 	});
 
 	/**
-	 * Leitura de section por viewport (Adicionando class is-view quando estiver disponível a section)
-	*/
-	$.fn.isInViewport = function () {
-		let $t = $(this),
-			elTop = $t.offset().top,
-			elBottom = elTop + $t.outerHeight(),
-			$w = $(window),
-			wHeight = $w.height(),
-			scTop = $w.scrollTop(),
-			scBottom = scTop + wHeight,
-			middle = scTop + (wHeight / 2);
-		//console.log( { el: $t.attr( 'id' ), middle, elTop, elBottom, scTop, scBottom, wHeight } );
-		return elBottom > scTop && elTop < scBottom;
-		//	return middle > elTop;
-	};
-	let $inView = $('section, .inview');
-	function checkInView() {
-		$inView.each(function () {
-			if ($(this).isInViewport()) {
-				$(this).addClass('is-inview');
+	 * Loading in iframe (Click)
+	 */
+	function abrirVideoColorbox(params) {
+		let $params = $.extend({
+			iframe: true,
+			innerWidth: 960,
+			innerHeight: 540,
+			maxWidth: '90%',
+			maxHeight: '90%',
+			fixed: true
+		}, params);
+
+		$.colorbox($params);
+	}
+	if( !!$().colorbox ){
+		$( 'a[href*="vimeo.com"]' ).on( 'click', function( e ){
+			e.preventDefault();
+			let match = /vimeo.*\/(\d+)/i.exec( this.href );
+			if( match ){
+				abrirVideoColorbox({ href: '//player.vimeo.com/video/' + match[ 1 ] + '?autoplay=1', innerHeight: 402 });
+			}
+		});
+		$( 'a[href*="youtube.com"]' ).on( 'click', function( e ){
+			e.preventDefault();
+			let regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/,
+					match = this.href.match( regExp );
+			if( match && match[ 7 ].length == 11 ){
+				abrirVideoColorbox({ href: '//www.youtube.com/embed/' + match[ 7 ] + '?autoplay=1' });
 			}
 		});
 	}
-	$(window).on('resize scroll', checkInView);
-	checkInView();
-
+	
+	/**
+	 * Loading lib in Onetrust (3s)
+	 */
+	if(window.onetrust){
+		setTimeout(() => {
+			let url = 'https://cdn.cookielaw.org/consent/' + window.onetrust + '/OtAutoBlock.js';
+			$.getScript(url, function(){
+				var script = document.createElement('script'); 
+				script.type = 'text/javascript';
+				script.setAttribute('data-domain-script', window.onetrust);
+				script.async = true;
+				script.src = 'https://cdn.cookielaw.org/scripttemplates/otSDKStub.js';
+				var s = document.getElementsByTagName("body")[0].appendChild(script, s);
+				function OptanonWrapper(){}
+			});
+		}, 3000);
+	}
 
 	/**
-	 * Removendo loader de carregamento
-	*/
-	setTimeout(() => {
-		$('.loading').fadeOut();
-	}, 300);
+	 * Loading lib in GoogleMaps (in scrolling)
+	 */
 });
