@@ -391,9 +391,13 @@ jQuery( function( $ ){
 		setTimeout(() => {
 			let url = 'https://cdn.cookielaw.org/consent/' + window.onetrust + '/OtAutoBlock.js';
 			$.getScript(url, function(){
-				$.getScript('https://cdn.cookielaw.org/scripttemplates/otSDKStub.js', function(){
-					function OptanonWrapper(){}
-				});
+				var script = document.createElement('script'); 
+				script.type = 'text/javascript';
+				script.data('domain-script') = "018dcdbb-197e-7f8e-b15e-1c5029e71b05";
+				script.async = true;
+				script.src = 'https://cdn.cookielaw.org/scripttemplates/otSDKStub.js';
+				var s = document.getElementsByTagName("body")[0].appendChild(script, s);
+				function OptanonWrapper(){}
 			});
 		}, 1000);
 	}
