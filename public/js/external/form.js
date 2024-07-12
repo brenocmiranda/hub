@@ -265,20 +265,20 @@ jQuery( function( $ ){
 	checkInView();
 
 	/**
-	 * Loading Patrimar and Novolar (1s)
+	 * Loading Patrimar and Novolar (3s)
 	*/
 	if( $('.loading').length ){
 		setTimeout(() => {
 			$('.loading').fadeOut();
-		}, 2500);
+		}, 3000);
 	}
 
 	/**
-	 * Loading lib in GTM (1s)
+	 * Loading lib in GTM (3s)
 	*/
 	if (window.ID_GTM) {
 		document.addEventListener('DOMContentLoaded', () => {
-			setTimeout(initGTM, 2500);
+			setTimeout(initGTM, 3000);
 		});
 		$(document).on('scroll mousemove touchstart click', initGTMOnEvent);
 	}
@@ -384,7 +384,7 @@ jQuery( function( $ ){
 	}
 	
 	/**
-	 * Loading lib in Onetrust (1s)
+	 * Loading lib in Onetrust (3s)
 	 */
 	if(window.onetrust){
 		setTimeout(() => {
@@ -398,7 +398,7 @@ jQuery( function( $ ){
 				var s = document.getElementsByTagName("body")[0].appendChild(script, s);
 				function OptanonWrapper(){}
 			});
-		}, 2500);
+		}, 3000);
 	}
 
 	/**
