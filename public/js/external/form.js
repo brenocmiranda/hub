@@ -387,7 +387,13 @@ jQuery( function( $ ){
 	/**
 	 * Loading lib in Onetrust (1s)
 	 */
-	
+	if(window.onetrust){
+		$.getScript('https://cdn.cookielaw.org/consent/' + window.onetrust + '/OtAutoBlock.js', function(){
+			$.getScript('https://cdn.cookielaw.org/scripttemplates/otSDKStub.js', function(){
+				function OptanonWrapper(){}
+			});
+		});
+	}
 
 	/**
 	 * Loading lib in GoogleMaps (Click)
