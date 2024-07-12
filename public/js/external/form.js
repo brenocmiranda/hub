@@ -402,7 +402,6 @@ jQuery( function( $ ){
 	}
 
 	/**
-	 * Loading lib in GoogleMaps (Click)
+	 * Loading lib in GoogleMaps (in scrolling)
 	 */
-	
 });
