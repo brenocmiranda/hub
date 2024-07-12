@@ -399,7 +399,7 @@ jQuery( function( $ ){
 				var s = document.getElementsByTagName("body")[0].appendChild(script, s);
 				function OptanonWrapper(){}
 			});
-		}, 2500);
+		}, 2000);
 	}
 
 	/**
