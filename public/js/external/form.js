@@ -270,7 +270,7 @@ jQuery( function( $ ){
 	if( $('.loading').length ){
 		setTimeout(() => {
 			$('.loading').fadeOut();
-		}, 1000);
+		}, 2500);
 	}
 
 	/**
@@ -278,8 +278,7 @@ jQuery( function( $ ){
 	*/
 	if (window.ID_GTM) {
 		document.addEventListener('DOMContentLoaded', () => {
-			/** init gtm after 1000 seconds - this could be adjusted */
-			setTimeout(initGTM, 1000);
+			setTimeout(initGTM, 2500);
 		});
 		$(document).on('scroll mousemove touchstart click', initGTMOnEvent);
 	}
@@ -399,7 +398,7 @@ jQuery( function( $ ){
 				var s = document.getElementsByTagName("body")[0].appendChild(script, s);
 				function OptanonWrapper(){}
 			});
-		}, 2000);
+		}, 2500);
 	}
 
 	/**
