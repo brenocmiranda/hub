@@ -393,7 +393,7 @@ jQuery( function( $ ){
 			$.getScript(url, function(){
 				var script = document.createElement('script'); 
 				script.type = 'text/javascript';
-				script.data('domain-script') = "018dcdbb-197e-7f8e-b15e-1c5029e71b05";
+				script.setAttribute('data-domain-script', window.onetrust);
 				script.async = true;
 				script.src = 'https://cdn.cookielaw.org/scripttemplates/otSDKStub.js';
 				var s = document.getElementsByTagName("body")[0].appendChild(script, s);
