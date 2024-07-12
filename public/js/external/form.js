@@ -389,7 +389,8 @@ jQuery( function( $ ){
 	 */
 	if(window.onetrust){
 		setTimeout(() => {
-			$.getScript('https://cdn.cookielaw.org/consent/' + window.onetrust + '/OtAutoBlock.js', function(){
+			let url = 'https://cdn.cookielaw.org/consent/' + window.onetrust + '/OtAutoBlock.js';
+			$.getScript(url, function(){
 				$.getScript('https://cdn.cookielaw.org/scripttemplates/otSDKStub.js', function(){
 					function OptanonWrapper(){}
 				});
