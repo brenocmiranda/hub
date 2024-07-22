@@ -9,8 +9,8 @@ Login
 @include('base.header')
 <main>
     <div class="container-fluid">
-        <div class="row align-items-center">
-            <div class="col-lg-7 col-md-5 column-image">
+        <div class="row align-items-center justify-content-center">
+            <div class="col-lg-7 col-md-10 column-image">
                 <div class="image"></div>
             </div>
             <div class="col-lg-5 col-md-7 col-12 column-form">
