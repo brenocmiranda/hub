@@ -10,10 +10,10 @@ Login
 <main>
     <div class="container-fluid">
         <div class="row align-items-center justify-content-center">
-            <div class="col-lg-6 col-md-5 column-image">
+            <div class="col-xl-6 col-lg-7 col-md-5 column-image">
                 <div class="image"></div>
             </div>
-            <div class="col-lg-6 col-md-7 col-12 column-form">
+            <div class="col-xl-6 col-lg-5 col-md-7 col-12 column-form">
                 <div class="logo mb-5">
                     <img src="{{ asset('images/logo-black.png') }}" loading="lazy" alt="Hub Integrações"
                         class="img-fluid">
