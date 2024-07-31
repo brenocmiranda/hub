@@ -267,8 +267,7 @@ jQuery( function( $ ){
 	 * Loading scripts
 	 */
 	function loadScript( $url, $params = {}, callback = null ){
-		let d = document,
-				s = d.createElement('script');
+		let d = document, s = d.createElement('script');
 		s.type = 'text/javascript';
 		for( let $p in $params ) s[ $p ] = $params[ $p ];
 		s.src = $url;
@@ -384,8 +383,8 @@ jQuery( function( $ ){
 				}
 			});
 		}
-		if( !!$().colorbox ){
-			loadScript( 'colorbox.min.js', { async: true, defer: true }, function(){
+		if( !$().colorbox ){
+			loadScript( 'https://hub.komuh.com/js/external/colorbox.min.js', { async: true, defer: true }, function(){
 				console.log( 'Colorbox loaded' );
 				initColorboxVideo();
 			});
@@ -427,21 +426,21 @@ jQuery( function( $ ){
 		let $galerias = [];
 
 		// Init slick and colorbox
-		if( !!$().slick && !!$().colorbox ){
-			loadScript( 'slick.min.js', { async: true, defer: true }, function(){
+		if( !$().slick && !!$().colorbox ){
+			loadScript( 'https://hub.komuh.com/js/external/slick.min.js', { async: true, defer: true }, function(){
 				console.log( 'Slick loaded');
 				loadScript( 'colorbox.min.js', { async: true, defer: true }, function(){
 					console.log( 'Colorbox loaded');
 					initGallery();
 				});
 			});
-		} else if( !!$().slick ) {
-			loadScript( 'slick.min.js', { async: true, defer: true }, function(){
+		} else if( !$().slick ) {
+			loadScript( 'https://hub.komuh.com/js/external/slick.min.js', { async: true, defer: true }, function(){
 				console.log( 'Slick loaded');
 				initGallery();
 			});
-		} else if( !!$().colorbox ) {
-			loadScript( 'colorbox.min.js', { async: true, defer: true }, function(){
+		} else if( !$().colorbox ) {
+			loadScript( 'https://hub.komuh.com/js/external/colorbox.min.js', { async: true, defer: true }, function(){
 				console.log( 'Colorbox loaded');
 				initGallery();
 			});
