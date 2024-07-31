@@ -424,6 +424,8 @@ jQuery( function( $ ){
 	 * Loading lib in Gallery (3.5 or in scrolling)
 	 */
 	if( window.galleryJson ) {
+		let $galerias = [];
+		
 		// Init slick and colorbox
 		if( !!$().slick && !!$().colorbox ){
 			loadScript( 'slick.min.js', { async: true, defer: true }, function(){
@@ -479,9 +481,7 @@ jQuery( function( $ ){
 			let $itens = $gallery.images;
 			if( !$itens.length ) return;
 
-			let $gal = $( '#gallery-full' ),
-					$path = $galerias.path + $gallery.slug +'/'
-					;
+			let $gal = $( '#gallery-full' ), $path = $galerias.path + $gallery.slug +'/' ;
 
 			if( $gal.hasClass( 'slick-initialized' ) ) $gal.slick( 'unslick' );
 
@@ -496,20 +496,9 @@ jQuery( function( $ ){
 
 			$gal.append( $render.join( "\n" ) );
 
-			$gal
-				.slick({
-					slidesToShow: 1,
-					slidesToScroll: 1,
-					arrows: true,
-					lazyLoad: 'ondemand',
-				});
+			$gal.slick({ slidesToShow: 1, slidesToScroll: 1, arrows: true, lazyLoad: 'ondemand', });
 
-			let $cbCfg = {
-				maxWidth: '90%',
-				maxHeight: '90%',
-				fixed: true,
-				rel:'slide'
-			};
+			let $cbCfg = { maxWidth: '90%', maxHeight: '90%', fixed: true, rel:'slide' };
 		
 			$( 'a[href$=".jpg"], a[href$=".png"], a[href$=".gif"], a[href$=".webp"]' ).colorbox( $cbCfg );
 		}
