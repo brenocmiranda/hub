@@ -385,8 +385,8 @@ jQuery( function( $ ){
 			});
 		}
 		if( !!$().colorbox ){
-			let $s = loadScript( 'colorbox.min.js', { async: true, defer: true }, function(){
-				console.log( 'Colorbox loaded', $s );
+			loadScript( 'colorbox.min.js', { async: true, defer: true }, function(){
+				console.log( 'Colorbox loaded' );
 				initColorboxVideo();
 			});
 		} else {
@@ -410,9 +410,9 @@ jQuery( function( $ ){
 	 */
 	if(window.oneTrust){
 		setTimeout(() => {
-			let url = 'https://cdn.cookielaw.org/consent/' + window.onetrust + '/OtAutoBlock.js';
+			let url = 'https://cdn.cookielaw.org/consent/' + window.oneTrust + '/OtAutoBlock.js';
 			let $s = loadScript( url, { async: true, defer: true }, function(){
-				loadScript( 'https://cdn.cookielaw.org/scripttemplates/otSDKStub.js', { async: true, defer: true, 'data-domain-script': window.onetrust }, function(){
+				loadScript( 'https://cdn.cookielaw.org/scripttemplates/otSDKStub.js', { async: true, defer: true, 'data-domain-script': window.oneTrust }, function(){
 					console.log( 'Onetrust loaded', $s );
 					window.OptanonWrapper = function(){}
 				});
@@ -425,7 +425,7 @@ jQuery( function( $ ){
 	 */
 	if( window.galleryJson ) {
 		let $galerias = [];
-		
+
 		// Init slick and colorbox
 		if( !!$().slick && !!$().colorbox ){
 			loadScript( 'slick.min.js', { async: true, defer: true }, function(){
@@ -496,7 +496,7 @@ jQuery( function( $ ){
 
 			$gal.append( $render.join( "\n" ) );
 
-			$gal.slick({ slidesToShow: 1, slidesToScroll: 1, arrows: true, lazyLoad: 'ondemand', });
+			$gal.slick({ slidesToShow: 1, slidesToScroll: 1, arrows: true, lazyLoad: 'ondemand' });
 
 			let $cbCfg = { maxWidth: '90%', maxHeight: '90%', fixed: true, rel:'slide' };
 		
