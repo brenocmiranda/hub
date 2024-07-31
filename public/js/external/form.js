@@ -423,7 +423,7 @@ jQuery( function( $ ){
 	/**
 	 * Loading lib in Gallery (3.5 or in scrolling)
 	 */
-	if( window.useGallery && window.galleryJson ) {
+	if( window.galleryJson ) {
 		// Init slick and colorbox
 		if( !!$().slick && !!$().colorbox ){
 			loadScript( 'slick.min.js', { async: true, defer: true }, function(){
