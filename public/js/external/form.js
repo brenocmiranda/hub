@@ -410,11 +410,14 @@ jQuery( function( $ ){
 	if(window.oneTrust){
 		setTimeout(() => {
 			let url = 'https://cdn.cookielaw.org/consent/' + window.oneTrust + '/OtAutoBlock.js';
-			let $s = loadScript( url, { async: true, defer: true }, function(){
-				loadScript( 'https://cdn.cookielaw.org/scripttemplates/otSDKStub.js', { async: true, defer: true, 'data-domain-script': window.oneTrust }, function(){
-					console.log( 'Onetrust loaded', $s );
-					window.OptanonWrapper = function(){}
-				});
+			$.getScript(url, function(){
+				var script = document.createElement('script'); 
+				script.type = 'text/javascript';
+				script.setAttribute('data-domain-script', window.oneTrust);
+				script.async = true;
+				script.src = 'https://cdn.cookielaw.org/scripttemplates/otSDKStub.js';
+				var s = document.getElementsByTagName("body")[0].appendChild(script, s);
+				function OptanonWrapper(){}
 			});
 		}, 3500);
 	}
