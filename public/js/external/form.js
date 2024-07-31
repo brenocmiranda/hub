@@ -20,7 +20,7 @@ jQuery( function( $ ){
 		return new Promise((resolve, reject) => {
 			let $mail_data = data;
 			$.ajax({
-				url: 'https://hub.komuh.com/api/leads/lps',
+				url: '//hub.komuh.com/api/leads/lps',
 				type: 'POST',
 				beforeSend: function (xhr) {
 					xhr.setRequestHeader('Authorization', 'Bearer 4|GAoYty9d37SKV2EMUhRWG2jKQ3erJFjqP5vWkd6u2d82e33a');
@@ -231,7 +231,7 @@ jQuery( function( $ ){
 			setDisabled($form, false);
 			$('#myModal').fadeOut();
 
-			window.location.href = 'https://api.whatsapp.com/send/?phone=' + tel_whatsapp + '&text=' + window.encodeURIComponent(msg_whatsapp) + '&app_absent=0';
+			window.location.href = '//api.whatsapp.com/send/?phone=' + tel_whatsapp + '&text=' + window.encodeURIComponent(msg_whatsapp) + '&app_absent=0';
 		});
 
 	});
@@ -303,7 +303,7 @@ jQuery( function( $ ){
 			return false;
 		}
 		window.gtmDidInit = true; // flag to ensure script does not get added to DOM more than once.
-		$.getScript('https://www.googletagmanager.com/gtm.js?id=' + window.ID_GTM, function(){
+		$.getScript('//www.googletagmanager.com/gtm.js?id=' + window.ID_GTM, function(){
 			dataLayer.push({ event: 'gtm.js', 'gtm.start': new Date().getTime(), 'gtm.uniqueEventId': 0 });
 		});
 	}
@@ -328,7 +328,7 @@ jQuery( function( $ ){
 			var utm_campaign = sessionStorage.getItem('utm_campaign') || "";
 			var utm_medium = sessionStorage.getItem('utm_medium') || "";
 
-			$.getScript('https://www.patrimar.com.br/hotsites/integracoes/chat.php?empreendimento=' + window.building + '&url=' + window.location.pathname + '&utm_source=' + utm_source + '&campanha=' + utm_campaign + '&midia=' + utm_medium, function(){
+			$.getScript('//www.patrimar.com.br/hotsites/integracoes/chat.php?empreendimento=' + window.building + '&url=' + window.location.pathname + '&utm_source=' + utm_source + '&campanha=' + utm_campaign + '&midia=' + utm_medium, function(){
 				XRM_Chat.open();
 			});
 		});
@@ -384,7 +384,7 @@ jQuery( function( $ ){
 			});
 		}
 		if( !$().colorbox ){
-			loadScript( 'https://hub.komuh.com/js/external/colorbox.min.js', { async: true, defer: true }, function(){
+			loadScript( '//hub.komuh.com/js/external/colorbox.min.js', { async: true, defer: true }, function(){
 				console.log( 'Colorbox loaded' );
 				initColorboxVideo();
 			});
@@ -409,13 +409,13 @@ jQuery( function( $ ){
 	 */
 	if(window.oneTrust){
 		setTimeout(() => {
-			let url = 'https://cdn.cookielaw.org/consent/' + window.oneTrust + '/OtAutoBlock.js';
+			let url = '//cdn.cookielaw.org/consent/' + window.oneTrust + '/OtAutoBlock.js';
 			$.getScript(url, function(){
 				var script = document.createElement('script'); 
 				script.type = 'text/javascript';
 				script.setAttribute('data-domain-script', window.oneTrust);
 				script.async = true;
-				script.src = 'https://cdn.cookielaw.org/scripttemplates/otSDKStub.js';
+				script.src = '//cdn.cookielaw.org/scripttemplates/otSDKStub.js';
 				var s = document.getElementsByTagName("body")[0].appendChild(script, s);
 				function OptanonWrapper(){}
 			});
@@ -430,7 +430,7 @@ jQuery( function( $ ){
 
 		// Init slick and colorbox
 		if( !$().slick && !!$().colorbox ){
-			loadScript( 'https://hub.komuh.com/js/external/slick.min.js', { async: true, defer: true }, function(){
+			loadScript( '//hub.komuh.com/js/external/slick.min.js', { async: true, defer: true }, function(){
 				console.log( 'Slick loaded');
 				loadScript( 'colorbox.min.js', { async: true, defer: true }, function(){
 					console.log( 'Colorbox loaded');
@@ -438,12 +438,12 @@ jQuery( function( $ ){
 				});
 			});
 		} else if( !$().slick ) {
-			loadScript( 'https://hub.komuh.com/js/external/slick.min.js', { async: true, defer: true }, function(){
+			loadScript( '//hub.komuh.com/js/external/slick.min.js', { async: true, defer: true }, function(){
 				console.log( 'Slick loaded');
 				initGallery();
 			});
 		} else if( !$().colorbox ) {
-			loadScript( 'https://hub.komuh.com/js/external/colorbox.min.js', { async: true, defer: true }, function(){
+			loadScript( '//hub.komuh.com/js/external/colorbox.min.js', { async: true, defer: true }, function(){
 				console.log( 'Colorbox loaded');
 				initGallery();
 			});
