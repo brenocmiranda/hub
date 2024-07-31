@@ -41,7 +41,6 @@ jQuery( function( $ ){
 			$( this ).attr( "disabled", state );
 		});
 	}
-	
 	window.formSubmit = function( token ){
 		setTimeout( function(){
 			let $form = $("form.sending-form");
@@ -265,6 +264,20 @@ jQuery( function( $ ){
 	checkInView();
 
 	/**
+	 * Loading scripts
+	 */
+	function loadScript( $url, $params = {}, callback = null ){
+		let d = document,
+				s = d.createElement('script');
+		s.type = 'text/javascript';
+		for( let $p in $params ) s[ $p ] = $params[ $p ];
+		s.src = $url;
+		if( callback ) s.onload = callback;
+		let a = d.getElementsByTagName("body")[0].appendChild( s );
+		return a;
+	}
+
+	/**
 	 * Loading Patrimar and Novolar (3.5s)
 	*/
 	if( $('.loading').length ){
@@ -353,7 +366,34 @@ jQuery( function( $ ){
 	/**
 	 * Loading in iframe (Click)
 	 */
-	function abrirVideoColorbox(params) {
+	if( window.useColorboxVideo ) {
+		function initColorboxVideo() {
+			$( 'a[href*="vimeo.com"]' ).on( 'click', function( e ){
+				e.preventDefault();
+				let match = /vimeo.*\/(\d+)/i.exec( this.href );
+				if( match ){
+					showColorboxVideo({ href: '//player.vimeo.com/video/' + match[ 1 ] + '?autoplay=1', innerHeight: 402 });
+				}
+			});
+			$( 'a[href*="youtube.com"]' ).on( 'click', function( e ){
+				e.preventDefault();
+				let regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/,
+						match = this.href.match( regExp );
+				if( match && match[ 7 ].length == 11 ){
+					showColorboxVideo({ href: '//www.youtube.com/embed/' + match[ 7 ] + '?autoplay=1' });
+				}
+			});
+		}
+		if( !!$().colorbox ){
+			let $s = loadScript( 'colorbox.min.js', { async: true, defer: true }, function(){
+				console.log( 'Colorbox loaded', $s );
+				initColorboxVideo();
+			});
+		} else {
+			initColorboxVideo();
+		}
+	}
+	function showColorboxVideo(params) {
 		let $params = $.extend({
 			iframe: true,
 			innerWidth: 960,
@@ -362,41 +402,20 @@ jQuery( function( $ ){
 			maxHeight: '90%',
 			fixed: true
 		}, params);
-
 		$.colorbox($params);
-	}
-	if( !!$().colorbox ){
-		$( 'a[href*="vimeo.com"]' ).on( 'click', function( e ){
-			e.preventDefault();
-			let match = /vimeo.*\/(\d+)/i.exec( this.href );
-			if( match ){
-				abrirVideoColorbox({ href: '//player.vimeo.com/video/' + match[ 1 ] + '?autoplay=1', innerHeight: 402 });
-			}
-		});
-		$( 'a[href*="youtube.com"]' ).on( 'click', function( e ){
-			e.preventDefault();
-			let regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/,
-					match = this.href.match( regExp );
-			if( match && match[ 7 ].length == 11 ){
-				abrirVideoColorbox({ href: '//www.youtube.com/embed/' + match[ 7 ] + '?autoplay=1' });
-			}
-		});
 	}
 	
 	/**
 	 * Loading lib in Onetrust (3.5s)
 	 */
-	if(window.onetrust){
+	if(window.oneTrust){
 		setTimeout(() => {
 			let url = 'https://cdn.cookielaw.org/consent/' + window.onetrust + '/OtAutoBlock.js';
-			$.getScript(url, function(){
-				var script = document.createElement('script'); 
-				script.type = 'text/javascript';
-				script.setAttribute('data-domain-script', window.onetrust);
-				script.async = true;
-				script.src = 'https://cdn.cookielaw.org/scripttemplates/otSDKStub.js';
-				var s = document.getElementsByTagName("body")[0].appendChild(script, s);
-				function OptanonWrapper(){}
+			let $s = loadScript( url, { async: true, defer: true }, function(){
+				loadScript( 'https://cdn.cookielaw.org/scripttemplates/otSDKStub.js', { async: true, defer: true, 'data-domain-script': window.onetrust }, function(){
+					console.log( 'Onetrust loaded', $s );
+					window.OptanonWrapper = function(){}
+				});
 			});
 		}, 3500);
 	}
@@ -404,7 +423,97 @@ jQuery( function( $ ){
 	/**
 	 * Loading lib in Gallery (3.5 or in scrolling)
 	 */
+	if( window.useGallery && window.galleryJson ) {
+		// Init slick and colorbox
+		if( !!$().slick && !!$().colorbox ){
+			loadScript( 'slick.min.js', { async: true, defer: true }, function(){
+				console.log( 'Slick loaded');
+				loadScript( 'colorbox.min.js', { async: true, defer: true }, function(){
+					console.log( 'Colorbox loaded');
+					initGallery();
+				});
+			});
+		} else if( !!$().slick ) {
+			loadScript( 'slick.min.js', { async: true, defer: true }, function(){
+				console.log( 'Slick loaded');
+				initGallery();
+			});
+		} else if( !!$().colorbox ) {
+			loadScript( 'colorbox.min.js', { async: true, defer: true }, function(){
+				console.log( 'Colorbox loaded');
+				initGallery();
+			});
+		} else {
+			initGallery();
+		}
 
+		function initGallery() {
+			$.getJSON( window.galleryJson, function( data ){
+				$galerias = data;
+
+				let $nav = $( '#gallery-nav' ),
+						$li = [];
+
+				$.each( data.galerias, function( i, gal ){
+					$li.push( `<a href="#" data-gallery="${gal.slug}">${gal.name}</a>` );
+				} );
+
+				$nav.prepend( $li.join( "\n" ) );
+
+				$nav.find( 'a:first-child' ).addClass( 'active' );
+
+				renderGallery( data.galerias[0].slug );
+			} );
+			$( document ).on( 'click', '[data-gallery]', function( e ){
+				e.preventDefault();
+				renderGallery( $( this ).data( 'gallery' ) );
+				$( '#gallery-nav' ).find( 'a.active' ).removeClass( 'active' );
+				$( this ).addClass( 'active' );
+			} );
+		}
+		function renderGallery( $name ){
+			let $gallery = $galerias.galerias.find( gal => gal.slug === $name );
+
+			if( !$gallery ) return;
+
+			let $itens = $gallery.images;
+			if( !$itens.length ) return;
+
+			let $gal = $( '#gallery-full' ),
+					$path = $galerias.path + $gallery.slug +'/'
+					;
+
+			if( $gal.hasClass( 'slick-initialized' ) ) $gal.slick( 'unslick' );
+
+			$gal.html( '' );
+
+			$render = [];
+
+			$itens.map( function( item ){
+				let $itemBig = `<a href="${ $path +'1920/'+ item.src }" class="slide-item" title="${item.alt}"> <picture> <source srcset="${ $path +'320/'+ item.src }" media="(max-width: 320px)" /> <source srcset="${ $path +'640/'+ item.src }" media="(max-width: 640px)" /> <source srcset="${ $path +'960/'+ item.src }" media="(max-width: 1200px)" /> <img src="${ $path +'1280/'+ item.src }" alt="${item.alt}" loading="lazy" width="1280" height="720" /> </picture> <p>${item.alt}</p> </a>`;
+				$render.push($itemBig)
+			});
+
+			$gal.append( $render.join( "\n" ) );
+
+			$gal
+				.slick({
+					slidesToShow: 1,
+					slidesToScroll: 1,
+					arrows: true,
+					lazyLoad: 'ondemand',
+				});
+
+			let $cbCfg = {
+				maxWidth: '90%',
+				maxHeight: '90%',
+				fixed: true,
+				rel:'slide'
+			};
+		
+			$( 'a[href$=".jpg"], a[href$=".png"], a[href$=".gif"], a[href$=".webp"]' ).colorbox( $cbCfg );
+		}
+	}
 	
 	/**
 	 * Loading lib in GoogleMaps (in scrolling)
