@@ -265,20 +265,20 @@ jQuery( function( $ ){
 	checkInView();
 
 	/**
-	 * Loading Patrimar and Novolar (3s)
+	 * Loading Patrimar and Novolar (3.5s)
 	*/
 	if( $('.loading').length ){
 		setTimeout(() => {
 			$('.loading').fadeOut();
-		}, 3000);
+		}, 3500);
 	}
 
 	/**
-	 * Loading lib in GTM (3s)
+	 * Loading lib in GTM (3.5s)
 	*/
 	if (window.ID_GTM) {
 		document.addEventListener('DOMContentLoaded', () => {
-			setTimeout(initGTM, 3000);
+			setTimeout(initGTM, 3500);
 		});
 		$(document).on('scroll mousemove touchstart click', initGTMOnEvent);
 	}
@@ -384,7 +384,7 @@ jQuery( function( $ ){
 	}
 	
 	/**
-	 * Loading lib in Onetrust (3s)
+	 * Loading lib in Onetrust (3.5s)
 	 */
 	if(window.onetrust){
 		setTimeout(() => {
@@ -398,10 +398,20 @@ jQuery( function( $ ){
 				var s = document.getElementsByTagName("body")[0].appendChild(script, s);
 				function OptanonWrapper(){}
 			});
-		}, 3000);
+		}, 3500);
 	}
 
 	/**
+	 * Loading lib in Gallery (3.5 or in scrolling)
+	 */
+
+	
+	/**
 	 * Loading lib in GoogleMaps (in scrolling)
+	 */
+
+
+	/**
+	 * Loading video background ()
 	 */
 });
