@@ -1,14 +1,3 @@
-/**
- * Init jquery
- */
-if( !window.jQuery ){
-	let d = document, s = d.createElement('script');
-	s.type = 'text/javascript';
-	s.src = 'https://hub.komuh.com/js/external/jquery.min.js';
-	let a = d.getElementsByTagName("head")[0].appendChild( s );
-	console.log( 'Jquery loaded' );
-}
-
 jQuery( function( $ ){
 
 	/**
