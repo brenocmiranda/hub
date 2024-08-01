@@ -1,4 +1,3 @@
-
 jQuery( function( $ ){
     let $galerias = [];
     let init = {
