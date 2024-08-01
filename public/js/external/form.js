@@ -1,13 +1,5 @@
 
-if( !( 'jQuery' in window ) ){
-    let d = document, s = d.createElement('script');
-    s.type = 'text/javascript';
-    s.src = 'https://hub.komuh.com/js/external/jquery.min.js';
-    let a = d.getElementsByTagName("head")[0].appendChild( s );
-    console.log( 'jQuery loaded' );
-}
-
-window.onload = function(){
+jQuery( function( $ ){
     let $galerias = [];
     let init = {
         validations: {
@@ -611,4 +603,4 @@ window.onload = function(){
 	/**
 	 * Loading video background ()
 	 */
-};
+});
