@@ -352,7 +352,7 @@ jQuery( function( $ ){
 	 * Send data for function Hub
 	 */
 	window.dataLayer = window.dataLayer || [];
-	$( '.submit-btn' ).on( 'click', function( e ){
+	$( '.submit-btn' ).prop( 'disabled', true ).on( 'click', function( e ){
 		e.preventDefault();
 
 		let $submit = $(this),
@@ -422,31 +422,22 @@ jQuery( function( $ ){
 	});
 
     /**
-	 * Send data for function Hub
+	 * Send data in modal whatsapp for function sendEmail
 	 */
-	window.dataLayer = window.dataLayer || [];
-	$( '.submit-btn' ).on( 'click', function( e ){
+	$('.submit-whatsapp').on('click', function (e) {
 		e.preventDefault();
 
 		let $submit = $(this),
 			$form = $submit.parents('form'),
-			$output = $form.find('.form-output'),
-			nome = $form.find('[name="nome"]').val().trim(),
+			$output = $form.find('.form-output-modal'),
+			nome = $form.find('[name="name"]').val().trim(),
 			email = $form.find('[name="email"]').val().trim(),
-			telefone = $form.find('[name="telefone"]').val().trim(),
-			empreendimento = $form.find('[name="empreendimento"]').val().trim(),
-			sobrenome = $form.find('[name="sobrenome"]').length > 0 ? $form.find('[name="sobrenome"]').val().trim() : "",
-			mensagem = $form.find('[name="messagem"]').length > 0 ? $form.find('[name="messagem"]').val().trim() : "",
-			origin = $form.find('[name="origin"]').length > 0 ? $form.find('[name="origin"]').val().trim() : "",
-			com = $form.find('[name="com"]').length > 0 ? $form.find('[name="com"]').val().trim() : "",
-			pp = $form.find( '[name="pp"]'),
+			telefone = $form.find('[name="phone"]').val().trim(),
 			url_params = location.search ? location.search.replace('?', '') : '',
-			url = location.href;
-
-		if ( !pp.is( ':checked' )) {
-			alert( 'Aceite da Política de Privacidade é obrigatório.' );
-			return;
-		}
+			url = location.href,
+			empreendimento = $form.find('[name="empreendimento"]').val().trim(),
+			tel_whatsapp = $form.find('[name="tel-whatsapp"]').val().trim(),
+			msg_whatsapp = $form.find('[name="msg-whatsapp"]').val().trim();
 
 		if (nome == '' || email == '' || telefone == '' || empreendimento == '') {
 			alert('Preencha todos os campos.');
@@ -464,8 +455,8 @@ jQuery( function( $ ){
 		}
 
 		if (!$output.length) {
-			$form.prepend('<div class="form-output"></div>');
-			$output = $form.find('.form-output');
+			$form.prepend('<div class="form-output-modal"></div>');
+			$output = $form.find('.form-output-modal');
 		}
 
 		$output.html('').removeClass('is-error is-success');
@@ -473,25 +464,25 @@ jQuery( function( $ ){
 		$form.addClass('sending-form');
 		init.validations.setDisabled($form, true);
 
-		let data = { nome, sobrenome, email, telefone, mensagem, empreendimento, url_params, url, origin, com };
-		console.log( 'form data', data );
+		let data = { nome, email, telefone, url_params, empreendimento, url };
+		console.log('form data', data);
 
-		init.hub.integration( data ).then(function (em_data) {
+		init.hub.integration(data).then(function (em_data) {
 			console.log('sendmail', em_data);
 
 			if (em_data.status) {
 				$submit.removeClass('sending');
 				$form[0].reset();
-				dataLayer.push({ 'event': 'conversao_sucesso' });
+				dataLayer.push({ 'event': 'whatsapp_sucesso' });
 				$(document).trigger('form-sended', [$form]);
 			}
 
-            init.validations.setDisabled($form, false);
-			$("form.sending-form .submit-btn").attr("disabled", true);
-			$form.removeClass('sending-form');
+			init.validations.setDisabled($form, false);
+			$('#myModal').fadeOut();
 
-			$output.html(`<p>${em_data.status ? 'Dados enviados com sucesso.' : 'Erro ao enviar seus dados. Verifique e tente novamente.'}</p>`).addClass(em_data.status ? 'is-success' : 'is-error');
+			window.location.href = 'https://api.whatsapp.com/send/?phone=' + tel_whatsapp + '&text=' + window.encodeURIComponent(msg_whatsapp) + '&app_absent=0';
 		});
+
 	});
 
     /**
