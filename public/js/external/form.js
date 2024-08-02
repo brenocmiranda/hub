@@ -58,13 +58,6 @@ jQuery( function( $ ){
                 var r = input.replace(/[^a-zA-Z]/g, "");
                 return r;
             },
-
-            /**
-             * Rules spaces
-             */
-            removeSpaces: function(input) {
-            if( input.which == 32 ) return false;
-            },
         },
 
         hub: {
@@ -342,7 +335,7 @@ jQuery( function( $ ){
 	 * Remove space in input
 	 */
     $( '.no-space' ).on( 'keypress', function( e ){
-        init.masks.removeSpaces();
+        if( input.which == 32 ) return false;
     });
 
     /**
