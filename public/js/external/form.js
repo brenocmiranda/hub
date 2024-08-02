@@ -335,7 +335,7 @@ jQuery( function( $ ){
 	 * Remove space in input
 	 */
     $( '.no-space' ).on( 'keypress', function( e ){
-        if( input.which == 32 ) return false;
+        if( e.which == 32 ) return false;
     });
 
     /**
