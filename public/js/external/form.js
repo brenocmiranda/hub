@@ -1,4 +1,5 @@
 jQuery( function( $ ){
+    window.dataLayer = window.dataLayer || [];
     let $galerias = [];
     let init = {
         validations: {
@@ -121,9 +122,9 @@ jQuery( function( $ ){
             },
 
             /**
-             * Loading Patrimar and Novolar
+             * Remove Loading 
             */
-            patrimar: function(){
+            remove: function(){
                 $('.loading').fadeOut();
             },
 
@@ -351,7 +352,6 @@ jQuery( function( $ ){
     /**
 	 * Send data for function Hub
 	 */
-	window.dataLayer = window.dataLayer || [];
 	$( '.submit-btn' ).prop( 'disabled', true ).on( 'click', function( e ){
 		e.preventDefault();
 
@@ -492,11 +492,11 @@ jQuery( function( $ ){
 	$(window).on('resize scroll', init.loading.checkInView);
 
     /**
-	 * Loading Patrimar and Novolar (3.5s)
+	 * Loading (3.5s)
 	*/
 	if ( $('.loading').length ){
         setTimeout(() => {
-		    init.loading.patrimar();
+		    init.loading.remove();
         }, 3500);
 	}
 
@@ -563,7 +563,7 @@ jQuery( function( $ ){
 			if( !$().slick && !!$().colorbox ){
 				init.loading.script( 'https://hub.komuh.com/js/external/slick.min.js', { async: true, defer: true }, function(){
 					console.log( 'Slick loaded' );
-					init.loading.script( 'colorbox.min.js', { async: true, defer: true }, function(){
+					init.loading.script( 'https://hub.komuh.com/js/external/colorbox.min.js', { async: true, defer: true }, function(){
 						console.log( 'Colorbox loaded');
 						init.loading.initGallery( window.galleryJson );
 					});
@@ -579,7 +579,7 @@ jQuery( function( $ ){
 					init.loading.initGallery( window.galleryJson );
 				});
 			} else {
-				init.loading.initGallery();
+				init.loading.initGallery( window.galleryJson );
 			}
 		}, 3500);
 	}
