@@ -352,7 +352,7 @@ jQuery( function( $ ){
 	 * Send data for function Hub
 	 */
 	window.dataLayer = window.dataLayer || [];
-	$( '.submit-btn' ).prop( 'disabled', true ).on( 'click', function( e ){
+	$( '.submit-btn' ).on( 'click', function( e ){
 		e.preventDefault();
 
 		let $submit = $(this),
@@ -425,7 +425,7 @@ jQuery( function( $ ){
 	 * Send data for function Hub
 	 */
 	window.dataLayer = window.dataLayer || [];
-	$( '.submit-btn' ).prop( 'disabled', true ).on( 'click', function( e ){
+	$( '.submit-btn' ).on( 'click', function( e ){
 		e.preventDefault();
 
 		let $submit = $(this),
