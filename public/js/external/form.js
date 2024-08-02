@@ -352,7 +352,7 @@ jQuery( function( $ ){
     /**
 	 * Send data for function Hub
 	 */
-	$( '.submit-btn' ).prop( 'disabled', true ).on( 'click', function( e ){
+	$( '.submit-btn' ).on( 'click', function( e ){
 		e.preventDefault();
 
 		let $submit = $(this),
