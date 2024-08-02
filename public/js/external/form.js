@@ -183,13 +183,13 @@ jQuery( function( $ ){
                         $form.find('input').each((i, el) => $(el).off('.rcp'));
                         //console.log('recaptcha loaded');
                         setTimeout(() => {
-                            // $('.submit-btn').prop('disabled', true);
+                            $('.submit-btn').prop('disabled', true);
                             // $submit.attr("disabled", true);
-                            if (input.name === 'pp' && input.checked ) {
+                            /*if (input.name === 'pp' && input.checked ) {
                                 //console.log('pp => libera submit', input.name);
                                 $submit.removeProp( 'disabled' );
                                 // $submit.attr( "disabled", false);
-                            }
+                            }*/
                         }, 100);
                     });
                 }
