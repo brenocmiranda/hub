@@ -322,7 +322,7 @@ jQuery( function( $ ){
 	 * Apply mask phone
 	 */
     $( '.is-phone' ).on( 'keyup', function( e ){
-        var v = init.masks.mphone( this.value );
+        var v = init.masks.phone( this.value );
         if( v != this.value ){
             this.value = v;
         }
