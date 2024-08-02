@@ -63,7 +63,7 @@ jQuery( function( $ ){
              * Rules spaces
              */
             removeSpaces: function(input) {
-            if( e.which == 32 ) return false;
+            if( input.which == 32 ) return false;
             },
         },
 
