@@ -26,10 +26,6 @@ jQuery( function( $ ){
                     $( this ).prop( "disabled", state );
                     $( this ).attr( "disabled", state );
                 });
-                setTimeout( function(){
-                    let $form = $("form.sending-form");
-                    $form.find( '.submit-btn' ).prop( "disabled", true );
-                }, 10 );
             },
         },
 
@@ -311,6 +307,16 @@ jQuery( function( $ ){
             }
         }
     }
+    
+    /**
+     * Disabled inputs on click submit
+     */
+    window.formSubmit = function( token ){
+		setTimeout( function(){
+			let $form = $("form.sending-form");
+			$form.find( '.submit-btn' ).prop( "disabled", true );
+		}, 10 );
+	}
 
     /**
 	 * Apply mask phone
