@@ -19,7 +19,6 @@ Funções
                     <thead>
                         <tr>
                             <th data-field="name" data-align="center">Nome</th>
-                            <th data-field="value" data-align="center">Nível</th>
                             <th data-field="status" data-align="center">Status</th>
                             <th data-field="operations" data-align="center">Operações</th>
                         </tr>

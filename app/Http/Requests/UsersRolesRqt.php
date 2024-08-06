@@ -23,7 +23,7 @@ class UsersRolesRqt extends FormRequest
     {
         return [
             'name' => 'nome',
-            'value' => 'value',
+            'roles' => 'acessos',
             'active' => 'status',
         ];
     }
@@ -37,7 +37,7 @@ class UsersRolesRqt extends FormRequest
     {
         return [
             'name' => 'required|min:3|unique:users_roles,name,'.$this->segment(5),
-            'value' => 'required|numeric|max:100',
+            'roles' => 'required',
             'active' => 'required|boolean',
         ];
     }

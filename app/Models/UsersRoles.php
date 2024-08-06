@@ -12,7 +12,7 @@ class UsersRoles extends Model
 
     protected $fillable = [
         'name',
-        'value',
+        'roles',
         'active',
     ];
 }

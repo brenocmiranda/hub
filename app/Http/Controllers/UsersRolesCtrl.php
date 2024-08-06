@@ -34,7 +34,7 @@ class UsersRolesCtrl extends Controller
         $search = $request->search;
         $roles = $roles->where( function($roles) use ($search){
             $roles->orWhere('users_roles.name', 'like', "%".$search."%");
-            $roles->orWhere('users_roles.value', 'like', "%".$search."%");
+            $roles->orWhere('users_roles.roles', 'like', "%".$search."%");
         });
 
         // Apply Length and Capture RecordsFilters
@@ -56,7 +56,6 @@ class UsersRolesCtrl extends Controller
                 // Array do emp
                 $array[] = [
                     'name' => $role->name,
-                    'value' => $role->value,
                     'status' => $status,
                     'operations' => $operations
                 ];
@@ -77,7 +76,7 @@ class UsersRolesCtrl extends Controller
     {      
         UsersRoles::create([
             'name' => $request->name, 
-            'value' => $request->value, 
+            'roles' => implode(',', $request->roles), 
             'active' => $request->active,
         ]);
 
@@ -106,7 +105,7 @@ class UsersRolesCtrl extends Controller
     {
         UsersRoles::find($id)->update([
             'name' => $request->name, 
-            'value' => $request->value, 
+            'roles' => implode(',', $request->roles), 
             'active' => $request->active,
         ]);
 

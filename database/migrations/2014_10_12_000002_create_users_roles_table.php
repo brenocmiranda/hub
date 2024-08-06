@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->boolean('active');
             $table->string('name', 200);
-            $table->string('value');
+            $table->longText('roles');
             $table->softDeletes($column = 'deleted_at', $precision = 0);
             $table->timestamps();
         });

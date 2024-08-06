@@ -47,4 +47,8 @@ class PrivateCtrl extends Controller
     {
         return view('system.activities')->with('logs', UsersLogs::where('users_id', Auth::user()->id)->orderBy('created_at', 'DESC')->get());
     }
+
+    public function unauthorized(){
+        return view('system.unauthorized');
+    }
 }

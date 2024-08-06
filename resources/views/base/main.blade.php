@@ -1,9 +1,10 @@
 <main>
-    <header>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-6 col-sm-8 col-12">
-                    @if( Request::segment(2) != 'home' )
+    
+    @if( Request::segment(2) != 'home' && Request::segment(2) != 'unauthorized' )
+        <header>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-6 col-sm-8 col-12">
                         <div class="title">
                             <h2>@yield('title')</h2>
                         </div>
@@ -176,22 +177,21 @@
                                     @break
                             @endswitch
                         </div>
-                    @endif
-                </div>
-                <div class="col-lg-6 col-sm-4 col-12 mt-3 mt-sm-0 d-flex justify-content-sm-end align-items-center gap-2">
-                    @yield('buttons')
-                </div>
-                
-            </div>
-        </div>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-12">
-                    <hr>
+                    </div>
+                    <div class="col-lg-6 col-sm-4 col-12 mt-3 mt-sm-0 d-flex justify-content-sm-end align-items-center gap-2">
+                        @yield('buttons')
+                    </div>
                 </div>
             </div>
-        </div>
-    </header>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <hr>
+                    </div>
+                </div>
+            </div>
+        </header>
+    @endif
 
     <section>
         @yield('content-page')

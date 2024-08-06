@@ -1,8 +1,4 @@
 /** Documento da página de Home **/
-main hr {
-    display: none;
-}
-
 .img-home {
     background: url(../images/welcome.png) no-repeat center / contain;
     filter: grayscale(1);
