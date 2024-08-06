@@ -32,13 +32,14 @@ Novo empreendimento
                     <form action="{{ route('buildings.store') }}" method="POST" class="row row-gap-3" enctype="multipart/form-data">
                         @csrf
  
-                        <div class="input-field col-lg-8 col-12">
+                        <div class="input-field col-lg-6 col-12">
                             <div class="form-floating">
                                 <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}" required>
                                 <label for="name">Nome <abbr>*</abbr></label>
                             </div>
                         </div>
-                        <div class="input-field col-lg-4 col-12">
+
+                        <div class="input-field col-lg-6 col-12">
                             <div class="form-floating">
                                 <select class="form-select @error('active') is-invalid @enderror" aria-label="Defina um status" name="active" id="active" required>
                                     <option selected></option>
@@ -46,6 +47,18 @@ Novo empreendimento
                                     <option value="0" {{ old('active') != null && old('active') == false ? 'selected' : "" }}>Desativado</option>
                                 </select>
                                 <label for="active">Status <abbr>*</abbr></label>
+                            </div>
+                        </div>
+
+                        <div class="input-field col-12">
+                            <div class="form-floating">
+                                <select class="form-select @error('test_buildings_id') is-invalid @enderror" aria-label="Defina um empreendimento de teste" name="test_buildings_id" id="test_buildings_id" required>
+                                    <option selected></option>
+                                    @foreach($buildingsAll as $buildingOnly) 
+                                        <option value="{{ $buildingOnly->id }}">{{ $buildingOnly->name }}</option> 
+                                    @endforeach 
+                                </select>
+                                <label for="test_buildings_id">Empreendimento de teste <abbr>*</abbr></label>
                             </div>
                         </div>
                         
@@ -59,7 +72,53 @@ Novo empreendimento
                                 <div id="flush-collapse1" class="accordion-collapse collapse show" data-bs-parent="#accordionItems">
                                     <div class="accordion-body">
                                         <div class="partners">
-                                            <div class="all-partners"></div>
+                                            <div class="all-partners">
+                                                <div class="single-partner">
+                                                    <div class="content-partner">
+                                                        <div class="row row-gap-2">
+                                                            <div class="input-field col-lg-5 col-12">
+                                                                <div class="form-floating">
+                                                                    <select class="form-select" aria-label="Defina uma empresa" name="partner[]" id="companie-0" required>
+                                                                        <option selected></option>
+                                                                        @foreach($companies as $companie) 
+                                                                            <option value="{{ $companie->id }}">{{ $companie->name }}</option>
+                                                                        @endforeach 
+                                                                    </select>
+                                                                    <label for="companie-0">Empresas <abbr>*</abbr></label> 
+                                                                </div>
+                                                            </div>
+                                                            <div class="input-field col-lg-4 col-12">
+                                                                <div class="form-floating">
+                                                                    <select class="form-select leads" aria-label="Defina a quantidade de leads" name="leads[]" id="leads-0" required>
+                                                                        <option value="99">-</option>
+                                                                        <option value="1">1</option>
+                                                                        <option value="2">2</option>
+                                                                        <option value="3">3</option>
+                                                                        <option value="4">4</option>
+                                                                        <option value="5">5</option>
+                                                                        <option value="6">6</option>
+                                                                        <option value="7">7</option>
+                                                                        <option value="8">8</option>
+                                                                        <option value="9">9</option>
+                                                                        <option value="10">10</option>
+                                                                    </select>
+                                                                    <label for="leads-0">Quantidade de leads <abbr>*</abbr></label> 
+                                                                </div>
+                                                            </div>
+                                                            <div class="input-field col-lg-3 col-12 d-flex align-items-center gap-3">
+                                                                <div class="form-floating w-100">
+                                                                    <select class="form-select principal" aria-label="Defina o dono" name="main[]" id="main-0" required>
+                                                                        <option value="1">Sim</option>
+                                                                        <option value="0">Não</option>
+                                                                    </select>
+                                                                    <label for="main-0">Principal <abbr>*</abbr></label> 
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12 d-flex align-items-end justify-content-end"> <a href="#" class="btn btn-sm btn-outline-danger ms-auto" onclick="removePartner(this);"><i class="bi bi-trash"></i> Excluir parceiro</a> </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <div class="text-center">
                                                 <a href="#" onclick="addPartner()"><i class="bi bi-person-plus pe-1"></i> Cadastrar novo parceiro</a>
                                             </div>
@@ -179,15 +238,17 @@ Novo empreendimento
 
 @section('js')
 <script>
-    var count = 0;
+    var count = 1;
     var integration = 0;
 
     // Partners
     function addPartner() {
         event.preventDefault();
-        $('.partners').find('.all-partners').append(`<div class="single-partner"> <div class="content-partner"> <div class="row row-gap-2"> <div class="input-field col-lg-5 col-12"> <div class="form-floating"> <select class="form-select" aria-label="Defina uma empresa" name="partner[]" id="companie-` + count + `" required> <option selected></option> @foreach($companies as $companie) <option value="{{ $companie->id }}">{{ $companie->name }}</option> @endforeach </select> <label for="companie-` + count + `">Empresas <abbr>*</abbr></label> </div> </div> <div class="input-field col-lg-4 col-12"> <div class="form-floating"> <select class="form-select" aria-label="Defina a quantidade de leads" name="leads[]" id="leads-` + count + `" required> <option value="99" selected>-</option> <option value="1">1</option> <option value="2">2</option> <option value="3">3</option> <option value="4">4</option> <option value="5">5</option> <option value="6">6</option> <option value="7">7</option> <option value="8">8</option> <option value="9">9</option> <option value="10">10</option> </select> <label for="leads-` + count + `">Quantidade de leads <abbr>*</abbr></label> </div> </div> <div class="input-field col-lg-3 col-12 d-flex align-items-center gap-3"> <div class="form-floating w-100"> <select class="form-select principal" aria-label="Defina o dono" name="main[]" id="main-` + count + `" required> <option value="1">Sim</option> <option value="0" selected>Não</option> </select> <label for="main-` + count + `">Principal <abbr>*</abbr></label> </div> </div> <div class="col-12 d-flex align-items-end justify-content-end"> <a href="#" class="btn btn-sm btn-outline-danger ms-auto" onclick="removePartner(this);"><i class="bi bi-trash"></i> Excluir parceiro</a> </div> </div> </div> </div>`);
+        $('.partners').find('.all-partners').append(`<div class="single-partner"> <div class="content-partner"> <div class="row row-gap-2"> <div class="input-field col-lg-5 col-12"> <div class="form-floating"> <select class="form-select" aria-label="Defina uma empresa" name="partner[]" id="companie-` + count + `" required> <option selected></option> @foreach($companies as $companie) <option value="{{ $companie->id }}">{{ $companie->name }}</option> @endforeach </select> <label for="companie-` + count + `">Empresas <abbr>*</abbr></label> </div> </div> <div class="input-field col-lg-4 col-12"> <div class="form-floating"> <select class="form-select leads" aria-label="Defina a quantidade de leads" name="leads[]" id="leads-` + count + `" required> <option value="99" selected>-</option> <option value="1">1</option> <option value="2">2</option> <option value="3">3</option> <option value="4">4</option> <option value="5">5</option> <option value="6">6</option> <option value="7">7</option> <option value="8">8</option> <option value="9">9</option> <option value="10">10</option> </select> <label for="leads-` + count + `">Quantidade de leads <abbr>*</abbr></label> </div> </div> <div class="input-field col-lg-3 col-12 d-flex align-items-center gap-3"> <div class="form-floating w-100"> <select class="form-select principal" aria-label="Defina o dono" name="main[]" id="main-` + count + `" required> <option value="1">Sim</option> <option value="0" selected>Não</option> </select> <label for="main-` + count + `">Principal <abbr>*</abbr></label> </div> </div> <div class="col-12 d-flex align-items-end justify-content-end"> <a href="#" class="btn btn-sm btn-outline-danger ms-auto" onclick="removePartner(this);"><i class="bi bi-trash"></i> Excluir parceiro</a> </div> </div> </div> </div>`);
         count++;
 
+        leadsPartner();
+        
         // Deixando apenas um dono
         $('.principal').on('change', function(event){
             event.preventDefault();
@@ -203,6 +264,16 @@ Novo empreendimento
         event.preventDefault();
         if(confirm('Tem certeza que deseja remover esse destinatário?')){
             $(element).closest('.single-partner').remove();
+            leadsPartner();
+        }
+    }
+    function leadsPartner(){
+        // Removendo - da quantidade de leads
+        let partners = $('.all-partners').find('.leads').length;
+        if( partners > 1 ) {
+            $('.all-partners').find('.leads').find('option[value=99]').remove();
+        }   else {
+            $('.all-partners').find('.leads').prepend('<option value="99" selected>-</option> ');
         }
     }
 
@@ -262,5 +333,7 @@ Novo empreendimento
         event.preventDefault();
         $(element).closest('.row').remove();
     }
+
+    
 </script>
 @endsection

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Log;
 use App\Http\Requests\ApiLeadsRqt;
+use App\Models\Buildings;
 use App\Models\BuildingsKeys;
 use App\Models\BuildingsPartners;
 use App\Models\Leads;
@@ -369,6 +370,44 @@ class ApiLeadsCtrl extends Controller
             'leads_origins_id' => $origin,
             'companies_id' => $companie,
         ]);
+
+        // Validate lead test for name and email
+        if( stripos($name, 'teste') !== false || stripos($email, 'teste') !== false ) {
+            $builg = Buildings::find($building);
+
+            // Defined partner responsible
+            $partners = BuildingsPartners::where( 'buildings_id', $builg->test_buildings_id )->orderBy('created_at', 'desc')->get();
+            if( $partners->first() ){
+                foreach( $partners as $partner ){
+                    if( $partner->leads == 99 ){
+                        $companieTest = $partner->companies_id;
+                        break;
+                    } else {
+                        $countAllPartners = BuildingsPartners::where( 'buildings_id', $builg->test_buildings_id )->select('leads')->sum('leads');
+                        $leads = Leads::where( 'buildings_id', $builg->id )->orderBy('created_at', 'desc')->take( $countAllPartners - 1)->get();
+                        $leadsPartner = $leads->sortBy('created_at')->where( 'companies_id', $partner->companies_id )->count();
+    
+                        if( $leadsPartner < $partner->leads ){
+                            $companieTest = $partner->companies_id;
+                            break;
+                        }
+                    }
+                }
+            }   
+            $companieTest = isset($companieTest) ? $companieTest : BuildingsPartners::where( 'buildings_id', $builg->test_buildings_id )->where('main', 1)->first()->companies_id;
+
+            // Update
+            Leads::find($lead->id)->update([ 
+                'buildings_id' => $builg->test_buildings_id,  
+                'companies_id' => $companieTest,  
+            ]);
+
+            LeadsFields::create([
+                'name' => 'building_origin', 
+                'value' => $builg->name,
+                'leads_id' => $lead->id,
+            ]);
+        }
 
         // Create fields optional
         if(isset($fields)){

@@ -39,6 +39,7 @@ Editar empreendimento
                                 <label for="name">Nome <abbr>*</abbr></label>
                             </div>
                         </div>
+
                         <div class="input-field col-lg-4 col-12">
                             <div class="form-floating">
                                 <select class="form-select @error('active') is-invalid @enderror" aria-label="Defina um status" name="active" id="active" required>
@@ -50,11 +51,23 @@ Editar empreendimento
                             </div>
                         </div>
 
-                         <div class="accordion" id="accordionItems">
+                        <div class="input-field col-12">
+                            <div class="form-floating">
+                                <select class="form-select @error('test_buildings_id') is-invalid @enderror" aria-label="Defina um empreendimento de teste" name="test_buildings_id" id="test_buildings_id" required>
+                                    <option selected></option>
+                                    @foreach($buildingsAll as $buildingOnly) 
+                                        <option value="{{ $buildingOnly->id }}" {{ $building->test_buildings_id == $buildingOnly->id ? 'selected' : "" }}>{{ $buildingOnly->name }}</option> 
+                                    @endforeach 
+                                </select>
+                                <label for="test_buildings_id">Empreendimento de teste <abbr>*</abbr> </label>
+                            </div>
+                        </div>
+
+                        <div class="accordion" id="accordionItems">
                             <div class="accordion-item">
                                 <h2 class="accordion-header">
                                     <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse1" aria-expanded="true" aria-controls="flush-collapse1">
-                                        Parceiros
+                                        Parceiros <abbr class="ms-1">*</abbr>
                                     </button>
                                 </h2>
                                 <div id="flush-collapse1" class="accordion-collapse collapse show" data-bs-parent="#accordionItems">
@@ -79,7 +92,7 @@ Editar empreendimento
                                                                     </div>
                                                                     <div class="input-field col-lg-4 col-12">
                                                                         <div class="form-floating">
-                                                                            <select class="form-select" aria-label="Defina a quantidade de leads" name="leads[]" id="leads-{{ $index }}" required>
+                                                                            <select class="form-select leads" aria-label="Defina a quantidade de leads" name="leads[]" id="leads-{{ $index }}" required>
                                                                                 <option value="99" {{ $partners->leads == 99 ? 'selected' : '' }}>-</option>
                                                                                 <option value="1" {{ $partners->leads == 1 ? 'selected' : '' }}>1</option>
                                                                                 <option value="2" {{ $partners->leads == 2 ? 'selected' : '' }}>2</option>
@@ -350,8 +363,10 @@ Editar empreendimento
     // Partners
     function addPartner() {
         event.preventDefault();
-        $('.partners').find('.all-partners').append(`<div class="single-partner"> <div class="content-partner"> <div class="row row-gap-2"> <div class="input-field col-lg-5 col-12"> <div class="form-floating"> <select class="form-select" aria-label="Defina uma empresa" name="partner[]" id="companie-` + count + `" required> <option selected></option> @foreach($companies as $companie) <option value="{{ $companie->id }}">{{ $companie->name }}</option> @endforeach </select> <label for="companie-` + count + `">Empresas <abbr>*</abbr></label> </div> </div> <div class="input-field col-lg-4 col-12"> <div class="form-floating"> <select class="form-select" aria-label="Defina a quantidade de leads" name="leads[]" id="leads-` + count + `" required> <option value="99" selected>-</option> <option value="1">1</option> <option value="2">2</option> <option value="3">3</option> <option value="4">4</option> <option value="5">5</option> <option value="6">6</option> <option value="7">7</option> <option value="8">8</option> <option value="9">9</option> <option value="10">10</option> </select> <label for="leads-` + count + `">Quantidade de leads <abbr>*</abbr></label> </div> </div> <div class="input-field col-lg-3 col-12 d-flex align-items-center gap-3"> <div class="form-floating w-100"> <select class="form-select principal" aria-label="Defina o dono" name="main[]" id="main-` + count + `" required> <option value="1">Sim</option> <option value="0" selected>Não</option> </select> <label for="main-` + count + `">Principal <abbr>*</abbr></label> </div> </div> <div class="col-12 d-flex align-items-end justify-content-end"> <a href="#" class="btn btn-sm btn-outline-danger ms-auto" onclick="removePartner(this);"><i class="bi bi-trash"></i> Excluir parceiro</a> </div> </div> </div> </div>`);
+        $('.partners').find('.all-partners').append(`<div class="single-partner"> <div class="content-partner"> <div class="row row-gap-2"> <div class="input-field col-lg-5 col-12"> <div class="form-floating"> <select class="form-select" aria-label="Defina uma empresa" name="partner[]" id="companie-` + count + `" required> <option selected></option> @foreach($companies as $companie) <option value="{{ $companie->id }}">{{ $companie->name }}</option> @endforeach </select> <label for="companie-` + count + `">Empresas <abbr>*</abbr></label> </div> </div> <div class="input-field col-lg-4 col-12"> <div class="form-floating"> <select class="form-select leads" aria-label="Defina a quantidade de leads" name="leads[]" id="leads-` + count + `" required> <option value="99" selected>-</option> <option value="1">1</option> <option value="2">2</option> <option value="3">3</option> <option value="4">4</option> <option value="5">5</option> <option value="6">6</option> <option value="7">7</option> <option value="8">8</option> <option value="9">9</option> <option value="10">10</option> </select> <label for="leads-` + count + `">Quantidade de leads <abbr>*</abbr></label> </div> </div> <div class="input-field col-lg-3 col-12 d-flex align-items-center gap-3"> <div class="form-floating w-100"> <select class="form-select principal" aria-label="Defina o dono" name="main[]" id="main-` + count + `" required> <option value="1">Sim</option> <option value="0" selected>Não</option> </select> <label for="main-` + count + `">Principal <abbr>*</abbr></label> </div> </div> <div class="col-12 d-flex align-items-end justify-content-end"> <a href="#" class="btn btn-sm btn-outline-danger ms-auto" onclick="removePartner(this);"><i class="bi bi-trash"></i> Excluir parceiro</a> </div> </div> </div> </div>`);
         count++;
+
+        leadsPartner();
 
         // Deixando apenas um dono
         $('.principal').on('change', function(event){
@@ -368,6 +383,16 @@ Editar empreendimento
         event.preventDefault();
         if(confirm('Tem certeza que deseja remover esse destinatário?')){
             $(element).closest('.single-partner').remove();
+            leadsPartner();
+        }
+    }
+    function leadsPartner(){
+        // Removendo - da quantidade de leads
+        let partners = $('.all-partners').find('.leads').length;
+        if( partners > 1 ) {
+            $('.all-partners').find('.leads').find('option[value=99]').remove();
+        }   else {
+            $('.all-partners').find('.leads').prepend('<option value="99" selected>-</option> ');
         }
     }
 

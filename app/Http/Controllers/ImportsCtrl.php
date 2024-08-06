@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 use App\Http\Requests\ImportsRqt;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\LeadsImport;
@@ -24,6 +24,71 @@ class ImportsCtrl extends Controller
     public function index()
     {
         return view('imports.index')->with('imports', UsersImports::where('users_id', Auth::user()->id)->orderBy('created_at', 'DESC')->get());
+    }
+
+    public function data(Request $request)
+    {   
+        // Page Length
+        $pageLength = $request->limit;
+        $skip       = $request->offset;
+
+        // Get data from imports all
+        $imports = UsersImports::orderBy('created_at', 'desc');
+        $recordsTotal = UsersImports::count();
+
+        // Search
+        $search = $request->search;
+        $imports = $imports->where( function($imports) use ($search){
+            $imports->orWhere('users_imports.name', 'like', "%".$search."%");
+            $imports->orWhere('users_imports.type', 'like', "%".$search."%");
+        });
+
+        // Apply Length and Capture RecordsFilters
+        $recordsFiltered = $recordsTotal = $imports->count();
+        $imports = $imports->skip($skip)->take($pageLength)->get();
+
+        if( $imports->first() ){
+            foreach($imports as $import) {
+                // Status
+                if( $import->status === "Na fila"){
+                    $status = '<div class="badge text-bg-secondary">' . $import->status . '</div>';
+                }else if( $import->status === "Executando" ) {
+                    $status = '<div class="badge text-bg-primary">' . $import->status . '</div>';
+                }else if( $import->status === "Importando" ) {
+                    $status = '<div class="badge text-bg-dark">' . $import->status . '</div>';
+                }else if( $import->status === "Pronto" ) {
+                    $status = '<div class="badge text-bg-success">' . $import->status . '</div>';
+                }else {
+                    $status = $import->status;
+                }
+
+                // Type
+                if ($import->type === 'integrations'){
+                    $type = 'Integrações';
+                } else if($import->type === 'buildings') {
+                    $type = 'Empreendimentos';
+                } else {
+                    $type = 'Leads';
+                }
+
+                // Operações
+                $view = $import->status === "Pronto" ? '<a href="'. route('leads.index') .'" class="btn btn-outline-secondary px-2 py-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Visualizar leads"><i class="bi bi-eye"></i></a>' : "";
+                $operations = '<div class="d-flex justify-content-center align-items-center gap-2">'. $view .'<a href="'. route('imports.destroy', $import->id ) .'" class="btn btn-outline-secondary px-2 py-1 destroy" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Excluir"><i class="bi bi-trash"></i></a></div>';
+                
+                // Array do emp
+                $array[] = [
+                    'data' => $import->created_at->format("d/m/Y H:i:s"),
+                    'name' => $import->name,
+                    'type' => $type,
+                    'status' => $status,
+                    'operations' => $operations
+                ];
+            }
+        } else {
+            $array = [];
+        }
+
+        return response()->json(["total" => $recordsTotal, "totalNotFiltered" => $recordsFiltered, 'rows' => $array], 200);
     }
 
     public function create()

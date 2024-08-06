@@ -8,9 +8,9 @@ Alteração de senha
 
 @include('base.header')
 <main>
-    <div class="container-fluid">
+    <div class="container">
         <div class="row align-items-center justify-content-center">
-            <div class="col-lg-8 col-md-9 col-sm-10 col-11">
+            <div class="col-lg-9 col-md-10 col-11">
                 <div class="row px-4 py-5 rounded-4 bg-white card-login">
                     <div class="col-lg-6 col-12">
                         <div class="logo mb-4">

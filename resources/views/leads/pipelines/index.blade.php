@@ -28,13 +28,13 @@ Pipelines
                     </thead>
                 </table>
                 <script>
-                // your custom ajax request here
-                function ajaxRequest(params) {
-                    var url = '{{ route('pipelines.data') }}'
-                    $.get(url + '?' + $.param(params.data)).then(function (res) {
-                        params.success(res)
-                    })
-                }
+                    // your custom ajax request here
+                    function ajaxRequest(params) {
+                        var url = '{{ route('leads.pipelines.data') }}'
+                        $.get(url + '?' + $.param(params.data)).then(function (res) {
+                            params.success(res)
+                        })
+                    }
                 </script>
             </div>
         </div>

@@ -24,7 +24,73 @@ class ReportsCtrl extends Controller
 
     public function index()
     {
-        return view('reports.index')->with('reports', UsersReports::where('users_id', Auth::user()->id)->orderBy('created_at', 'DESC')->get());
+        return view('reports.index');
+    }
+
+    public function data(Request $request)
+    {   
+        // Page Length
+        $pageLength = $request->limit;
+        $skip       = $request->offset;
+
+        // Get data from reports all
+        $reports = UsersReports::orderBy('created_at', 'desc');
+        $recordsTotal = UsersReports::count();
+
+        // Search
+        $search = $request->search;
+        $reports = $reports->where( function($reports) use ($search){
+            $reports->orWhere('users_reports.name', 'like', "%".$search."%");
+            $reports->orWhere('users_reports.type', 'like', "%".$search."%");
+        });
+
+        // Apply Length and Capture RecordsFilters
+        $recordsFiltered = $recordsTotal = $reports->count();
+        $reports = $reports->skip($skip)->take($pageLength)->get();
+
+        if( $reports->first() ){
+            foreach($reports as $report) {
+                // Status
+                if( $report->status === "Na fila"){
+                    $status = '<div class="badge text-bg-secondary">' . $report->status . '</div>';
+                }else if( $report->status === "Executando" ) {
+                    $status = '<div class="badge text-bg-primary">' . $report->status . '</div>';
+                }else if( $report->status === "Gerando" ) {
+                    $status = '<div class="badge text-bg-dark">' . $report->status . '</div>';
+                }else if( $report->status === "Pronto" ) {
+                    $status = '<div class="badge text-bg-success">' . $report->status . '</div>';
+                }else {
+                    $status = $report->status;
+                }
+
+                // Type
+                if ($report->type === 'integrations'){
+                    $type = 'Integrações';
+                } else if($report->type === 'buildings') {
+                    $type = 'Empreendimentos';
+                } else {
+                    $type = 'Leads';
+                }
+
+                // Operações
+                $url = asset("storage/exports/" . $report->name );
+                $download = $report->status === "Pronto" ? '<a href="'. $url .'" class="btn btn-outline-secondary px-2 py-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Download" download><i class="bi bi-download"></i></a>' : "";
+                $operations = '<div class="d-flex justify-content-center align-items-center gap-2">'. $download .'<a href="'. route('reports.destroy', $report->id ) .'" class="btn btn-outline-secondary px-2 py-1 destroy" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Excluir"><i class="bi bi-trash"></i></a></div>';
+                
+                // Array do emp
+                $array[] = [
+                    'data' => $report->created_at->format("d/m/Y H:i:s"),
+                    'name' => $report->name,
+                    'type' => $type,
+                    'status' => $status,
+                    'operations' => $operations
+                ];
+            }
+        } else {
+            $array = [];
+        }
+
+        return response()->json(["total" => $recordsTotal, "totalNotFiltered" => $recordsFiltered, 'rows' => $array], 200);
     }
 
     public function create()

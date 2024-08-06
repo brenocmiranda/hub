@@ -20,6 +20,7 @@ class BuildingsFactory extends Factory
         return [
             'active' => 1,
             'name' => 'Default',
+            'test_buildings_id' => 1,
         ];
     }
 }

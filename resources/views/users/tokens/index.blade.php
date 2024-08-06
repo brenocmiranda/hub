@@ -15,14 +15,12 @@ Tokens
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
-
                 @if(session('token'))
                     <div class="alert alert-success">
                         <p class="mb-0 fw-bold">Seu token: {{session('token')}}</p>
                         <small>Esse token não pode ser recuperado. Caso seja perdido, será necessário a criação de um novo.</small>
                     </div>
                 @endif
-
                 <table id="table">
                     <thead>
                         <tr>
@@ -41,7 +39,6 @@ Tokens
                                 },
                             @endforeach
                         ];
-
                         $table.bootstrapTable('refreshOptions', {
                             data: data
                         });

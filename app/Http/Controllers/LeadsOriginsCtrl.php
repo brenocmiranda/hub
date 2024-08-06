@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 use App\Http\Requests\LeadsOriginsRqt;
 use App\Models\LeadsOrigins;
 use App\Models\UsersLogs;
@@ -16,7 +17,55 @@ class LeadsOriginsCtrl extends Controller
     
     public function index()
     {
-        return view('leads.origins.index')->with('origins', LeadsOrigins::orderBy('active', 'desc')->orderBy('name', 'asc')->get());
+        return view('leads.origins.index');
+    }
+
+    public function data(Request $request)
+    {   
+        // Page Length
+        $pageLength = $request->limit;
+        $skip       = $request->offset;
+
+        // Get data from leads origins all
+        $origins = LeadsOrigins::orderBy('created_at', 'desc');
+        $recordsTotal = LeadsOrigins::count();
+
+        // Search
+        $search = $request->search;
+        $origins = $origins->where( function($origins) use ($search){
+            $origins->orWhere('leads_origins.name', 'like', "%".$search."%");
+            $origins->orWhere('leads_origins.slug', 'like', "%".$search."%");
+        });
+
+        // Apply Length and Capture RecordsFilters
+        $recordsFiltered = $recordsTotal = $origins->count();
+        $origins = $origins->skip($skip)->take($pageLength)->get();
+
+        if( $origins->first() ){
+            foreach($origins as $origin) {
+                // Status
+                if( $origin->active ) {
+                    $status = '<span class="badge bg-success-subtle border border-success-subtle text-success-emphasis rounded-pill">Ativo</span>';
+                } else { 
+                    $status = '<span class="badge bg-danger-subtle border border-danger-subtle text-danger-emphasis rounded-pill">Desativado</span>';
+                } 
+            
+                // Operações
+                $operations = '<div class="d-flex justify-content-center align-items-center gap-2"><a href="'. route('leads.origins.edit', $origin->id ) .'" class="btn btn-outline-secondary px-2 py-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Editar"><i class="bi bi-pencil"></i></a><a href="'. route('leads.origins.destroy', $origin->id ) .'" class="btn btn-outline-secondary px-2 py-1 destroy" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Excluir"><i class="bi bi-trash"></i></a></div>';
+                
+                // Array do emp
+                $array[] = [
+                    'name' => $origin->name,
+                    'slug' => $origin->slug,
+                    'status' => $status,
+                    'operations' => $operations
+                ];
+            }
+        } else {
+            $array = [];
+        }
+
+        return response()->json(["total" => $recordsTotal, "totalNotFiltered" => $recordsFiltered, 'rows' => $array], 200);
     }
 
     public function create()

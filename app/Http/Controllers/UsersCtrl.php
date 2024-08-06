@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 use App\Http\Requests\UsersRqt;
 use App\Models\Companies;
 use App\Models\Users;
@@ -23,7 +24,62 @@ class UsersCtrl extends Controller
 
     public function index()
     {
-        return view('users.index')->with('users', Users::orderBy('active', 'desc')->orderBy('name', 'asc')->where('id', '!=', Auth::user()->id)->get());
+        return view('users.index');
+    }   
+
+    public function data(Request $request)
+    {   
+        // Page Length
+        $pageLength = $request->limit;
+        $skip       = $request->offset;
+
+        // Get data from companies all
+        $users = Users::orderBy('created_at', 'desc')
+                            ->join('companies', 'users.companies_id', '=', 'companies.id')
+                            ->join('users_roles', 'users.users_roles_id', '=', 'users_roles.id')
+                            ->select('users.*', 'companies.name as companie', 'users_roles.name as role');
+        $users = $users->where('users.id', '!=', Auth::user()->id);
+        $recordsTotal = Users::count();
+
+        // Search
+        $search = $request->search;
+        $users = $users->where( function($users) use ($search){
+            $users->orWhere('users.name', 'like', "%".$search."%");
+            $users->orWhere('users.email', 'like', "%".$search."%");
+            $users->orWhere('companies.name', 'like', "%".$search."%");
+            $users->orWhere('users_roles.name', 'like', "%".$search."%");
+        });
+
+        // Apply Length and Capture RecordsFilters
+        $recordsFiltered = $recordsTotal = $users->count();
+        $users = $users->skip($skip)->take($pageLength)->get();
+
+        if( $users->first() ){
+            foreach($users as $user) {
+                // Status
+                if( $user->active ) {
+                    $status = '<span class="badge bg-success-subtle border border-success-subtle text-success-emphasis rounded-pill">Ativo</span>';
+                } else { 
+                    $status = '<span class="badge bg-danger-subtle border border-danger-subtle text-danger-emphasis rounded-pill">Desativado</span>';
+                } 
+            
+                // Operações
+                $operations = '<div class="d-flex justify-content-center align-items-center gap-2"><a href="'. route('users.edit', $user->id ) .'" class="btn btn-outline-secondary px-2 py-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Editar"><i class="bi bi-pencil"></i></a> <a href="'. route('users.recovery', $user->id ) .'" class="btn btn-outline-secondary px-2 py-1 recovery" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Redefinir senha"><i class="bi bi-envelope-arrow-up"></i></i></a><a href="'. route('users.destroy', $user->id ) .'" class="btn btn-outline-secondary px-2 py-1 destroy" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Excluir"><i class="bi bi-trash"></i></a></div>';
+                
+                // Array do emp
+                $array[] = [
+                    'name' => $user->name,
+                    'empresa' => $user->companie,
+                    'role' => $user->role,
+                    'status' => $status,
+                    'operations' => $operations
+                ];
+            }
+        } else {
+            $array = [];
+        }
+
+        return response()->json(["total" => $recordsTotal, "totalNotFiltered" => $recordsFiltered, 'rows' => $array], 200);
     }
 
     public function create()

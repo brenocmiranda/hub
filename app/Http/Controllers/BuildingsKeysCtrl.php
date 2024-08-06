@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 use App\Http\Requests\BuildingsKeysRqt;
 use App\Models\Buildings;
 use App\Models\BuildingsKeys;
@@ -20,6 +21,56 @@ class BuildingsKeysCtrl extends Controller
     public function index()
     {
         return view('buildings.keys.index')->with('keys', BuildingsKeys::join('buildings', 'buildings.id', '=', 'buildings_keys.buildings_id')->select("buildings_keys.*")->orderBy('buildings_keys.active', 'desc')->orderBy('buildings.name', 'asc')->get());
+    }
+
+    public function data(Request $request)
+    {   
+        // Page Length
+        $pageLength = $request->limit;
+        $skip       = $request->offset;
+
+        // Get data from buildings key all
+        $keys = BuildingsKeys::orderBy('created_at', 'desc')
+                                ->join('buildings', 'buildings_keys.buildings_id', '=', 'buildings.id')
+                                ->select('buildings_keys.*', 'buildings.name as building');
+        $recordsTotal = BuildingsKeys::count();
+
+        // Search
+        $search = $request->search;
+        $keys = $keys->where( function($keys) use ($search){
+            $keys->orWhere('buildings_keys.value', 'like', "%".$search."%");
+            $keys->orWhere('buildings.name', 'like', "%".$search."%");
+        });
+
+        // Apply Length and Capture RecordsFilters
+        $recordsFiltered = $recordsTotal = $keys->count();
+        $keys = $keys->skip($skip)->take($pageLength)->get();
+
+        if( $keys->first() ){
+            foreach($keys as $key) {
+                // Status
+                if( $key->active ) {
+                    $status = '<span class="badge bg-success-subtle border border-success-subtle text-success-emphasis rounded-pill">Ativo</span>';
+                } else { 
+                    $status = '<span class="badge bg-danger-subtle border border-danger-subtle text-danger-emphasis rounded-pill">Desativado</span>';
+                } 
+            
+                // Operações
+                $operations = '<div class="d-flex justify-content-center align-items-center gap-2"><a href="'. route('buildings.keys.edit', $key->id ) .'" class="btn btn-outline-secondary px-2 py-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Editar"><i class="bi bi-pencil"></i></a><a href="'. route('buildings.keys.destroy', $key->id ) .'" class="btn btn-outline-secondary px-2 py-1 destroy" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Excluir"><i class="bi bi-trash"></i></a></div>';
+                
+                // Array do emp
+                $array[] = [
+                    'empreendimento' => $key->building,
+                    'value' => $key->value,
+                    'status' => $status,
+                    'operations' => $operations
+                ];
+            }
+        } else {
+            $array = [];
+        }
+
+        return response()->json(["total" => $recordsTotal, "totalNotFiltered" => $recordsFiltered, 'rows' => $array], 200);
     }
 
     public function create()

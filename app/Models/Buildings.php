@@ -13,6 +13,7 @@ class Buildings extends Model
     protected $fillable = [
         'active',
         'name',
+        'test_buildings_id'
     ];
 
     public function RelationIntegrations()
@@ -43,5 +44,10 @@ class Buildings extends Model
     public function RelationKeys() 
     {
         return $this->hasMany(BuildingsKeys::class, 'buildings_id', 'id');
+    }
+
+    public function RelationBuildings() 
+    {
+        return $this->belongsTo(Buildings::class, 'test_buildings_id', 'id');
     }
 }

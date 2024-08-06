@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 use App\Http\Requests\IntegrationsRqt;
 use App\Models\Integrations;
 use App\Models\Companies;
@@ -17,7 +18,61 @@ class IntegrationsCtrl extends Controller
     
     public function index()
     {
-        return view('integrations.index')->with('integrations', Integrations::orderBy('active', 'desc')->orderBy('name', 'asc')->get());
+        return view('integrations.index');
+    }
+
+    public function data(Request $request)
+    {   
+        // Page Length
+        $pageLength = $request->limit;
+        $skip       = $request->offset;
+
+        // Get data from integrations all
+        $integrations = Integrations::orderBy('created_at', 'desc')
+                                        ->join('companies', 'integrations.companies_id', '=', 'companies.id')
+                                        ->select('integrations.*', 'companies.name as companie');
+        $recordsTotal = Integrations::count();
+
+        // Search
+        $search = $request->search;
+        $integrations = $integrations->where( function($integrations) use ($search){
+            $integrations->orWhere('integrations.name', 'like', "%".$search."%");
+            $integrations->orWhere('integrations.type', 'like', "%".$search."%");
+            $integrations->orWhere('integrations.url', 'like', "%".$search."%");
+            $integrations->orWhere('companies.name', 'like', "%".$search."%");
+        });
+
+        // Apply Length and Capture RecordsFilters
+        $recordsFiltered = $recordsTotal = $integrations->count();
+        $integrations = $integrations->skip($skip)->take($pageLength)->get();
+
+        if( $integrations->first() ){
+            foreach($integrations as $integration) {
+                // Status
+                if( $integration->active ) {
+                    $status = '<span class="badge bg-success-subtle border border-success-subtle text-success-emphasis rounded-pill">Ativo</span>';
+                } else { 
+                    $integration = '<span class="badge bg-danger-subtle border border-danger-subtle text-danger-emphasis rounded-pill">Desativado</span>';
+                } 
+            
+                // Operações
+                $operations = '<div class="d-flex justify-content-center align-items-center gap-2"><a href="'. route('integrations.edit', $integration->id ) .'" class="btn btn-outline-secondary px-2 py-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Editar"><i class="bi bi-pencil"></i></a><a href="'. route('integrations.destroy', $integration->id ) .'" class="btn btn-outline-secondary px-2 py-1 destroy" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Excluir"><i class="bi bi-trash"></i></a></div>';
+                
+                // Array do emp
+                $array[] = [
+                    'name' => $integration->name,
+                    'companie' => $integration->companie,
+                    'type' => $integration->type,
+                    'url' => mb_strimwidth($integration->url, 0, 100, "..."),
+                    'status' => $status,
+                    'operations' => $operations
+                ];
+            }
+        } else {
+            $array = [];
+        }
+
+        return response()->json(["total" => $recordsTotal, "totalNotFiltered" => $recordsFiltered, 'rows' => $array], 200);
     }
 
     public function create()

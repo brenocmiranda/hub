@@ -24,6 +24,8 @@ class BuildingsRqt extends FormRequest
         return [
             'name' => 'nome',
             'companie' => 'empresa',
+            'test_buildings_id' => 'empreendimento de teste',
+            'partner' => 'parceiro',
             'active' => 'status',
         ];
     }
@@ -37,7 +39,9 @@ class BuildingsRqt extends FormRequest
     {
         return [
             'name' => 'required|min:3|unique:buildings,name,'.$this->segment(3),
+            'test_buildings_id' => 'required|integer',
             'active' => 'required|boolean',
+            'partner' => 'required'
         ];
     }
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 use App\Http\Requests\UsersRolesRqt;
 use App\Models\UsersRoles;
 use App\Models\UsersLogs;
@@ -17,6 +18,54 @@ class UsersRolesCtrl extends Controller
     public function index()
     {   
         return view('users.roles.index')->with('roles', UsersRoles::orderBy('active', 'desc')->orderBy('name', 'asc')->get());
+    }
+
+    public function data(Request $request)
+    {   
+        // Page Length
+        $pageLength = $request->limit;
+        $skip       = $request->offset;
+
+        // Get data from companies all
+        $roles = UsersRoles::orderBy('created_at', 'desc');
+        $recordsTotal = UsersRoles::count();
+
+        // Search
+        $search = $request->search;
+        $roles = $roles->where( function($roles) use ($search){
+            $roles->orWhere('users_roles.name', 'like', "%".$search."%");
+            $roles->orWhere('users_roles.value', 'like', "%".$search."%");
+        });
+
+        // Apply Length and Capture RecordsFilters
+        $recordsFiltered = $recordsTotal = $roles->count();
+        $roles = $roles->skip($skip)->take($pageLength)->get();
+
+        if( $roles->first() ){
+            foreach($roles as $role) {
+                // Status
+                if( $role->active ) {
+                    $status = '<span class="badge bg-success-subtle border border-success-subtle text-success-emphasis rounded-pill">Ativo</span>';
+                } else { 
+                    $status = '<span class="badge bg-danger-subtle border border-danger-subtle text-danger-emphasis rounded-pill">Desativado</span>';
+                } 
+            
+                // Operações
+                $operations = '<div class="d-flex justify-content-center align-items-center gap-2"><a href="'. route('users.roles.edit', $role->id ) .'" class="btn btn-outline-secondary px-2 py-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Editar"><i class="bi bi-pencil"></i></a><a href="'. route('users.roles.destroy', $role->id ) .'" class="btn btn-outline-secondary px-2 py-1 destroy" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Excluir"><i class="bi bi-trash"></i></a></div>';
+                
+                // Array do emp
+                $array[] = [
+                    'name' => $role->name,
+                    'value' => $role->value,
+                    'status' => $status,
+                    'operations' => $operations
+                ];
+            }
+        } else {
+            $array = [];
+        }
+
+        return response()->json(["total" => $recordsTotal, "totalNotFiltered" => $recordsFiltered, 'rows' => $array], 200);
     }
 
     public function create()

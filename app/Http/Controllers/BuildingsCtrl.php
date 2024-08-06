@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 use App\Http\Requests\BuildingsRqt;
 use App\Models\Buildings;
 use App\Models\BuildingsPartners;
@@ -24,12 +25,63 @@ class BuildingsCtrl extends Controller
     
     public function index()
     {
-        return view('buildings.index')->with('buildings', Buildings::orderBy('active', 'desc')->orderBy('name', 'asc')->get());
+        return view('buildings.index');
+    }
+
+    public function data(Request $request)
+    {   
+        // Page Length
+        $pageLength = $request->limit;
+        $skip       = $request->offset;
+
+        // Get data from buildings all
+        $buildings = Buildings::orderBy('created_at', 'desc')
+                                ->join('buildings_partners', 'buildings_partners.buildings_id', '=', 'buildings.id')
+                                ->join('companies', 'buildings_partners.companies_id', '=', 'companies.id')
+                                ->select('buildings.*', 'companies.name as companie');
+        $recordsTotal = Buildings::count();
+
+        // Search
+        $search = $request->search;
+        $buildings = $buildings->where( function($buildings) use ($search){
+            $buildings->orWhere('buildings.name', 'like', "%".$search."%");
+            $buildings->orWhere('companies.name', 'like', "%".$search."%");
+        });
+
+        // Apply Length and Capture RecordsFilters
+        $recordsFiltered = $recordsTotal = $buildings->count();
+        $buildings = $buildings->skip($skip)->take($pageLength)->get();
+
+        if( $buildings->first() ){
+            foreach($buildings as $building) {
+                // Status
+                if( $building->active ) {
+                    $status = '<span class="badge bg-success-subtle border border-success-subtle text-success-emphasis rounded-pill">Ativo</span>';
+                } else { 
+                    $status = '<span class="badge bg-danger-subtle border border-danger-subtle text-danger-emphasis rounded-pill">Desativado</span>';
+                } 
+            
+                // Operações
+                $operations = '<div class="d-flex justify-content-center align-items-center gap-2"><a href="' . route('buildings.edit', $building->id ) .'" class="btn btn-outline-secondary px-2 py-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Editar"><i class="bi bi-pencil"></i></a><a href="'. route('buildings.duplicate', $building->id ) .'" class="btn btn-outline-secondary px-2 py-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Duplicar"><i class="bi bi-copy"></i></a><a href="'. route('buildings.destroy', $building->id ) .'" class="btn btn-outline-secondary px-2 py-1 destroy" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Excluir"><i class="bi bi-trash"></i></a></div>';
+                
+                // Array do emp
+                $array[] = [
+                    'name' => $building->name,
+                    'companie' => $building->companie,
+                    'status' => $status,
+                    'operations' => $operations
+                ];
+            }
+        } else {
+            $array = [];
+        }
+
+        return response()->json(["total" => $recordsTotal, "totalNotFiltered" => $recordsFiltered, 'rows' => $array], 200);
     }
 
     public function create()
     {      
-        return view('buildings.create')->with('companies', Companies::where('active', 1)->orderBy('name', 'asc')->get())->with('integrations', Integrations::where('active', 1)->orderBy('name', 'asc')->get());
+        return view('buildings.create')->with('companies', Companies::where('active', 1)->orderBy('name', 'asc')->get())->with('integrations', Integrations::where('active', 1)->orderBy('name', 'asc')->get())->with('buildingsAll', Buildings::where('active', 1)->orderBy('name', 'asc')->get());
     }
 
     public function store(BuildingsRqt $request)
@@ -38,6 +90,7 @@ class BuildingsCtrl extends Controller
         $building = Buildings::create([
             'name' => $request->name, 
             'active' => $request->active,
+            'test_buildings_id' => $request->test_buildings_id,
         ]);
 
         // Cadastrando novos parceiros
@@ -122,7 +175,7 @@ class BuildingsCtrl extends Controller
 
     public function edit(string $id)
     {      
-        return view('buildings.edit')->with('building', Buildings::find($id))->with('companies', Companies::where('active', 1)->orderBy('name', 'asc')->get())->with('integrations', Integrations::where('active', 1)->orderBy('name', 'asc')->get());
+        return view('buildings.edit')->with('building', Buildings::find($id))->with('companies', Companies::where('active', 1)->orderBy('name', 'asc')->get())->with('integrations', Integrations::where('active', 1)->orderBy('name', 'asc')->get())->with('buildingsAll', Buildings::where('active', 1)->orderBy('name', 'asc')->get());
     }
 
     public function update(BuildingsRqt $request, $id)
@@ -138,6 +191,7 @@ class BuildingsCtrl extends Controller
         Buildings::find($id)->update([
             'name' => $request->name, 
             'active' => $request->active, 
+            'test_buildings_id' => $request->test_buildings_id,
         ]);
 
         // Cadastrando novos parceiros
@@ -251,8 +305,9 @@ class BuildingsCtrl extends Controller
 
         // Cadastrando novo empreendimento
         $buildingNew = Buildings::create([
-            'name' => $building->name . '_Copy', 
+            'name' =>  'Copy_' . $building->name, 
             'active' => $building->active,
+            'test_buildings_id' => $building->test_buildings_id,
         ]);
         
         // Cadastrando novos parceiros

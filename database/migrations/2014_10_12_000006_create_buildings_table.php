@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->boolean('active');
             $table->string('name', 200);
+            $table->unsignedBigInteger('test_buildings_id');
+            $table->foreign('test_buildings_id')->references('id')->on('buildings');
             $table->softDeletes($column = 'deleted_at', $precision = 0);
             $table->timestamps();
         });

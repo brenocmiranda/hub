@@ -21,13 +21,13 @@ class PipelinesCtrl
         $pageLength = $request->limit;
         $skip       = $request->offset;
 
-        // Get data from leads all
+        // Get data from pipelines all
         $pipelines = Pipelines::orderBy('created_at', 'desc')
-        ->join('leads', 'pipelines.leads_id', '=', 'leads.id')
-        ->leftJoin('leads_origins', 'leads.id', '=', 'leads_origins.id')
-        ->leftJoin('integrations', 'pipelines.integrations_id', '=', 'integrations.id')
-        ->select('pipelines.*', 'integrations.name as integration', 'leads.name as lead', 'leads_origins.name as origin');
-        $recordsTotal = Pipelines::orderBy('created_at', 'desc')->count();
+                                ->join('leads', 'pipelines.leads_id', '=', 'leads.id')
+                                ->leftJoin('leads_origins', 'leads.id', '=', 'leads_origins.id')
+                                ->leftJoin('integrations', 'pipelines.integrations_id', '=', 'integrations.id')
+                                ->select('pipelines.*', 'integrations.name as integration', 'leads.name as lead', 'leads_origins.name as origin');
+        $recordsTotal = Pipelines::count();
 
         // Search
         $search = $request->search;

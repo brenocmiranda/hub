@@ -40,8 +40,9 @@ class LeadsCtrl extends Controller
         $leads = Leads::orderBy('created_at', 'desc')
                         ->join('leads_origins', 'leads.leads_origins_id', '=', 'leads_origins.id')
                         ->join('buildings', 'leads.buildings_id', '=', 'buildings.id')
-                        ->select('leads.*', 'leads_origins.name as origin', 'buildings.name as building');
-        $recordsTotal = Leads::orderBy('created_at', 'desc')->count();
+                        ->join('companies', 'leads.companies_id', '=', 'companies.id')
+                        ->select('leads.*', 'leads_origins.name as origin', 'buildings.name as building', 'companies.name as companie');
+        $recordsTotal = Leads::count();
 
         // Search
         $search = $request->search;
@@ -49,8 +50,9 @@ class LeadsCtrl extends Controller
             $leads->orWhere('leads.name', 'like', "%".$search."%");
             $leads->orWhere('leads.email', 'like', "%".$search."%");
             $leads->orWhere('leads.phone', 'like', "%".$search."%");
-            $leads->orWhere('leads_origins.name', 'like', "%".$search."%");
+            $leads->orWhere('companies.name', 'like', "%".$search."%");
             $leads->orWhere('buildings.name', 'like', "%".$search."%");
+            $leads->orWhere('leads_origins.name', 'like', "%".$search."%");
         });
 
         // Apply Length and Capture RecordsFilters
@@ -79,6 +81,7 @@ class LeadsCtrl extends Controller
                 $array[] = [
                     'date'  => $lead->created_at->format("d/m/Y H:i:s"),
                     'origin' => $lead->origin, 
+                    'companie' => $lead->companie, 
                     'building' => $lead->building, 
                     'name' => $lead->name,
                     'email'=> $lead->email,
