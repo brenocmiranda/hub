@@ -32,13 +32,23 @@ Nova função
                     <form action="{{ route('users.roles.store') }}" method="POST" class="row row-gap-3">
                         @csrf
                         
-                        <div class="input-field col-lg-6 col-12">
+                        <div class="input-field col-12">
                             <div class="form-floating">
                                 <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}" required>
                                 <label for="name">Nome <abbr>*</abbr></label>
                             </div>
                         </div>
-
+                        <div class="input-field col-lg-6 col-12">
+                            <div class="form-floating">
+                                <select class="form-select @error('companie') is-invalid @enderror" aria-label="Defina uma empresa" name="companie" id="companie" required>
+                                    <option selected></option>
+                                    @foreach($companies as $companie)
+                                        <option value="{{ $companie->id }}" {{ old('companie') != null && old('companie') == $companie->id ? 'selected' : "" }}>{{ $companie->name }}</option>
+                                    @endforeach
+                                </select>
+                                <label for="companie">Empresas <abbr>*</abbr></label>
+                            </div>
+                        </div>
                         <div class="input-field col-lg-6 col-12">
                             <div class="form-floating">
                                 <select class="form-select @error('active') is-invalid @enderror" aria-label="Defina um status" name="active" id="active" required>
@@ -49,7 +59,6 @@ Nova função
                                 <label for="active">Status <abbr>*</abbr></label>
                             </div>
                         </div>
-
                         <div class="col-12">
                             <div class="row row-gap-3">
                                 <?php

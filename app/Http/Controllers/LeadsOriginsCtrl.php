@@ -6,6 +6,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Requests\LeadsOriginsRqt;
+use App\Models\Companies;
 use App\Models\LeadsOrigins;
 use App\Models\UsersLogs;
 
@@ -27,7 +28,9 @@ class LeadsOriginsCtrl extends Controller
         $skip       = $request->offset;
 
         // Get data from leads origins all
-        $origins = LeadsOrigins::orderBy('created_at', 'desc');
+        $origins = LeadsOrigins::orderBy('created_at', 'desc')
+                                    ->join('companies', 'leads_origins.companies_id', '=', 'companies.id')
+                                    ->select('leads_origins.*', 'companies.name as companie');
         $recordsTotal = LeadsOrigins::count();
 
         // Search
@@ -35,6 +38,7 @@ class LeadsOriginsCtrl extends Controller
         $origins = $origins->where( function($origins) use ($search){
             $origins->orWhere('leads_origins.name', 'like', "%".$search."%");
             $origins->orWhere('leads_origins.slug', 'like', "%".$search."%");
+            $origins->orWhere('companies.name', 'like', "%".$search."%");
         });
 
         // Apply Length and Capture RecordsFilters
@@ -56,6 +60,7 @@ class LeadsOriginsCtrl extends Controller
                 // Array do emp
                 $array[] = [
                     'name' => $origin->name,
+                    'companie' => $origin->companie,
                     'slug' => $origin->slug,
                     'status' => $status,
                     'operations' => $operations
@@ -70,7 +75,7 @@ class LeadsOriginsCtrl extends Controller
 
     public function create()
     {      
-        return view('leads.origins.create');
+        return view('leads.origins.create')->with('companies', Companies::where('active', 1)->orderBy('name', 'asc')->get());
     }
 
     public function store(LeadsOriginsRqt $request)
@@ -79,6 +84,7 @@ class LeadsOriginsCtrl extends Controller
             'name' => $request->name, 
             'slug' => $request->slug, 
             'active' => $request->active,
+            'companies_id' => $request->companie, 
         ]);
 
         // Salvando log
@@ -99,7 +105,7 @@ class LeadsOriginsCtrl extends Controller
 
     public function edit(string $id)
     {      
-        return view('leads.origins.edit')->with('origin', LeadsOrigins::find($id));
+        return view('leads.origins.edit')->with('origin', LeadsOrigins::find($id))->with('companies', Companies::where('active', 1)->orderBy('name', 'asc')->get());
     } 
 
     public function update(LeadsOriginsRqt $request, string $id)
@@ -108,6 +114,7 @@ class LeadsOriginsCtrl extends Controller
             'name' => $request->name, 
             'slug' => $request->slug, 
             'active' => $request->active,
+            'companies_id' => $request->companie, 
         ]);
 
         // Salvando log

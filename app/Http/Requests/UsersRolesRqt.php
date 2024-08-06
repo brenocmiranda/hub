@@ -25,6 +25,7 @@ class UsersRolesRqt extends FormRequest
             'name' => 'nome',
             'roles' => 'acessos',
             'active' => 'status',
+            'companie' => 'empresa',
         ];
     }
 
@@ -39,6 +40,7 @@ class UsersRolesRqt extends FormRequest
             'name' => 'required|min:3|unique:users_roles,name,'.$this->segment(5),
             'roles' => 'required',
             'active' => 'required|boolean',
+            'companie' => 'required|integer',
         ];
     }
 

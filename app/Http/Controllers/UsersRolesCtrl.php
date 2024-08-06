@@ -6,6 +6,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Requests\UsersRolesRqt;
+use App\Models\Companies;
 use App\Models\UsersRoles;
 use App\Models\UsersLogs;
 
@@ -27,7 +28,9 @@ class UsersRolesCtrl extends Controller
         $skip       = $request->offset;
 
         // Get data from companies all
-        $roles = UsersRoles::orderBy('created_at', 'desc');
+        $roles = UsersRoles::orderBy('created_at', 'desc')
+                                ->join('companies', 'users_roles.companies_id', '=', 'companies.id')
+                                ->select('users_roles.*', 'companies.name as companie');
         $recordsTotal = UsersRoles::count();
 
         // Search
@@ -35,6 +38,7 @@ class UsersRolesCtrl extends Controller
         $roles = $roles->where( function($roles) use ($search){
             $roles->orWhere('users_roles.name', 'like', "%".$search."%");
             $roles->orWhere('users_roles.roles', 'like', "%".$search."%");
+            $roles->orWhere('companies.name', 'like', "%".$search."%");
         });
 
         // Apply Length and Capture RecordsFilters
@@ -56,6 +60,7 @@ class UsersRolesCtrl extends Controller
                 // Array do emp
                 $array[] = [
                     'name' => $role->name,
+                    'companie' => $role->companie,
                     'status' => $status,
                     'operations' => $operations
                 ];
@@ -69,7 +74,7 @@ class UsersRolesCtrl extends Controller
 
     public function create()
     {      
-        return view('users.roles.create');
+        return view('users.roles.create')->with('companies', Companies::where('active', 1)->orderBy('name', 'asc')->get());
     }
 
     public function store(UsersRolesRqt $request)
@@ -78,6 +83,7 @@ class UsersRolesCtrl extends Controller
             'name' => $request->name, 
             'roles' => implode(',', $request->roles), 
             'active' => $request->active,
+            'companies_id' => $request->companie, 
         ]);
 
         // Salvando log
@@ -98,7 +104,7 @@ class UsersRolesCtrl extends Controller
 
     public function edit(string $id)
     {      
-        return view('users.roles.edit')->with('role', UsersRoles::find($id));
+        return view('users.roles.edit')->with('role', UsersRoles::find($id))->with('companies', Companies::where('active', 1)->orderBy('name', 'asc')->get());
     } 
 
     public function update(UsersRolesRqt $request, string $id)
@@ -107,6 +113,7 @@ class UsersRolesCtrl extends Controller
             'name' => $request->name, 
             'roles' => implode(',', $request->roles), 
             'active' => $request->active,
+            'companies_id' => $request->companie, 
         ]);
 
         // Salvando log

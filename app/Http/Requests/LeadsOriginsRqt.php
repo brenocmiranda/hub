@@ -25,6 +25,7 @@ class LeadsOriginsRqt extends FormRequest
             'name' => 'nome',
             'slug' => 'slug',
             'active' => 'status',
+            'companie' => 'empresa',
         ];
     }
 
@@ -39,6 +40,7 @@ class LeadsOriginsRqt extends FormRequest
             'name' => 'required|min:3|unique:leads_origins,name,'.$this->segment(5),
             'slug' => 'required|min:3',
             'active' => 'required|boolean',
+            'companie' => 'required|integer',
         ];
     }
 

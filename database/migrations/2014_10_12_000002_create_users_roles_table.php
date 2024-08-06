@@ -16,6 +16,8 @@ return new class extends Migration
             $table->boolean('active');
             $table->string('name', 200);
             $table->longText('roles');
+            $table->unsignedBigInteger('companies_id');
+            $table->foreign('companies_id')->references('id')->on('companies');
             $table->softDeletes($column = 'deleted_at', $precision = 0);
             $table->timestamps();
         });

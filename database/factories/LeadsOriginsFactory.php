@@ -21,6 +21,7 @@ class LeadsOriginsFactory extends Factory
             'active' => 1,
             'name' => 'Default',
             'slug' => 'default',
+            'companies_id' => 1,
         ];
     }
 }

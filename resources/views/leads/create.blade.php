@@ -79,16 +79,27 @@ Novo lead
                                 <label for="origin">Origem <abbr>*</abbr></label>
                             </div>
                         </div>
-                        <div class="divider-input col-12">
-                            <p>Campos personalizados</p>
-                            <hr>
-                        </div>
-                        <div class="fields">
-                            <div class="all-fields"></div>
-                            <div>
-                                <a href="#" onclick="addField()"><i class="bi bi-plus"></i> Criar novo campo</a>
+
+                        <div class="accordion" id="accordionItems">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse1" aria-expanded="true" aria-controls="flush-collapse1">
+                                        Campos personalizados
+                                    </button>
+                                </h2>
+                                <div id="flush-collapse1" class="accordion-collapse collapse show" data-bs-parent="#accordionItems">
+                                    <div class="accordion-body">
+                                        <div class="fields">
+                                            <div class="all-fields"></div>
+                                            <div>
+                                                <a href="#" onclick="addField()"><i class="bi bi-plus"></i> Criar novo campo</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                        
                         <div class="submit-field d-flex justify-content-end align-items-center gap-3">
                             <a href="{{ route('leads.index') }}"> <i class="bi bi-arrow-left px-2"></i>Voltar</a>
                             <input type="submit" name="submit" id="submit" class="btn btn-dark px-5 py-2" value="Salvar" />
