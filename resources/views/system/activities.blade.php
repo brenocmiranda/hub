@@ -12,8 +12,8 @@ Minhas atividades
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
-            <div class="timeline-centered">
-                @if(isset($logs[0]))
+            @if(isset($logs[0]))
+                <div class="timeline-centered">
                     <?php 
                         $actions = [
                             'create' => 'bi-plus-circle-dotted',
@@ -46,18 +46,21 @@ Minhas atividades
                             </div>
                         </article>
                     @endforeach
-
-                    <article class="timeline-entry begin">
-                        <div class="timeline-entry-inner">
-                            <div class="timeline-icon bg-primary" style="-webkit-transform: rotate(-90deg); -moz-transform: rotate(-90deg);">
-                                <i class="entypo-flight"></i>
+                    
+                    @if($logs->onLastPage())
+                        <article class="timeline-entry begin">
+                            <div class="timeline-entry-inner">
+                                <div class="timeline-icon bg-primary" style="-webkit-transform: rotate(-90deg); -moz-transform: rotate(-90deg);">
+                                    <i class="entypo-flight"></i>
+                                </div>
                             </div>
-                        </div>
-                    </article>
-                @else
-                    <p>Nenhuma atividade registrada para seu usuário.<p>
-                @endif
-            </div> 
+                        </article>
+                    @endif
+                </div> 
+                {{ $logs->onEachSide(5)->links() }}
+            @else
+                <p>Nenhuma atividade registrada para seu usuário.<p>
+            @endif
         </div>
     </div>
 </div>

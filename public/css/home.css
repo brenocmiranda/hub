@@ -1,24 +1,20 @@
 /** Documento da página de Home **/
-.img-home {
-    background: url(../images/welcome.png) no-repeat center / contain;
-    filter: grayscale(1);
-    opacity: 0.45; 
-    width: 320px;
-    height: 320px;
+.bi-question-circle {
+    font-size: 80px;
 }
 
-.card i {
-    font-size: 26px;
+#accordionItems {
+    background-color: #ffffff96;
+    padding: 20px;
+    border-radius: 16px;
 }
 
-.card span {
-    font-size: 12px;
-    display: flex;
-    justify-content: flex-end;
-}
-
-.card small {
-    font-size: 12px;
+#accordionItems .accordion-item, 
+#accordionItems .accordion-button { 
+    background: transparent;
+    border-left-color: transparent;
+    border-right-color: transparent;
+    border-top-color: transparent;
 }
 
 @media (max-width: 768px){

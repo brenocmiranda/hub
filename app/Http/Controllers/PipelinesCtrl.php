@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use App\Models\Pipelines;
 use App\Models\UsersLogs;
 
@@ -12,7 +13,11 @@ class PipelinesCtrl
 {
     public function index()
     {
-        return view('leads.pipelines.index');
+        $requestSuccess = DB::table('job_batches')->where('pending_jobs', '=', 0)->count();
+        $requestFail = DB::table('job_batches')->where('pending_jobs', '>', 0)->where('failed_jobs', '>', 0)->count();
+        $requestPending = DB::table('job_batches')->count() - $requestSuccess - $requestFail;
+
+        return view('leads.pipelines.index')->with('requestPending', $requestPending)->with('requestSuccess', $requestSuccess)->with('requestFail', $requestFail);
     }
 
     public function data(Request $request)

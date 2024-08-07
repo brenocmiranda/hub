@@ -160,7 +160,7 @@ Nova função
                             </div>
                         </div>
 
-                        <div class="submit-field d-flex justify-content-between align-items-center gap-3">
+                        <div class="submit-field d-flex flex-wrap justify-content-lg-between justify-content-center align-items-center gap-3">
                             <div class="d-flex flex-row align-items-center gap-3">
                                 <a href="#" class="markall"><i class="bi bi-bookmark-check px-2"></i>Marcar todos</a>
                                 <a href="#" class="unmarked"><i class="bi bi-bookmark-x px-2"></i>Desmarcar todos</a>

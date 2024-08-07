@@ -4,11 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use App\Models\Companies;
-use App\Models\Leads;
 use App\Models\UsersLogs;
-use App\Models\Pipelines;
 
 class PrivateCtrl extends Controller
 {   
@@ -18,15 +14,8 @@ class PrivateCtrl extends Controller
     
     public function home()
     {
-        if (Auth::check() && Auth::user()->active) {
-            $requestSuccess = DB::table('job_batches')->where('pending_jobs', '=', 0)->count();
-            $requestFail = DB::table('job_batches')->where('pending_jobs', '>', 0)->where('failed_jobs', '>', 0)->count();
-            $requestPending = DB::table('job_batches')->count() - $requestSuccess - $requestFail;
-
-            return view('system.home')->with('requestPending', $requestPending)->with('requestSuccess', $requestSuccess)->with('requestFail', $requestFail);
-        } else {
-            return redirect(route('login'));
-        }
+        //if (Auth::check() && Auth::user()->active) {
+        return view('system.home');
     }
 
     public function logout()
@@ -45,7 +34,7 @@ class PrivateCtrl extends Controller
 
     public function activities()
     {
-        return view('system.activities')->with('logs', UsersLogs::where('users_id', Auth::user()->id)->orderBy('created_at', 'DESC')->get());
+        return view('system.activities')->with('logs', UsersLogs::where('users_id', Auth::user()->id)->orderBy('created_at', 'DESC')->paginate(8));
     }
 
     public function unauthorized(){

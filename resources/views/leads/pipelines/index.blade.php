@@ -7,8 +7,12 @@ Pipelines
 @section('buttons')
     <a href="{{ route('leads.retryAll') }}" class="btn btn-danger retryAll">
         <i class="bi bi-arrow-repeat"></i>
-        <span>Retry All</span>
+        <span>Retentar todos</span>
     </a>
+@endsection
+
+@section('css')
+    <link href="{{ asset('css/pipelines.css') }}" rel="stylesheet">
 @endsection
 
 @section('content-page')
@@ -36,6 +40,41 @@ Pipelines
                         })
                     }
                 </script>
+            </div>
+        </div>
+        <div class="row row-gap-3 mt-4">
+            <div class="col-lg-4 col-12">
+                <div class="card d-flex flex-row align-items-center rounded-1">
+                    <div class="bg-success px-4 py-3 rounded-start-1">
+                        <i class="bi bi-database-check text-white"></i>
+                    </div>
+                    <div class="px-4 w-100">
+                        <h6 class="mb-0">Finalizadas</h6>
+                        <h4 class="mb-0">{{ $requestSuccess }}</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-12">
+                <div class="card d-flex flex-row align-items-center rounded-1">
+                    <div class="bg-dark px-4 py-3 rounded-start-1">
+                        <i class="bi bi-database text-white bi-lg"></i>
+                    </div>
+                    <div class="px-4 w-100">
+                        <h6 class="mb-0">Executando</h6>
+                        <h4 class="mb-0">{{ $requestPending }}</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-12">
+                <div class="card d-flex flex-row align-items-center rounded-1">
+                    <div class="bg-danger px-4 py-3 rounded-start-1">
+                        <i class="bi bi-database-exclamation text-white"></i>
+                    </div>
+                    <div class="px-4 w-100">
+                        <h6 class="mb-0">Com erros</h6>
+                        <h4 class="mb-0">{{ $requestFail }}</h4>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

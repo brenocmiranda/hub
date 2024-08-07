@@ -3,6 +3,7 @@
     --white: #ffffff;
     --gray: #dfdfdf;
     --gray-light: #f1f1f1;
+    --gray-light-1: #f2f2f2;
 
     --title-font: 'Poppins', tahoma, sans-serif;
     --text-font: 'Poppins', tahoma, sans-serif;
@@ -95,7 +96,8 @@ abbr {
 
 .full-page .content-wrapper {
     width: 100%;
-    background: var(--gray);
+    background: var(--gray-light-1) url(../images/bg.jpg) no-repeat center top / cover;
+    background-attachment: fixed;
 }
 
 .full-page .content-wrapper header h2 {
