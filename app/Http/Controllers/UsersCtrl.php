@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
@@ -69,7 +70,24 @@ class UsersCtrl extends Controller
                 } 
             
                 // Operações
-                $operations = '<div class="d-flex justify-content-center align-items-center gap-2"><a href="'. route('users.edit', $user->id ) .'" class="btn btn-outline-secondary px-2 py-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Editar"><i class="bi bi-pencil"></i></a> <a href="'. route('users.recovery', $user->id ) .'" class="btn btn-outline-secondary px-2 py-1 recovery" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Redefinir senha"><i class="bi bi-envelope-arrow-up"></i></i></a><a href="'. route('users.destroy', $user->id ) .'" class="btn btn-outline-secondary px-2 py-1 destroy" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Excluir"><i class="bi bi-trash"></i></a></div>';
+                $operations = '';
+                if (Gate::any(['users_update', 'users_recovery', 'users_destroy'])) {
+                    $operations .= '<div class="d-flex justify-content-center align-items-center gap-2">';
+
+                    if( Gate::check('users_update') ) {
+                        $operations .= '<a href="'. route('users.edit', $user->id ) .'" class="btn btn-outline-secondary px-2 py-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Editar"><i class="bi bi-pencil"></i></a>';
+                    }
+                    if( Gate::check('users_recovery') ) {
+                        $operations .= '<a href="'. route('users.recovery', $user->id ) .'" class="btn btn-outline-secondary px-2 py-1 recovery" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Redefinir senha"><i class="bi bi-envelope-arrow-up"></i></i></a>';
+                    }
+                    if( Gate::check('users_destroy') ) {
+                        $operations .= '<a href="'. route('users.destroy', $user->id ) .'" class="btn btn-outline-secondary px-2 py-1 destroy" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Excluir"><i class="bi bi-trash"></i></a>';
+                    }
+
+                    $operations .= '</div>';
+                } else {
+                    $operations = '-';
+                }
                 
                 // Array do emp
                 $array[] = [

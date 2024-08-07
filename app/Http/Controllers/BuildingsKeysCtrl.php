@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use App\Http\Requests\BuildingsKeysRqt;
 use App\Models\Buildings;
@@ -24,7 +25,7 @@ class BuildingsKeysCtrl extends Controller
     
     public function index()
     {
-        return view('buildings.keys.index')->with('keys', BuildingsKeys::join('buildings', 'buildings.id', '=', 'buildings_keys.buildings_id')->select("buildings_keys.*")->orderBy('buildings_keys.active', 'desc')->orderBy('buildings.name', 'asc')->get());
+        return view('buildings.keys.index');
     }
 
     public function data(Request $request)
@@ -60,7 +61,21 @@ class BuildingsKeysCtrl extends Controller
                 } 
             
                 // Operações
-                $operations = '<div class="d-flex justify-content-center align-items-center gap-2"><a href="'. route('buildings.keys.edit', $key->id ) .'" class="btn btn-outline-secondary px-2 py-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Editar"><i class="bi bi-pencil"></i></a><a href="'. route('buildings.keys.destroy', $key->id ) .'" class="btn btn-outline-secondary px-2 py-1 destroy" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Excluir"><i class="bi bi-trash"></i></a></div>';
+                $operations = '';
+                if (Gate::any(['keys_update', 'keys_destroy'])) {
+                    $operations .= '<div class="d-flex justify-content-center align-items-center gap-2">';
+
+                    if( Gate::check('keys_update') ) {
+                        $operations .= '<a href="'. route('buildings.keys.edit', $key->id ) .'" class="btn btn-outline-secondary px-2 py-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Editar"><i class="bi bi-pencil"></i></a>';
+                    }
+                    if( Gate::check('keys_destroy') ) {
+                        $operations .= '<a href="'. route('buildings.keys.destroy', $key->id ) .'" class="btn btn-outline-secondary px-2 py-1 destroy" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Excluir"><i class="bi bi-trash"></i></a>';
+                    }
+
+                    $operations .= '</div>';
+                } else {
+                    $operations = '-';
+                }
                 
                 // Array do emp
                 $array[] = [

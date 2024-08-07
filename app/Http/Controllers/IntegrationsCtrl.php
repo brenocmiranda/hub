@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use App\Http\Requests\IntegrationsRqt;
 use App\Models\Integrations;
@@ -60,7 +61,21 @@ class IntegrationsCtrl extends Controller
                 } 
             
                 // Operações
-                $operations = '<div class="d-flex justify-content-center align-items-center gap-2"><a href="'. route('integrations.edit', $integration->id ) .'" class="btn btn-outline-secondary px-2 py-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Editar"><i class="bi bi-pencil"></i></a><a href="'. route('integrations.destroy', $integration->id ) .'" class="btn btn-outline-secondary px-2 py-1 destroy" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Excluir"><i class="bi bi-trash"></i></a></div>';
+                $operations = '';
+                if (Gate::any(['integrations_update', 'integrations_destroy'])) {
+                    $operations .= '<div class="d-flex justify-content-center align-items-center gap-2">';
+
+                    if( Gate::check('integrations_update') ) {
+                        $operations .= '<a href="'. route('integrations.edit', $integration->id ) .'" class="btn btn-outline-secondary px-2 py-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Editar"><i class="bi bi-pencil"></i></a>';
+                    }
+                    if( Gate::check('integrations_destroy') ) {
+                        $operations .= '<a href="'. route('integrations.destroy', $integration->id ) .'" class="btn btn-outline-secondary px-2 py-1 destroy" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Excluir"><i class="bi bi-trash"></i></a>';
+                    }
+
+                    $operations .= '</div>';
+                } else {
+                    $operations = '-';
+                }
                 
                 // Array do emp
                 $array[] = [

@@ -69,7 +69,7 @@ Nova função
                                         'pipelines' => 'Pipelines',
                                         'companies' => 'Empresas',
                                         'buildings' => 'Empreendimentos',
-                                        'key' => 'Chaves',
+                                        'keys' => 'Chaves',
                                         'integrations' => 'Integrações',
                                         'reports' => 'Relatórios',
                                         'imports' => 'Importações',
@@ -90,14 +90,14 @@ Nova função
                                                 <div id="flush-collapse-{{ $index }}" class="accordion-collapse collapse" data-bs-parent="#accordionItems-{{$index}}">
                                                     <div class="accordion-body">
                                                         <div class="form-check form-switch">
-                                                            <input class="form-check-input" name="roles[]" type="checkbox" value="{{ $index }}_show" id="check_{{ $index }}_show">
+                                                            <input class="form-check-input" name="roles[]" type="checkbox" role="switch"value="{{ $index }}_show" id="check_{{ $index }}_show">
                                                             <label class="form-check-label" for="check_{{ $index }}_show">
                                                                 Visualizar
                                                             </label>
                                                         </div>
                                                         @if($index !== 'dashboards' && $index !== 'pipelines')
                                                             <div class="form-check form-switch">
-                                                                <input class="form-check-input" name="roles[]" type="checkbox" value="{{ $index }}_create" id="check_{{ $index }}_create">
+                                                                <input class="form-check-input" name="roles[]" type="checkbox" role="switch" value="{{ $index }}_create" id="check_{{ $index }}_create">
                                                                 <label class="form-check-label" for="check_{{ $index }}_create">
                                                                     Cadastrar
                                                                 </label>
@@ -105,7 +105,7 @@ Nova função
                                                         @endif
                                                         @if($index !== 'leads' && $index != 'dashboards' && $index !== 'pipelines' && $index !== 'reports' && $index !== 'imports' && $index !== 'tokens')
                                                             <div class="form-check form-switch">
-                                                                <input class="form-check-input" name="roles[]" type="checkbox" value="{{ $index }}_update" id="check_{{ $index }}_update">
+                                                                <input class="form-check-input" name="roles[]" type="checkbox" role="switch" value="{{ $index }}_update" id="check_{{ $index }}_update">
                                                                 <label class="form-check-label" for="check_{{ $index }}_update">
                                                                     Editar
                                                                 </label>
@@ -113,7 +113,7 @@ Nova função
                                                         @endif
                                                         @if($index !== 'dashboards' && $index !== 'pipelines')
                                                             <div class="form-check form-switch">
-                                                                <input class="form-check-input" name="roles[]" type="checkbox" value="{{ $index }}_destroy" id="check_{{ $index }}_destroy">
+                                                                <input class="form-check-input" name="roles[]" type="checkbox" role="switch" value="{{ $index }}_destroy" id="check_{{ $index }}_destroy">
                                                                 <label class="form-check-label" for="check_{{ $index }}_destroy">
                                                                     Deletar
                                                                 </label>
@@ -121,7 +121,7 @@ Nova função
                                                         @endif
                                                         @if($index === 'pipelines')
                                                             <div class="form-check form-switch">
-                                                                <input class="form-check-input" name="roles[]" type="checkbox" value="{{ $index }}_resetAll" id="check_{{ $index }}_resetAll">
+                                                                <input class="form-check-input" name="roles[]" type="checkbox" role="switch" value="{{ $index }}_resetAll" id="check_{{ $index }}_resetAll">
                                                                 <label class="form-check-label" for="check_{{ $index }}_resetAll">
                                                                     Retentar todos
                                                                 </label>
@@ -129,7 +129,7 @@ Nova função
                                                         @endif
                                                         @if($index === 'users')
                                                             <div class="form-check form-switch">
-                                                                <input class="form-check-input" name="roles[]" type="checkbox" value="{{ $index }}_reset" id="check_{{ $index }}_reset">
+                                                                <input class="form-check-input" name="roles[]" type="checkbox" role="switch" value="{{ $index }}_reset" id="check_{{ $index }}_reset">
                                                                 <label class="form-check-label" for="check_{{ $index }}_reset">
                                                                     Redefinir
                                                                 </label>
@@ -137,13 +137,13 @@ Nova função
                                                         @endif
                                                         @if($index === 'leads')
                                                             <div class="form-check form-switch">
-                                                                <input class="form-check-input" name="roles[]" type="checkbox" value="{{ $index }}_resend" id="check_{{ $index }}_resend">
+                                                                <input class="form-check-input" name="roles[]" type="checkbox" role="switch" value="{{ $index }}_resend" id="check_{{ $index }}_resend">
                                                                 <label class="form-check-label" for="check_{{ $index }}_resend">
                                                                     Reenviar
                                                                 </label>
                                                             </div>
                                                             <div class="form-check form-switch">
-                                                                <input class="form-check-input" name="roles[]" type="checkbox" value="{{ $index }}_retry" id="check_{{ $index }}_retry">
+                                                                <input class="form-check-input" name="roles[]" type="checkbox" role="switch" value="{{ $index }}_retry" id="check_{{ $index }}_retry">
                                                                 <label class="form-check-label" for="check_{{ $index }}_retry">
                                                                     Retentar
                                                                 </label>
@@ -151,7 +151,7 @@ Nova função
                                                         @endif
                                                         @if($index === 'buildings')
                                                             <div class="form-check form-switch">
-                                                                <input class="form-check-input" name="roles[]" type="checkbox" value="{{ $index }}_duplicate" id="check_{{ $index }}_duplicate">
+                                                                <input class="form-check-input" name="roles[]" type="checkbox" role="switch" value="{{ $index }}_duplicate" id="check_{{ $index }}_duplicate">
                                                                 <label class="form-check-label" for="check_{{ $index }}_duplicate">
                                                                     Duplicar
                                                                 </label>
@@ -185,11 +185,23 @@ Nova função
 
 @section('js')
 <script>
-    $('.markall').on('click', function(){
+    $('.form-check-input').on('change', function(e){
+        let element = $(this).attr('value').split('_');
+        let object = element[0];
+        let action = element[1];
+
+        if( action !== 'show' && $(this).is(':checked') && !$( '#check_' + object + '_show' ).is(':checked') ){
+            $( '#check_' + object + '_show' ).click().attr('disabled', '');
+        }
+    });
+
+    $('.markall').on('click', function(e){
+        e.preventDefault();
         $('input[type=checkbox]').attr('checked', "");
     });
 
-    $('.unmarked').on('click', function(){
+    $('.unmarked').on('click', function(e){
+        e.preventDefault();
         $('input[type=checkbox]').removeAttr('checked');
     });
 </script>

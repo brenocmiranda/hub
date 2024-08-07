@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use App\Http\Requests\UsersRolesRqt;
 use App\Models\Companies;
@@ -22,7 +23,7 @@ class UsersRolesCtrl extends Controller
     
     public function index()
     {   
-        return view('users.roles.index')->with('roles', UsersRoles::orderBy('active', 'desc')->orderBy('name', 'asc')->get());
+        return view('users.roles.index');
     }
 
     public function data(Request $request)
@@ -59,7 +60,21 @@ class UsersRolesCtrl extends Controller
                 } 
             
                 // Operações
-                $operations = '<div class="d-flex justify-content-center align-items-center gap-2"><a href="'. route('users.roles.edit', $role->id ) .'" class="btn btn-outline-secondary px-2 py-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Editar"><i class="bi bi-pencil"></i></a><a href="'. route('users.roles.destroy', $role->id ) .'" class="btn btn-outline-secondary px-2 py-1 destroy" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Excluir"><i class="bi bi-trash"></i></a></div>';
+                $operations = '';
+                if (Gate::any(['roles_update', 'roles_destroy'])) {
+                    $operations .= '<div class="d-flex justify-content-center align-items-center gap-2">';
+
+                    if( Gate::check('roles_update') ) {
+                        $operations .= '<a href="'. route('users.roles.edit', $role->id ) .'" class="btn btn-outline-secondary px-2 py-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Editar"><i class="bi bi-pencil"></i></a>';
+                    }
+                    if( Gate::check('roles_destroy') ) {
+                        $operations .= '<a href="'. route('users.roles.destroy', $role->id ) .'" class="btn btn-outline-secondary px-2 py-1 destroy" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Excluir"><i class="bi bi-trash"></i></a>';
+                    }
+
+                    $operations .= '</div>';
+                } else {
+                    $operations = '-';
+                }
                 
                 // Array do emp
                 $array[] = [

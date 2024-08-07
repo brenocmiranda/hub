@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use App\Http\Requests\ImportsRqt;
 use Maatwebsite\Excel\Facades\Excel;
@@ -27,7 +28,7 @@ class ImportsCtrl extends Controller
 
     public function index()
     {
-        return view('imports.index')->with('imports', UsersImports::where('users_id', Auth::user()->id)->orderBy('created_at', 'DESC')->get());
+        return view('imports.index');
     }
 
     public function data(Request $request)
@@ -76,8 +77,21 @@ class ImportsCtrl extends Controller
                 }
 
                 // Operações
+                $operations = '';
+                if (Gate::any(['imports_destroy'])) {
+                    $operations .= '<div class="d-flex justify-content-center align-items-center gap-2">';
+
+                    if( Gate::check('imports_destroy') ) {
+                        $operations .= '<a href="'. route('imports.destroy', $import->id ) .'" class="btn btn-outline-secondary px-2 py-1 destroy" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Excluir"><i class="bi bi-trash"></i></a>';
+                    }
+
+                    $operations .= '</div>';
+                } else {
+                    $operations = '-';
+                }
+
                 $view = $import->status === "Pronto" ? '<a href="'. route('leads.index') .'" class="btn btn-outline-secondary px-2 py-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Visualizar leads"><i class="bi bi-eye"></i></a>' : "";
-                $operations = '<div class="d-flex justify-content-center align-items-center gap-2">'. $view .'<a href="'. route('imports.destroy', $import->id ) .'" class="btn btn-outline-secondary px-2 py-1 destroy" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Excluir"><i class="bi bi-trash"></i></a></div>';
+                $operations = '<div class="d-flex justify-content-center align-items-center gap-2">'. $view .'</div>';
                 
                 // Array do emp
                 $array[] = [

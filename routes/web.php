@@ -40,10 +40,9 @@ Route::group(['prefix' => '/'], function () {
 #---------------------------------------------------------------------
 Route::group(['prefix' => 'app'], function () {
 
-    // Home, Logout and 401
+    // Home and Logout
     Route::get('home', [PrivateCtrl::class, 'home'])->name('home');
     Route::get('logout', [PrivateCtrl::class, 'logout'])->name('logout');
-    Route::get('unauthorized', [PrivateCtrl::class, 'unauthorized'])->name('unauthorized');
 
     // Atividades
     Route::get('activities', [PrivateCtrl::class, 'activities'])->name('activities');

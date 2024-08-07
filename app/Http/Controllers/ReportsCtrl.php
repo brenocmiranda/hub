@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\LeadsExport;
 use App\Exports\BuildingsExport;
@@ -77,10 +78,23 @@ class ReportsCtrl extends Controller
                 }
 
                 // Operações
-                $url = asset("storage/exports/" . $report->name );
-                $download = $report->status === "Pronto" ? '<a href="'. $url .'" class="btn btn-outline-secondary px-2 py-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Download" download><i class="bi bi-download"></i></a>' : "";
-                $operations = '<div class="d-flex justify-content-center align-items-center gap-2">'. $download .'<a href="'. route('reports.destroy', $report->id ) .'" class="btn btn-outline-secondary px-2 py-1 destroy" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Excluir"><i class="bi bi-trash"></i></a></div>';
-                
+                $operations = '';
+                if (Gate::any(['reports_show', 'reports_destroy'])) {
+                    $operations .= '<div class="d-flex justify-content-center align-items-center gap-2">';
+
+                    if( Gate::check('reports_show') && $report->status === "Pronto" ) {
+                        $url = asset("storage/exports/" . $report->name );
+                        $operations .= '<a href="'. $url .'" class="btn btn-outline-secondary px-2 py-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Download" download><i class="bi bi-download"></i></a>';
+                    }
+                    if( Gate::check('reports_destroy') ) {
+                        $operations .= '<a href="'. route('reports.destroy', $report->id ) .'" class="btn btn-outline-secondary px-2 py-1 destroy" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Excluir"><i class="bi bi-trash"></i></a>';
+                    }
+
+                    $operations .= '</div>';
+                } else {
+                    $operations = '-';
+                }
+
                 // Array do emp
                 $array[] = [
                     'data' => $report->created_at->format("d/m/Y H:i:s"),

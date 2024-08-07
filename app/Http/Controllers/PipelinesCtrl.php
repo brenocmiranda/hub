@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Routing\Controller;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 use App\Models\Pipelines;
 use App\Models\UsersLogs;
 
@@ -17,6 +18,7 @@ class PipelinesCtrl extends Controller
         $this->middleware('can:pipelines_create', ['only' => ['create', 'store']]);
         $this->middleware('can:pipelines_update', ['only' => ['edit', 'update']]);
         $this->middleware('can:pipelines_destroy', ['only' => ['destroy']]);
+        $this->middleware('can:pipelines_resetAll', ['only' => ['resetAll']]);
 	}
 
     public function index()
@@ -69,7 +71,20 @@ class PipelinesCtrl extends Controller
                 }
 
                 // Operações
-                $operations = '<div class="d-flex justify-content-center align-items-center gap-2"><a href="' . route('leads.pipelines.show', $pipeline->id ) .'" class="btn btn-outline-secondary px-2 py-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Visualizar"><i class="bi bi-eye"></i></a></div>';
+                $operations = '';
+                if (Gate::any(['pipelines_show'])) {
+                    $operations .= '<div class="d-flex justify-content-center align-items-center gap-2">';
+
+                    if( Gate::check('pipelines_show') ) {
+                        $operations .= '<a href="' . route('leads.pipelines.show', $pipeline->id ) .'" class="btn btn-outline-secondary px-2 py-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Visualizar"><i class="bi bi-eye"></i></a>';
+                    }
+
+                    $operations .= '</div>';
+                } else {
+                    $operations = '-';
+                }
+
+                $operations = '<div class="d-flex justify-content-center align-items-center gap-2"></div>';
                 
                 // Array do emp
                 $array[] = [

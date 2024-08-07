@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use App\Http\Requests\BuildingsRqt;
 use App\Models\Buildings;
@@ -67,7 +68,24 @@ class BuildingsCtrl extends Controller
                 } 
             
                 // Operações
-                $operations = '<div class="d-flex justify-content-center align-items-center gap-2"><a href="' . route('buildings.edit', $building->id ) .'" class="btn btn-outline-secondary px-2 py-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Editar"><i class="bi bi-pencil"></i></a><a href="'. route('buildings.duplicate', $building->id ) .'" class="btn btn-outline-secondary px-2 py-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Duplicar"><i class="bi bi-copy"></i></a><a href="'. route('buildings.destroy', $building->id ) .'" class="btn btn-outline-secondary px-2 py-1 destroy" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Excluir"><i class="bi bi-trash"></i></a></div>';
+                $operations = '';
+                if (Gate::any(['buildings_update', 'buildings_duplicate', 'buildings_destroy'])) {
+                    $operations .= '<div class="d-flex justify-content-center align-items-center gap-2">';
+
+                    if( Gate::check('buildings_update') ) {
+                        $operations .= '<a href="' . route('buildings.edit', $building->id ) .'" class="btn btn-outline-secondary px-2 py-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Editar"><i class="bi bi-pencil"></i></a>';
+                    }
+                    if( Gate::check('buildings_duplicate') ) {
+                        $operations .= '<a href="'. route('buildings.duplicate', $building->id ) .'" class="btn btn-outline-secondary px-2 py-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Duplicar"><i class="bi bi-copy"></i></a>';
+                    }
+                    if( Gate::check('buildings_destroy') ) {
+                        $operations .= '<a href="'. route('buildings.destroy', $building->id ) .'" class="btn btn-outline-secondary px-2 py-1 destroy" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Excluir"><i class="bi bi-trash"></i></a>';
+                    }
+
+                    $operations .= '</div>';
+                } else {
+                    $operations = '-';
+                }
                 
                 // Array do emp
                 $array[] = [

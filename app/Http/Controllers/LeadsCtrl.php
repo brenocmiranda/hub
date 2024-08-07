@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Http\Request;
 use App\Http\Requests\LeadsRqt;
@@ -81,8 +82,25 @@ class LeadsCtrl extends Controller
                 } 
 
                 // Operações
-                $operations = '<div class="d-flex justify-content-center align-items-center gap-2"> <a href="' . route('leads.show', $lead->id ) . '" class="btn btn-outline-secondary px-2 py-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Visualizar"><i class="bi bi-eye"></i></a>' . ($lead->batches_id && Bus::findBatch($lead->batches_id)->failedJobs > 0 && Bus::findBatch($lead->batches_id)->pendingJobs > 0 ? '<a href="'. route('leads.retry', $lead->id ) .'" class="btn btn-outline-danger px-2 py-1 retry" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Tentar Novamente"><i class="bi bi-arrow-repeat"></i></a>' : "") . '</div>';
-                
+                $operations = '';
+                if (Gate::any(['leads_show', 'leads_retry', 'leads_destroy'])) {
+                    $operations .= '<div class="d-flex justify-content-center align-items-center gap-2">';
+
+                    if( Gate::check('leads_show') ) {
+                        $operations .= '<a href="' . route('leads.show', $lead->id ) . '" class="btn btn-outline-secondary px-2 py-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Visualizar"><i class="bi bi-eye"></i></a>';
+                    }
+                    if( Gate::check('leads_retry') && $lead->batches_id && Bus::findBatch($lead->batches_id)->failedJobs > 0 && Bus::findBatch($lead->batches_id)->pendingJobs > 0 ) {
+                        $operations .= '<a href="'. route('leads.retry', $lead->id ) .'" class="btn btn-outline-danger px-2 py-1 retry" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Tentar Novamente"><i class="bi bi-arrow-repeat"></i></a>';
+                    }
+                    if( Gate::check('leads_destroy') ) {
+                        $operations .= '<a href="'. route('leads.destroy', $lead->id ) .'" class="btn btn-outline-secondary px-2 py-1 destroy" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Excluir"><i class="bi bi-trash"></i></a>';
+                    }
+
+                    $operations .= '</div>';
+                } else {
+                    $operations = '-';
+                }
+
                 // Array do emp
                 $array[] = [
                     'date'  => $lead->created_at->format("d/m/Y H:i:s"),
