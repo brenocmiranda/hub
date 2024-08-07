@@ -14,7 +14,6 @@ class PrivateCtrl extends Controller
     
     public function home()
     {
-        //if (Auth::check() && Auth::user()->active) {
         return view('system.home');
     }
 

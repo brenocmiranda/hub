@@ -43,7 +43,7 @@ Home
                         </h2>
                         <div id="flush-collapse2" class="accordion-collapse collapse" data-bs-parent="#accordionItems">
                             <div class="accordion-body">
-                                <p>O processo de detecção de leads de teste foi implantada e agora você poderá escolher qual o empreendimento de teste que será redirecionado.</p>
+                                <p>O processo de detecção de leads de teste foi implantada e agora você poderá escolher um empreendimento para serem redirecionados os leads provenientes de testes.</p>
                             </div>
                         </div>
                     </div>

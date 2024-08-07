@@ -29,7 +29,7 @@ class PublicCtrl extends Controller
 
     public function authentication(LoginRqt $request)
     {
-        //Auth::logoutOtherDevices($request->password);
+        Auth::logoutOtherDevices($request->password);
 
         $credentials = $request->validate([
             'email' => ['required', 'email'],
