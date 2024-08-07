@@ -21,6 +21,11 @@ class BuildingsCtrl extends Controller
 {   
     public function __construct(){
 		$this->middleware('auth');
+        $this->middleware('can:buildings_show', ['only' => ['index', 'data', 'show']]);
+        $this->middleware('can:buildings_create', ['only' => ['create', 'store']]);
+        $this->middleware('can:buildings_update', ['only' => ['edit', 'update']]);
+        $this->middleware('can:buildings_destroy', ['only' => ['destroy']]);
+        $this->middleware('can:buildings_duplicate', ['only' => ['duplicate']]);
 	}
     
     public function index()

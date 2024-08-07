@@ -10,7 +10,7 @@ Unauthorized
 
 @section('content-page')
     <div class="container-fluid">
-        <div class="row mt-4">
+        <div class="row">
             <div class="col-12">
                 <div class="d-flex flex-column text-center">
                     <div class="img-unauthorized mb-4"></div>

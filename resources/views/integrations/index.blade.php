@@ -4,12 +4,13 @@
 Integrações
 @endsection
 
-
 @section('buttons')
-    <a href="{{ route('integrations.create') }}" class="btn btn-primary">
-        <i class="bi bi-plus-lg"></i>
-        <span>Novo</span>
-    </a>
+    @can('integrations_create') 
+        <a href="{{ route('integrations.create') }}" class="btn btn-primary">
+            <i class="bi bi-plus-lg"></i>
+            <span>Novo</span>
+        </a>
+    @endcan
 @endsection
 
 @section('content-page')

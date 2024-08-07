@@ -20,6 +20,10 @@ class ReportsCtrl extends Controller
 {
     public function __construct(){
 		$this->middleware('auth');
+        $this->middleware('can:reports_show', ['only' => ['index', 'data', 'show']]);
+        $this->middleware('can:reports_create', ['only' => ['create', 'store']]);
+        $this->middleware('can:reports_update', ['only' => ['edit', 'update']]);
+        $this->middleware('can:reports_destroy', ['only' => ['destroy']]);
 	}
 
     public function index()

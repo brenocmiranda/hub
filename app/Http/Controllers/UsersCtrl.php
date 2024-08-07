@@ -20,6 +20,11 @@ class UsersCtrl extends Controller
 {   
     public function __construct(){
 		$this->middleware('auth');
+        $this->middleware('can:users_show', ['only' => ['index', 'data', 'show']]);
+        $this->middleware('can:users_create', ['only' => ['create', 'store']]);
+        $this->middleware('can:users_update', ['only' => ['edit', 'update']]);
+        $this->middleware('can:users_destroy', ['only' => ['destroy']]);
+        $this->middleware('can:users_recovery', ['only' => ['recovery']]);
 	}
 
     public function index()

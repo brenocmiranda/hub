@@ -5,10 +5,12 @@ Pipelines
 @endsection
 
 @section('buttons')
-    <a href="{{ route('leads.retryAll') }}" class="btn btn-danger retryAll">
-        <i class="bi bi-arrow-repeat"></i>
-        <span>Retentar todos</span>
-    </a>
+    @can('pipelines_resetAll') 
+        <a href="{{ route('leads.pipelines.retryAll') }}" class="btn btn-danger retryAll">
+            <i class="bi bi-arrow-repeat"></i>
+            <span>Retentar todos</span>
+        </a>
+    @endcan
 @endsection
 
 @section('css')
@@ -17,32 +19,7 @@ Pipelines
 
 @section('content-page')
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-12">
-                <table id="table" data-ajax="ajaxRequest" data-side-pagination="server">
-                    <thead>
-                        <tr>
-                            <th data-field="date" data-align="center">Data</th>
-                            <th data-field="status" data-align="center">StatusCode</th>
-                            <th data-field="integration" data-align="center">Integração</th>
-                            <th data-field="origin" data-align="center">Origem do Lead</th>
-                            <th data-field="lead" data-align="center">Nome do Lead</th>
-                            <th data-field="operations" data-align="center">Operações</th>
-                        </tr>
-                    </thead>
-                </table>
-                <script>
-                    // your custom ajax request here
-                    function ajaxRequest(params) {
-                        var url = '{{ route('leads.pipelines.data') }}'
-                        $.get(url + '?' + $.param(params.data)).then(function (res) {
-                            params.success(res)
-                        })
-                    }
-                </script>
-            </div>
-        </div>
-        <div class="row row-gap-3 mt-4">
+        <div class="row row-gap-3 mb-4">
             <div class="col-lg-4 col-12">
                 <div class="card d-flex flex-row align-items-center rounded-1">
                     <div class="bg-success px-4 py-3 rounded-start-1">
@@ -75,6 +52,31 @@ Pipelines
                         <h4 class="mb-0">{{ $requestFail }}</h4>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <table id="table" data-ajax="ajaxRequest" data-side-pagination="server">
+                    <thead>
+                        <tr>
+                            <th data-field="date" data-align="center">Data</th>
+                            <th data-field="status" data-align="center">StatusCode</th>
+                            <th data-field="integration" data-align="center">Integração</th>
+                            <th data-field="origin" data-align="center">Origem do Lead</th>
+                            <th data-field="lead" data-align="center">Nome do Lead</th>
+                            <th data-field="operations" data-align="center">Operações</th>
+                        </tr>
+                    </thead>
+                </table>
+                <script>
+                    // your custom ajax request here
+                    function ajaxRequest(params) {
+                        var url = '{{ route('leads.pipelines.data') }}'
+                        $.get(url + '?' + $.param(params.data)).then(function (res) {
+                            params.success(res)
+                        })
+                    }
+                </script>
             </div>
         </div>
     </div>

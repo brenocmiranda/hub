@@ -1,11 +1,17 @@
 /** Documento da página de Unauthorized **/
-h3 {
+section {
+    min-height: calc(100vh - 160px);
+    display: flex;
+    align-items: center;
+}
+
+section h3 {
     max-width: 600px;
     margin-left: auto;
     margin-right: auto;
 }
 
-.img-unauthorized {
+section .img-unauthorized {
     background: url(../images/unauthorized.png) no-repeat center / contain;
     max-width: 516px;
     width: 100%;

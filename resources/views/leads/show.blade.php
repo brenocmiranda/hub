@@ -11,15 +11,19 @@ Detalhes do lead
 
 @section('buttons')
     @if( $lead->batches_id && Bus::findBatch($lead->batches_id)->failedJobs > 0 && Bus::findBatch($lead->batches_id)->pendingJobs > 0  )
-        <a href="{{ route('leads.retry', $lead->id) }}" class="btn btn-outline-danger retry">
-            <i class="bi bi-arrow-repeat"></i>
-            <span>Tentar novamente</span>
-        </a>
+        @can('leads_retry')
+            <a href="{{ route('leads.retry', $lead->id) }}" class="btn btn-outline-danger retry">
+                <i class="bi bi-arrow-repeat"></i>
+                <span>Tentar novamente</span>
+            </a>
+        @endcan
     @elseif( $lead->batches_id && Bus::findBatch($lead->batches_id)->pendingJobs == 0 )
-        <a href="{{ route('leads.resend', $lead->id) }}" class="btn btn-outline-dark resend">
-            <i class="bi bi-arrow-clockwise"></i>
-            <span>Reenviar</span>
-        </a>
+        @can('leads_resend')
+            <a href="{{ route('leads.resend', $lead->id) }}" class="btn btn-outline-dark resend">
+                <i class="bi bi-arrow-clockwise"></i>
+                <span>Reenviar</span>
+            </a>
+        @endcan
     @endif
 @endsection
 

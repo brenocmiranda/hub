@@ -14,6 +14,10 @@ class IntegrationsCtrl extends Controller
 {   
     public function __construct(){
 		$this->middleware('auth');
+        $this->middleware('can:integrations_show', ['only' => ['index', 'data', 'show']]);
+        $this->middleware('can:integrations_create', ['only' => ['create', 'store']]);
+        $this->middleware('can:integrations_update', ['only' => ['edit', 'update']]);
+        $this->middleware('can:integrations_destroy', ['only' => ['destroy']]);
 	}
     
     public function index()

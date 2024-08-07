@@ -5,10 +5,12 @@ Funções
 @endsection
 
 @section('buttons')
-    <a href="{{ route('users.roles.create') }}" class="btn btn-primary">
-        <i class="bi bi-plus-lg"></i>
-        <span>Novo</span>
-    </a>
+    @can('roles_create')
+        <a href="{{ route('users.roles.create') }}" class="btn btn-primary">
+            <i class="bi bi-plus-lg"></i>
+            <span>Novo</span>
+        </a>
+    @endcan
 @endsection
 
 @section('content-page')

@@ -5,10 +5,12 @@ Relatórios
 @endsection
 
 @section('buttons')
-    <a href="{{ route('reports.create') }}" class="btn btn-primary">
-        <i class="bi bi-plus-lg"></i>
-        <span>Novo</span>
-    </a>
+    @can('reports_create') 
+        <a href="{{ route('reports.create') }}" class="btn btn-primary">
+            <i class="bi bi-plus-lg"></i>
+            <span>Novo</span>
+        </a>
+    @endcan
 @endsection
 
 @section('content-page')

@@ -9,8 +9,16 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Pipelines;
 use App\Models\UsersLogs;
 
-class PipelinesCtrl
-{
+class PipelinesCtrl extends Controller
+{   
+    public function __construct(){
+		$this->middleware('auth');
+        $this->middleware('can:pipelines_show', ['only' => ['index', 'data', 'show']]);
+        $this->middleware('can:pipelines_create', ['only' => ['create', 'store']]);
+        $this->middleware('can:pipelines_update', ['only' => ['edit', 'update']]);
+        $this->middleware('can:pipelines_destroy', ['only' => ['destroy']]);
+	}
+
     public function index()
     {
         $requestSuccess = DB::table('job_batches')->where('pending_jobs', '=', 0)->count();
@@ -115,5 +123,20 @@ class PipelinesCtrl
     public function destroy(string $id)
     {
         //
+    }
+
+    public function retryAll()
+    { 
+        Artisan::call('queue:retry', ['id' => ['all']]);
+
+        // Salvando log
+        UsersLogs::create([
+            'title' => 'Tentar novamente todos',
+            'description' => 'Foi realizado uma nova tentativa de integração de todos os lead com erro.',
+            'action' => 'retryAll',
+            'users_id' => Auth::user()->id
+        ]);
+
+        return redirect()->route('leads.pipelines.index')->with( 'retryAll', true );
     }
 }

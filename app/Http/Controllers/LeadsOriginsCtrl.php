@@ -14,6 +14,10 @@ class LeadsOriginsCtrl extends Controller
 {
     public function __construct(){
 		$this->middleware('auth');
+        $this->middleware('can:origins_show', ['only' => ['index', 'data', 'show']]);
+        $this->middleware('can:origins_create', ['only' => ['create', 'store']]);
+        $this->middleware('can:origins_update', ['only' => ['edit', 'update']]);
+        $this->middleware('can:origins_destroy', ['only' => ['destroy']]);
 	}
     
     public function index()

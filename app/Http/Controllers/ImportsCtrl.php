@@ -19,6 +19,10 @@ class ImportsCtrl extends Controller
 
     public function __construct(){
 		$this->middleware('auth');
+        $this->middleware('can:imports_show', ['only' => ['index', 'data', 'show']]);
+        $this->middleware('can:imports_create', ['only' => ['create', 'store']]);
+        $this->middleware('can:imports_update', ['only' => ['edit', 'update']]);
+        $this->middleware('can:imports_destroy', ['only' => ['destroy']]);
 	}
 
     public function index()

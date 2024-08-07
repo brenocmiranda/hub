@@ -10,7 +10,7 @@ Home
 
 @section('content-page')
     <div class="container">
-        <div class="row gap-3 justify-content-center mt-5">
+        <div class="row gap-3 justify-content-center">
             <div class="col-xl-8 col-lg-9 col-md-10 col-12 text-center">
                 <i class="text-body-tertiary bi bi-question-circle"></i>
                 <h2 class="text-body-tertiary fw-bold">Veja as novidades do Hub</h2>
@@ -51,7 +51,7 @@ Home
                         <h2 class="accordion-header">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse3" aria-expanded="false" aria-controls="flush-collapse3">
                                 <div class="d-flex flex-wrap">
-                                    <span>06/08/2024</span>
+                                    <span>05/08/2024</span>
                                     <span class="mx-2">-</span>
                                     <span class="fw-semibold">Roleta de leads</span>
                                 </div>
@@ -68,7 +68,7 @@ Home
                         <h2 class="accordion-header">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse4" aria-expanded="false" aria-controls="flush-collapse4">
                                 <div class="d-flex flex-wrap">
-                                    <span>06/08/2024</span>
+                                    <span>05/08/2024</span>
                                     <span class="mx-2">-</span>
                                     <span class="fw-semibold">Criação de relatórios</span>
                                 </div>

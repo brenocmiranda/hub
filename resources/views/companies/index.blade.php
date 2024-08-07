@@ -5,10 +5,12 @@ Empresas
 @endsection
 
 @section('buttons')
-    <a href="{{ route('companies.create') }}" class="btn btn-primary">
-        <i class="bi bi-plus-lg"></i>
-        <span>Novo</span>
-    </a>
+    @can('companies_create')  
+        <a href="{{ route('companies.create') }}" class="btn btn-primary">
+            <i class="bi bi-plus-lg"></i>
+            <span>Novo</span>
+        </a>
+    @endcan
 @endsection
 
 @section('content-page')

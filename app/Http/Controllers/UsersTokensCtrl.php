@@ -11,6 +11,10 @@ class UsersTokensCtrl extends Controller
 {   
     public function __construct(){
 		$this->middleware('auth');
+        $this->middleware('can:tokens_show', ['only' => ['index', 'data', 'show']]);
+        $this->middleware('can:tokens_create', ['only' => ['create', 'store']]);
+        $this->middleware('can:tokens_update', ['only' => ['edit', 'update']]);
+        $this->middleware('can:tokens_destroy', ['only' => ['destroy']]);
 	}
     
     public function index()

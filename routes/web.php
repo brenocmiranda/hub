@@ -53,15 +53,15 @@ Route::group(['prefix' => 'app'], function () {
     
     // Dashboard
     Route::group(['prefix' => 'dashboard'], function () {
-        Route::get('/', [DashboardsCtrl::class, 'index'])->name('dashboard.index');
-    });
+        Route::get('geral', [DashboardsCtrl::class, 'index'])->name('dashboard.index');
+        Route::get('empreendimentos', [DashboardsCtrl::class, 'index'])->name('dashboard.index');
+    })->middleware('can:dashboard_show');
 
     // Leads - Ajax
     Route::resource('leads', LeadsCtrl::class)->only([ 'index', 'create', 'store', 'destroy', 'show' ]);
     Route::group(['prefix' => 'leads/all/'], function () {
         Route::get('data', [LeadsCtrl::class, 'data'])->name('leads.data');
         Route::get('search', [LeadsCtrl::class, 'search'])->name('leads.search');
-        Route::get('retryAll', [LeadsCtrl::class, 'retryAll'])->name('leads.retryAll');
         Route::get('retry/{id}', [LeadsCtrl::class, 'retry'])->name('leads.retry');
         Route::get('resend/{id}', [LeadsCtrl::class, 'resend'])->name('leads.resend');
     });    
@@ -91,6 +91,7 @@ Route::group(['prefix' => 'app'], function () {
         'show' => 'leads.pipelines.show'
     ]);
     Route::group(['prefix' => 'leads/all/pipelines/all/'], function () {
+        Route::get('retryAll', [PipelinesCtrl::class, 'retryAll'])->name('leads.pipelines.retryAll');
         Route::get('data', [PipelinesCtrl::class, 'data'])->name('leads.pipelines.data');
     });
 

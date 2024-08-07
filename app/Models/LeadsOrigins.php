@@ -14,5 +14,6 @@ class LeadsOrigins extends Model
         'active',
         'name',
         'slug',
+        'companies_id'
     ];
 }

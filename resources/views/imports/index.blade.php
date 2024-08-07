@@ -5,10 +5,12 @@ Importações
 @endsection
 
 @section('buttons')
-    <a href="{{ route('imports.create') }}" class="btn btn-primary">
-        <i class="bi bi-plus-lg"></i>
-        <span>Nova</span>
-    </a>
+    @can('imports_create') 
+        <a href="{{ route('imports.create') }}" class="btn btn-primary">
+            <i class="bi bi-plus-lg"></i>
+            <span>Nova</span>
+        </a>
+    @endcan
 @endsection
 
 @section('content-page')

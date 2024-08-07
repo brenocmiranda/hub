@@ -16,6 +16,10 @@ class BuildingsKeysCtrl extends Controller
 {
     public function __construct(){
 		$this->middleware('auth');
+        $this->middleware('can:keys_show', ['only' => ['index', 'data', 'show']]);
+        $this->middleware('can:keys_create', ['only' => ['create', 'store']]);
+        $this->middleware('can:keys_update', ['only' => ['edit', 'update']]);
+        $this->middleware('can:keys_destroy', ['only' => ['destroy']]);
 	}
     
     public function index()

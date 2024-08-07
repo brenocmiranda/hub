@@ -14,6 +14,10 @@ class UsersRolesCtrl extends Controller
 {   
     public function __construct(){
 		$this->middleware('auth');
+        $this->middleware('can:roles_show', ['only' => ['index', 'data', 'show']]);
+        $this->middleware('can:roles_create', ['only' => ['create', 'store']]);
+        $this->middleware('can:roles_update', ['only' => ['edit', 'update']]);
+        $this->middleware('can:roles_destroy', ['only' => ['destroy']]);
 	}
     
     public function index()

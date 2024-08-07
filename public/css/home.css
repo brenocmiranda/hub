@@ -1,24 +1,24 @@
 /** Documento da página de Home **/
-.bi-question-circle {
+section {
+    min-height: calc(100vh - 160px);
+    display: flex;
+    align-items: center;
+}
+
+section .bi-question-circle {
     font-size: 80px;
 }
 
-#accordionItems {
+section #accordionItems {
     background-color: #ffffff96;
     padding: 20px;
     border-radius: 16px;
 }
 
-#accordionItems .accordion-item, 
-#accordionItems .accordion-button { 
+section #accordionItems .accordion-item, 
+section #accordionItems .accordion-button { 
     background: transparent;
     border-left-color: transparent;
     border-right-color: transparent;
     border-top-color: transparent;
-}
-
-@media (max-width: 768px){
-    .img-home {
-        width: 100%;
-    }
 }

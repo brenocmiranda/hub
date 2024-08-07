@@ -91,14 +91,14 @@ Editar função
                                                 <div id="flush-collapse-{{ $index }}" class="accordion-collapse collapse" data-bs-parent="#accordionItems-{{$index}}">
                                                     <div class="accordion-body">
                                                         <div class="form-check form-switch">
-                                                            <input class="form-check-input" name="roles[]" type="checkbox" value="{{ $index }}_show" id="check_{{ $index }}_show" {{ strpos($role->roles, $index) !== false ? 'checked' : '' }}>
+                                                            <input class="form-check-input" name="roles[]" type="checkbox" value="{{ $index }}_show" id="check_{{ $index }}_show" {{ stripos($role->roles, $index . '_show') !== false ? 'checked' : '' }}>
                                                             <label class="form-check-label" for="check_{{ $index }}_show">
                                                                 Visualizar
                                                             </label>
                                                         </div>
                                                         @if($index !== 'dashboards' && $index !== 'pipelines')
                                                             <div class="form-check form-switch">
-                                                                <input class="form-check-input" name="roles[]" type="checkbox" value="{{ $index }}_create" id="check_{{ $index }}_create" {{ strpos($role->roles, $index) !== false ? 'checked' : '' }}>
+                                                                <input class="form-check-input" name="roles[]" type="checkbox" value="{{ $index }}_create" id="check_{{ $index }}_create" {{ stripos($role->roles, $index . '_create' ) !== false ? 'checked' : '' }}>
                                                                 <label class="form-check-label" for="check_{{ $index }}_create">
                                                                     Cadastrar
                                                                 </label>
@@ -106,7 +106,7 @@ Editar função
                                                         @endif
                                                         @if($index !== 'leads' && $index != 'dashboards' && $index !== 'pipelines' && $index !== 'reports' && $index !== 'imports' && $index !== 'tokens')
                                                             <div class="form-check form-switch">
-                                                                <input class="form-check-input" name="roles[]" type="checkbox" value="{{ $index }}_update" id="check_{{ $index }}_update" {{ strpos($role->roles, $index) !== false ? 'checked' : '' }}>
+                                                                <input class="form-check-input" name="roles[]" type="checkbox" value="{{ $index }}_update" id="check_{{ $index }}_update" {{ stripos($role->roles, $index . '_update') !== false ? 'checked' : '' }}>
                                                                 <label class="form-check-label" for="check_{{ $index }}_update">
                                                                     Editar
                                                                 </label>
@@ -114,15 +114,15 @@ Editar função
                                                         @endif
                                                         @if($index !== 'dashboards' && $index !== 'pipelines')
                                                             <div class="form-check form-switch">
-                                                                <input class="form-check-input" name="roles[]" type="checkbox" value="{{ $index }}_destroy" id="check_{{ $index }}_destroy" {{ strpos($role->roles, $index) !== false ? 'checked' : '' }}>
+                                                                <input class="form-check-input" name="roles[]" type="checkbox" value="{{ $index }}_destroy" id="check_{{ $index }}_destroy" {{ stripos($role->roles, $index . '_destroy') !== false ? 'checked' : '' }}>
                                                                 <label class="form-check-label" for="check_{{ $index }}_destroy">
                                                                     Deletar
                                                                 </label>
                                                             </div>
                                                         @endif
-                                                        @if($index === 'leads')
+                                                        @if($index === 'pipelines')
                                                             <div class="form-check form-switch">
-                                                                <input class="form-check-input" name="roles[]" type="checkbox" value="{{ $index }}_resetAll" id="check_{{ $index }}_resetAll" {{ strpos($role->roles, $index) !== false ? 'checked' : '' }}>
+                                                                <input class="form-check-input" name="roles[]" type="checkbox" value="{{ $index }}_resetAll" id="check_{{ $index }}_resetAll" {{ stripos($role->roles, $index . '_resetAll') !== false ? 'checked' : '' }}>
                                                                 <label class="form-check-label" for="check_{{ $index }}_resetAll">
                                                                     Reenviar todos
                                                                 </label>
@@ -130,7 +130,7 @@ Editar função
                                                         @endif
                                                         @if($index === 'users')
                                                             <div class="form-check form-switch">
-                                                                <input class="form-check-input" name="roles[]" type="checkbox" value="{{ $index }}_reset" id="check_{{ $index }}_reset" {{ strpos($role->roles, $index) !== false ? 'checked' : '' }}>
+                                                                <input class="form-check-input" name="roles[]" type="checkbox" value="{{ $index }}_reset" id="check_{{ $index }}_reset" {{ stripos($role->roles, $index . '_reset') !== false ? 'checked' : '' }}>
                                                                 <label class="form-check-label" for="check_{{ $index }}_reset">
                                                                     Redefinir
                                                                 </label>
@@ -138,7 +138,13 @@ Editar função
                                                         @endif
                                                         @if($index === 'leads')
                                                             <div class="form-check form-switch">
-                                                                <input class="form-check-input" name="roles[]" type="checkbox" value="{{ $index }}_resend" id="check_{{ $index }}_resend" {{ strpos($role->roles, $index) !== false ? 'checked' : '' }}>
+                                                                <input class="form-check-input" name="roles[]" type="checkbox" value="{{ $index }}_retry" id="check_{{ $index }}_retry" {{ stripos($role->roles, $index . '_retry') !== false ? 'checked' : '' }}>
+                                                                <label class="form-check-label" for="check_{{ $index }}_retry">
+                                                                    Retentar
+                                                                </label>
+                                                            </div>
+                                                            <div class="form-check form-switch">
+                                                                <input class="form-check-input" name="roles[]" type="checkbox" value="{{ $index }}_resend" id="check_{{ $index }}_resend" {{ stripos($role->roles, $index . '_resend') !== false ? 'checked' : '' }}>
                                                                 <label class="form-check-label" for="check_{{ $index }}_resend">
                                                                     Reenviar
                                                                 </label>
@@ -146,7 +152,7 @@ Editar função
                                                         @endif
                                                         @if($index === 'buildings')
                                                             <div class="form-check form-switch">
-                                                                <input class="form-check-input" name="roles[]" type="checkbox" value="{{ $index }}_duplicate" id="check_{{ $index }}_duplicate" {{ strpos($role->roles, $index) !== false ? 'checked' : '' }}>
+                                                                <input class="form-check-input" name="roles[]" type="checkbox" value="{{ $index }}_duplicate" id="check_{{ $index }}_duplicate" {{ stripos($role->roles, $index . '_duplicate') !== false ? 'checked' : '' }}>
                                                                 <label class="form-check-label" for="check_{{ $index }}_duplicate">
                                                                     Duplicar
                                                                 </label>

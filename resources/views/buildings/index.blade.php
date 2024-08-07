@@ -4,12 +4,13 @@
 Empreendimentos
 @endsection
 
-
 @section('buttons')
-    <a href="{{ route('buildings.create') }}" class="btn btn-primary">
-        <i class="bi bi-plus-lg"></i>
-        <span>Novo</span>
-    </a>
+    @can('buildings_create') 
+        <a href="{{ route('buildings.create') }}" class="btn btn-primary">
+            <i class="bi bi-plus-lg"></i>
+            <span>Novo</span>
+        </a>
+    @endcan
 @endsection
 
 @section('content-page')

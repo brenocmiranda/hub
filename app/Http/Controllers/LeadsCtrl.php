@@ -23,6 +23,12 @@ class LeadsCtrl extends Controller
 {   
     public function __construct(){
 		$this->middleware('auth');
+        $this->middleware('can:leads_show', ['only' => ['index', 'data', 'search', 'show']]);
+        $this->middleware('can:leads_create', ['only' => ['create', 'store']]);
+        $this->middleware('can:leads_update', ['only' => ['edit', 'update']]);
+        $this->middleware('can:leads_destroy', ['only' => ['destroy']]);
+        $this->middleware('can:leads_retry', ['only' => ['retry']]);
+        $this->middleware('can:leads_resend', ['only' => ['resend']]);
 	}
     
     public function index()
@@ -224,21 +230,6 @@ class LeadsCtrl extends Controller
             $leads[$index]['url'] = route('leads.show', $lead->id);
         }
         return $leads;
-    }
-
-    public function retryAll()
-    { 
-        Artisan::call('queue:retry', ['id' => ['all']]);
-
-        // Salvando log
-        UsersLogs::create([
-            'title' => 'Tentar novamente todos',
-            'description' => 'Foi realizado uma nova tentativa de integração de todos os lead com erro.',
-            'action' => 'retryAll',
-            'users_id' => Auth::user()->id
-        ]);
-
-        return redirect()->route('leads.pipelines.index')->with( 'retryAll', true );
     }
 
     public function retry($id)

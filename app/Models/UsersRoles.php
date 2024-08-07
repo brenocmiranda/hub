@@ -14,5 +14,6 @@ class UsersRoles extends Model
         'name',
         'roles',
         'active',
+        'companies_id'
     ];
 }

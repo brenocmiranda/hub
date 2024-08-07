@@ -119,11 +119,11 @@ Nova função
                                                                 </label>
                                                             </div>
                                                         @endif
-                                                        @if($index === 'leads')
+                                                        @if($index === 'pipelines')
                                                             <div class="form-check form-switch">
                                                                 <input class="form-check-input" name="roles[]" type="checkbox" value="{{ $index }}_resetAll" id="check_{{ $index }}_resetAll">
                                                                 <label class="form-check-label" for="check_{{ $index }}_resetAll">
-                                                                    Reenviar todos
+                                                                    Retentar todos
                                                                 </label>
                                                             </div>
                                                         @endif
@@ -140,6 +140,12 @@ Nova função
                                                                 <input class="form-check-input" name="roles[]" type="checkbox" value="{{ $index }}_resend" id="check_{{ $index }}_resend">
                                                                 <label class="form-check-label" for="check_{{ $index }}_resend">
                                                                     Reenviar
+                                                                </label>
+                                                            </div>
+                                                            <div class="form-check form-switch">
+                                                                <input class="form-check-input" name="roles[]" type="checkbox" value="{{ $index }}_retry" id="check_{{ $index }}_retry">
+                                                                <label class="form-check-label" for="check_{{ $index }}_retry">
+                                                                    Retentar
                                                                 </label>
                                                             </div>
                                                         @endif
