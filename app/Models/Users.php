@@ -55,7 +55,7 @@ class Users extends Authenticatable
         return $this->belongsTo(Companies::class, 'companies_id', 'id');
     }
 
-    public function RelationRules()
+    public function RelationRoles()
     {
         return $this->belongsTo(UsersRoles::class, 'users_roles_id', 'id');
     }

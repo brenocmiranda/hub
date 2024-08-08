@@ -232,7 +232,7 @@
             @endif
             <div class="d-flex flex-column name">
                 <strong>{{ Auth::user()->name }}</strong>
-                <small>{{ Auth::user()->RelationCompanies->name }}</small>
+                <small>{{ Auth::user()->RelationRoles->name }}</small>
             </div>
         </div>
     </div>

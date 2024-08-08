@@ -87,7 +87,7 @@ class AuthServiceProvider extends ServiceProvider
 
         foreach($access as $ability) {
             Gate::define( $ability, function (Users $user) use ($ability){
-                return strpos( $user->RelationRules->roles, $ability ) !== false;
+                return strpos( $user->RelationRoles->roles, $ability ) !== false;
             });
         }
 

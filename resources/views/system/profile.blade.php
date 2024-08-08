@@ -67,7 +67,7 @@ Meu perfil
 
                     <div class="input-field col-lg-6 col-12">
                         <div class="form-floating">
-                            <input type="text" class="form-control" id="rule" value="{{ Auth::user()->RelationRules->name }}" disabled>
+                            <input type="text" class="form-control" id="rule" value="{{ Auth::user()->RelationRoles->name }}" disabled>
                             <label for="rule">Tipo de acesso <abbr>*</abbr></label>
                         </div>
                     </div>
