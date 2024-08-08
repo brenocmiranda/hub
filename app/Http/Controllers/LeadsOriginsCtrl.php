@@ -34,7 +34,7 @@ class LeadsOriginsCtrl extends Controller
 
         // Get data from leads origins all
         if( Gate::check('access_komuh') ) {
-            $origins = LeadsOrigins::orderBy('leads_origins.name', 'asc')
+            $origins = LeadsOrigins::orderBy('companies.name', 'asc')->orderBy('leads_origins.name', 'asc')
                                     ->join('companies', 'leads_origins.companies_id', '=', 'companies.id')
                                     ->select('leads_origins.*', 'companies.name as companie');
         } else {

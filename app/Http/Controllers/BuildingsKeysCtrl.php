@@ -36,11 +36,11 @@ class BuildingsKeysCtrl extends Controller
 
         // Get data from buildings key all
         if( Gate::check('access_komuh') ) {
-            $keys = BuildingsKeys::orderBy('created_at', 'desc')
+            $keys = BuildingsKeys::orderBy('buildings.name', 'asc')
                                 ->join('buildings', 'buildings_keys.buildings_id', '=', 'buildings.id')
                                 ->select('buildings_keys.*', 'buildings.name as building');
         } else {
-            $keys = BuildingsKeys::orderBy('created_at', 'desc')
+            $keys = BuildingsKeys::orderBy('buildings.name', 'asc')
                                 ->join('buildings', 'buildings_keys.buildings_id', '=', 'buildings.id')
                                 ->join('buildings_partners', 'buildings_keys.buildings_id', '=', 'buildings_partners.buildings_id')
                                 ->where('buildings_partners.main', 1)

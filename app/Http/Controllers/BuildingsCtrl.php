@@ -42,13 +42,13 @@ class BuildingsCtrl extends Controller
 
         // Get data from buildings all
         if( Gate::check('access_komuh') ) {
-            $buildings = Buildings::orderBy('created_at', 'desc')
+            $buildings = Buildings::orderBy('companies.name', 'asc')->orderBy('buildings.name', 'asc')
                                 ->join('buildings_partners', 'buildings_partners.buildings_id', '=', 'buildings.id')
                                 ->join('companies', 'buildings_partners.companies_id', '=', 'companies.id')
                                 ->where('buildings_partners.main', 1)
                                 ->select('buildings.*', 'companies.name as companie');
         } else {
-            $buildings = Buildings::orderBy('created_at', 'desc')
+            $buildings = Buildings::orderBy('buildings.name', 'asc')
                                 ->join('buildings_partners', 'buildings_partners.buildings_id', '=', 'buildings.id')
                                 ->where('buildings_partners.main', 1)
                                 ->where('buildings_partners.companies_id', Auth::user()->companies_id)

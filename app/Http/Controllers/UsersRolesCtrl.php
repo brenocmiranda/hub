@@ -34,7 +34,7 @@ class UsersRolesCtrl extends Controller
 
         // Get data from companies all
         if( Gate::check('access_komuh') ) {
-            $roles = UsersRoles::orderBy('users_roles.name', 'asc')
+            $roles = UsersRoles::orderBy('companies.name', 'asc')->orderBy('users_roles.name', 'asc')
                                 ->join('companies', 'users_roles.companies_id', '=', 'companies.id')
                                 ->select('users_roles.*', 'companies.name as companie');
         } else {

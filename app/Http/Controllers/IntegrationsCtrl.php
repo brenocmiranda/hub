@@ -34,11 +34,11 @@ class IntegrationsCtrl extends Controller
 
         // Get data from integrations all
         if( Gate::check('access_komuh') ) {
-            $integrations = Integrations::orderBy('created_at', 'desc')
+            $integrations = Integrations::orderBy('companies.name', 'asc')->orderBy('integrations.name', 'asc')
                                             ->join('companies', 'integrations.companies_id', '=', 'companies.id')
                                             ->select('integrations.*', 'companies.name as companie');
         } else {
-            $integrations = Integrations::orderBy('created_at', 'desc')
+            $integrations = Integrations::orderBy('integrations.name', 'asc')
                                             ->where('companies_id', Auth::user()->companies_id);                  
         }
         $recordsTotal = Integrations::count();

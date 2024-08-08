@@ -33,7 +33,7 @@ class CompaniesCtrl extends Controller
         $skip       = $request->offset;
 
         // Get data from companies all
-        $companies = Companies::orderBy('created_at', 'desc');
+        $companies = Companies::orderBy('name', 'asc');
         $recordsTotal = Companies::count();
 
         // Search
