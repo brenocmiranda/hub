@@ -19,7 +19,7 @@ Home
                         <h2 class="accordion-header">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse1" aria-expanded="false" aria-controls="flush-collapse1">
                                 <div class="d-flex flex-wrap">
-                                    <span>06/08/2024</span>
+                                    <span>08/08/2024</span>
                                     <span class="mx-2">-</span>
                                     <span class="fw-semibold">Níveis de acesso<span class="badge text-bg-primary mx-2">New</span></span>
                                 </div>
@@ -35,7 +35,7 @@ Home
                         <h2 class="accordion-header">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse2" aria-expanded="false" aria-controls="flush-collapse2">
                                 <div class="d-flex flex-wrap">
-                                    <span>06/08/2024</span>
+                                    <span>08/08/2024</span>
                                     <span class="mx-2">-</span>
                                     <span class="fw-semibold">Leads de teste<span class="badge text-bg-primary mx-2">New</span></span>
                                 </div>
@@ -51,7 +51,7 @@ Home
                         <h2 class="accordion-header">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse3" aria-expanded="false" aria-controls="flush-collapse3">
                                 <div class="d-flex flex-wrap">
-                                    <span>05/08/2024</span>
+                                    <span>07/08/2024</span>
                                     <span class="mx-2">-</span>
                                     <span class="fw-semibold">Roleta de leads</span>
                                 </div>
@@ -68,7 +68,7 @@ Home
                         <h2 class="accordion-header">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse4" aria-expanded="false" aria-controls="flush-collapse4">
                                 <div class="d-flex flex-wrap">
-                                    <span>05/08/2024</span>
+                                    <span>07/08/2024</span>
                                     <span class="mx-2">-</span>
                                     <span class="fw-semibold">Criação de relatórios</span>
                                 </div>
