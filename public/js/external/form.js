@@ -77,7 +77,7 @@ jQuery( function( $ ){
                 return new Promise((resolve, reject) => {
                     let $mail_data = data;
                     $.ajax({
-                        url: 'https://hub.komuh.com/api/leads/lps',
+                        url: 'https://hubhml.komuh.com/api/leads/lps',
                         type: 'POST',
                         beforeSend: function (xhr) {
                             xhr.setRequestHeader('Authorization', 'Bearer 4|GAoYty9d37SKV2EMUhRWG2jKQ3erJFjqP5vWkd6u2d82e33a');

@@ -34,7 +34,7 @@ class UsersTokensRqt extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|min:3|unique:users_roles,name,'.$this->segment(5),
+            'name' => 'required|min:3',
         ];
     }
 
