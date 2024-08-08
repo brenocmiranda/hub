@@ -41,7 +41,8 @@ class ReportsCtrl extends Controller
         // Get data from reports all
         if( Gate::check('access_komuh') ) {
             $reports = Reports::orderBy('reports.created_at', 'desc')
-                                ->join('companies', 'reports.companies_id', '=', 'companies.id');
+                                ->join('companies', 'reports.companies_id', '=', 'companies.id')
+                                ->select('reports.*', 'companies.name as companie');
         } else {
             $reports = Reports::orderBy('reports.created_at', 'desc')
                                 ->where('companies_id', Auth::user()->companies_id);

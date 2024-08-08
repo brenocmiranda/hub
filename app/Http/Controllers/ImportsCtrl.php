@@ -41,7 +41,8 @@ class ImportsCtrl extends Controller
         // Get data from imports all
         if( Gate::check('access_komuh') ) {
             $imports = Imports::orderBy('imports.created_at', 'desc')
-                                ->join('companies', 'imports.companies_id', '=', 'companies.id');
+                                ->join('companies', 'imports.companies_id', '=', 'companies.id')
+                                ->select('reports.*', 'companies.name as companie');
         } else {
             $imports = Imports::orderBy('imports.created_at', 'desc')
                                 ->where('users_id', Auth::user()->id);
