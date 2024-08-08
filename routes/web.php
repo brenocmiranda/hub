@@ -62,7 +62,7 @@ Route::group(['prefix' => 'app'], function () {
 
     // Dashboard
     Route::group(['prefix' => 'dashboard'], function () {
-        Route::get('/', [DashboardsCtrl::class, 'index'])->name('dashboard.index');
+        Route::get('geral', [DashboardsCtrl::class, 'index'])->name('dashboard.index');
         //Route::get('buildings', [DashboardsCtrl::class, 'index'])->name('dashboard.index');
     })->middleware('can:dashboard_show');
 
