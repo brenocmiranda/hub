@@ -39,14 +39,14 @@ class LeadsOriginsRqt extends FormRequest
     {
         if( Gate::check('access_komuh') ){
             return [
-                'name' => 'required|min:3|unique:leads_origins,name,'.$this->segment(5),
+                'name' => 'required|min:3',
                 'slug' => 'required|min:3',
                 'active' => 'required|boolean',
                 'companie' => 'required|integer',
             ];
         } else {
             return [
-                'name' => 'required|min:3|unique:leads_origins,name,'.$this->segment(5),
+                'name' => 'required|min:3',
                 'slug' => 'required|min:3',
                 'active' => 'required|boolean'
             ];

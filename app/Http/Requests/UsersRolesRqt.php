@@ -39,14 +39,14 @@ class UsersRolesRqt extends FormRequest
     {   
         if( Gate::check('access_komuh') ){
             return [
-                'name' => 'required|min:3|unique:users_roles,name,'.$this->segment(5),
+                'name' => 'required|min:3',
                 'roles' => 'required',
                 'active' => 'required|boolean',
                 'companie' => 'required|integer',
             ];
         } else {
             return [
-                'name' => 'required|min:3|unique:users_roles,name,'.$this->segment(5),
+                'name' => 'required|min:3',
                 'roles' => 'required',
                 'active' => 'required|boolean',
             ];

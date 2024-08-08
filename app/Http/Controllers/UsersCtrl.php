@@ -118,7 +118,23 @@ class UsersCtrl extends Controller
 
     public function create()
     {      
-        return view('users.create')->with('companies', Companies::where('active', 1)->orderBy('name', 'asc')->get())->with('roles', UsersRoles::where('active', 1)->orderBy('name', 'asc')->get());
+        if( Gate::check('access_komuh') ) {
+            $companies = Companies::where('active', 1)->orderBy('name', 'asc')->get();
+        } else {
+            $companies = Companies::where('id', Auth::user()->companies_id)->get();
+        }
+
+        $roles = UsersRoles::where('active', 1)->orderBy('name', 'asc')->get();
+
+        foreach($companies as $companie){
+            foreach($roles as $role){ 
+                if( $companie->id == $role->companies_id ){
+                    $array[$companie->name][] = $role;
+                }
+            }
+        } 
+
+        return view('users.create')->with('companies', Companies::where('active', 1)->orderBy('name', 'asc')->get())->with('roles', isset($array) ? $array : null);
     }
 
     public function store(UsersRqt $request)
@@ -153,7 +169,23 @@ class UsersCtrl extends Controller
 
     public function edit(string $id)
     {      
-        return view('users.edit')->with('user', Users::find($id))->with('companies', Companies::where('active', 1)->get())->with('roles', UsersRoles::where('active', 1)->get());
+        if( Gate::check('access_komuh') ) {
+            $companies = Companies::where('active', 1)->orderBy('name', 'asc')->get();
+        } else {
+            $companies = Companies::where('id', Auth::user()->companies_id)->get();
+        }
+
+        $roles = UsersRoles::where('active', 1)->orderBy('name', 'asc')->get();
+
+        foreach($companies as $companie){
+            foreach($roles as $role){ 
+                if( $companie->id == $role->companies_id ){
+                    $array[$companie->name][] = $role;
+                }
+            }
+        } 
+
+        return view('users.edit')->with('user', Users::find($id))->with('companies', Companies::where('active', 1)->get())->with('roles', isset($array) ? $array : null);
     }
 
     public function update(UsersRqt $request, string $id)
