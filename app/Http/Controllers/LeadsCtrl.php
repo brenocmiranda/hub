@@ -135,25 +135,35 @@ class LeadsCtrl extends Controller
     {   
         if( Gate::check('access_komuh') ) {
             $companies = Companies::where('active', 1)->orderBy('name', 'asc')->get();
+            $origins = LeadsOrigins::where('active', 1)->orderBy('name', 'asc')->get();
         } else {
             $companies = Companies::where('id', Auth::user()->companies_id)->get();
+            $origins = LeadsOrigins::where('companies_id', Auth::user()->companies_id)->where('active', 1)->orderBy('name', 'asc')->get();
         }
-        
+
+        // Buildings
         $buildings = Buildings::where('active', 1)->orderBy('name', 'asc')->get();
-        
         foreach($buildings as $building){
-            $building->companie = BuildingsPartners::where('buildings_id', $building->id)->where('main', 1)->first()->companies_id;
+            $building->companies_id = BuildingsPartners::where('buildings_id', $building->id)->where('main', 1)->first()->companies_id;
         }
-        
         foreach($companies as $companie){
             foreach($buildings as $building){ 
-                if( $companie->id == $building->companie ){
+                if( $companie->id == $building->companies_id ){
                     $array[$companie->name][] = $building;
                 }
             }
         } 
 
-        return view('leads.create')->with('origins', LeadsOrigins::where('active', 1)->where('companies_id', Auth::user()->companies_id)->orderBy('name', 'asc')->get())->with('array', isset($array) ? $array : null);
+        // Origins
+        foreach($companies as $companie){
+            foreach($origins as $origin){ 
+                if( $companie->id == $origin->companies_id ){
+                    $array1[$companie->name][] = $origin;
+                }
+            }
+        } 
+
+        return view('leads.create')->with('origins', isset($array1) ? $array1 : null)->with('array', isset($array) ? $array : null);
     }
 
     public function store(LeadsRqt $request)

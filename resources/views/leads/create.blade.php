@@ -73,12 +73,21 @@ Novo lead
                         </div>
                         <div class="input-field col-lg-6 col-12">
                             <div class="form-floating">
-                                <select class="form-select @error('origin') is-invalid @enderror" aria-label="Defina uma origem" name="origin" id="origin" required>
+                                <select class="form-select @error('origin') is-invalid @enderror" aria-label="Defina um empreendimento" name="origin" id="origin" required>
                                     <option selected></option>
-                                    @foreach($origins as $origin)
-                                        <option value="{{ $origin->id }}" {{ old('origin') != null && old('origin') == $origin->id ? 'selected' : "" }}>{{ $origin->name }}</option>
-                                      
-                                    @endforeach
+                                    @if($origins)
+                                        @foreach($origins as $index => $arr)
+                                            @can('access_komuh')
+                                                <optgroup label="{{ $index }}"> 
+                                            @endcan
+                                                @foreach($arr as $origin)
+                                                    <option value="{{ $origin->id }}" {{ old('origin') != null && old('origin') == $origin->id ? 'selected' : "" }}>{{ $origin->name }}</option>
+                                                @endforeach
+                                            @can('access_komuh')
+                                                </optgroup>
+                                            @endcan
+                                        @endforeach
+                                    @endif
                                 </select>
                                 <label for="origin">Origem <abbr>*</abbr></label>
                             </div>

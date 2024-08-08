@@ -126,8 +126,10 @@ class ReportsCtrl extends Controller
     {
         if( Gate::check('access_komuh') ) {
             $companies = Companies::where('active', 1)->orderBy('name', 'asc')->get();
+            $origins = LeadsOrigins::where('active', 1)->orderBy('name', 'asc')->get();
         } else {
             $companies = Companies::where('id', Auth::user()->companies_id)->get();
+            $origins = LeadsOrigins::where('companies_id', Auth::user()->companies_id)->where('active', 1)->orderBy('name', 'asc')->get();
         }
 
         // Buildings
@@ -144,11 +146,6 @@ class ReportsCtrl extends Controller
         } 
 
         // Origins
-        if( Gate::check('access_komuh') ) {
-            $origins = LeadsOrigins::where('active', 1)->orderBy('name', 'asc')->get();
-        } else {
-            $origins = LeadsOrigins::where('companies_id', Auth::user()->companies_id)->where('active', 1)->orderBy('name', 'asc')->get();
-        }
         foreach($companies as $companie){
             foreach($origins as $origin){ 
                 if( $companie->id == $origin->companies_id ){
