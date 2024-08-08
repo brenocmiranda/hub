@@ -80,7 +80,7 @@ jQuery( function( $ ){
                         url: 'https://hubhml.komuh.com/api/leads/lps',
                         type: 'POST',
                         beforeSend: function (xhr) {
-                            xhr.setRequestHeader('Authorization', 'Bearer 4|GAoYty9d37SKV2EMUhRWG2jKQ3erJFjqP5vWkd6u2d82e33a');
+                            xhr.setRequestHeader('Authorization', 'Bearer 1|TgKuowKlFmKVDpiiWrLgkDOKFbkMQIb2FmHF9HRj5c5a200f');
                         },
                         data: $mail_data,
                         success: function ( $data ) { resolve( $data ); },
