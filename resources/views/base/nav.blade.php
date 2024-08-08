@@ -49,6 +49,9 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-dark text-small shadow" style="">
                             <li><a class="dropdown-item" href="{{ route('profile.edit') }}">Perfil</a></li>
+                            @can('tokens_show')
+                                <li><a class="dropdown-item" href="{{ route('tokens.index') }}">Tokens</a></li>
+                            @endcan
                             <li><a class="dropdown-item" href="{{ route('activities') }}">Atividades</a></li>
                             <li>
                                 <hr class="dropdown-divider">

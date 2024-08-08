@@ -40,11 +40,19 @@ class UsersCtrl extends Controller
         $skip       = $request->offset;
 
         // Get data from companies all
-        $users = Users::orderBy('created_at', 'desc')
-                            ->join('companies', 'users.companies_id', '=', 'companies.id')
-                            ->join('users_roles', 'users.users_roles_id', '=', 'users_roles.id')
-                            ->select('users.*', 'companies.name as companie', 'users_roles.name as role');
-        $users = $users->where('users.id', '!=', Auth::user()->id);
+        if( Gate::check('access_komuh') ) {
+            $users = Users::orderBy('created_at', 'desc')
+                                ->join('companies', 'users.companies_id', '=', 'companies.id')
+                                ->join('users_roles', 'users.users_roles_id', '=', 'users_roles.id')
+                                ->where('users.id', '!=', Auth::user()->id)
+                                ->select('users.*', 'companies.name as companie', 'users_roles.name as role');
+        } else {
+            $users = Users::orderBy('created_at', 'desc')
+                                ->join('users_roles', 'users.users_roles_id', '=', 'users_roles.id')
+                                ->where('users.id', '!=', Auth::user()->id)
+                                ->where('users.companies_id', Auth::user()->companies_id)
+                                ->select('users.*', 'users_roles.name as role');
+        }                        
         $recordsTotal = Users::count();
 
         // Search
@@ -52,8 +60,11 @@ class UsersCtrl extends Controller
         $users = $users->where( function($users) use ($search){
             $users->orWhere('users.name', 'like', "%".$search."%");
             $users->orWhere('users.email', 'like', "%".$search."%");
-            $users->orWhere('companies.name', 'like', "%".$search."%");
             $users->orWhere('users_roles.name', 'like', "%".$search."%");
+
+            if( Gate::check('access_komuh') ) {
+                $users->orWhere('companies.name', 'like', "%".$search."%");
+            }
         });
 
         // Apply Length and Capture RecordsFilters
@@ -92,7 +103,7 @@ class UsersCtrl extends Controller
                 // Array do emp
                 $array[] = [
                     'name' => $user->name,
-                    'empresa' => $user->companie,
+                    'empresa' => Gate::check('access_komuh') ? $user->companie : '-',
                     'role' => $user->role,
                     'status' => $status,
                     'operations' => $operations
@@ -117,7 +128,7 @@ class UsersCtrl extends Controller
             'email' => $request->email, 
             'password' => Hash::make('komuh@220'), 
             'active' => $request->active,
-            'companies_id' => $request->companies,
+            'companies_id' => Gate::check('access_komuh') ? $request->companie : Auth::user()->companies_id,  
             'users_roles_id' => $request->roles,
             'remember_token' => Str::random(10),
             'attempts' => 0,
@@ -151,7 +162,7 @@ class UsersCtrl extends Controller
             'name' => $request->name, 
             'email' => $request->email, 
             'active' => $request->active,
-            'companies_id' => $request->companies,
+            'companies_id' => Gate::check('access_komuh') ? $request->companie : Auth::user()->companies_id,  
             'users_roles_id' => $request->roles,
         ]);
 

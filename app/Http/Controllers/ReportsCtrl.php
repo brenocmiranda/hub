@@ -113,7 +113,12 @@ class ReportsCtrl extends Controller
 
     public function create()
     {
-        $companies = Companies::where('active', 1)->orderBy('name', 'asc')->get();
+        if( Gate::check('access_komuh') ) {
+            $companies = Companies::where('active', 1)->orderBy('name', 'asc')->get();
+        } else {
+            $companies = Companies::where('id', Auth::user()->companies_id)->get();
+        }
+
         $buildings = Buildings::where('active', 1)->orderBy('name', 'asc')->get();
         
         foreach($buildings as $building){

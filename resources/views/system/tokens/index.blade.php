@@ -6,7 +6,7 @@ Tokens
 
 @section('buttons')
     @can('tokens_create')
-        <a href="{{ route('users.tokens.create') }}" class="btn btn-primary">
+        <a href="{{ route('tokens.create') }}" class="btn btn-primary">
             <i class="bi bi-plus-lg"></i>
             <span>Novo</span>
         </a>
@@ -37,7 +37,7 @@ Tokens
                             @foreach($tokens as $token)
                                 { 
                                     'name': '{{ $token->name }}', 
-                                    'operations': '<div class="d-flex justify-content-center align-items-center gap-2">@can("tokens_destroy")<a href="{{ route('users.tokens.destroy', $token->id ) }}" class="btn btn-outline-secondary px-2 py-1 destroy" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Excluir"><i class="bi bi-trash"></i></a>@else-@endcan</div>'
+                                    'operations': '<div class="d-flex justify-content-center align-items-center gap-2">@can("tokens_destroy")<a href="{{ route('tokens.destroy', $token->id ) }}" class="btn btn-outline-secondary px-2 py-1 destroy" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Excluir"><i class="bi bi-trash"></i></a>@else-@endcan</div>'
                                 },
                             @endforeach
                         ];

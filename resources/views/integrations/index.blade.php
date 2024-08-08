@@ -21,7 +21,9 @@ Integrações
                     <thead>
                         <tr>
                             <th data-field="name" data-align="center">Nome</th>
-                            <th data-field="companie" data-align="center">Empresa</th>
+                            @can('access_komuh')
+                                <th data-field="companie" data-align="center">Empresa</th>
+                            @endcan
                             <th data-field="type" data-align="center">Tipo</th>
                             <th data-field="url" data-align="center">URL</th>
                             <th data-field="status" data-align="center">Status</th>

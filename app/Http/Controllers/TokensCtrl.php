@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\UsersTokensRqt;
+use App\Http\Requests\TokensRqt;
 use App\Models\UsersLogs;
 
-class UsersTokensCtrl extends Controller
+class TokensCtrl extends Controller
 {   
     public function __construct(){
 		$this->middleware('auth');
@@ -19,15 +19,15 @@ class UsersTokensCtrl extends Controller
     
     public function index()
     {   
-        return view('users.tokens.index')->with('tokens', Auth::user()->tokens);
+        return view('system.tokens.index')->with('tokens', Auth::user()->tokens);
     }
 
     public function create()
     {      
-        return view('users.tokens.create');
+        return view('system.tokens.create');
     }
 
-    public function store(UsersTokensRqt $request)
+    public function store(TokensRqt $request)
     {      
         $token = Auth::user()->createToken($request->name);
 
@@ -39,7 +39,7 @@ class UsersTokensCtrl extends Controller
             'users_id' => Auth::user()->id
         ]);
 
-        return redirect()->route('users.tokens.index')->with('create', true)->with('token', $token->plainTextToken) ;
+        return redirect()->route('tokens.index')->with('create', true)->with('token', $token->plainTextToken) ;
     }
 
     public function show(string $id)
@@ -52,7 +52,7 @@ class UsersTokensCtrl extends Controller
         //
     } 
 
-    public function update(UsersTokensRqt $request, string $id)
+    public function update(TokensRqt $request, string $id)
     {
         //
     }
@@ -68,6 +68,6 @@ class UsersTokensCtrl extends Controller
         ]);
 
         Auth::user()->tokens()->where('id', $id)->delete();
-        return redirect()->route('users.tokens.index')->with('destroy', true);
+        return redirect()->route('tokens.index')->with('destroy', true);
     }
 }

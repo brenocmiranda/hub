@@ -35,11 +35,15 @@ Editar chave
                                     <option selected></option>
                                     @if($array)
                                         @foreach($array as $index => $arr)
-                                            <optgroup label="{{ $index }}"> 
+                                            @can('access_komuh')
+                                                <optgroup label="{{ $index }}"> 
+                                            @endcan
                                                 @foreach($arr as $building)
                                                     <option value="{{ $building->id }}" {{ (old('building') != null && old('building') == $building->id) || $building->id == $key->buildings_id ? 'selected' : "" }}>{{ $building->name }}</option>
                                                 @endforeach
-                                            </optgroup>
+                                            @can('access_komuh')
+                                                </optgroup>
+                                            @endcan
                                         @endforeach
                                     @endif
                                 </select>

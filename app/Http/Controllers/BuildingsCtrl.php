@@ -41,17 +41,26 @@ class BuildingsCtrl extends Controller
         $skip       = $request->offset;
 
         // Get data from buildings all
-        $buildings = Buildings::orderBy('created_at', 'desc')
+        if( Gate::check('access_komuh') ) {
+            $buildings = Buildings::orderBy('created_at', 'desc')
                                 ->join('buildings_partners', 'buildings_partners.buildings_id', '=', 'buildings.id')
                                 ->join('companies', 'buildings_partners.companies_id', '=', 'companies.id')
                                 ->select('buildings.*', 'companies.name as companie');
+        } else {
+            $buildings = Buildings::orderBy('created_at', 'desc')
+                                ->join('buildings_partners', 'buildings_partners.buildings_id', '=', 'buildings.id')
+                                ->where('buildings_partners.companies_id', Auth::user()->companies_id)
+                                ->select('buildings.*');
+        }
         $recordsTotal = Buildings::count();
 
         // Search
         $search = $request->search;
         $buildings = $buildings->where( function($buildings) use ($search){
             $buildings->orWhere('buildings.name', 'like', "%".$search."%");
-            $buildings->orWhere('companies.name', 'like', "%".$search."%");
+            if( Gate::check('access_komuh') ) {
+                $buildings->orWhere('companies.name', 'like', "%".$search."%");
+            }
         });
 
         // Apply Length and Capture RecordsFilters
@@ -90,7 +99,7 @@ class BuildingsCtrl extends Controller
                 // Array do emp
                 $array[] = [
                     'name' => $building->name,
-                    'companie' => $building->companie,
+                    'companie' => Gate::check('access_komuh') ? $building->companie : '-',
                     'status' => $status,
                     'operations' => $operations
                 ];

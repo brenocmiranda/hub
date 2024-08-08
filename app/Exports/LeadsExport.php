@@ -10,6 +10,8 @@ use Maatwebsite\Excel\Concerns\RegistersEventListeners;
 use Maatwebsite\Excel\Events\BeforeExport;
 use Maatwebsite\Excel\Events\BeforeSheet;
 use Maatwebsite\Excel\Events\AfterSheet;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use App\Models\UsersReports;
 use App\Models\Leads;
 
@@ -33,10 +35,17 @@ class LeadsExport implements FromView, WithEvents
         $leads = $this->building ? $leads->where('buildings_id', $this->building) : $leads;
         $leads = $this->origem ? $leads->where('leads_origins_id', $this->origem) : $leads;
 
-        return view('vendor.exports.leads', [
-            'leads' => $leads->get(),
-            'items' => $this->items,
-        ]);
+        if( Gate::check('access_komuh') ) {
+            return view('vendor.exports.leads', [
+                'leads' => $leads->get(),
+                'items' => $this->items,
+            ]);
+        } else {
+            return view('vendor.exports.leads', [
+                'leads' => $leads->where('companies_id', Auth::user()->companies_id)->get(),
+                'items' => $this->items,
+            ]);
+        }  
     }
 
     public function registerEvents(): array

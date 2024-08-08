@@ -10,6 +10,8 @@ use Maatwebsite\Excel\Concerns\RegistersEventListeners;
 use Maatwebsite\Excel\Events\BeforeExport;
 use Maatwebsite\Excel\Events\BeforeSheet;
 use Maatwebsite\Excel\Events\AfterSheet;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use App\Models\UsersReports;
 use App\Models\Integrations;
 
@@ -25,10 +27,17 @@ class IntegrationsExport implements FromView, WithEvents
 
     public function view(): View
     {   
-        return view('vendor.exports.integrations', [
-            'integrations' => Integrations::all(),
-            'items' => $this->items,
-        ]);
+        if( Gate::check('access_komuh') ) {
+            return view('vendor.exports.integrations', [
+                'integrations' => Integrations::all(),
+                'items' => $this->items,
+            ]);
+        } else {
+            return view('vendor.exports.integrations', [
+                'integrations' => Integrations::where('companies_id', Auth::user()->companies_id)->get(),
+                'items' => $this->items,
+            ]);
+        }
     }
 
     public function registerEvents(): array

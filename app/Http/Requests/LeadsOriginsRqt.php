@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Gate;
 
 class LeadsOriginsRqt extends FormRequest
 {
@@ -36,12 +37,20 @@ class LeadsOriginsRqt extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'name' => 'required|min:3|unique:leads_origins,name,'.$this->segment(5),
-            'slug' => 'required|min:3',
-            'active' => 'required|boolean',
-            'companie' => 'required|integer',
-        ];
+        if( Gate::check('access_komuh') ){
+            return [
+                'name' => 'required|min:3|unique:leads_origins,name,'.$this->segment(5),
+                'slug' => 'required|min:3',
+                'active' => 'required|boolean',
+                'companie' => 'required|integer',
+            ];
+        } else {
+            return [
+                'name' => 'required|min:3|unique:leads_origins,name,'.$this->segment(5),
+                'slug' => 'required|min:3',
+                'active' => 'required|boolean'
+            ];
+        }
     }
 
     /**

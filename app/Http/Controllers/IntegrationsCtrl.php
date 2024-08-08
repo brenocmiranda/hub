@@ -33,9 +33,14 @@ class IntegrationsCtrl extends Controller
         $skip       = $request->offset;
 
         // Get data from integrations all
-        $integrations = Integrations::orderBy('created_at', 'desc')
-                                        ->join('companies', 'integrations.companies_id', '=', 'companies.id')
-                                        ->select('integrations.*', 'companies.name as companie');
+        if( Gate::check('access_komuh') ) {
+            $integrations = Integrations::orderBy('created_at', 'desc')
+                                            ->join('companies', 'integrations.companies_id', '=', 'companies.id')
+                                            ->select('integrations.*', 'companies.name as companie');
+        } else {
+            $integrations = Integrations::orderBy('created_at', 'desc')
+                                            ->where('companies_id', Auth::user()->companies_id);                  
+        }
         $recordsTotal = Integrations::count();
 
         // Search
@@ -44,7 +49,10 @@ class IntegrationsCtrl extends Controller
             $integrations->orWhere('integrations.name', 'like', "%".$search."%");
             $integrations->orWhere('integrations.type', 'like', "%".$search."%");
             $integrations->orWhere('integrations.url', 'like', "%".$search."%");
-            $integrations->orWhere('companies.name', 'like', "%".$search."%");
+            
+            if( Gate::check('access_komuh') ) {
+                $integrations->orWhere('companies.name', 'like', "%".$search."%");
+            }
         });
 
         // Apply Length and Capture RecordsFilters
@@ -80,7 +88,7 @@ class IntegrationsCtrl extends Controller
                 // Array do emp
                 $array[] = [
                     'name' => $integration->name,
-                    'companie' => $integration->companie,
+                    'companie' => Gate::check('access_komuh') ? $integration->companie : '-',
                     'type' => $integration->type,
                     'url' => mb_strimwidth($integration->url, 0, 100, "..."),
                     'status' => $status,
@@ -112,7 +120,7 @@ class IntegrationsCtrl extends Controller
             'password' => $request->password ? $request->password : "",
             'token' => $request->token ? $request->token : "",
             'header' => $request->header ? $request->header : "",
-            'companies_id' => $request->companie
+            'companies_id' => Gate::check('access_komuh') ? $request->companie : Auth::user()->companies_id,  
         ]);
 
         // Salvando log
@@ -149,7 +157,7 @@ class IntegrationsCtrl extends Controller
             'password' => $request->password ? $request->password : "",
             'token' => $request->token ? $request->token : "",
             'header' => $request->header ? $request->header : "",
-            'companies_id' => $request->companie
+            'companies_id' => Gate::check('access_komuh') ? $request->companie : Auth::user()->companies_id,  
         ]);
 
         // Salvando log

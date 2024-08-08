@@ -34,11 +34,15 @@ Nova chave
                                     <option selected></option>
                                     @if($array)
                                         @foreach($array as $index => $arr)
-                                            <optgroup label="{{ $index }}"> 
+                                            @can('access_komuh')
+                                                <optgroup label="{{ $index }}"> 
+                                            @endcan
                                                 @foreach($arr as $building)
                                                     <option value="{{ $building->id }}" {{ old('building') != null && old('building') == $building->id ? 'selected' : "" }}>{{ $building->name }}</option>
                                                 @endforeach
+                                            @can('access_komuh')
                                                 </optgroup>
+                                            @endcan
                                         @endforeach
                                     @endif
                                 </select>

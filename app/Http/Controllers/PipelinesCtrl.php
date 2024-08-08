@@ -18,7 +18,7 @@ class PipelinesCtrl extends Controller
         $this->middleware('can:pipelines_create', ['only' => ['create', 'store']]);
         $this->middleware('can:pipelines_update', ['only' => ['edit', 'update']]);
         $this->middleware('can:pipelines_destroy', ['only' => ['destroy']]);
-        $this->middleware('can:pipelines_resetAll', ['only' => ['resetAll']]);
+        $this->middleware('can:pipelines_resetAll,access_komuh', ['only' => ['resetAll']]);
 	}
 
     public function index()
@@ -37,11 +37,22 @@ class PipelinesCtrl extends Controller
         $skip       = $request->offset;
 
         // Get data from pipelines all
-        $pipelines = Pipelines::orderBy('created_at', 'desc')
+        if( Gate::check('access_komuh') ) {
+            $pipelines = Pipelines::orderBy('created_at', 'desc')
                                 ->join('leads', 'pipelines.leads_id', '=', 'leads.id')
                                 ->leftJoin('leads_origins', 'leads.id', '=', 'leads_origins.id')
+                                ->leftJoin('companies', 'leads.companies_id', '=', 'companies.id')
                                 ->leftJoin('integrations', 'pipelines.integrations_id', '=', 'integrations.id')
+                                ->select('pipelines.*', 'integrations.name as integration', 'leads.name as lead', 'leads_origins.name as origin', 'companies.name as companie');
+        } else {
+            $pipelines = Pipelines::orderBy('created_at', 'desc')
+                                ->join('leads', 'pipelines.leads_id', '=', 'leads.id')
+                                ->leftJoin('leads_origins', 'leads.id', '=', 'leads_origins.id')
+                                ->leftJoin('companies', 'leads.companies_id', '=', 'companies.id')
+                                ->leftJoin('integrations', 'pipelines.integrations_id', '=', 'integrations.id')
+                                ->where('leads.companies_id', Auth::user()->companies_id)
                                 ->select('pipelines.*', 'integrations.name as integration', 'leads.name as lead', 'leads_origins.name as origin');
+        }
         $recordsTotal = Pipelines::count();
 
         // Search
@@ -51,6 +62,10 @@ class PipelinesCtrl extends Controller
             $pipelines->orWhere('leads.name', 'like', "%".$search."%");
             $pipelines->orWhere('leads_origins.name', 'like', "%".$search."%");
             $pipelines->orWhere('integrations.name', 'like', "%".$search."%");
+
+            if( Gate::check('access_komuh') ) {
+                $pipelines->orWhere('companies.name', 'like', "%".$search."%");
+            }
         });
 
         // Apply Length and Capture RecordsFilters
@@ -89,10 +104,11 @@ class PipelinesCtrl extends Controller
                 // Array do emp
                 $array[] = [
                     'date'  => $pipeline->created_at->format("d/m/Y H:i:s"),
+                    'companie' => Gate::check('access_komuh') ? $pipeline->companie : '-',
                     'status' => $pipeline->statusCode, 
                     'integration' => $integration, 
-                    'origin' => $pipeline->RelationLeads->RelationOrigins->name,
-                    'lead'=> $pipeline->RelationLeads->name,
+                    'origin' => $pipeline->origin,
+                    'lead'=> $pipeline->lead,
                     'operations' => $operations
                 ];
             }

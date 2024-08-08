@@ -90,5 +90,10 @@ class AuthServiceProvider extends ServiceProvider
                 return strpos( $user->RelationRules->roles, $ability ) !== false;
             });
         }
+
+        // Komuh
+        Gate::define( 'access_komuh', function (Users $user) {
+            return $user->RelationCompanies->slug === 'komuh';
+        });
     } 
 }

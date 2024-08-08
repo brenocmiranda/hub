@@ -10,6 +10,8 @@ use Maatwebsite\Excel\Concerns\RegistersEventListeners;
 use Maatwebsite\Excel\Events\BeforeExport;
 use Maatwebsite\Excel\Events\BeforeSheet;
 use Maatwebsite\Excel\Events\AfterSheet;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use App\Models\UsersReports;
 use App\Models\Buildings;
 
@@ -25,10 +27,17 @@ class BuildingsExport implements FromView, WithEvents
 
     public function view(): View
     {   
-        return view('vendor.exports.buildings', [
-            'buildings' => Buildings::all(),
-            'items' => $this->items,
-        ]);
+        if( Gate::check('access_komuh') ) {
+            return view('vendor.exports.buildings', [
+                'buildings' => Buildings::all(),
+                'items' => $this->items,
+            ]);
+        } else {
+            return view('vendor.exports.buildings', [
+                'buildings' => Buildings::join('buildings_partners', 'buildings_partners.buildings_id', 'buildings.id')->where('buildings_partners.main', 1)->where('buildings_partners.companies_id', Auth::user()->companies_id)->get(),
+                'items' => $this->items,
+            ]);
+        }
     }
 
     public function registerEvents(): array

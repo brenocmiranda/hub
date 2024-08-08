@@ -35,9 +35,18 @@ class BuildingsKeysCtrl extends Controller
         $skip       = $request->offset;
 
         // Get data from buildings key all
-        $keys = BuildingsKeys::orderBy('created_at', 'desc')
+        if( Gate::check('access_komuh') ) {
+            $keys = BuildingsKeys::orderBy('created_at', 'desc')
                                 ->join('buildings', 'buildings_keys.buildings_id', '=', 'buildings.id')
                                 ->select('buildings_keys.*', 'buildings.name as building');
+        } else {
+            $keys = BuildingsKeys::orderBy('created_at', 'desc')
+                                ->join('buildings', 'buildings_keys.buildings_id', '=', 'buildings.id')
+                                ->join('buildings_partners', 'buildings_keys.buildings_id', '=', 'buildings_partners.buildings_id')
+                                ->where('buildings_partners.main', 1)
+                                ->where('buildings_partners.companies_id', Auth::user()->companies_id)
+                                ->select('buildings_keys.*', 'buildings.name as building');
+        }                        
         $recordsTotal = BuildingsKeys::count();
 
         // Search
@@ -94,7 +103,12 @@ class BuildingsKeysCtrl extends Controller
 
     public function create()
     {     
-        $companies = Companies::where('active', 1)->orderBy('name', 'asc')->get();
+        if( Gate::check('access_komuh') ) {
+            $companies = Companies::where('active', 1)->orderBy('name', 'asc')->get();
+        } else {
+            $companies = Companies::where('id', Auth::user()->companies_id)->get();
+        }
+
         $buildings = Buildings::where('active', 1)->orderBy('name', 'asc')->get();
         
         foreach($buildings as $building){
@@ -138,7 +152,12 @@ class BuildingsKeysCtrl extends Controller
 
     public function edit(string $id)
     {      
-        $companies = Companies::where('active', 1)->orderBy('name', 'asc')->get();
+        if( Gate::check('access_komuh') ) {
+            $companies = Companies::where('active', 1)->orderBy('name', 'asc')->get();
+        } else {
+            $companies = Companies::where('id', Auth::user()->companies_id)->get();
+        }
+        
         $buildings = Buildings::where('active', 1)->orderBy('name', 'asc')->get();
 
         foreach($buildings as $building){

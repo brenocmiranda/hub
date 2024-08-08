@@ -14,7 +14,7 @@ use App\Http\Controllers\ProfileCtrl;
 use App\Http\Controllers\PipelinesCtrl;
 use App\Http\Controllers\UsersCtrl;
 use App\Http\Controllers\UsersRolesCtrl;
-use App\Http\Controllers\UsersTokensCtrl;
+use App\Http\Controllers\TokensCtrl;
 use App\Http\Controllers\ImportsCtrl;
 use App\Http\Controllers\ReportsCtrl;
 
@@ -44,12 +44,22 @@ Route::group(['prefix' => 'app'], function () {
     Route::get('home', [PrivateCtrl::class, 'home'])->name('home');
     Route::get('logout', [PrivateCtrl::class, 'logout'])->name('logout');
 
+    // Perfil
+    Route::singleton('profile', ProfileCtrl::class);
+
+    // Tokens
+    Route::resource('tokens', TokensCtrl::class)->names([
+        'index' => 'tokens.index',
+        'create' => 'tokens.create',
+        'store' => 'tokens.store',
+        'edit' => 'tokens.edit',
+        'update' => 'tokens.update',
+        'destroy' => 'tokens.destroy'
+    ])->only([ 'index', 'create', 'store', 'destroy' ]);
+    
     // Atividades
     Route::get('activities', [PrivateCtrl::class, 'activities'])->name('activities');
 
-    // Perfil
-    Route::singleton('profile', ProfileCtrl::class);
-    
     // Dashboard
     Route::group(['prefix' => 'dashboard'], function () {
         Route::get('geral', [DashboardsCtrl::class, 'index'])->name('dashboard.index');
@@ -157,20 +167,6 @@ Route::group(['prefix' => 'app'], function () {
     Route::group(['prefix' => 'users/all/roles/all/'], function () {
         Route::get('data', [UsersRolesCtrl::class, 'data'])->name('users.roles.data');
     });
-
-    // Usuários (Tokens)
-    Route::resource('users/all/tokens', UsersTokensCtrl::class)->names([
-        'index' => 'users.tokens.index',
-        'create' => 'users.tokens.create',
-        'store' => 'users.tokens.store',
-        'edit' => 'users.tokens.edit',
-        'update' => 'users.tokens.update',
-        'destroy' => 'users.tokens.destroy'
-    ])->only([ 'index', 'create', 'store', 'destroy' ]);
-    Route::group(['prefix' => 'users/all/tokens/all/'], function () {
-        Route::get('data', [UsersTokensCtrl::class, 'data'])->name('users.tokens.data');
-    });
-
 
 })->middleware('auth');
 

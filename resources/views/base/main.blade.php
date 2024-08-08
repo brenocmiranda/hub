@@ -54,20 +54,6 @@
                                 </a>
                                 @break
                             
-                            @case('profile')
-                                <i class="bi bi-chevron-double-right"></i>
-                                <a href="{{ route('profile.edit') }}" class="text-decoration-none text-dark">
-                                    <small>Perfil</small>
-                                </a>
-                                @break
-                            
-                            @case('activities')
-                                <i class="bi bi-chevron-double-right"></i>
-                                <a href="{{ route('activities') }}" class="text-decoration-none text-dark">
-                                    <small>Atividades</small>
-                                </a>
-                                @break
-                            
                             @case('imports')
                                 <i class="bi bi-chevron-double-right"></i>
                                 <a href="{{ route('imports.index') }}" class="text-decoration-none text-dark">
@@ -79,6 +65,27 @@
                                 <i class="bi bi-chevron-double-right"></i>
                                 <a href="{{ route('reports.index') }}" class="text-decoration-none text-dark">
                                     <small>Relatórios</small>
+                                </a>
+                                @break
+                            
+                            @case('profile')
+                                <i class="bi bi-chevron-double-right"></i>
+                                <a href="{{ route('profile.edit') }}" class="text-decoration-none text-dark">
+                                    <small>Meu perfil</small>
+                                </a>
+                                @break
+                            
+                            @case('tokens')
+                                <i class="bi bi-chevron-double-right"></i>
+                                <a href="{{ route('tokens.index') }}" class="text-decoration-none text-dark">
+                                    <small>Meus tokens</small>
+                                </a>
+                                @break
+                            
+                            @case('activities')
+                                <i class="bi bi-chevron-double-right"></i>
+                                <a href="{{ route('activities') }}" class="text-decoration-none text-dark">
+                                    <small>Minhas atividades</small>
                                 </a>
                                 @break
                         @endswitch
@@ -125,13 +132,6 @@
                                 <i class="bi bi-chevron-double-right"></i>
                                 <a href="{{ route('users.roles.index') }}" class="text-decoration-none text-dark">
                                     <small>Funções</small>
-                                </a>
-                                @break
-                            
-                            @case('tokens')
-                                <i class="bi bi-chevron-double-right"></i>
-                                <a href="{{ route('users.tokens.index') }}" class="text-decoration-none text-dark">
-                                    <small>Tokens</small>
                                 </a>
                                 @break
 

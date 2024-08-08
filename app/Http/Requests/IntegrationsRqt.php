@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Gate;
 
 class IntegrationsRqt extends FormRequest
 {
@@ -41,20 +42,35 @@ class IntegrationsRqt extends FormRequest
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules(): array
-    {
-        return [
-            'type' => 'required|min:3',
-            'name' => 'required|min:3|unique:integrations,name,'.$this->segment(3),
-            'slug' => 'required|min:3',
-            'url' => 'required|min:3|url:http,https',
-            'user' => 'min:3|nullable',
-            'password' => 'min:3|nullable',
-            'token' => 'min:3|nullable',
-            'header' => 'min:3|nullable',
-            'active' => 'required|boolean',
-            'encoded' => 'required|boolean',
-            'companie' => 'required|integer',
-        ];
+    {   
+        if( Gate::check('access_komuh') ){
+            return [
+                'type' => 'required|min:3',
+                'name' => 'required|min:3|unique:integrations,name,'.$this->segment(3),
+                'slug' => 'required|min:3',
+                'url' => 'required|min:3|url:http,https',
+                'user' => 'min:3|nullable',
+                'password' => 'min:3|nullable',
+                'token' => 'min:3|nullable',
+                'header' => 'min:3|nullable',
+                'active' => 'required|boolean',
+                'encoded' => 'required|boolean',
+                'companie' => 'required|integer',
+            ];
+        } else {
+            return [
+                'type' => 'required|min:3',
+                'name' => 'required|min:3|unique:integrations,name,'.$this->segment(3),
+                'slug' => 'required|min:3',
+                'url' => 'required|min:3|url:http,https',
+                'user' => 'min:3|nullable',
+                'password' => 'min:3|nullable',
+                'token' => 'min:3|nullable',
+                'header' => 'min:3|nullable',
+                'active' => 'required|boolean',
+                'encoded' => 'required|boolean',
+            ];
+        }
     }
 
     /**

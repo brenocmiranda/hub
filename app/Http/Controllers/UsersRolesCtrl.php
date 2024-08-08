@@ -33,9 +33,14 @@ class UsersRolesCtrl extends Controller
         $skip       = $request->offset;
 
         // Get data from companies all
-        $roles = UsersRoles::orderBy('created_at', 'desc')
+        if( Gate::check('access_komuh') ) {
+            $roles = UsersRoles::orderBy('created_at', 'desc')
                                 ->join('companies', 'users_roles.companies_id', '=', 'companies.id')
                                 ->select('users_roles.*', 'companies.name as companie');
+        } else {
+            $roles = UsersRoles::orderBy('created_at', 'desc')
+                                ->where('companies_id', Auth::user()->companies_id);
+        }
         $recordsTotal = UsersRoles::count();
 
         // Search
@@ -43,7 +48,10 @@ class UsersRolesCtrl extends Controller
         $roles = $roles->where( function($roles) use ($search){
             $roles->orWhere('users_roles.name', 'like', "%".$search."%");
             $roles->orWhere('users_roles.roles', 'like', "%".$search."%");
-            $roles->orWhere('companies.name', 'like', "%".$search."%");
+
+            if( Gate::check('access_komuh') ) {
+                $roles->orWhere('companies.name', 'like', "%".$search."%");
+            }
         });
 
         // Apply Length and Capture RecordsFilters
@@ -79,7 +87,7 @@ class UsersRolesCtrl extends Controller
                 // Array do emp
                 $array[] = [
                     'name' => $role->name,
-                    'companie' => $role->companie,
+                    'companie' => Gate::check('access_komuh') ? $role->companie : '-',
                     'status' => $status,
                     'operations' => $operations
                 ];
@@ -102,7 +110,7 @@ class UsersRolesCtrl extends Controller
             'name' => $request->name, 
             'roles' => implode(',', $request->roles), 
             'active' => $request->active,
-            'companies_id' => $request->companie, 
+            'companies_id' => Gate::check('access_komuh') ? $request->companie : Auth::user()->companies_id,  
         ]);
 
         // Salvando log
@@ -132,7 +140,7 @@ class UsersRolesCtrl extends Controller
             'name' => $request->name, 
             'roles' => implode(',', $request->roles), 
             'active' => $request->active,
-            'companies_id' => $request->companie, 
+            'companies_id' => Gate::check('access_komuh') ? $request->companie : Auth::user()->companies_id,  
         ]);
 
         // Salvando log

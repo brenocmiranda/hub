@@ -72,34 +72,36 @@
                 </li>
             @endcanany
 
-            @canany(['companies_show', 'companies_create'])
-                <li class="nav-item">
-                    <a href="#" class="nav-link text-white d-flex gap-2 mb-2 collapsed {{ Request::segment(2) == 'companies' ? 'active' : '' }}"
-                        data-bs-toggle="collapse" data-bs-target="#companies-collapse" aria-expanded="{{ Request::segment(2) == 'companies' ? 'true' : 'false' }}">
-                        <i class="bi bi-shop"></i>
-                        <span class="module-name">Empresas</span>
-                    </a>
-                    <div class="collapse {{ Request::segment(2) == 'companies' ? 'show' : '' }}"
-                        id="companies-collapse">
-                        <ul class="btn-toggle-nav fw-normal small list-unstyled ps-5 ms-2">
-                            @can('companies_show')
-                                <li>
-                                    <a href="{{ route('companies.index') }}"
-                                        class="d-inline-flex text-decoration-none mb-2 {{ Request::segment(2) == 'companies' && Request::segment(3) == '' ? 'text-secondary' : 'text-white' }}">Ver todas</a>
-                                </li>
-                            @endcan
+            @can('access_komuh')
+                @canany(['companies_show', 'companies_create'])
+                    <li class="nav-item">
+                        <a href="#" class="nav-link text-white d-flex gap-2 mb-2 collapsed {{ Request::segment(2) == 'companies' ? 'active' : '' }}"
+                            data-bs-toggle="collapse" data-bs-target="#companies-collapse" aria-expanded="{{ Request::segment(2) == 'companies' ? 'true' : 'false' }}">
+                            <i class="bi bi-shop"></i>
+                            <span class="module-name">Empresas</span>
+                        </a>
+                        <div class="collapse {{ Request::segment(2) == 'companies' ? 'show' : '' }}"
+                            id="companies-collapse">
+                            <ul class="btn-toggle-nav fw-normal small list-unstyled ps-5 ms-2">
+                                @can('companies_show')
+                                    <li>
+                                        <a href="{{ route('companies.index') }}"
+                                            class="d-inline-flex text-decoration-none mb-2 {{ Request::segment(2) == 'companies' && Request::segment(3) == '' ? 'text-secondary' : 'text-white' }}">Ver todas</a>
+                                    </li>
+                                @endcan
 
-                            @can('companies_create')
-                                <li>
-                                    <a href="{{ route('companies.create') }}"
-                                        class="d-inline-flex text-decoration-none mb-2 {{ Request::segment(2) == 'companies' && Request::segment(3) == 'create' ? 'text-secondary' : 'text-white' }}">Cadastrar</a>
-                                </li>
-                            @endcan
-                        </ul>
-                    </div>
-                </li>
-            @endcanany
-
+                                @can('companies_create')
+                                    <li>
+                                        <a href="{{ route('companies.create') }}"
+                                            class="d-inline-flex text-decoration-none mb-2 {{ Request::segment(2) == 'companies' && Request::segment(3) == 'create' ? 'text-secondary' : 'text-white' }}">Cadastrar</a>
+                                    </li>
+                                @endcan
+                            </ul>
+                        </div>
+                    </li>
+                @endcanany
+            @endcan
+            
             @canany(['buildings_show', 'buildings_create', 'keys_show'])
                 <li class="nav-item">
                     <a href="#" class="nav-link text-white d-flex gap-2 mb-2 collapsed {{ Request::segment(2) == 'buildings' ? 'active' : '' }}"
@@ -172,16 +174,18 @@
                 </li>
             @endcanany
             
-            @canany(['imports_show'])
-                <li class="nav-item">
-                    <a href="{{ route('imports.index') }}" class="nav-link text-white d-flex gap-2 mb-2 {{ Request::segment(2) == 'imports' ? 'active' : '' }}">
-                        <i class="bi bi-cloud-upload"></i>
-                        <span class="module-name">Importações</span>
-                    </a>
-                </li>
-            @endcanany
+            @can('access_komuh')
+                @canany(['imports_show'])
+                    <li class="nav-item">
+                        <a href="{{ route('imports.index') }}" class="nav-link text-white d-flex gap-2 mb-2 {{ Request::segment(2) == 'imports' ? 'active' : '' }}">
+                            <i class="bi bi-cloud-upload"></i>
+                            <span class="module-name">Importações</span>
+                        </a>
+                    </li>
+                @endcanany
+            @endcan
 
-            @canany(['users_show', 'users_create', 'tokens_show', 'roles_show'])
+            @canany(['users_show', 'users_create', 'roles_show'])
                 <li class="nav-item">
                     <a href="#" class="nav-link text-white d-flex gap-2 mb-2 collapsed {{ Request::segment(2) == 'users' ? 'active' : '' }}"
                         data-bs-toggle="collapse" data-bs-target="#users-collapse" aria-expanded="{{ Request::segment(2) == 'users' ? 'true' : 'false' }}">
@@ -208,13 +212,6 @@
                                 <li>
                                     <a href="{{ route('users.roles.index') }}"
                                         class="d-inline-flex text-decoration-none mb-2 {{ Request::segment(2) == 'users' && Request::segment(4) == 'roles' ? 'text-secondary' : 'text-white' }}">Funções</a>
-                                </li>
-                            @endcan
-
-                            @can('tokens_show')
-                                <li>
-                                    <a href="{{ route('users.tokens.index') }}"
-                                        class="d-inline-flex text-decoration-none mb-2 {{ Request::segment(2) == 'users' && Request::segment(4) == 'tokens' ? 'text-secondary' : 'text-white' }}">Tokens</a>
                                 </li>
                             @endcan
                         </ul>

@@ -33,9 +33,14 @@ class LeadsOriginsCtrl extends Controller
         $skip       = $request->offset;
 
         // Get data from leads origins all
-        $origins = LeadsOrigins::orderBy('created_at', 'desc')
+        if( Gate::check('access_komuh') ) {
+            $origins = LeadsOrigins::orderBy('created_at', 'desc')
                                     ->join('companies', 'leads_origins.companies_id', '=', 'companies.id')
                                     ->select('leads_origins.*', 'companies.name as companie');
+        } else {
+            $origins = LeadsOrigins::orderBy('created_at', 'desc')
+                                    ->where('companies_id', Auth::user()->companies_id);
+        }
         $recordsTotal = LeadsOrigins::count();
 
         // Search
@@ -43,7 +48,10 @@ class LeadsOriginsCtrl extends Controller
         $origins = $origins->where( function($origins) use ($search){
             $origins->orWhere('leads_origins.name', 'like', "%".$search."%");
             $origins->orWhere('leads_origins.slug', 'like', "%".$search."%");
-            $origins->orWhere('companies.name', 'like', "%".$search."%");
+            
+            if( Gate::check('access_komuh') ) {
+                $origins->orWhere('companies.name', 'like', "%".$search."%");
+            }
         });
 
         // Apply Length and Capture RecordsFilters
@@ -79,7 +87,7 @@ class LeadsOriginsCtrl extends Controller
                 // Array do emp
                 $array[] = [
                     'name' => $origin->name,
-                    'companie' => $origin->companie,
+                    'companie' => Gate::check('access_komuh') ? $origin->companie : '-',
                     'slug' => $origin->slug,
                     'status' => $status,
                     'operations' => $operations
@@ -103,7 +111,7 @@ class LeadsOriginsCtrl extends Controller
             'name' => $request->name, 
             'slug' => $request->slug, 
             'active' => $request->active,
-            'companies_id' => $request->companie, 
+            'companies_id' => Gate::check('access_komuh') ? $request->companie : Auth::user()->companies_id,  
         ]);
 
         // Salvando log
@@ -133,7 +141,7 @@ class LeadsOriginsCtrl extends Controller
             'name' => $request->name, 
             'slug' => $request->slug, 
             'active' => $request->active,
-            'companies_id' => $request->companie, 
+            'companies_id' => Gate::check('access_komuh') ? $request->companie : Auth::user()->companies_id,  
         ]);
 
         // Salvando log

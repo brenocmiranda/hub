@@ -14,6 +14,7 @@ class CompaniesCtrl extends Controller
 {   
     public function __construct(){
 		$this->middleware('auth');
+        $this->middleware('can:access_komuh');
         $this->middleware('can:companies_show', ['only' => ['index', 'data', 'show']]);
         $this->middleware('can:companies_create', ['only' => ['create', 'store']]);
         $this->middleware('can:companies_update', ['only' => ['edit', 'update']]);

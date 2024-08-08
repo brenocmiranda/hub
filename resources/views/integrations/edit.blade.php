@@ -42,17 +42,19 @@ Editar integração
                                 <label for="slug">Slug <abbr>*</abbr></label>
                             </div>
                         </div>
-                        <div class="input-field col-lg-6 col-12">
-                            <div class="form-floating">
-                                <select class="form-select @error('companie') is-invalid @enderror" aria-label="Defina uma empresa" name="companie" id="companie" required>
-                                    <option selected></option>
-                                    @foreach($companies as $companie)
-                                        <option value="{{ $companie->id }}" {{ (old('companie') != null && old('companie') == $companie->id) || $companie->id == $integration->companies_id ? 'selected' : "" }}>{{ $companie->name }}</option>
-                                    @endforeach
-                                </select>
-                                <label for="companie">Empresas <abbr>*</abbr></label>
+                        @can('access_komuh')
+                            <div class="input-field col-lg-6 col-12">
+                                <div class="form-floating">
+                                    <select class="form-select @error('companie') is-invalid @enderror" aria-label="Defina uma empresa" name="companie" id="companie" required>
+                                        <option selected></option>
+                                        @foreach($companies as $companie)
+                                            <option value="{{ $companie->id }}" {{ (old('companie') != null && old('companie') == $companie->id) || $companie->id == $integration->companies_id ? 'selected' : "" }}>{{ $companie->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    <label for="companie">Empresas <abbr>*</abbr></label>
+                                </div>
                             </div>
-                        </div>
+                        @endcan
                         <div class="input-field col-lg-6 col-12">
                             <div class="form-floating">
                                 <select class="form-select @error('active') is-invalid @enderror" aria-label="Defina um status" name="active" id="active" required>
@@ -63,7 +65,13 @@ Editar integração
                                 <label for="active">Status <abbr>*</abbr></label>
                             </div>
                         </div>
-                        <div class="input-field col-lg-2 col-12">
+                        <div class="input-field col-12">
+                            <div class="form-floating">
+                                <input type="text" class="form-control @error('url') is-invalid @enderror" id="url" name="url" value="{{ $integration->url ? $integration->url : old('url') }}" required>
+                                <label for="url">URL <abbr>*</abbr></label>
+                            </div>
+                        </div>
+                        <div class="input-field col-lg-6 col-12">
                             <div class="form-floating">
                                 <select class="form-select @error('type') is-invalid @enderror" aria-label="Defina um tipo" name="type" id="type" required>
                                     <option selected></option>
@@ -73,13 +81,7 @@ Editar integração
                                 <label for="type">Tipo <abbr>*</abbr></label>
                             </div>
                         </div>
-                        <div class="input-field col-lg-8 col-12">
-                            <div class="form-floating">
-                                <input type="text" class="form-control @error('url') is-invalid @enderror" id="url" name="url" value="{{ $integration->url ? $integration->url : old('url') }}" required>
-                                <label for="url">URL <abbr>*</abbr></label>
-                            </div>
-                        </div>
-                        <div class="input-field col-lg-2 col-12">
+                        <div class="input-field col-lg-6 col-12">
                             <div class="form-floating">
                                 <select class="form-select @error('encoded') is-invalid @enderror" aria-label="Defina um status" name="encoded" id="encoded" required>
                                     <option selected></option>

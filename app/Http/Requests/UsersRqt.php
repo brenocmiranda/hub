@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Gate;
 
 class UsersRqt extends FormRequest
 {
@@ -25,7 +26,7 @@ class UsersRqt extends FormRequest
             'name' => 'nome',
             'email' => 'email',
             'active' => 'status',
-            'companies' => 'empresa',
+            'companie' => 'empresa',
             'roles' => 'função',
         ];
     }
@@ -37,13 +38,22 @@ class UsersRqt extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'name' => 'required|min:3',
-            'email' => 'required|email|unique:users,email,'.$this->segment(3),
-            'active' => 'required|boolean',
-            'companies' => 'required|integer',
-            'roles' => 'required|integer',
-        ];
+        if( Gate::check('access_komuh') ){
+            return [
+                'name' => 'required|min:3',
+                'email' => 'required|email|unique:users,email,'.$this->segment(3),
+                'active' => 'required|boolean',
+                'companie' => 'required|integer',
+                'roles' => 'required|integer',
+            ];
+        } else {
+            return [
+                'name' => 'required|min:3',
+                'email' => 'required|email|unique:users,email,'.$this->segment(3),
+                'active' => 'required|boolean',
+                'roles' => 'required|integer',
+            ];
+        }
     }
 
     /**

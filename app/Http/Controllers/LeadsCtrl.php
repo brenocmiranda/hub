@@ -44,11 +44,19 @@ class LeadsCtrl extends Controller
         $skip       = $request->offset;
 
         // Get data from leads all
-        $leads = Leads::orderBy('created_at', 'desc')
-                        ->join('leads_origins', 'leads.leads_origins_id', '=', 'leads_origins.id')
-                        ->join('buildings', 'leads.buildings_id', '=', 'buildings.id')
-                        ->join('companies', 'leads.companies_id', '=', 'companies.id')
-                        ->select('leads.*', 'leads_origins.name as origin', 'buildings.name as building', 'companies.name as companie');
+        if( Gate::check('access_komuh') ) {
+            $leads = Leads::orderBy('created_at', 'desc')
+                            ->join('leads_origins', 'leads.leads_origins_id', '=', 'leads_origins.id')
+                            ->join('buildings', 'leads.buildings_id', '=', 'buildings.id')
+                            ->join('companies', 'leads.companies_id', '=', 'companies.id')
+                            ->select('leads.*', 'leads_origins.name as origin', 'buildings.name as building', 'companies.name as companie');
+         } else {
+            $leads = Leads::orderBy('created_at', 'desc')
+                            ->join('leads_origins', 'leads.leads_origins_id', '=', 'leads_origins.id')
+                            ->join('buildings', 'leads.buildings_id', '=', 'buildings.id')
+                            ->where('leads.companies_id', Auth::user()->companies_id)
+                            ->select('leads.*', 'leads_origins.name as origin', 'buildings.name as building');
+        }
         $recordsTotal = Leads::count();
 
         // Search
@@ -57,9 +65,12 @@ class LeadsCtrl extends Controller
             $leads->orWhere('leads.name', 'like', "%".$search."%");
             $leads->orWhere('leads.email', 'like', "%".$search."%");
             $leads->orWhere('leads.phone', 'like', "%".$search."%");
-            $leads->orWhere('companies.name', 'like', "%".$search."%");
             $leads->orWhere('buildings.name', 'like', "%".$search."%");
             $leads->orWhere('leads_origins.name', 'like', "%".$search."%");
+            
+            if( Gate::check('access_komuh') ) {
+                $leads->orWhere('companies.name', 'like', "%".$search."%");
+            }
         });
 
         // Apply Length and Capture RecordsFilters
@@ -105,7 +116,7 @@ class LeadsCtrl extends Controller
                 $array[] = [
                     'date'  => $lead->created_at->format("d/m/Y H:i:s"),
                     'origin' => $lead->origin, 
-                    'companie' => $lead->companie, 
+                    'companie' => Gate::check('access_komuh') ? $lead->companie : '-',
                     'building' => $lead->building, 
                     'name' => $lead->name,
                     'email'=> $lead->email,
@@ -122,7 +133,12 @@ class LeadsCtrl extends Controller
 
     public function create()
     {   
-        $companies = Companies::where('active', 1)->orderBy('name', 'asc')->get();
+        if( Gate::check('access_komuh') ) {
+            $companies = Companies::where('active', 1)->orderBy('name', 'asc')->get();
+        } else {
+            $companies = Companies::where('id', Auth::user()->companies_id)->get();
+        }
+        
         $buildings = Buildings::where('active', 1)->orderBy('name', 'asc')->get();
         
         foreach($buildings as $building){
@@ -137,7 +153,7 @@ class LeadsCtrl extends Controller
             }
         } 
 
-        return view('leads.create')->with('origins', LeadsOrigins::where('active', 1)->orderBy('name', 'asc')->get())->with('array', isset($array) ? $array : null);
+        return view('leads.create')->with('origins', LeadsOrigins::where('active', 1)->where('companies_id', Auth::user()->companies_id)->orderBy('name', 'asc')->get())->with('array', isset($array) ? $array : null);
     }
 
     public function store(LeadsRqt $request)
@@ -242,7 +258,7 @@ class LeadsCtrl extends Controller
     public function search()
     {
         $term = $_GET['search'];
-        $leads= Leads::where('name', 'like', '%'.$term.'%')->orWhere('phone', 'like', '%'.$term.'%')->orWhere('email', 'like', '%'.$term.'%')->select( 'name', 'id' )->limit(5)->get();
+        $leads= Leads::where('companies_id', Auth::user()->companies_id)->where('name', 'like', '%'.$term.'%')->orWhere('phone', 'like', '%'.$term.'%')->orWhere('email', 'like', '%'.$term.'%')->select( 'name', 'id' )->limit(5)->get();
 
         foreach($leads as $index => $lead) {
             $leads[$index]['url'] = route('leads.show', $lead->id);

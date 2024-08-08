@@ -38,17 +38,19 @@ Nova função
                                 <label for="name">Nome <abbr>*</abbr></label>
                             </div>
                         </div>
-                        <div class="input-field col-lg-6 col-12">
-                            <div class="form-floating">
-                                <select class="form-select @error('companie') is-invalid @enderror" aria-label="Defina uma empresa" name="companie" id="companie" required>
-                                    <option selected></option>
-                                    @foreach($companies as $companie)
-                                        <option value="{{ $companie->id }}" {{ old('companie') != null && old('companie') == $companie->id ? 'selected' : "" }}>{{ $companie->name }}</option>
-                                    @endforeach
-                                </select>
-                                <label for="companie">Empresas <abbr>*</abbr></label>
+                        @can('access_komuh')
+                            <div class="input-field col-lg-6 col-12">
+                                <div class="form-floating">
+                                    <select class="form-select @error('companie') is-invalid @enderror" aria-label="Defina uma empresa" name="companie" id="companie" required>
+                                        <option selected></option>
+                                        @foreach($companies as $companie)
+                                            <option value="{{ $companie->id }}" {{ old('companie') != null && old('companie') == $companie->id ? 'selected' : "" }}>{{ $companie->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    <label for="companie">Empresas <abbr>*</abbr></label>
+                                </div>
                             </div>
-                        </div>
+                        @endcan
                         <div class="input-field col-lg-6 col-12">
                             <div class="form-floating">
                                 <select class="form-select @error('active') is-invalid @enderror" aria-label="Defina um status" name="active" id="active" required>
@@ -61,23 +63,42 @@ Nova função
                         </div>
                         <div class="col-12">
                             <div class="row row-gap-3">
-                                <?php
-                                    $array = [
-                                        'dashboards' => 'Dashboards',
-                                        'leads' => 'Leads',
-                                        'origins' => 'Origens',
-                                        'pipelines' => 'Pipelines',
-                                        'companies' => 'Empresas',
-                                        'buildings' => 'Empreendimentos',
-                                        'keys' => 'Chaves',
-                                        'integrations' => 'Integrações',
-                                        'reports' => 'Relatórios',
-                                        'imports' => 'Importações',
-                                        'users' => 'Usuários',
-                                        'roles' => 'Funções',
-                                        'tokens' => 'Tokens',
-                                    ]
-                                ?>
+                                @can('access_komuh')
+                                    @php
+                                        $array = [
+                                            'dashboards' => 'Dashboards',
+                                            'leads' => 'Leads',
+                                            'origins' => 'Origens',
+                                            'pipelines' => 'Pipelines',
+                                            'companies' => 'Empresas',
+                                            'buildings' => 'Empreendimentos',
+                                            'keys' => 'Chaves',
+                                            'integrations' => 'Integrações',
+                                            'reports' => 'Relatórios',
+                                            'imports' => 'Importações',
+                                            'users' => 'Usuários',
+                                            'roles' => 'Funções',
+                                            'tokens' => 'Tokens',
+                                        ]
+                                    @endphp
+                                @else
+                                    @php
+                                        $array = [
+                                            'dashboards' => 'Dashboards',
+                                            'leads' => 'Leads',
+                                            'origins' => 'Origens',
+                                            'pipelines' => 'Pipelines',
+                                            'buildings' => 'Empreendimentos',
+                                            'keys' => 'Chaves',
+                                            'integrations' => 'Integrações',
+                                            'reports' => 'Relatórios',
+                                            'users' => 'Usuários',
+                                            'roles' => 'Funções',
+                                            'tokens' => 'Tokens',
+                                        ]
+                                    @endphp
+                                @endcan
+
                                 @foreach($array as $index => $item) 
                                     <div class="col-lg-4 col-md-6 col-12">
                                         <div class="accordion" id="accordionItems-{{$index}}">
@@ -119,14 +140,16 @@ Nova função
                                                                 </label>
                                                             </div>
                                                         @endif
-                                                        @if($index === 'pipelines')
-                                                            <div class="form-check form-switch">
-                                                                <input class="form-check-input" name="roles[]" type="checkbox" role="switch" value="{{ $index }}_resetAll" id="check_{{ $index }}_resetAll">
-                                                                <label class="form-check-label" for="check_{{ $index }}_resetAll">
-                                                                    Retentar todos
-                                                                </label>
-                                                            </div>
-                                                        @endif
+                                                        @can('access_komuh')
+                                                            @if($index === 'pipelines')
+                                                                <div class="form-check form-switch">
+                                                                    <input class="form-check-input" name="roles[]" type="checkbox" role="switch" value="{{ $index }}_resetAll" id="check_{{ $index }}_resetAll">
+                                                                    <label class="form-check-label" for="check_{{ $index }}_resetAll">
+                                                                        Retentar todos
+                                                                    </label>
+                                                                </div>
+                                                            @endif
+                                                        @endcan
                                                         @if($index === 'users')
                                                             <div class="form-check form-switch">
                                                                 <input class="form-check-input" name="roles[]" type="checkbox" role="switch" value="{{ $index }}_reset" id="check_{{ $index }}_reset">

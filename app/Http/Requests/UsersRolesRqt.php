@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Gate;
 
 class UsersRolesRqt extends FormRequest
 {
@@ -35,13 +36,21 @@ class UsersRolesRqt extends FormRequest
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules(): array
-    {
-        return [
-            'name' => 'required|min:3|unique:users_roles,name,'.$this->segment(5),
-            'roles' => 'required',
-            'active' => 'required|boolean',
-            'companie' => 'required|integer',
-        ];
+    {   
+        if( Gate::check('access_komuh') ){
+            return [
+                'name' => 'required|min:3|unique:users_roles,name,'.$this->segment(5),
+                'roles' => 'required',
+                'active' => 'required|boolean',
+                'companie' => 'required|integer',
+            ];
+        } else {
+            return [
+                'name' => 'required|min:3|unique:users_roles,name,'.$this->segment(5),
+                'roles' => 'required',
+                'active' => 'required|boolean',
+            ];
+        } 
     }
 
     /**

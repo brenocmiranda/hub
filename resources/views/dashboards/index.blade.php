@@ -66,7 +66,7 @@ Dashboard
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script>
 
-        // Leads por dia
+        /* Leads por dia
             var spark1 = {
                 chart: {
                     id: 'sparkline1',
@@ -298,7 +298,7 @@ Dashboard
                         '{{ $lead->RelationOrigins->name }}',   
                     @endforeach
                 ]
-            };*/
+            };
             var options2 = {
                 chart: {
                     type: 'bar'
@@ -437,6 +437,6 @@ Dashboard
                 ],
             }
             var chart5 = new ApexCharts(document.querySelector("#leadsForCompanies"), options5);
-            chart5.render();
+            chart5.render();*/
     </script>
 @endsection

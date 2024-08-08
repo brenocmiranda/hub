@@ -21,7 +21,9 @@ Usuários
                     <thead>
                         <tr>
                             <th data-field="name" data-align="center">Nome</th>
-                            <th data-field="empresa" data-align="center">Empresa</th>
+                            @can('access_komuh')
+                                <th data-field="empresa" data-align="center">Empresa</th>
+                            @endcan
                             <th data-field="role" data-align="center">Função</th>
                             <th data-field="status" data-align="center">Status</th>
                             <th data-field="operations" data-align="center">Operações</th>
