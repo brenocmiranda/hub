@@ -116,9 +116,33 @@ class BuildingsCtrl extends Controller
     public function create()
     {      
         if( Gate::check('access_komuh') ) { 
-            return view('buildings.create')->with('companies', Companies::where('active', 1)->orderBy('name', 'asc')->get())->with('integrations', Integrations::where('active', 1)->orderBy('name', 'asc')->get())->with('buildingsAll', Buildings::where('active', 1)->orderBy('name', 'asc')->get());
+            $companies = Companies::where('active', 1)->orderBy('name', 'asc')->get();
+            $integrations = Integrations::where('active', 1)->orderBy('name', 'asc')->get();
+           
+            // Integrations
+            foreach($companies as $companie){
+                foreach($integrations as $integration){ 
+                    if( $companie->id == $integration->companies_id ){
+                        $array[$companie->name][] = $integration;
+                    }
+                }
+            } 
+
+            return view('buildings.create')->with('companies', Companies::where('active', 1)->orderBy('name', 'asc')->get())->with('integrations', isset($array) ? $array : null)->with('buildingsAll', Buildings::where('active', 1)->orderBy('name', 'asc')->get());
         } else {
-            return view('buildings.create')->with('companies', Companies::where('active', 1)->orderBy('name', 'asc')->get())->with('integrations', Integrations::where('active', 1)->where('companies_id', Auth::user()->companies_id)->orderBy('name', 'asc')->get())->with('buildingsAll', Buildings::join('buildings_partners', 'buildings_partners.companies_id', 'buildings.id')->where('buildings_partners.main', 1)->where('buildings_partners.companies_id', Auth::user()->companies_id)->where('active', 1)->orderBy('name', 'asc')->get());
+            $companies = Companies::where('id', Auth::user()->companies_id)->get();
+            $integrations = Integrations::where('active', 1)->where('companies_id', Auth::user()->companies_id)->orderBy('name', 'asc')->get();
+
+            // Integrations
+            foreach($companies as $companie){
+                foreach($integrations as $integration){ 
+                    if( $companie->id == $integration->companies_id ){
+                        $array[$companie->name][] = $integration;
+                    }
+                }
+            } 
+
+            return view('buildings.create')->with('companies', Companies::where('active', 1)->orderBy('name', 'asc')->get())->with('integrations', isset($array) ? $array : null)->with('buildingsAll', Buildings::join('buildings_partners', 'buildings_partners.companies_id', 'buildings.id')->where('buildings_partners.main', 1)->where('buildings_partners.companies_id', Auth::user()->companies_id)->where('active', 1)->orderBy('name', 'asc')->get());
         }
     }
 
@@ -214,9 +238,33 @@ class BuildingsCtrl extends Controller
     public function edit(string $id)
     {      
         if( Gate::check('access_komuh') ) { 
-            return view('buildings.edit')->with('building', Buildings::find($id))->with('companies', Companies::where('active', 1)->orderBy('name', 'asc')->get())->with('integrations', Integrations::where('active', 1)->orderBy('name', 'asc')->get())->with('buildingsAll', Buildings::where('active', 1)->orderBy('name', 'asc')->get());
+            $companies = Companies::where('active', 1)->orderBy('name', 'asc')->get();
+            $integrations = Integrations::where('active', 1)->orderBy('name', 'asc')->get();
+
+            // Integrations
+            foreach($companies as $companie){
+                foreach($integrations as $integration){ 
+                    if( $companie->id == $integration->companies_id ){
+                        $array[$companie->name][] = $integration;
+                    }
+                }
+            } 
+
+            return view('buildings.edit')->with('building', Buildings::find($id))->with('companies', Companies::where('active', 1)->orderBy('name', 'asc')->get())->with('integrations', isset($array) ? $array : null)->with('buildingsAll', Buildings::where('active', 1)->orderBy('name', 'asc')->get());
         } else {
-            return view('buildings.edit')->with('building', Buildings::find($id))->with('companies', Companies::where('active', 1)->orderBy('name', 'asc')->get())->with('integrations', Integrations::where('active', 1)->where('companies_id', Auth::user()->companies_id)->orderBy('name', 'asc')->get())->with('buildingsAll', Buildings::join('buildings_partners', 'buildings_partners.companies_id', 'buildings.id')->where('buildings_partners.main', 1)->where('buildings_partners.companies_id', Auth::user()->companies_id)->where('buildings.id', '!=', $id)->where('active', 1)->orderBy('name', 'asc')->get());
+            $companies = Companies::where('id', Auth::user()->companies_id)->get();
+            $integrations = Integrations::where('active', 1)->where('companies_id', Auth::user()->companies_id)->orderBy('name', 'asc')->get();
+
+            // Integrations
+            foreach($companies as $companie){
+                foreach($integrations as $integration){ 
+                    if( $companie->id == $integration->companies_id ){
+                        $array[$companie->name][] = $integration;
+                    }
+                }
+            } 
+
+            return view('buildings.edit')->with('building', Buildings::find($id))->with('companies', Companies::where('active', 1)->orderBy('name', 'asc')->get())->with('integrations', isset($array) ? $array : null)->with('buildingsAll', Buildings::join('buildings_partners', 'buildings_partners.companies_id', 'buildings.id')->where('buildings_partners.main', 1)->where('buildings_partners.companies_id', Auth::user()->companies_id)->where('buildings.id', '!=', $id)->where('active', 1)->orderBy('name', 'asc')->get());
         }
     }
 

@@ -10,7 +10,7 @@ use App\Http\Requests\ImportsRqt;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\LeadsImport;
 use App\Models\UsersLogs;
-use App\Models\UsersImports;
+use App\Models\Imports;
 use App\Models\Companies;
 use App\Models\Buildings;
 use App\Models\LeadsOrigins;
@@ -39,14 +39,24 @@ class ImportsCtrl extends Controller
         $skip       = $request->offset;
 
         // Get data from imports all
-        $imports = UsersImports::orderBy('created_at', 'desc');
-        $recordsTotal = UsersImports::count();
+        if( Gate::check('access_komuh') ) {
+            $imports = Imports::orderBy('imports.created_at', 'desc')
+                                ->join('companies', 'imports.companies_id', '=', 'companies.id');
+        } else {
+            $imports = Imports::orderBy('imports.created_at', 'desc')
+                                ->where('users_id', Auth::user()->id);
+        }  
+        $recordsTotal = Imports::count();
 
         // Search
         $search = $request->search;
         $imports = $imports->where( function($imports) use ($search){
-            $imports->orWhere('users_imports.name', 'like', "%".$search."%");
-            $imports->orWhere('users_imports.type', 'like', "%".$search."%");
+            $imports->orWhere('imports.name', 'like', "%".$search."%");
+            $imports->orWhere('imports.type', 'like', "%".$search."%");
+
+            if( Gate::check('access_komuh') ) {
+                $imports->orWhere('companies.name', 'like', "%".$search."%");
+            }
         });
 
         // Apply Length and Capture RecordsFilters
@@ -99,6 +109,7 @@ class ImportsCtrl extends Controller
                     'data' => $import->created_at->format("d/m/Y H:i:s"),
                     'name' => $import->name,
                     'type' => $type,
+                    'companie' => Gate::check('access_komuh') ? $import->companie : '-',
                     'status' => $status,
                     'operations' => $operations
                 ];
@@ -132,7 +143,7 @@ class ImportsCtrl extends Controller
 
         // Create data in import
         $type = $request->input('type');
-        $import = UsersImports::create([
+        $import = Imports::create([
             'name' => $fileNameToStore, 
             'type' => $type, 
             'status' => 'Na fila',
@@ -186,13 +197,13 @@ class ImportsCtrl extends Controller
     public function destroy(string $id)
     {
         /* Remove file
-        $report = UsersImports::find($id);
+        $report = Imports::find($id);
         $file = storage_path('app/public/imports/') . $report->name;
         if ( file_exists($file) ) {
             unlink($file);
         }*/
 
-        UsersImports::find($id)->delete();
+        Imports::find($id)->delete();
         return redirect()->route('imports.index')->with('destroy', true);
     }
 }

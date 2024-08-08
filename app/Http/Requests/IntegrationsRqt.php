@@ -46,7 +46,7 @@ class IntegrationsRqt extends FormRequest
         if( Gate::check('access_komuh') ){
             return [
                 'type' => 'required|min:3',
-                'name' => 'required|min:3|unique:integrations,name,'.$this->segment(3),
+                'name' => 'required|min:3',
                 'slug' => 'required|min:3',
                 'url' => 'required|min:3|url:http,https',
                 'user' => 'min:3|nullable',
@@ -60,7 +60,7 @@ class IntegrationsRqt extends FormRequest
         } else {
             return [
                 'type' => 'required|min:3',
-                'name' => 'required|min:3|unique:integrations,name,'.$this->segment(3),
+                'name' => 'required|min:3',
                 'slug' => 'required|min:3',
                 'url' => 'required|min:3|url:http,https',
                 'user' => 'min:3|nullable',

@@ -23,6 +23,9 @@ Relatórios
                             <th data-field="data" data-align="center">Data</th>
                             <th data-field="name" data-align="center">Nome</th>
                             <th data-field="type" data-align="center">Tipo</th>
+                            @can('access_komuh')
+                                <th data-field="companie" data-align="center">Empresa</th>
+                            @endcan
                             <th data-field="status" data-align="center">Status</th>
                             <th data-field="operations" data-align="center">Operações</th>
                         </tr>

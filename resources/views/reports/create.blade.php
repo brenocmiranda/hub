@@ -143,8 +143,8 @@ Novo relatório
                                     <div class="form-floating mb-2">
                                         <select class="form-select @error('building') is-invalid @enderror" aria-label="Defina um empreendimento" name="building" id="building">
                                             <option selected></option>
-                                            @if($array)
-                                                @foreach($array as $index => $arr)
+                                            @if($buildings)
+                                                @foreach($buildings as $index => $arr)
                                                     @can('access_komuh')
                                                         <optgroup label="{{ $index }}"> 
                                                     @endcan
@@ -160,11 +160,21 @@ Novo relatório
                                         <label for="building">Empreendimentos</label>
                                     </div>
                                     <div class="form-floating mb-2">
-                                        <select class="form-select @error('origem') is-invalid @enderror" aria-label="Defina uma origem" name="origem" id="origem">
+                                        <select class="form-select @error('building') is-invalid @enderror" aria-label="Defina um empreendimento" name="origem" id="origem">
                                             <option selected></option>
-                                            @foreach($origins as $origin)
-                                                <option value="{{ $origin->id }}" {{ old('origem') != null && old('origem') == $origin->id ? 'selected' : "" }}>{{ $origin->name }}</option>
-                                            @endforeach
+                                            @if($origins)
+                                                @foreach($origins as $index => $arr)
+                                                    @can('access_komuh')
+                                                        <optgroup label="{{ $index }}"> 
+                                                    @endcan
+                                                        @foreach($arr as $origin)
+                                                            <option value="{{ $origin->id }}" {{ old('origem') != null && old('origem') == $origin->id ? 'selected' : "" }}>{{ $origin->name }}</option>
+                                                        @endforeach
+                                                    @can('access_komuh')
+                                                        </optgroup>
+                                                    @endcan
+                                                @endforeach
+                                            @endif
                                         </select>
                                         <label for="origem">Origem</label>
                                     </div>
@@ -212,7 +222,7 @@ Novo relatório
                                         <label class="list-group-item d-flex gap-2">
                                             <input class="form-check-input flex-shrink-0" type="checkbox" name="companie" checked>
                                             <span>
-                                                Empresas
+                                                Empresa
                                             </span>
                                         </label>
                                         <label class="list-group-item d-flex gap-2">

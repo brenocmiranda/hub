@@ -15,7 +15,7 @@ use Maatwebsite\Excel\Events\AfterSheet;
 use App\Jobs\ProcessBuildingJobs;
 use App\Models\Leads;
 use App\Models\LeadsFields;
-use App\Models\UsersImports;
+use App\Models\Imports;
 
 class LeadsImport implements ToCollection, WithHeadingRow, ShouldQueue, WithEvents, WithChunkReading
 {   
@@ -78,19 +78,19 @@ class LeadsImport implements ToCollection, WithHeadingRow, ShouldQueue, WithEven
     {
         return [
             BeforeImport::class => function(BeforeImport $event) {
-                UsersImports::find($this->import->id)->update([
+                Imports::find($this->import->id)->update([
                     'status' => 'Executando'
                 ]);
             },
 
             BeforeSheet::class => function(BeforeSheet $event) {
-                UsersImports::find($this->import->id)->update([
+                Imports::find($this->import->id)->update([
                     'status' => 'Importando'
                 ]);
             },
 
             AfterSheet::class => function(AfterSheet $event) {
-                UsersImports::find($this->import->id)->update([
+                Imports::find($this->import->id)->update([
                     'status' => 'Pronto'
                 ]);
             },

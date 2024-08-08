@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class UsersReports extends Model
+class Reports extends Model
 {
     use HasFactory, SoftDeletes;
 
@@ -14,6 +14,6 @@ class UsersReports extends Model
         'name',
         'type',
         'status',
-        'users_id',
+        'companies_id',
     ];
 }

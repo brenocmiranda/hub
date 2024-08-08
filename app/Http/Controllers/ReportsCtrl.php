@@ -15,7 +15,7 @@ use App\Models\BuildingsPartners;
 use App\Models\Companies;
 use App\Models\LeadsOrigins;
 use App\Models\UsersLogs;
-use App\Models\UsersReports;
+use App\Models\Reports;
 
 class ReportsCtrl extends Controller
 {
@@ -39,14 +39,24 @@ class ReportsCtrl extends Controller
         $skip       = $request->offset;
 
         // Get data from reports all
-        $reports = UsersReports::orderBy('created_at', 'desc');
-        $recordsTotal = UsersReports::count();
+        if( Gate::check('access_komuh') ) {
+            $reports = Reports::orderBy('reports.created_at', 'desc')
+                                ->join('companies', 'reports.companies_id', '=', 'companies.id');
+        } else {
+            $reports = Reports::orderBy('reports.created_at', 'desc')
+                                ->where('companies_id', Auth::user()->companies_id);
+        }  
+        $recordsTotal = Reports::count();
 
         // Search
         $search = $request->search;
         $reports = $reports->where( function($reports) use ($search){
-            $reports->orWhere('users_reports.name', 'like', "%".$search."%");
-            $reports->orWhere('users_reports.type', 'like', "%".$search."%");
+            $reports->orWhere('reports.name', 'like', "%".$search."%");
+            $reports->orWhere('reports.type', 'like', "%".$search."%");
+
+            if( Gate::check('access_komuh') ) {
+                $reports->orWhere('companies.name', 'like', "%".$search."%");
+            }
         });
 
         // Apply Length and Capture RecordsFilters
@@ -100,6 +110,7 @@ class ReportsCtrl extends Controller
                     'data' => $report->created_at->format("d/m/Y H:i:s"),
                     'name' => $report->name,
                     'type' => $type,
+                    'companie' => Gate::check('access_komuh') ? $report->companie : '-',
                     'status' => $status,
                     'operations' => $operations
                 ];
@@ -119,21 +130,34 @@ class ReportsCtrl extends Controller
             $companies = Companies::where('id', Auth::user()->companies_id)->get();
         }
 
+        // Buildings
         $buildings = Buildings::where('active', 1)->orderBy('name', 'asc')->get();
-        
         foreach($buildings as $building){
-            $building->companie = BuildingsPartners::where('buildings_id', $building->id)->where('main', 1)->first()->companies_id;
+            $building->companies_id = BuildingsPartners::where('buildings_id', $building->id)->where('main', 1)->first()->companies_id;
         }
-        
         foreach($companies as $companie){
             foreach($buildings as $building){ 
-                if( $companie->id == $building->companie ){
+                if( $companie->id == $building->companies_id ){
                     $array[$companie->name][] = $building;
                 }
             }
         } 
 
-        return view('reports.create')->with('origins', LeadsOrigins::where('active', 1)->orderBy('name', 'asc')->get())->with('array', isset($array) ? $array : null);
+        // Origins
+        if( Gate::check('access_komuh') ) {
+            $origins = LeadsOrigins::where('active', 1)->orderBy('name', 'asc')->get();
+        } else {
+            $origins = LeadsOrigins::where('companies_id', Auth::user()->companies_id)->where('active', 1)->orderBy('name', 'asc')->get();
+        }
+        foreach($companies as $companie){
+            foreach($origins as $origin){ 
+                if( $companie->id == $origin->companies_id ){
+                    $array1[$companie->name][] = $origin;
+                }
+            }
+        } 
+
+        return view('reports.create')->with('origins', isset($array1) ? $array1 : null)->with('buildings', isset($array) ? $array : null);
     }
 
     public function store(Request $request)
@@ -151,11 +175,11 @@ class ReportsCtrl extends Controller
         $pathFile = $path . '/' . $nameFile;
 
         // Create data in reports
-        $report = UsersReports::create([
+        $report = Reports::create([
             'name' => $nameFile, 
             'type' => $type, 
             'status' => 'Na fila',
-            'users_id' => Auth::user()->id,
+            'companies_id' => Auth::user()->companies_id,
         ]);
 
         if( $type === 'leads' ){
@@ -216,13 +240,13 @@ class ReportsCtrl extends Controller
     public function destroy(string $id)
     {
         /* Remove file
-        $report = UsersReports::find($id);
+        $report = Reports::find($id);
         $file = storage_path('app/public/exports/') . $report->name;
         if ( file_exists($file) ) {
             unlink($file);
         }*/
 
-        UsersReports::find($id)->delete();
+        Reports::find($id)->delete();
         return redirect()->route('reports.index')->with('destroy', true);
     }
 }

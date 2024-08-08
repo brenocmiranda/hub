@@ -12,7 +12,7 @@ use Maatwebsite\Excel\Events\BeforeSheet;
 use Maatwebsite\Excel\Events\AfterSheet;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
-use App\Models\UsersReports;
+use App\Models\Reports;
 use App\Models\Buildings;
 
 class BuildingsExport implements FromView, WithEvents
@@ -44,20 +44,20 @@ class BuildingsExport implements FromView, WithEvents
     {
         return [
             BeforeExport::class => function(BeforeExport $event) {
-                UsersReports::find($this->report->id)->update([
+                Reports::find($this->report->id)->update([
                     'status' => 'Executando'
                 ]);
             },
 
             BeforeSheet::class => function(BeforeSheet $event) {
                 $event->sheet->getPageSetup()->setOrientation(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::ORIENTATION_LANDSCAPE);
-                UsersReports::find($this->report->id)->update([
+                Reports::find($this->report->id)->update([
                     'status' => 'Gerando'
                 ]);
             },
 
             AfterSheet::class => function(AfterSheet $event) {
-                UsersReports::find($this->report->id)->update([
+                Reports::find($this->report->id)->update([
                     'status' => 'Pronto'
                 ]);
             },
