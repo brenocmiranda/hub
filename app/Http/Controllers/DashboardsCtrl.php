@@ -15,6 +15,6 @@ class DashboardsCtrl extends Controller
     
     public function index()
     {   
-         return view('dashboards.index');
+        return view('dashboards.index');
     }
 }
