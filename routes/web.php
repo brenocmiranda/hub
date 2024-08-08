@@ -62,8 +62,8 @@ Route::group(['prefix' => 'app'], function () {
 
     // Dashboard
     Route::group(['prefix' => 'dashboard'], function () {
-        Route::get('all', [DashboardsCtrl::class, 'index'])->name('all.index');
-        Route::get('buildings', [DashboardsCtrl::class, 'index'])->name('buildings.index');
+        Route::get('geral', [DashboardsCtrl::class, 'index'])->name('geral.index');
+        //Route::get('buildings', [DashboardsCtrl::class, 'index'])->name('buildings.index');
     })->middleware('can:dashboard_show');
 
     // Leads - Ajax
