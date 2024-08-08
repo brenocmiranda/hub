@@ -197,9 +197,9 @@ img {
     -moz-border-radius: 20px;
     border-radius: 20px;
     text-align: center;
-    -moz-box-shadow: 0 0 0 5px #f5f5f6;
-    -webkit-box-shadow: 0 0 0 5px #f5f5f6;
-    box-shadow: 0 0 0 5px #f5f5f6;
+    -moz-box-shadow: 0 0 0 5px var(--gray);
+    -webkit-box-shadow: 0 0 0 5px var(--gray);
+    box-shadow: 0 0 0 5px var(--gray);
     line-height: 40px;
     font-size: 15px;
     float: left;

@@ -36,7 +36,7 @@ Minhas atividades
                         <article class="timeline-entry {{ $index % 2 == 0 ? 'left-aligned' : '' }}">
                             <div class="timeline-entry-inner">
                                 <time class="timeline-time" datetime="{{ $log->created_at }}"><span>{{ $log->created_at->format('H:i') . ' ' . $log->created_at->format('A') }}</span> <span>{{ \Carbon\Carbon::parse($log->created_at)->diffForHumans() }}</span></time>
-                                <div class="timeline-icon bg-secondary-subtle">
+                                <div class="timeline-icon bg-light">
                                     <i class="bi {{ isset($actions[$log->action]) ? $actions[$log->action] : '' }}"></i>
                                 </div>
                                 <div class="timeline-label">
