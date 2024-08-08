@@ -66,7 +66,7 @@ Novo empreendimento
                             <div class="accordion-item">
                                 <h2 class="accordion-header">
                                     <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse1" aria-expanded="true" aria-controls="flush-collapse1">
-                                        Parceiros
+                                        Parceiros <abbr class="ms-1">*</abbr>
                                     </button>
                                 </h2>
                                 <div id="flush-collapse1" class="accordion-collapse collapse show" data-bs-parent="#accordionItems">
@@ -78,10 +78,13 @@ Novo empreendimento
                                                         <div class="row row-gap-2">
                                                             <div class="input-field col-lg-5 col-12">
                                                                 <div class="form-floating">
-                                                                    <select class="form-select" aria-label="Defina uma empresa" name="partner[]" id="companie-0" required>
+                                                                    @cannot('access_komuh')
+                                                                        <input type="hidden" name="partner[]" value="{{ Auth::user()->companies_id }}">
+                                                                    @endcannot
+                                                                    <select class="form-select" aria-label="Defina uma empresa" name="partner[]" id="companie-0" @cannot('access_komuh') disabled @else required @endcan>
                                                                         <option selected></option>
                                                                         @foreach($companies as $companie) 
-                                                                            <option value="{{ $companie->id }}">{{ $companie->name }}</option>
+                                                                            <option value="{{ $companie->id }}" {{ Auth::user()->companies_id == $companie->id ? 'selected' : '' }}>{{ $companie->name }}</option>
                                                                         @endforeach 
                                                                     </select>
                                                                     <label for="companie-0">Empresas <abbr>*</abbr></label> 
@@ -90,7 +93,7 @@ Novo empreendimento
                                                             <div class="input-field col-lg-4 col-12">
                                                                 <div class="form-floating">
                                                                     <select class="form-select leads" aria-label="Defina a quantidade de leads" name="leads[]" id="leads-0" required>
-                                                                        <option value="99">-</option>
+                                                                        <option value="99">Todos</option>
                                                                         <option value="1">1</option>
                                                                         <option value="2">2</option>
                                                                         <option value="3">3</option>
@@ -107,7 +110,10 @@ Novo empreendimento
                                                             </div>
                                                             <div class="input-field col-lg-3 col-12 d-flex align-items-center gap-3">
                                                                 <div class="form-floating w-100">
-                                                                    <select class="form-select principal" aria-label="Defina o dono" name="main[]" id="main-0" required>
+                                                                    @cannot('access_komuh')
+                                                                        <input type="hidden" name="main[]" value="1">
+                                                                    @endcannot
+                                                                    <select class="form-select principal" aria-label="Defina o dono" name="main[]" id="main-0" @cannot('access_komuh') disabled @else required @endcan>
                                                                         <option value="1">Sim</option>
                                                                         <option value="0">Não</option>
                                                                     </select>
@@ -244,7 +250,7 @@ Novo empreendimento
     // Partners
     function addPartner() {
         event.preventDefault();
-        $('.partners').find('.all-partners').append(`<div class="single-partner"> <div class="content-partner"> <div class="row row-gap-2"> <div class="input-field col-lg-5 col-12"> <div class="form-floating"> <select class="form-select" aria-label="Defina uma empresa" name="partner[]" id="companie-` + count + `" required> <option selected></option> @foreach($companies as $companie) <option value="{{ $companie->id }}">{{ $companie->name }}</option> @endforeach </select> <label for="companie-` + count + `">Empresas <abbr>*</abbr></label> </div> </div> <div class="input-field col-lg-4 col-12"> <div class="form-floating"> <select class="form-select leads" aria-label="Defina a quantidade de leads" name="leads[]" id="leads-` + count + `" required> <option value="99" selected>-</option> <option value="1">1</option> <option value="2">2</option> <option value="3">3</option> <option value="4">4</option> <option value="5">5</option> <option value="6">6</option> <option value="7">7</option> <option value="8">8</option> <option value="9">9</option> <option value="10">10</option> </select> <label for="leads-` + count + `">Quantidade de leads <abbr>*</abbr></label> </div> </div> <div class="input-field col-lg-3 col-12 d-flex align-items-center gap-3"> <div class="form-floating w-100"> <select class="form-select principal" aria-label="Defina o dono" name="main[]" id="main-` + count + `" required> <option value="1">Sim</option> <option value="0" selected>Não</option> </select> <label for="main-` + count + `">Principal <abbr>*</abbr></label> </div> </div> <div class="col-12 d-flex align-items-end justify-content-end"> <a href="#" class="btn btn-sm btn-outline-danger ms-auto" onclick="removePartner(this);"><i class="bi bi-trash"></i> Excluir parceiro</a> </div> </div> </div> </div>`);
+        $('.partners').find('.all-partners').append(`<div class="single-partner"> <div class="content-partner"> <div class="row row-gap-2"> <div class="input-field col-lg-5 col-12"> <div class="form-floating"> <select class="form-select" aria-label="Defina uma empresa" name="partner[]" id="companie-` + count + `" required> <option selected></option> @foreach($companies as $companie) <option value="{{ $companie->id }}">{{ $companie->name }}</option> @endforeach </select> <label for="companie-` + count + `">Empresas <abbr>*</abbr></label> </div> </div> <div class="input-field col-lg-4 col-12"> <div class="form-floating"> <select class="form-select leads" aria-label="Defina a quantidade de leads" name="leads[]" id="leads-` + count + `" required> <option value="99" selected>-</option> <option value="1">1</option> <option value="2">2</option> <option value="3">3</option> <option value="4">4</option> <option value="5">5</option> <option value="6">6</option> <option value="7">7</option> <option value="8">8</option> <option value="9">9</option> <option value="10">10</option> </select> <label for="leads-` + count + `">Quantidade de leads <abbr>*</abbr></label> </div> </div> <div class="input-field col-lg-3 col-12 d-flex align-items-center gap-3"> <div class="form-floating w-100"> @cannot('access_komuh') <input type="hidden" name="main[]" value="0"> @endcannot <select class="form-select principal" aria-label="Defina o dono" name="main[]" id="main-` + count + `" @cannot('access_komuh') disabled @else required @endcan> <option value="1">Sim</option> <option value="0" selected>Não</option> </select> <label for="main-` + count + `">Principal <abbr>*</abbr></label> </div> </div> <div class="col-12 d-flex align-items-end justify-content-end"> <a href="#" class="btn btn-sm btn-outline-danger ms-auto" onclick="removePartner(this);"><i class="bi bi-trash"></i> Excluir parceiro</a> </div> </div> </div> </div>`);
         count++;
 
         leadsPartner();
@@ -273,7 +279,7 @@ Novo empreendimento
         if( partners > 1 ) {
             $('.all-partners').find('.leads').find('option[value=99]').remove();
         }   else {
-            $('.all-partners').find('.leads').prepend('<option value="99" selected>-</option> ');
+            $('.all-partners').find('.leads').prepend('<option value="99" selected>Todos</option> ');
         }
     }
 

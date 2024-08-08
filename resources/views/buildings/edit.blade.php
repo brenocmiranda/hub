@@ -81,7 +81,12 @@ Editar empreendimento
                                                                 <div class="row row-gap-2">
                                                                     <div class="input-field col-lg-5 col-12">
                                                                         <div class="form-floating">
-                                                                            <select class="form-select" aria-label="Defina uma empresa" name="partner[]" id="companie-{{ $index }}" required>
+                                                                            @if( $index == 0 )
+                                                                                @cannot('access_komuh')
+                                                                                    <input type="hidden" name="partner[]" value="{{ Auth::user()->companies_id }}">
+                                                                                @endcannot
+                                                                            @endif
+                                                                            <select class="form-select" aria-label="Defina uma empresa" name="partner[]" id="companie-{{ $index }}" @if( $index == 0 ) @cannot('access_komuh') disabled @else required @endcan @endif>
                                                                                 <option selected></option>
                                                                                 @foreach($companies as $companie) 
                                                                                     <option value="{{ $companie->id }}" {{ $partners->companies_id == $companie->id ? 'selected' : '' }}>{{ $companie->name }}</option>
@@ -93,7 +98,7 @@ Editar empreendimento
                                                                     <div class="input-field col-lg-4 col-12">
                                                                         <div class="form-floating">
                                                                             <select class="form-select leads" aria-label="Defina a quantidade de leads" name="leads[]" id="leads-{{ $index }}" required>
-                                                                                <option value="99" {{ $partners->leads == 99 ? 'selected' : '' }}>-</option>
+                                                                                <option value="99" {{ $partners->leads == 99 ? 'selected' : '' }}>Todos</option>
                                                                                 <option value="1" {{ $partners->leads == 1 ? 'selected' : '' }}>1</option>
                                                                                 <option value="2" {{ $partners->leads == 2 ? 'selected' : '' }}>2</option>
                                                                                 <option value="3" {{ $partners->leads == 3 ? 'selected' : '' }}>3</option>
@@ -110,7 +115,10 @@ Editar empreendimento
                                                                     </div>
                                                                     <div class="input-field col-lg-3 col-12 d-flex align-items-center gap-3">
                                                                         <div class="form-floating w-100">
-                                                                            <select class="form-select principal" aria-label="Defina o dono" name="main[]" id="main-{{ $index }}" required>
+                                                                            @cannot('access_komuh')
+                                                                                <input type="hidden" name="main[]" value="0">
+                                                                            @endcannot
+                                                                            <select class="form-select principal" aria-label="Defina o dono" name="main[]" id="main-{{ $index }}" @cannot('access_komuh') disabled @else required @endcan>
                                                                                 <option value="1" {{ $partners->main == 1 ? 'selected' : '' }}>Sim</option>
                                                                                 <option value="0" {{ $partners->main == 0 ? 'selected' : '' }}>Não</option>
                                                                             </select>
@@ -363,7 +371,7 @@ Editar empreendimento
     // Partners
     function addPartner() {
         event.preventDefault();
-        $('.partners').find('.all-partners').append(`<div class="single-partner"> <div class="content-partner"> <div class="row row-gap-2"> <div class="input-field col-lg-5 col-12"> <div class="form-floating"> <select class="form-select" aria-label="Defina uma empresa" name="partner[]" id="companie-` + count + `" required> <option selected></option> @foreach($companies as $companie) <option value="{{ $companie->id }}">{{ $companie->name }}</option> @endforeach </select> <label for="companie-` + count + `">Empresas <abbr>*</abbr></label> </div> </div> <div class="input-field col-lg-4 col-12"> <div class="form-floating"> <select class="form-select leads" aria-label="Defina a quantidade de leads" name="leads[]" id="leads-` + count + `" required> <option value="99" selected>-</option> <option value="1">1</option> <option value="2">2</option> <option value="3">3</option> <option value="4">4</option> <option value="5">5</option> <option value="6">6</option> <option value="7">7</option> <option value="8">8</option> <option value="9">9</option> <option value="10">10</option> </select> <label for="leads-` + count + `">Quantidade de leads <abbr>*</abbr></label> </div> </div> <div class="input-field col-lg-3 col-12 d-flex align-items-center gap-3"> <div class="form-floating w-100"> <select class="form-select principal" aria-label="Defina o dono" name="main[]" id="main-` + count + `" required> <option value="1">Sim</option> <option value="0" selected>Não</option> </select> <label for="main-` + count + `">Principal <abbr>*</abbr></label> </div> </div> <div class="col-12 d-flex align-items-end justify-content-end"> <a href="#" class="btn btn-sm btn-outline-danger ms-auto" onclick="removePartner(this);"><i class="bi bi-trash"></i> Excluir parceiro</a> </div> </div> </div> </div>`);
+        $('.partners').find('.all-partners').append(`<div class="single-partner"> <div class="content-partner"> <div class="row row-gap-2"> <div class="input-field col-lg-5 col-12"> <div class="form-floating"> <select class="form-select" aria-label="Defina uma empresa" name="partner[]" id="companie-` + count + `" required> <option selected></option> @foreach($companies as $companie) <option value="{{ $companie->id }}">{{ $companie->name }}</option> @endforeach </select> <label for="companie-` + count + `">Empresas <abbr>*</abbr></label> </div> </div> <div class="input-field col-lg-4 col-12"> <div class="form-floating"> <select class="form-select leads" aria-label="Defina a quantidade de leads" name="leads[]" id="leads-` + count + `" required> <option value="99" selected>-</option> <option value="1">1</option> <option value="2">2</option> <option value="3">3</option> <option value="4">4</option> <option value="5">5</option> <option value="6">6</option> <option value="7">7</option> <option value="8">8</option> <option value="9">9</option> <option value="10">10</option> </select> <label for="leads-` + count + `">Quantidade de leads <abbr>*</abbr></label> </div> </div> <div class="input-field col-lg-3 col-12 d-flex align-items-center gap-3"> <div class="form-floating w-100"> @cannot('access_komuh') <input type="hidden" name="main[]" value="0"> @endcannot <select class="form-select principal" aria-label="Defina o dono" name="main[]" id="main-` + count + `" @cannot('access_komuh') disabled @else required @endcan> <option value="1">Sim</option> <option value="0" selected>Não</option> </select> <label for="main-` + count + `">Principal <abbr>*</abbr></label> </div> </div> <div class="col-12 d-flex align-items-end justify-content-end"> <a href="#" class="btn btn-sm btn-outline-danger ms-auto" onclick="removePartner(this);"><i class="bi bi-trash"></i> Excluir parceiro</a> </div> </div> </div> </div>`);
         count++;
 
         leadsPartner();
@@ -392,7 +400,7 @@ Editar empreendimento
         if( partners > 1 ) {
             $('.all-partners').find('.leads').find('option[value=99]').remove();
         }   else {
-            $('.all-partners').find('.leads').prepend('<option value="99" selected>-</option> ');
+            $('.all-partners').find('.leads').prepend('<option value="99" selected>Todos</option> ');
         }
     }
 

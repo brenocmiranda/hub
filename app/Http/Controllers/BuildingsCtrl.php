@@ -45,10 +45,12 @@ class BuildingsCtrl extends Controller
             $buildings = Buildings::orderBy('created_at', 'desc')
                                 ->join('buildings_partners', 'buildings_partners.buildings_id', '=', 'buildings.id')
                                 ->join('companies', 'buildings_partners.companies_id', '=', 'companies.id')
+                                ->where('buildings_partners.main', 1)
                                 ->select('buildings.*', 'companies.name as companie');
         } else {
             $buildings = Buildings::orderBy('created_at', 'desc')
                                 ->join('buildings_partners', 'buildings_partners.buildings_id', '=', 'buildings.id')
+                                ->where('buildings_partners.main', 1)
                                 ->where('buildings_partners.companies_id', Auth::user()->companies_id)
                                 ->select('buildings.*');
         }
@@ -113,7 +115,11 @@ class BuildingsCtrl extends Controller
 
     public function create()
     {      
-        return view('buildings.create')->with('companies', Companies::where('active', 1)->orderBy('name', 'asc')->get())->with('integrations', Integrations::where('active', 1)->orderBy('name', 'asc')->get())->with('buildingsAll', Buildings::where('active', 1)->orderBy('name', 'asc')->get());
+        if( Gate::check('access_komuh') ) { 
+            return view('buildings.create')->with('companies', Companies::where('active', 1)->orderBy('name', 'asc')->get())->with('integrations', Integrations::where('active', 1)->orderBy('name', 'asc')->get())->with('buildingsAll', Buildings::where('active', 1)->orderBy('name', 'asc')->get());
+        } else {
+            return view('buildings.create')->with('companies', Companies::where('active', 1)->orderBy('name', 'asc')->get())->with('integrations', Integrations::where('active', 1)->where('companies_id', Auth::user()->companies_id)->orderBy('name', 'asc')->get())->with('buildingsAll', Buildings::join('buildings_partners', 'buildings_partners.companies_id', 'buildings.id')->where('buildings_partners.main', 1)->where('buildings_partners.companies_id', Auth::user()->companies_id)->where('active', 1)->orderBy('name', 'asc')->get());
+        }
     }
 
     public function store(BuildingsRqt $request)
@@ -207,7 +213,11 @@ class BuildingsCtrl extends Controller
 
     public function edit(string $id)
     {      
-        return view('buildings.edit')->with('building', Buildings::find($id))->with('companies', Companies::where('active', 1)->orderBy('name', 'asc')->get())->with('integrations', Integrations::where('active', 1)->orderBy('name', 'asc')->get())->with('buildingsAll', Buildings::where('active', 1)->orderBy('name', 'asc')->get());
+        if( Gate::check('access_komuh') ) { 
+            return view('buildings.edit')->with('building', Buildings::find($id))->with('companies', Companies::where('active', 1)->orderBy('name', 'asc')->get())->with('integrations', Integrations::where('active', 1)->orderBy('name', 'asc')->get())->with('buildingsAll', Buildings::where('active', 1)->orderBy('name', 'asc')->get());
+        } else {
+            return view('buildings.edit')->with('building', Buildings::find($id))->with('companies', Companies::where('active', 1)->orderBy('name', 'asc')->get())->with('integrations', Integrations::where('active', 1)->where('companies_id', Auth::user()->companies_id)->orderBy('name', 'asc')->get())->with('buildingsAll', Buildings::join('buildings_partners', 'buildings_partners.companies_id', 'buildings.id')->where('buildings_partners.main', 1)->where('buildings_partners.companies_id', Auth::user()->companies_id)->where('buildings.id', '!=', $id)->where('active', 1)->orderBy('name', 'asc')->get());
+        }
     }
 
     public function update(BuildingsRqt $request, $id)
