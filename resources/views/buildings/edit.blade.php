@@ -53,13 +53,13 @@ Editar empreendimento
 
                         <div class="input-field col-12">
                             <div class="form-check form-switch ms-1">
-                                <input class="form-check-input" type="checkbox" role="switch" value="check_test_buildings_id" id="check_test_buildings_id">
+                                <input class="form-check-input" type="checkbox" role="switch" value="check_test_buildings_id" id="check_test_buildings_id" {{ $building->test_buildings_id ? 'checked' : ""}}>
                                 <label class="form-check-label" for="check_test_buildings_id">
                                     Empreendimento de teste
                                 </label>
                             </div>
                             <div class="form-floating">
-                                <select class="form-select @error('test_buildings_id') is-invalid @enderror" aria-label="Defina um empreendimento de teste" name="test_buildings_id" id="test_buildings_id">
+                                <select class="form-select mt-3 @error('test_buildings_id') is-invalid @enderror" aria-label="Defina um empreendimento de teste" name="test_buildings_id" id="test_buildings_id">
                                     <option selected></option>
                                     @foreach($buildingsAll as $buildingOnly) 
                                         <option value="{{ $buildingOnly->id }}" {{ $building->test_buildings_id == $buildingOnly->id ? 'selected' : "" }}>{{ $buildingOnly->name }}</option> 
@@ -470,8 +470,10 @@ Editar empreendimento
     // Active empreendimento de teste
     $('#check_test_buildings_id').on('change', function(){
         if( $(this).is(':checked') ) {
+            $('#test_buildings_id').attr('disabled', '');
             $('#test_buildings_id').parent().show();
         } else {
+            $('#test_buildings_id').removeAttr('disabled');
             $('#test_buildings_id').parent().hide();
         }
     });
