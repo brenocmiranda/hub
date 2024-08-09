@@ -58,7 +58,7 @@ Novo empreendimento
                                 </label>
                             </div>
                             <div class="form-floating" style="display: none;">
-                                <select class="form-select mt-3 @error('test_buildings_id') is-invalid @enderror" aria-label="Defina um empreendimento de teste" name="test_buildings_id" id="test_buildings_id">
+                                <select class="form-select mt-3 @error('test_buildings_id') is-invalid @enderror" aria-label="Defina um empreendimento de teste" name="test_buildings_id" id="test_buildings_id" disabled>
                                     <option selected></option>
                                     @foreach($buildingsAll as $buildingOnly) 
                                         <option value="{{ $buildingOnly->id }}">{{ $buildingOnly->name }}</option> 

@@ -58,8 +58,8 @@ Editar empreendimento
                                     Empreendimento de teste
                                 </label>
                             </div>
-                            <div class="form-floating">
-                                <select class="form-select mt-3 @error('test_buildings_id') is-invalid @enderror" aria-label="Defina um empreendimento de teste" name="test_buildings_id" id="test_buildings_id">
+                            <div class="form-floating" style="display: none;">
+                                <select class="form-select mt-3 @error('test_buildings_id') is-invalid @enderror" aria-label="Defina um empreendimento de teste" name="test_buildings_id" id="test_buildings_id" {{ $building->test_buildings_id ? 'disabled' : ""}}>
                                     <option selected></option>
                                     @foreach($buildingsAll as $buildingOnly) 
                                         <option value="{{ $buildingOnly->id }}" {{ $building->test_buildings_id == $buildingOnly->id ? 'selected' : "" }}>{{ $buildingOnly->name }}</option> 
