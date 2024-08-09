@@ -373,9 +373,8 @@ class ApiLeadsCtrl extends Controller
         ]);
 
         // Validate lead test for name and email
-        if( stripos($name, 'teste') !== false || stripos($email, 'teste') !== false ) {
-            $builg = Buildings::find($building);
-
+        $builg = Buildings::find($building);
+        if( (stripos($name, 'teste') !== false || stripos($email, 'teste') !== false) && $builg->test_buildings_id ) {
             // Defined partner responsible
             $partners = BuildingsPartners::where( 'buildings_id', $builg->test_buildings_id )->orderBy('created_at', 'desc')->get();
             if( $partners->first() ){
