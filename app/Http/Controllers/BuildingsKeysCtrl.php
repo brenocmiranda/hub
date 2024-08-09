@@ -112,7 +112,8 @@ class BuildingsKeysCtrl extends Controller
         $buildings = Buildings::where('active', 1)->orderBy('name', 'asc')->get();
         
         foreach($buildings as $building){
-            $building->companie = BuildingsPartners::where('buildings_id', $building->id)->where('main', 1)->first()->companies_id;
+            $element = BuildingsPartners::where('buildings_id', $building->id)->where('main', 1)->first();
+            $building->companie = $element->companies_id ? $element->companies_id : 0;
         }
         
         foreach($companies as $companie){
