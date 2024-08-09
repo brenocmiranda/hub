@@ -113,7 +113,7 @@ class ApiLeadsCtrl extends Controller
                     break;
                 }
             }
-            $odefault = LeadsOrigins::where('slug', 'default')->first();
+            $odefault = LeadsOrigins::where('companies_id', $companies_id)->where('slug', 'default')->first();
             $origin = isset($origin) ? $origin : $odefault->id;
 
 

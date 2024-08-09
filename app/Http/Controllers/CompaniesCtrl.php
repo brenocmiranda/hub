@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use App\Http\Requests\CompaniesRqt;
 use App\Models\Companies;
+use App\Models\LeadsOrigins;
 use App\Models\UsersLogs;
 
 class CompaniesCtrl extends Controller
@@ -95,10 +96,17 @@ class CompaniesCtrl extends Controller
 
     public function store(CompaniesRqt $request)
     {      
-        Companies::create([
+        $companie = Companies::create([
             'name' => $request->name, 
             'slug' => $request->slug, 
             'active' => $request->active,
+        ]);
+
+        LeadsOrigins::create([
+            'active' => 1,
+            'name' => 'Default',
+            'slug' => 'default',
+            'companies_id' => $companie->id,
         ]);
 
         // Salvando log
