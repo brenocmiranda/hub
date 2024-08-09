@@ -60,9 +60,21 @@ Novo empreendimento
                             <div class="form-floating" style="display: none;">
                                 <select class="form-select mt-3 @error('test_buildings_id') is-invalid @enderror" aria-label="Defina um empreendimento de teste" name="test_buildings_id" id="test_buildings_id" disabled>
                                     <option selected></option>
-                                    @foreach($buildingsAll as $buildingOnly) 
-                                        <option value="{{ $buildingOnly->id }}">{{ $buildingOnly->name }}</option> 
-                                    @endforeach 
+                                    @if($buildingsAll) 
+                                        @foreach($buildingsAll as $index => $arr) 
+                                            @can('access_komuh') 
+                                                <optgroup label="{{ $index }}"> 
+                                            @endcan 
+
+                                            @foreach($arr as $buildingOnly) 
+                                                <option value="{{ $buildingOnly->id }}">{{ $buildingOnly->name }}</option> 
+                                            @endforeach 
+
+                                            @can('access_komuh') 
+                                                </optgroup> 
+                                            @endcan 
+                                        @endforeach 
+                                    @endif 
                                 </select>
                                 <label for="test_buildings_id">Empreendimento de teste</label>
                             </div>

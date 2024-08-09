@@ -134,7 +134,20 @@ class BuildingsCtrl extends Controller
             }
         } 
 
-        return view('buildings.create')->with('companies', Companies::where('active', 1)->orderBy('name', 'asc')->get())->with('integrations', isset($array) ? $array : null)->with('buildingsAll', $buildings);
+        // Buildings
+        foreach($buildings as $building){
+            $element = BuildingsPartners::where('buildings_id', $building->id)->where('main', 1)->first();
+            $building->companie = $element->companies_id ? $element->companies_id : 0;
+        }
+        foreach($companies as $companie){
+            foreach($buildings as $building){ 
+                if( $companie->id == $building->companie ){
+                    $array1[$companie->name][] = $building;
+                }
+            }
+        } 
+
+        return view('buildings.create')->with('companies', Companies::where('active', 1)->orderBy('name', 'asc')->get())->with('integrations', isset($array) ? $array : null)->with('buildingsAll', isset($array1) ? $array1 : null);
     }
 
     public function store(BuildingsRqt $request)
@@ -232,10 +245,12 @@ class BuildingsCtrl extends Controller
             $companies = Companies::where('active', 1)->orderBy('name', 'asc')->get();
             $integrations = Integrations::where('active', 1)->orderBy('name', 'asc')->get();
             $buildings = Buildings::where('active', 1)->orderBy('name', 'asc')->get();
+            $companiesAll = Companies::where('active', 1)->orderBy('name', 'asc')->get();
         } else {
             $companies = Companies::where('id', Auth::user()->companies_id)->get();
             $integrations = Integrations::where('active', 1)->where('companies_id', Auth::user()->companies_id)->orderBy('name', 'asc')->get();
             $buildings = Buildings::join('buildings_partners', 'buildings_partners.buildings_id', 'buildings.id')->where('buildings_partners.main', 1)->where('buildings_partners.companies_id', Auth::user()->companies_id)->where('active', 1)->orderBy('name', 'asc')->get();
+            $companiesAll = Companies::where('active', 1)->orderBy('name', 'asc')->get();
         }
         
         // Integrations
@@ -247,7 +262,20 @@ class BuildingsCtrl extends Controller
             }
         } 
 
-        return view('buildings.edit')->with('building', Buildings::find($id))->with('companies', Companies::where('active', 1)->orderBy('name', 'asc')->get())->with('integrations', isset($array) ? $array : null)->with('buildingsAll', $buildings);
+        // Buildings
+        foreach($buildings as $building){
+            $element = BuildingsPartners::where('buildings_id', $building->id)->where('main', 1)->first();
+            $building->companie = $element ? $element->companies_id : "";
+        }
+        foreach($companies as $companie){
+            foreach($buildings as $building){ 
+                if( $companie->id == $building->companie ){
+                    $array1[$companie->name][] = $building;
+                }
+            }
+        } 
+
+        return view('buildings.edit')->with('building', Buildings::find($id))->with('companies', $companiesAll)->with('integrations', isset($array) ? $array : null)->with('buildingsAll', isset($array1) ? $array1 : null);
     }
 
     public function update(BuildingsRqt $request, $id)

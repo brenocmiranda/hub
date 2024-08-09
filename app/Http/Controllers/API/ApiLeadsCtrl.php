@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Log;
 use App\Http\Requests\ApiLeadsRqt;
+use App\Models\Companies;
 use App\Models\Buildings;
 use App\Models\BuildingsKeys;
 use App\Models\BuildingsPartners;
@@ -41,7 +42,7 @@ class ApiLeadsCtrl extends Controller
         /**
          * Params required
         */
-            // Nome
+            /** Nome **/
             $array = [
                 'name' => $request->name,
                 'nome' => $request->nome,
@@ -54,7 +55,7 @@ class ApiLeadsCtrl extends Controller
             }
             $name = $name ? $name : "Não recebido.";
             
-            // Telefone
+            /** Telefone **/
             $array = [
                 'telefone' => $request->telefone,
                 'celular' => $request->celular,
@@ -73,7 +74,7 @@ class ApiLeadsCtrl extends Controller
             }
             $phone = $phone ? $phone : "99999999999";
 
-            // E-mail
+            /** E-mail **/
             $array = [
                 'email' => str_replace(' ', '', $request->email),
             ];
@@ -84,13 +85,47 @@ class ApiLeadsCtrl extends Controller
                 }
             }
             $email = $email ? $email : "naoidentificado@komuh.com";
-            
-            // Empreendimento
+
+            /** Empresa origem **/
             $array = [
-                'building' => BuildingsKeys::where('active', 1)->where('value', $request->building)->first(),
-                'empreendimento' => BuildingsKeys::where('active', 1)->where('value', $request->empreendimento)->first(),
-                'originListingId' => BuildingsKeys::where('active', 1)->where('value', $request->originListingId)->first(),
-                'codigoDoAnunciante' => BuildingsKeys::where('active', 1)->where('value', $request->codigoDoAnunciante)->first(),
+                'companies' => Companies::where( 'slug', $request->companies )->first(),
+                'empresa' => Companies::where( 'slug', $request->empresa )->first(),
+            ];
+            foreach($array as $ar){
+                if( $ar ){
+                    $companies_id = $ar->id;
+                    break;
+                }
+            }
+            $comdefault = Companies::where( 'slug', 'komuh' )->first();
+            $companies_id = $companies_id ? $companies_id : $comdefault->id;
+
+            /** Empreendimento **/
+            $array = [
+                'building' => BuildingsKeys::join('buildings_partners', 'buildings_partners.buildings_id', 'buildings_keys.buildings_id')
+                                            ->where('buildings_partners.companies_id', $companies_id)
+                                            ->where('buildings_partners.main', 1)
+                                            ->where('buildings_keys.value', $request->building)
+                                            ->where('buildings_keys.active', 1)
+                                            ->first(),
+                'empreendimento' => BuildingsKeys::join('buildings_partners', 'buildings_partners.buildings_id', 'buildings_keys.buildings_id')
+                                            ->where('buildings_partners.companies_id', $companies_id)
+                                            ->where('buildings_partners.main', 1)
+                                            ->where('buildings_keys.value', $request->empreendimento)
+                                            ->where('buildings_keys.active', 1)
+                                            ->first(),
+                'originListingId' => BuildingsKeys::join('buildings_partners', 'buildings_partners.buildings_id', 'buildings_keys.buildings_id')
+                                            ->where('buildings_partners.companies_id', $companies_id)
+                                            ->where('buildings_partners.main', 1)
+                                            ->where('buildings_keys.value', $request->originListingId)
+                                            ->where('buildings_keys.active', 1)
+                                            ->first(),
+                'codigoDoAnunciante' => BuildingsKeys::join('buildings_partners', 'buildings_partners.buildings_id', 'buildings_keys.buildings_id')
+                                            ->where('buildings_partners.companies_id', $companies_id)
+                                            ->where('buildings_partners.main', 1)
+                                            ->where('buildings_keys.value', $request->codigoDoAnunciante)
+                                            ->where('buildings_keys.active', 1)
+                                            ->first(),
             ];
             foreach($array as $ar){
                 if( $ar ){
@@ -98,14 +133,21 @@ class ApiLeadsCtrl extends Controller
                     break;
                 }
             }
-            $bdefault = BuildingsKeys::where('value', 'default')->first();
+            $bdefault = BuildingsKeys::join('buildings_partners', 'buildings_partners.buildings_id', 'buildings_keys.buildings_id')
+                                            ->where('buildings_partners.companies_id', $companies_id)
+                                            ->where('buildings_partners.main', 1)
+                                            ->where('buildings_keys.value', 'like', '%default%')
+                                            ->where('buildings_keys.active', 1)
+                                            ->first();
             $building = isset($building) ? $building : $bdefault->buildings_id;
 
-            // Origin
-            $companies_id = Buildings::join('buildings_partners', 'buildings_partners.buildings_id', 'buildings.id')->where('buildings.id', $building)->where('buildings_partners.main', 1)->first()->companies_id;
+
+            /** Origin **/
             $array = [
-                'origin' => LeadsOrigins::where('companies_id', $companies_id)->where('slug', $request->origin)->first(),
-                'originLead' => LeadsOrigins::where('companies_id', $companies_id)->where('slug', $originLead)->first(),
+                'origin' => LeadsOrigins::where('companies_id', $companies_id)
+                                            ->where('slug', $request->origin)->first(),
+                'originLead' => LeadsOrigins::where('companies_id', $companies_id)
+                                                ->where('slug', $originLead)->first(),
             ];
             foreach($array as $ar){
                 if( $ar ){
@@ -113,14 +155,17 @@ class ApiLeadsCtrl extends Controller
                     break;
                 }
             }
-            $odefault = LeadsOrigins::where('companies_id', $companies_id)->where('slug', 'default')->first();
+            $odefault = LeadsOrigins::where('companies_id', $companies_id)->where('slug', 'like', '%default%')->first();
             $origin = isset($origin) ? $origin : $odefault->id;
+        /**
+         * End Params required
+        */
 
 
         /**
          * Params optinals
         */
-            // url_params
+            /** Url_params **/
             if($request->url_params){
 
                 parse_str( $request->url_params, $output );
@@ -166,7 +211,7 @@ class ApiLeadsCtrl extends Controller
 
             }else {
 
-                // utm_source
+                /** utm_source **/
                 $array = [
                     'utm_source' => $request->utm_source,
                     'plataforma' => $request->plataforma,
@@ -200,7 +245,7 @@ class ApiLeadsCtrl extends Controller
                     } 
                 }
  
-                // utm_campaign
+                /** utm_campaign **/
                 $array = [
                     'utm_campaign' => $request->utm_campaign,
                     'campanha' => $request->campanha,
@@ -214,7 +259,7 @@ class ApiLeadsCtrl extends Controller
                     }
                 }
 
-                // utm_medium
+                /** utm_medium **/
                 $array = [
                     'utm_medium' => $request->utm_medium,
                     'nome_form' => $request->nome_form,
@@ -229,7 +274,7 @@ class ApiLeadsCtrl extends Controller
                     }
                 }
 
-                // utm_content
+                /** utm_content **/
                 $array = [
                     'utm_content' => $request->utm_content,
                     'ad_name' => $request->ad_name,
@@ -242,7 +287,7 @@ class ApiLeadsCtrl extends Controller
                     }
                 }
 
-                // utm_term
+                /** utm_term **/
                 $array = [
                     'utm_term' => $request->utm_term,
                     'adset_name' => $request->adset_name,
@@ -256,7 +301,7 @@ class ApiLeadsCtrl extends Controller
                 }
             }
 
-            // sobrenome
+            /** sobrenome **/
             $array = [
                 'sobrenome' => $request->sobrenome,
             ];
@@ -266,7 +311,7 @@ class ApiLeadsCtrl extends Controller
                 }
             }
 
-            // message
+            /** message **/
             $array = [
                 'message' => $request->message,
                 'mensagem' => $request->mensagem,
@@ -279,7 +324,7 @@ class ApiLeadsCtrl extends Controller
                 }
             }
 
-            // url
+            /** url **/
             $array = [
                 'url' => $request->url,
             ];
@@ -291,7 +336,7 @@ class ApiLeadsCtrl extends Controller
                 }
             }
 
-            // pp
+            /** pp **/
             $array = [
                 'pp' => $request->pp,
             ];
@@ -303,7 +348,7 @@ class ApiLeadsCtrl extends Controller
                 }
             }
 
-            // com
+            /** com **/
             $array = [
                 'com' => $request->com,
                 'comunicacao' => $request->comunicacao,
@@ -316,7 +361,7 @@ class ApiLeadsCtrl extends Controller
                 }
             }
             
-            // gclid
+            /** gclid **/
             $array = [
                 'gclid' => $request->gclid,
             ];
@@ -328,7 +373,7 @@ class ApiLeadsCtrl extends Controller
                 }
             }
 
-            // fbclid
+            /** fbclid **/
             $array = [
                 'fbclid' => $request->fbclid,
             ];
@@ -339,91 +384,79 @@ class ApiLeadsCtrl extends Controller
                     break;
                 }
             }
-
-        // Defined partner responsible
-        $partners = BuildingsPartners::where( 'buildings_id', $building )->orderBy('created_at', 'desc')->get();
-        if( $partners->first() ){
-            foreach( $partners as $partner ){
-                if( $partner->leads == 99 ){
-                    $companie = $partner->companies_id;
-                    break;
-                } else {
-                    $countAllPartners = BuildingsPartners::where( 'buildings_id', $building )->select('leads')->sum('leads');
-                    $leads = Leads::where( 'buildings_id', $building )->orderBy('created_at', 'desc')->take( $countAllPartners - 1)->get();
-                    $leadsPartner = $leads->sortBy('created_at')->where( 'companies_id', $partner->companies_id )->count();
- 
-                    if( $leadsPartner < $partner->leads ){
-                        $companie = $partner->companies_id;
-                        break;
-                    }
-                }
-            }
-        }   
-        $companie = isset($companie) ? $companie : BuildingsPartners::where( 'buildings_id', $building )->where('main', 1)->first()->companies_id;
+        /**
+         * End Params optinals
+        */
         
-        // Create new lead
-        $lead = Leads::create([
-            'api' => true, 
-            'name' => $name, 
-            'phone' => $phone, 
-            'email' => $email,
-            'buildings_id' => $building,
-            'leads_origins_id' => $origin,
-            'companies_id' => $companie,
-        ]);
-
-        // Validate lead test for name and email
-        $builg = Buildings::find($building);
-        if( (stripos($name, 'teste') !== false || stripos($email, 'teste') !== false) && $builg->test_buildings_id ) {
-            // Defined partner responsible
-            $partners = BuildingsPartners::where( 'buildings_id', $builg->test_buildings_id )->orderBy('created_at', 'desc')->get();
-            if( $partners->first() ){
-                foreach( $partners as $partner ){
-                    if( $partner->leads == 99 ){
-                        $companieTest = $partner->companies_id;
-                        break;
-                    } else {
-                        $countAllPartners = BuildingsPartners::where( 'buildings_id', $builg->test_buildings_id )->select('leads')->sum('leads');
-                        $leads = Leads::where( 'buildings_id', $builg->id )->orderBy('created_at', 'desc')->take( $countAllPartners - 1)->get();
-                        $leadsPartner = $leads->sortBy('created_at')->where( 'companies_id', $partner->companies_id )->count();
-    
-                        if( $leadsPartner < $partner->leads ){
-                            $companieTest = $partner->companies_id;
-                            break;
-                        }
-                    }
+        
+        /**
+         * Validate lead test for name and email
+        */
+            if( (stripos($name, 'teste') !== false || stripos($email, 'teste') !== false) ) {
+                $empreendimento = Buildings::find($building);
+                if( $empreendimento->test_buildings_id ){
+                    $building = $empreendimento->test_buildings_id;
+                    $fields['nameField'][] = 'building_origin';
+                    $fields['valueField'][] = $empreendimento->name;
                 }
-            }   
-            $companieTest = isset($companieTest) ? $companieTest : BuildingsPartners::where( 'buildings_id', $builg->test_buildings_id )->where('main', 1)->first()->companies_id;
-
-            // Update
-            Leads::find($lead->id)->update([ 
-                'buildings_id' => $builg->test_buildings_id,  
-                'companies_id' => $companieTest,  
-            ]);
-
-            LeadsFields::create([
-                'name' => 'building_origin', 
-                'value' => $builg->name,
-                'leads_id' => $lead->id,
-            ]);
-        }
-
-        // Create fields optional
-        if(isset($fields)){
-            foreach($fields["nameField"] as $index => $field) {
-                LeadsFields::create([
-                    'name' => $fields["nameField"][$index], 
-                    'value' => $fields["valueField"][$index],
-                    'leads_id' => $lead->id,
-                ]);
             }
-        }
+         /**
+         * End Validate lead test for name and email
+        */
 
-        // Enviando para as execução das integrações
-        if ( stripos( $name, 'teste' ) === false ) {
+        
+        /**
+         * Defined partner responsible
+        */
+            $companies_id = $this->partners( $building );
+            $originSlug = $originLead ? $originLead : $request->origin;
+            $origin = LeadsOrigins::where('companies_id', $companies_id)->where('slug', $originSlug)->first();
+            if ( $origin ) {
+                $origin = $origin->id;
+            } else {
+                $origin = LeadsOrigins::where('companies_id', $companies_id)->where('slug', 'like', '%default%')->first()->id;
+            }
+        /**
+         * End Defined partner responsible
+        */
+
+       
+         /**
+         * Create new lead
+        */
+            $lead = Leads::create([
+                'api' => true, 
+                'name' => $name, 
+                'phone' => $phone, 
+                'email' => $email,
+                'buildings_id' => $building,
+                'leads_origins_id' => $origin,
+                'companies_id' => $companies_id,
+            ]);
+
+            // Create custom fields
+            if(isset($fields)){
+                foreach($fields["nameField"] as $index => $field) {
+                    LeadsFields::create([
+                        'name' => $fields["nameField"][$index], 
+                        'value' => $fields["valueField"][$index],
+                        'leads_id' => $lead->id,
+                    ]);
+                }
+            }
+         /**
+         * End Create new lead
+        */
+
+
+         /**
+         * Send in integrations
+        */ 
             ProcessBuildingJobs::dispatch($lead->id);  
-        }
+        /**
+         * End Send in integrations
+        */
+
 
         return response()->json([
             'status' => true,
@@ -463,5 +496,31 @@ class ApiLeadsCtrl extends Controller
             'status' => true,
             'message' => 'Function no config.',
         ]);
+    }
+
+    /**
+     * Define partner responsible 
+     */
+    private function partners( $building ) {
+        $companies_id = '';
+        $partners = BuildingsPartners::where( 'buildings_id', $building )->orderBy('created_at', 'desc')->get();
+        if( $partners->first() ){
+            foreach( $partners as $partner ){
+                if( $partner->leads == 99 ){
+                    $companies_id = $partner->companies_id;
+                    break;
+                } else {
+                    $countAllPartners = BuildingsPartners::where( 'buildings_id', $building )->select('leads')->sum('leads');
+                    $leads = Leads::where( 'buildings_id', $building )->orderBy('created_at', 'desc')->take( $countAllPartners - 1)->get();
+                    $leadsPartner = $leads->sortBy('created_at')->where( 'companies_id', $partner->companies_id )->count();
+
+                    if( $leadsPartner < $partner->leads ){
+                        $companies_id = $partner->companies_id;
+                        break;
+                    }
+                }
+            }
+        } 
+        return $companies_id;
     }
 }

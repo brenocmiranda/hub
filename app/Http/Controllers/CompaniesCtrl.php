@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use App\Http\Requests\CompaniesRqt;
 use App\Models\Companies;
+use App\Models\Buildings;
+use App\Models\BuildingsPartners;
+use App\Models\BuildingsKeys;
 use App\Models\LeadsOrigins;
 use App\Models\UsersLogs;
 
@@ -107,6 +110,25 @@ class CompaniesCtrl extends Controller
             'name' => 'Default',
             'slug' => 'default',
             'companies_id' => $companie->id,
+        ]);
+
+        $building = Buildings::create([
+            'active' => 1,
+            'name' => 'Default', 
+            'test_buildings_id' => null,
+        ]);
+
+        BuildingsPartners::create([
+            'main' => 1, 
+            'leads' => 99, 
+            'companies_id' => $companie->id, 
+            'buildings_id' => $building->id, 
+        ]);
+
+        BuildingsKeys::create([
+            'active' => 1,
+            'value' => 'default'.$request->slug, 
+            'buildings_id' => $building->id, 
         ]);
 
         // Salvando log
