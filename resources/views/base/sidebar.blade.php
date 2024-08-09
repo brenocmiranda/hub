@@ -23,11 +23,11 @@
                     <div class="collapse {{ Request::segment(2) == 'dashboard' ? 'show' : '' }}" id="dashboard-collapse">
                         <ul class="btn-toggle-nav fw-normal small list-unstyled ps-5 ms-2">
                             <li>
-                                <a href="{{ route('dashboard.index') }}"
+                                <a href="{{ route('general.dashboards.index') }}"
                                     class="d-inline-flex text-decoration-none mb-2 {{ Request::segment(2) == 'dashboard' && Request::segment(3) == 'geral' ? 'text-secondary' : 'text-white' }}">Geral</a>
                             </li>
                             <li>
-                                <a href="{{ route('dashboard.index') }}"
+                                <a href="{{ route('buildings.dashboards.index') }}"
                                     class="d-inline-flex text-decoration-none mb-2 {{ Request::segment(2) == 'dashboard' && Request::segment(3) == 'buildings' ? 'text-secondary' : 'text-white' }}">Empreendimentos</a>
                             </li>
                         </ul>

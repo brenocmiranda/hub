@@ -48,25 +48,18 @@ Route::group(['prefix' => 'app'], function () {
     Route::singleton('profile', ProfileCtrl::class);
 
     // Tokens
-    Route::resource('tokens', TokensCtrl::class)->names([
-        'index' => 'tokens.index',
-        'create' => 'tokens.create',
-        'store' => 'tokens.store',
-        'edit' => 'tokens.edit',
-        'update' => 'tokens.update',
-        'destroy' => 'tokens.destroy'
-    ])->only([ 'index', 'create', 'store', 'destroy' ]);
+    Route::resource('tokens', TokensCtrl::class)->only([ 'index', 'create', 'store', 'destroy' ]);
     
     // Atividades
     Route::get('activities', [PrivateCtrl::class, 'activities'])->name('activities');
 
-    // Dashboard
-    Route::group(['prefix' => 'dashboard'], function () {
-        Route::get('geral', [DashboardsCtrl::class, 'index'])->name('dashboard.index');
-        //Route::get('buildings', [DashboardsCtrl::class, 'index'])->name('dashboard.index');
+    // Dashboards
+    Route::group(['prefix' => 'dashboards'], function () {
+        Route::get('general', [DashboardsCtrl::class, 'indexGeneral'])->name('general.dashboards.index');
+        Route::get('buildings', [DashboardsCtrl::class, 'indexBuildings'])->name('buildings.dashboards.index');
     })->middleware('can:dashboard_show');
 
-    // Leads - Ajax
+    // Leads
     Route::resource('leads', LeadsCtrl::class)->only([ 'index', 'create', 'store', 'destroy', 'show' ]);
     Route::group(['prefix' => 'leads/all/'], function () {
         Route::get('data', [LeadsCtrl::class, 'data'])->name('leads.data');
@@ -75,7 +68,7 @@ Route::group(['prefix' => 'app'], function () {
         Route::get('resend/{id}', [LeadsCtrl::class, 'resend'])->name('leads.resend');
     });    
 
-    // Leads (Origins) - Ajax
+    // Leads (Origins)
     Route::resource('leads/all/origins', LeadsOriginsCtrl::class)->names([
         'index' => 'leads.origins.index',
         'create' => 'leads.origins.create',
@@ -89,7 +82,7 @@ Route::group(['prefix' => 'app'], function () {
         Route::get('data', [LeadsOriginsCtrl::class, 'data'])->name('leads.origins.data');
     });
 
-    // Leads (Pipelines) - Ajax
+    // Leads (Pipelines)
     Route::resource('leads/all/pipelines', PipelinesCtrl::class)->names([
         'index' => 'leads.pipelines.index',
         'create' => 'leads.pipelines.create',
@@ -104,20 +97,20 @@ Route::group(['prefix' => 'app'], function () {
         Route::get('data', [PipelinesCtrl::class, 'data'])->name('leads.pipelines.data');
     });
 
-    // Companies - Ajax
+    // Companies
     Route::resource('companies', CompaniesCtrl::class);
     Route::group(['prefix' => 'companies/all/'], function () {
         Route::get('data', [CompaniesCtrl::class, 'data'])->name('companies.data');
     });
 
-    // Buildings - Ajax
+    // Buildings
     Route::resource('buildings', BuildingsCtrl::class);
     Route::group(['prefix' => 'buildings/all/'], function () {
         Route::get('data', [BuildingsCtrl::class, 'data'])->name('buildings.data');
         Route::any('duplicate/{id}', [BuildingsCtrl::class, 'duplicate'])->name('buildings.duplicate');
     });
 
-    // Buildings (Keys) - Ajax
+    // Buildings (Keys)
     Route::resource('buildings/all/keys', BuildingsKeysCtrl::class)->names([
         'index' => 'buildings.keys.index',
         'create' => 'buildings.keys.create',
@@ -130,25 +123,25 @@ Route::group(['prefix' => 'app'], function () {
         Route::get('data', [BuildingsKeysCtrl::class, 'data'])->name('buildings.keys.data');
     });
 
-    // Integrations - Ajax
+    // Integrations
     Route::resource('integrations', IntegrationsCtrl::class);
     Route::group(['prefix' => 'integrations/all/'], function () {
         Route::get('data', [IntegrationsCtrl::class, 'data'])->name('integrations.data');
     });
 
-    // Relatórios - Ajax
+    // Relatórios
     Route::resource('reports', ReportsCtrl::class)->only([ 'index', 'create', 'store', 'destroy' ]);
     Route::group(['prefix' => 'reports/all/'], function () {
         Route::get('data', [ReportsCtrl::class, 'data'])->name('reports.data');
     });
 
-    // Importações - Ajax
+    // Importações
     Route::resource('imports', ImportsCtrl::class)->only([ 'index', 'create', 'store', 'destroy' ]);
     Route::group(['prefix' => 'imports/all/'], function () {
         Route::get('data', [ImportsCtrl::class, 'data'])->name('imports.data');
     });
 
-    // Usuários - Ajax
+    // Usuários
     Route::resource('users', UsersCtrl::class);
     Route::group(['prefix' => 'users/all/'], function () {
         Route::get('data', [UsersCtrl::class, 'data'])->name('users.data');

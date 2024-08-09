@@ -27,7 +27,7 @@ use Illuminate\Support\Facades\Notification;
 
 Artisan::command('new', function () {
     $companies = Companies::factory()->create();
-    $usersroles = UsersRoles::factory()->create();
+    $usersRoles = UsersRoles::factory()->create();
     $users = Users::factory()->create();
     $buildings = Buildings::factory()->create();
     $buildingsKeys = BuildingsKeys::factory()->create();

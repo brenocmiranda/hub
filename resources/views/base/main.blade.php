@@ -12,9 +12,9 @@
                         </a>
                         
                         @switch( Request::segment(2) )
-                            @case('dashboard')
+                            @case('dashboards')
                                 <i class="bi bi-chevron-double-right"></i>
-                                <a href="{{ route('dashboard.index') }}" class="text-decoration-none text-dark">
+                                <a href="{{ route('general.dashboards.index') }}" class="text-decoration-none text-dark">
                                     <small>Dashboards</small>
                                 </a>
                                 @break

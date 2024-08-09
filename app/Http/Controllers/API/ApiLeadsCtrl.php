@@ -102,9 +102,10 @@ class ApiLeadsCtrl extends Controller
             $building = isset($building) ? $building : $bdefault->buildings_id;
 
             // Origin
+            $companies_id = Buildings::join('buildings_partners', 'buildings_partners.buildings_id', 'buildings.id')->where('buildings.id', $building)->where('buildings_partners.main', 1)->first()->companies_id;
             $array = [
-                'origin' => LeadsOrigins::where('slug', $request->origin)->first(),
-                'originLead' => LeadsOrigins::where('slug', $originLead)->first(),
+                'origin' => LeadsOrigins::where('companies_id', $companies_id)->where('slug', $request->origin)->first(),
+                'originLead' => LeadsOrigins::where('companies_id', $companies_id)->where('slug', $originLead)->first(),
             ];
             foreach($array as $ar){
                 if( $ar ){
