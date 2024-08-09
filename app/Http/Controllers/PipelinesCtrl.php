@@ -88,7 +88,7 @@ class PipelinesCtrl extends Controller
 
                 // Operações
                 $operations = '';
-                if (Gate::any(['pipelines_show'])) {
+                if ( Gate::any(['pipelines_show']) ) {
                     $operations .= '<div class="d-flex justify-content-center align-items-center gap-2">';
 
                     if( Gate::check('pipelines_show') ) {
