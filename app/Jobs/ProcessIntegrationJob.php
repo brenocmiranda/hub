@@ -168,6 +168,12 @@ class ProcessIntegrationJob implements ShouldQueue
                     'value' => $result['SrNumber'] ? $result['SrNumber'] : '-',
                     'leads_id' => $this->lead->id
                 ]);
+            }elseif( $this->integration->slug === 'capys' ) { 
+                LeadsFields::create([
+                    'name' => 'idCaso',
+                    'value' => $result['idCaso'] ? $result['idCaso'] : '-',
+                    'leads_id' => $this->lead->id
+                ]);
             }
         } else {
             throw new \Exception('Erro ' . $response->status() . ' na execução da integração. <br /> ' . $response->body(), true);
