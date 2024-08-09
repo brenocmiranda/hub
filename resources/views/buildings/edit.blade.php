@@ -58,8 +58,8 @@ Editar empreendimento
                                     Empreendimento de teste
                                 </label>
                             </div>
-                            <div class="form-floating" style="display: none;">
-                                <select class="form-select mt-3 @error('test_buildings_id') is-invalid @enderror" aria-label="Defina um empreendimento de teste" name="test_buildings_id" id="test_buildings_id" {{ $building->test_buildings_id ? 'disabled' : ""}}>
+                            <div class="form-floating" style="{{ !$building->test_buildings_id ? 'display: none;' : ''}}">
+                                <select class="form-select mt-3 @error('test_buildings_id') is-invalid @enderror" aria-label="Defina um empreendimento de teste" name="test_buildings_id" id="test_buildings_id" {{ !$building->test_buildings_id ? 'disabled' : ""}}>
                                     <option selected></option>
                                     @foreach($buildingsAll as $buildingOnly) 
                                         <option value="{{ $buildingOnly->id }}" {{ $building->test_buildings_id == $buildingOnly->id ? 'selected' : "" }}>{{ $buildingOnly->name }}</option> 
@@ -121,9 +121,15 @@ Editar empreendimento
                                                                     </div>
                                                                     <div class="input-field col-lg-3 col-12 d-flex align-items-center gap-3">
                                                                         <div class="form-floating w-100">
-                                                                            @cannot('access_komuh')
-                                                                                <input type="hidden" name="main[]" value="0">
-                                                                            @endcannot
+                                                                            @if( $index == 0 )
+                                                                                @cannot('access_komuh')
+                                                                                    <input type="hidden" name="partner[]" value="1">
+                                                                                @endcannot
+                                                                            @else
+                                                                                @cannot('access_komuh')
+                                                                                    <input type="hidden" name="main[]" value="0">
+                                                                                @endcannot
+                                                                            @endif
                                                                             <select class="form-select principal" aria-label="Defina o dono" name="main[]" id="main-{{ $index }}" @cannot('access_komuh') disabled @else required @endcan>
                                                                                 <option value="1" {{ $partners->main == 1 ? 'selected' : '' }}>Sim</option>
                                                                                 <option value="0" {{ $partners->main == 0 ? 'selected' : '' }}>Não</option>
