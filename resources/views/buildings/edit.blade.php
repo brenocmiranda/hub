@@ -261,7 +261,7 @@ Editar empreendimento
                                                                                     <optgroup label="{{ $index }}"> 
                                                                                 @endcan 
                                                                                     @foreach($arr as $integration) 
-                                                                                        <option value="{{ $integration->id }}">{{ $integration->name }}</option> 
+                                                                                        <option value="{{ $integration->id }}" {{ $integration->id == $buildingIntegration->id ? "selected" : '' }}>{{ $integration->name }}</option> 
                                                                                     @endforeach 
                                                                                 @can('access_komuh') 
                                                                                     </optgroup> 
