@@ -91,9 +91,9 @@ class PipelinesCtrl extends Controller
                 if ( Gate::any(['pipelines_show']) ) {
                     $operations .= '<div class="d-flex justify-content-center align-items-center gap-2">';
 
-                    if( Gate::check('pipelines_show') ) {
+                    
                         $operations .= '<a href="' . route('leads.pipelines.show', $pipeline->id ) .'" class="btn btn-outline-secondary px-2 py-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Visualizar"><i class="bi bi-eye"></i></a>';
-                    }
+                    
 
                     $operations .= '</div>';
                 } else {
