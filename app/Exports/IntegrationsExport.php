@@ -27,17 +27,16 @@ class IntegrationsExport implements FromView, WithEvents
 
     public function view(): View
     {   
-        if( Gate::check('access_komuh') ) {
-            return view('vendor.exports.integrations', [
-                'integrations' => Integrations::all(),
-                'items' => $this->items,
-            ]);
-        } else {
-            return view('vendor.exports.integrations', [
-                'integrations' => Integrations::where('companies_id', Auth::user()->companies_id)->get(),
-                'items' => $this->items,
-            ]);
+        $integrations = Integrations::all();
+
+        if( !Gate::check('access_komuh') ) {
+            $integrations->where('companies_id', Auth::user()->companies_id)->get();
         }
+
+        return view('vendor.exports.integrations', [
+            'integrations' => $integrations,
+            'items' => $this->items,
+        ]);
     }
 
     public function registerEvents(): array
