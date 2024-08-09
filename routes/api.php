@@ -18,6 +18,5 @@ use App\Http\Controllers\API\ApiLeadsCtrl;
 // Leads
 Route::group(['prefix' => 'leads'], function () {
     Route::get('/', [ApiLeadsCtrl::class, 'index'])->middleware(['auth:sanctum']);
-    //Route::post('/{originLead?}', [ApiLeadsCtrl::class, 'store'])->middleware(['auth:sanctum']);
     Route::post('/{originLead?}', [ApiLeadsCtrl::class, 'store'])->middleware(['auth:sanctum']);
 });
