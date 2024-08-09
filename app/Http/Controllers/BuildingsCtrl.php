@@ -122,7 +122,7 @@ class BuildingsCtrl extends Controller
         } else {
             $companies = Companies::where('id', Auth::user()->companies_id)->get();
             $integrations = Integrations::where('active', 1)->where('companies_id', Auth::user()->companies_id)->orderBy('name', 'asc')->get();
-            $buildings = Buildings::join('buildings_partners', 'buildings_partners.companies_id', 'buildings.id')->where('buildings_partners.main', 1)->where('buildings_partners.companies_id', Auth::user()->companies_id)->where('active', 1)->orderBy('name', 'asc')->get();
+            $buildings = Buildings::leftjoin('buildings_partners', 'buildings_partners.companies_id', 'buildings.id')->where('buildings_partners.main', 1)->where('buildings_partners.companies_id', Auth::user()->companies_id)->where('active', 1)->orderBy('name', 'asc')->get();
         }
 
         // Integrations
