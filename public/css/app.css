@@ -381,6 +381,15 @@ footer {
 .bootstrap-table .fixed-table-toolbar .search {
     margin-top: 0;
 }
+@media (max-width: 576px) {
+    .export.btn-group {
+        display: none;
+    }
+    .keep-open.btn-group button {
+        border-radius: var(--bs-border-radius) !important;
+    }
+}
+
 
 /** Modals **/
 #modalExit .modal-footer .confirm, 
