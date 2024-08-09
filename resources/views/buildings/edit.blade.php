@@ -123,7 +123,7 @@ Editar empreendimento
                                                                         <div class="form-floating w-100">
                                                                             @if( $index == 0 )
                                                                                 @cannot('access_komuh')
-                                                                                    <input type="hidden" name="partner[]" value="1">
+                                                                                    <input type="hidden" name="main[]" value="1">
                                                                                 @endcannot
                                                                             @else
                                                                                 @cannot('access_komuh')
@@ -255,9 +255,19 @@ Editar empreendimento
                                                                 <div class="form-floating"> 
                                                                     <select class="form-select" aria-label="Defina uma integração" name="array[{{ $index }}][nameIntegration]" id="integration-{{ $index }}" required> 
                                                                         <option selected></option> 
-                                                                        @foreach($integrations as $integration) 
-                                                                            <option value="{{ $integration->id }}" {{ $integration->id == $buildingIntegration->id ? "selected" : '' }}>{{ $integration->name }}</option> 
-                                                                        @endforeach 
+                                                                        @if($integrations) 
+                                                                            @foreach($integrations as $index => $arr) 
+                                                                                @can('access_komuh') 
+                                                                                    <optgroup label="{{ $index }}"> 
+                                                                                @endcan 
+                                                                                    @foreach($arr as $integration) 
+                                                                                        <option value="{{ $integration->id }}">{{ $integration->name }}</option> 
+                                                                                    @endforeach 
+                                                                                @can('access_komuh') 
+                                                                                    </optgroup> 
+                                                                                @endcan
+                                                                            @endforeach 
+                                                                        @endif 
                                                                     </select> 
                                                                     <label for="integration-{{ $index }}">Integrações <abbr>*</abbr></label> 
                                                                 </div> 
