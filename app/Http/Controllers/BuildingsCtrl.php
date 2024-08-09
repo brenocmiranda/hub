@@ -152,7 +152,7 @@ class BuildingsCtrl extends Controller
         $building = Buildings::create([
             'name' => $request->name, 
             'active' => $request->active,
-            'test_buildings_id' => $request->test_buildings_id,
+            'test_buildings_id' => $request->test_buildings_id ? $request->test_buildings_id : null,
         ]);
 
         // Cadastrando novos parceiros
@@ -281,7 +281,7 @@ class BuildingsCtrl extends Controller
         Buildings::find($id)->update([
             'name' => $request->name, 
             'active' => $request->active, 
-            'test_buildings_id' => $request->test_buildings_id,
+            'test_buildings_id' => $request->test_buildings_id ? $request->test_buildings_id : null,
         ]);
 
         // Cadastrando novos parceiros

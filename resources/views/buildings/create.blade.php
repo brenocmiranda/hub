@@ -51,14 +51,20 @@ Novo empreendimento
                         </div>
 
                         <div class="input-field col-12">
-                            <div class="form-floating">
-                                <select class="form-select @error('test_buildings_id') is-invalid @enderror" aria-label="Defina um empreendimento de teste" name="test_buildings_id" id="test_buildings_id" required>
+                            <div class="form-check form-switch ms-1">
+                                <input class="form-check-input" type="checkbox" role="switch" value="check_test_buildings_id" id="check_test_buildings_id">
+                                <label class="form-check-label" for="check_test_buildings_id">
+                                    Empreendimento de teste
+                                </label>
+                            </div>
+                            <div class="form-floating" style="display: none;">
+                                <select class="form-select mt-3 @error('test_buildings_id') is-invalid @enderror" aria-label="Defina um empreendimento de teste" name="test_buildings_id" id="test_buildings_id">
                                     <option selected></option>
                                     @foreach($buildingsAll as $buildingOnly) 
                                         <option value="{{ $buildingOnly->id }}">{{ $buildingOnly->name }}</option> 
                                     @endforeach 
                                 </select>
-                                <label for="test_buildings_id">Empreendimento de teste <abbr>*</abbr></label>
+                                <label for="test_buildings_id">Empreendimento de teste</label>
                             </div>
                         </div>
                         
@@ -339,5 +345,14 @@ Novo empreendimento
         event.preventDefault();
         $(element).closest('.row').remove();
     }
+
+    // Active empreendimento de teste
+    $('#check_test_buildings_id').on('change', function(){
+        if( $(this).is(':checked') ) {
+            $('#test_buildings_id').parent().show();
+        } else {
+            $('#test_buildings_id').parent().hide();
+        }
+    });
 </script>
 @endsection

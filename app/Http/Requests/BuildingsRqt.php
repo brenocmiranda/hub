@@ -39,7 +39,7 @@ class BuildingsRqt extends FormRequest
     {
         return [
             'name' => 'required|min:3|unique:buildings,name,'.$this->segment(3),
-            'test_buildings_id' => 'required|integer',
+            'test_buildings_id' => 'nullable|integer',
             'active' => 'required|boolean',
             'partner' => 'required'
         ];
