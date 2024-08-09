@@ -349,10 +349,10 @@ Novo empreendimento
     // Active empreendimento de teste
     $('#check_test_buildings_id').on('change', function(){
         if( $(this).is(':checked') ) {
-            $('#test_buildings_id').attr('disabled', '');
+            $('#test_buildings_id').removeAttr('disabled');
             $('#test_buildings_id').parent().show();
         } else {
-            $('#test_buildings_id').removeAttr('disabled');
+            $('#test_buildings_id').attr('disabled', '');
             $('#test_buildings_id').parent().hide();
         }
     });
