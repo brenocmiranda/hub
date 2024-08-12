@@ -76,7 +76,7 @@ Login
                 </div>
                 <div class="row mt-2">
                     <div class="col-lg-4 col-sm-5 col-12 d-none d-sm-block text-secondary">
-                        <small>© Komuh {{date('Y')}} &bull; Version {{ env('APP_VERSION') }} </small>
+                        <small>© K Group {{date('Y')}} &bull; Version {{ env('APP_VERSION') }} </small>
                     </div>
                     <div class="col-lg-8 col-sm-7 col-12 text-sm-end text-center px-0">
                         <a href="https://komuh.com/" target="_blank" class="btn btn-sm btn-outline-gray rounded-3 border-0 px-3"> <small>Komuh</small> </a>
