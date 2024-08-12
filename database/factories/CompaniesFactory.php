@@ -19,8 +19,8 @@ class CompaniesFactory extends Factory
     {
         return [
             'active' => 1,
-            'name' => 'Komuh',
-            'slug' => 'komuh',
+            'name' => 'K Group',
+            'slug' => 'kgroup',
         ];
     }
 }

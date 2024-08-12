@@ -33,7 +33,7 @@ class AuthServiceProvider extends ServiceProvider
 
         // Komuh
         Gate::define( 'access_komuh', function (Users $user) {
-            return $user->RelationCompanies->slug === 'komuh';
+            return $user->RelationCompanies->slug === 'kgroup';
         });
     } 
 }
