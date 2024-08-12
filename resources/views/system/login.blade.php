@@ -79,7 +79,7 @@ Login
                         <small>© K Group {{date('Y')}} &bull; Version {{ env('APP_VERSION') }} </small>
                     </div>
                     <div class="col-lg-8 col-sm-7 col-12 text-sm-end text-center px-0">
-                        <a href="https://komuh.com/" target="_blank" class="btn btn-sm btn-outline-gray rounded-3 border-0 px-3"> <small>Komuh</small> </a>
+                        <!--<a href="https://komuh.com/" target="_blank" class="btn btn-sm btn-outline-gray rounded-3 border-0 px-3"> <small>Komuh</small> </a>-->
                         <a href="https://drive.google.com/file/d/144pvmzqW4E5xt6-AG1bt7cPPRyhx88Zz/view?usp=drive_link" target="_blank" class="btn btn-sm btn-outline-gray rounded-3 border-0 px-3"> <small>Documentação</small> </a>
                         <a href="mailto:breno.miranda@komuh.com" target="_blank" class="btn btn-sm btn-outline-gray rounded-3 border-0 px-3"> <small>Ajuda</small> </a>
                     </div>
