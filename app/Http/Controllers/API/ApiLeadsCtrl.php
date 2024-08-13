@@ -31,7 +31,7 @@ class ApiLeadsCtrl extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(ApiLeadsRqt $request, $companie)
+    public function store(ApiLeadsRqt $request, $company)
     {   
 
         Log::build([ 
@@ -44,8 +44,8 @@ class ApiLeadsCtrl extends Controller
         */
         
             /** Empresa origem **/
-            if( $companie && Companies::find( $companie )) {
-                $companies_id = $companie;
+            if( $company && Companies::find( $company )) {
+                $companies_id = $company;
             } else {
                  return response()->json([
                     'status' => false,
