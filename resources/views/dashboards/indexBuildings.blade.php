@@ -61,7 +61,7 @@ Dashboard
 
         <div class="row">
             <div class="col-12">
-                <h2>Em breve...</h2>
+                <h4>Em breve...</h4>
             </div>
         </div>
     </div>
