@@ -23,8 +23,8 @@ class AppServiceProvider extends ServiceProvider
     {
         Paginator::useBootstrapFive();
 
-        Sanctum::getAccessTokenFromRequestUsing(function (Request $request) {
+        /*Sanctum::getAccessTokenFromRequestUsing(function (Request $request) {
             return $request->get('token', $request->bearerToken());
-        });
+        });*/
     }
 }
