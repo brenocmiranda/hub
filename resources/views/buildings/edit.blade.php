@@ -289,13 +289,13 @@ Editar empreendimento
                                                                             <div class="row row-gap-2"> 
                                                                                 <div class="input-field col-lg-6 col-12"> 
                                                                                     <div class="form-floating"> 
-                                                                                        <input type="text" class="form-control" id="integrationFieldName-{{$i}}" name="array[{{$index}}][nameField][]" value="{{ $b->name }}" required> 
+                                                                                        <input type="text" class="form-control" id="integrationFieldName-{{$i}}" name="array[{{$count}}][nameField][]" value="{{ $b->name }}" required> 
                                                                                         <label for="integrationFieldName-{{$i}}">Nome do campo <abbr>*</abbr></label> 
                                                                                     </div> 
                                                                                 </div> 
                                                                                 <div class="input-field col-lg-6 col-12 d-flex align-items-center gap-2"> 
                                                                                     <div class="form-floating w-100"> 
-                                                                                        <input type="text" class="form-control" id="integrationFieldValor-{{$i}}" name="array[{{$index}}][valueField][]" value="{{ $b->value }}" required> 
+                                                                                        <input type="text" class="form-control" id="integrationFieldValor-{{$i}}" name="array[{{$count}}][valueField][]" value="{{ $b->value }}" required> 
                                                                                         <label for="integrationFieldValor-{{$i}}">Valor <abbr>*</abbr></label> 
                                                                                     </div> 
                                                                                     <a href="#" class="btn btn-sm btn-outline-dark rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Remover campo" onclick="removeField(this);"><i class="bi bi-dash"></i></a> 
