@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                     let xhr = new XMLHttpRequest();
                     xhr.open('POST', url, true);
-                    xhr.setRequestHeader('Authorization', 'Bearer 1|kcafoWFwa7FwBruRkG4UP24D03jkMHzCaCU1O5e6c8d74391');
+                    //xhr.setRequestHeader('Authorization', 'Bearer 1|kcafoWFwa7FwBruRkG4UP24D03jkMHzCaCU1O5e6c8d74391');
 
                     xhr.onload = function () {
                         if (xhr.status >= 200 && xhr.status < 300) {
