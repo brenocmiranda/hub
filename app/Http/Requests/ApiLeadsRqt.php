@@ -27,7 +27,6 @@ class ApiLeadsRqt extends FormRequest
             'name' => 'nome',
             'phone' => 'telefone',
             'email' => 'email',
-            'companies' => 'empresa',
             'origin' => 'origem',
             'building' => 'empreendimento',
         ];
@@ -135,6 +134,6 @@ class ApiLeadsRqt extends FormRequest
             'success'   => false,
             'message'   => 'Erros de validação.',
             'data'      => $validator->errors()
-        ]));
+        ], 412));
     }
 }
