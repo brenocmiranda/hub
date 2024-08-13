@@ -306,7 +306,7 @@ Editar empreendimento
                                                                 @endif
                                                             </div> 
                                                             <div class="d-flex gap-2"> 
-                                                                <a href="#" class="btn btn-sm btn-outline-dark" onclick="addField(this, {{$index}});"><i class="bi bi-plus"></i> Novo campo</a> 
+                                                                <a href="#" class="btn btn-sm btn-outline-dark" onclick="addField(this, {{$i}});"><i class="bi bi-plus"></i> Novo campo</a> 
                                                                 <a href="#" class="btn btn-sm btn-outline-danger ms-auto" onclick="removeIntegration(this);"><i class="bi bi-trash"></i> Excluir integração</a>
                                                             </div> 
                                                         </div>
