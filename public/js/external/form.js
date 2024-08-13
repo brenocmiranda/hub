@@ -76,7 +76,7 @@ jQuery( function( $ ){
             send: function( data ){
                 return new Promise((resolve, reject) => {
                     let $mail_data = data;
-                    let company = window.company ? window.company : '9cc20c19-db84-4e9e-b56e-d93e188a6372';
+                    let company = window.company || '9cc20c19-db84-4e9e-b56e-d93e188a6372';
 
                     $.ajax({
                         url: 'https://hub.klash.com.br/api/leads/' + company,
