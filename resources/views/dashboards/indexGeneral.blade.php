@@ -13,7 +13,7 @@ Dashboard
 <section>
     <div class="container-fluid">
 
-        <div class="row row-gap-3 mb-5">
+        <!--<div class="row row-gap-3 mb-5">
             <div class="col-lg-4 col-md-6 col-12">
                 <div class="card rounded-1 pt-3">
                     <div id="spark1"></div>
@@ -56,6 +56,12 @@ Dashboard
                 <div class="bg-white p-4 shadow">
                     <div id="leadsForCompanies"></div>
                 </div>
+            </div>
+        </div>-->
+
+        <div class="row">
+            <div class="col-12">
+                <h2>Em breve...</h2>
             </div>
         </div>
     </div>
