@@ -34,7 +34,7 @@ class ProcessIntegrationJob implements ShouldQueue
         // Criando body da integração
         $bodyFields = $this->lead->RelationBuildings->RelationIntegrationsFields;
         foreach($bodyFields as $bodyField) {
-            if( $bodyField->buildings_has_integrations_integrations_id === $this->integration->id ){
+            if( $bodyField->integrations_id === $this->integration->id ){
 
                 $arr_nome = explode(' ', $this->lead->name);
                 $array = [
