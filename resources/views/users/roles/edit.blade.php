@@ -153,8 +153,8 @@ Editar função
                                                         @endcan
                                                         @if($index === 'users')
                                                             <div class="form-check form-switch">
-                                                                <input class="form-check-input" name="roles[]" type="checkbox" role="switch" value="{{ $index }}_reset" id="check_{{ $index }}_reset" {{ stripos($role->roles, $index . '_reset') !== false ? 'checked' : '' }}>
-                                                                <label class="form-check-label" for="check_{{ $index }}_reset">
+                                                                <input class="form-check-input" name="roles[]" type="checkbox" role="switch" value="{{ $index }}_recovery" id="check_{{ $index }}_recovery" {{ stripos($role->roles, $index . '_recovery') !== false ? 'checked' : '' }}>
+                                                                <label class="form-check-label" for="check_{{ $index }}_recovery">
                                                                     Redefinir
                                                                 </label>
                                                             </div>
