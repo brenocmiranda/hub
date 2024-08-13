@@ -55,7 +55,7 @@ class IntegrationsRqt extends FormRequest
                 'header' => 'min:3|nullable',
                 'active' => 'required|boolean',
                 'encoded' => 'required|boolean',
-                'companie' => 'required|integer',
+                'companie' => 'required|uuid',
             ];
         } else {
             return [
@@ -87,6 +87,7 @@ class IntegrationsRqt extends FormRequest
             'numeric' => 'O campo :attribute só aceita valores númericos.',
             'boolean' => 'O campo :attribute só pode receber ativo ou desativado.',
             'url' => 'O campo :attribute é inválido.',
+            'uuid' => 'O campo :attribute deve ser um UUID válido.',
         ];   
     }
 }

@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\LeadsOrigins;
+use App\Models\Companies;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\LeadsOrigins>
@@ -17,11 +18,12 @@ class LeadsOriginsFactory extends Factory
      */
     public function definition(): array
     {
+        $companies = Companies::where('slug', 'like', '%kgroup%')->first();
         return [
             'active' => 1,
             'name' => 'Default',
             'slug' => 'default',
-            'companies_id' => 1,
+            'companies_id' => $companies->id,
         ];
     }
 }

@@ -41,8 +41,8 @@ class LeadsRqt extends FormRequest
             'name' => 'required|min:3',
             'phone' => 'required',
             'email' => 'required|email',
-            'origin' => 'required|integer',
-            'building' => 'required|integer',
+            'origin' => 'required|uuid',
+            'building' => 'required|uuid',
         ];
     }
 
@@ -60,6 +60,7 @@ class LeadsRqt extends FormRequest
             'numeric' => 'O campo :attribute só aceita valores númericos.',
             'boolean' => 'O campo :attribute só pode receber ativo ou desativado.',
             'integer' => 'O campo :attribute só aceita valores inteiros.',
+            'uuid' => 'O campo :attribute deve ser um UUID válido.',
         ];    
     }
 }

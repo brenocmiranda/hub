@@ -42,7 +42,7 @@ class UsersRolesRqt extends FormRequest
                 'name' => 'required|min:3',
                 'roles' => 'required',
                 'active' => 'required|boolean',
-                'companie' => 'required|integer',
+                'companie' => 'required|uuid',
             ];
         } else {
             return [
@@ -67,6 +67,7 @@ class UsersRolesRqt extends FormRequest
             'numeric' => 'O campo :attribute só aceita valores númericos.',
             'boolean' => 'O campo :attribute só pode receber ativo ou desativado.',
             'max' => 'O campo :attribute deve receber uma valor até :max.',
+            'uuid' => 'O campo :attribute deve ser um UUID válido.',
         ];   
     }
 }

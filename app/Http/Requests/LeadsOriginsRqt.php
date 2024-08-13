@@ -42,7 +42,7 @@ class LeadsOriginsRqt extends FormRequest
                 'name' => 'required|min:3',
                 'slug' => 'required|min:3',
                 'active' => 'required|boolean',
-                'companie' => 'required|integer',
+                'companie' => 'required|uuid',
             ];
         } else {
             return [
@@ -66,6 +66,7 @@ class LeadsOriginsRqt extends FormRequest
             'unique' => 'O campo :attribute já foi cadastrado, tente novamente.',
             'numeric' => 'O campo :attribute só aceita valores númericos.',
             'boolean' => 'O campo :attribute só pode receber ativo ou desativado.',
+            'uuid' => 'O campo :attribute deve ser um UUID válido.',
         ];   
     }
 }

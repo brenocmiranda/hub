@@ -79,6 +79,7 @@ class CompaniesCtrl extends Controller
 
                 // Array do emp
                 $array[] = [
+                    'id' => $companie->id,
                     'name' => $companie->name,
                     'slug' => $companie->slug,
                     'status' => $status,

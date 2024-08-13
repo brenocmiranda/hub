@@ -12,15 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('pipelines', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->integer('statusCode');
             $table->integer('attempts');
-            $table->unsignedBigInteger('leads_id');
-            $table->foreign('leads_id')->references('id')->on('leads');
-            $table->unsignedBigInteger('buildings_id');
-            $table->foreign('buildings_id')->references('id')->on('buildings');
-            $table->unsignedBigInteger('integrations_id')->nullable();
-            $table->foreign('integrations_id')->references('id')->on('integrations');
+            $table->foreignUuid('leads_id')->constrained();
+            $table->foreignUuid('buildings_id')->constrained();
+            $table->foreignUuid('integrations_id')->constrained();
             $table->softDeletes($column = 'deleted_at', $precision = 0);
             $table->timestamps();
         });

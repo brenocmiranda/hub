@@ -52,13 +52,13 @@ Novo empreendimento
 
                         <div class="input-field col-12">
                             <div class="form-check form-switch ms-1">
-                                <input class="form-check-input" type="checkbox" role="switch" value="check_test_buildings_id" id="check_test_buildings_id">
-                                <label class="form-check-label" for="check_test_buildings_id">
+                                <input class="form-check-input" type="checkbox" role="switch" value="check_buildings_id" id="check_buildings_id">
+                                <label class="form-check-label" for="check_buildings_id">
                                     Empreendimento de teste
                                 </label>
                             </div>
                             <div class="form-floating" style="display: none;">
-                                <select class="form-select mt-3 @error('test_buildings_id') is-invalid @enderror" aria-label="Defina um empreendimento de teste" name="test_buildings_id" id="test_buildings_id" disabled>
+                                <select class="form-select mt-3 @error('buildings_id') is-invalid @enderror" aria-label="Defina um empreendimento de teste" name="buildings_id" id="buildings_id" disabled>
                                     <option selected></option>
                                     @if($buildingsAll) 
                                         @foreach($buildingsAll as $index => $arr) 
@@ -76,7 +76,7 @@ Novo empreendimento
                                         @endforeach 
                                     @endif 
                                 </select>
-                                <label for="test_buildings_id">Empreendimento de teste</label>
+                                <label for="buildings_id">Empreendimento de teste</label>
                             </div>
                         </div>
                         
@@ -248,6 +248,7 @@ Novo empreendimento
                 <span class="badge text-bg-secondary">$message</span>
                 <span class="badge text-bg-secondary">$PartyNumber</span>
                 <span class="badge text-bg-secondary">$SrNumber</span>
+                <span class="badge text-bg-secondary">$idCaso</span>
             </div>
             <p class="mb-0">Segue o exemplo de como utilizar uma das variáveis:</p>
             <small class="fw-bold"> $nomeCompleto </small>
@@ -359,13 +360,13 @@ Novo empreendimento
     }
 
     // Active empreendimento de teste
-    $('#check_test_buildings_id').on('change', function(){
+    $('#check_buildings_id').on('change', function(){
         if( $(this).is(':checked') ) {
-            $('#test_buildings_id').removeAttr('disabled');
-            $('#test_buildings_id').parent().show();
+            $('#buildings_id').removeAttr('disabled');
+            $('#buildings_id').parent().show();
         } else {
-            $('#test_buildings_id').attr('disabled', '');
-            $('#test_buildings_id').parent().hide();
+            $('#buildings_id').attr('disabled', '');
+            $('#buildings_id').parent().hide();
         }
     });
 </script>

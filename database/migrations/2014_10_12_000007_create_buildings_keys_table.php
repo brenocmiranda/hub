@@ -12,11 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('buildings_keys', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->boolean('active');
             $table->string('value');
-            $table->unsignedBigInteger('buildings_id');
-            $table->foreign('buildings_id')->references('id')->on('buildings');
+            $table->foreignUuid('buildings_id')->constrained();
             $table->softDeletes($column = 'deleted_at', $precision = 0);
             $table->timestamps();
         });

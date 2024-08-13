@@ -76,8 +76,10 @@ jQuery( function( $ ){
             send: function( data ){
                 return new Promise((resolve, reject) => {
                     let $mail_data = data;
+                    let companie = window.companie ? window.companie : 'kgroup';
+
                     $.ajax({
-                        url: 'https://hub.klash.com.br/api/leads/lps',
+                        url: 'https://hub.klash.com.br/api/leads/' + companie,
                         type: 'POST',
                         beforeSend: function (xhr) {
                             xhr.setRequestHeader('Authorization', 'Bearer 1|TgKuowKlFmKVDpiiWrLgkDOKFbkMQIb2FmHF9HRj5c5a200f');
@@ -381,8 +383,7 @@ jQuery( function( $ ){
 			com = $form.find('[name="com"]').length > 0 ? $form.find('[name="com"]').val().trim() : "",
 			pp = $form.find( '[name="pp"]'),
 			url_params = location.search ? location.search.replace('?', '') : '',
-			url = location.href,
-            companie = window.companie ? window.companie : 'kgroup';
+			url = location.href;
 
 		if ( !pp.is( ':checked' )) {
 			alert( 'Aceite da política de privacidade é obrigatório.' );
@@ -414,7 +415,7 @@ jQuery( function( $ ){
 		$form.addClass('sending-form');
 		hub.validations.setDisabled($form, true);
 
-		let data = { nome, sobrenome, email, telefone, mensagem, companie, empreendimento, url_params, url, origin, com };
+		let data = { nome, sobrenome, email, telefone, mensagem, empreendimento, url_params, url, origin, com };
 		console.log( 'form data', data );
 
 		hub.integrations.send( data ).then(function (em_data) {
@@ -451,8 +452,7 @@ jQuery( function( $ ){
 			url = location.href,
 			empreendimento = $form.find('[name="empreendimento"]').val().trim(),
 			tel_whatsapp = $form.find('[name="tel-whatsapp"]').val().trim(),
-			msg_whatsapp = $form.find('[name="msg-whatsapp"]').val().trim(),
-            companie = window.companie ? window.companie : 'kgroup';
+			msg_whatsapp = $form.find('[name="msg-whatsapp"]').val().trim();
 
 		if (nome == '' || email == '' || telefone == '' || empreendimento == '') {
 			alert('Preencha todos os campos.');
@@ -479,7 +479,7 @@ jQuery( function( $ ){
 		$form.addClass('sending-form');
 		hub.validations.setDisabled($form, true);
 
-		let data = { nome, email, telefone, url_params, empreendimento, companie, url };
+		let data = { nome, email, telefone, url_params, empreendimento, url };
 		console.log( 'form data', data );
 
 		hub.integrations.send( data ).then(function (em_data) {

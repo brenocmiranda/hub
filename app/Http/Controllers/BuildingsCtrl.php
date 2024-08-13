@@ -156,7 +156,7 @@ class BuildingsCtrl extends Controller
         $building = Buildings::create([
             'name' => $request->name, 
             'active' => $request->active,
-            'test_buildings_id' => $request->test_buildings_id ? $request->test_buildings_id : null,
+            'buildings_id' => $request->buildings_id ? $request->buildings_id : null,
         ]);
 
         // Cadastrando novos parceiros
@@ -212,13 +212,15 @@ class BuildingsCtrl extends Controller
                     'buildings_id' => $building->id, 
                     'integrations_id' => $integration['nameIntegration'],
                 ]);
-                foreach($integration['nameField'] as $index2 => $field) {
-                    BuildingsIntegrationsFields::create([
-                        'name' => $integration['nameField'][$index2], 
-                        'value' => $integration['valueField'][$index2],
-                        'buildings_has_integrations_buildings_id' => $building->id,
-                        'buildings_has_integrations_integrations_id' => $integration['nameIntegration'],
-                    ]);
+                if( isset($integration['nameField']) ) {
+                    foreach($integration['nameField'] as $index2 => $field) {
+                        BuildingsIntegrationsFields::create([
+                            'name' => $integration['nameField'][$index2], 
+                            'value' => $integration['valueField'][$index2],
+                            'buildings_id' => $building->id,
+                            'integrations_id' => $integration['nameIntegration'],
+                        ]);
+                    }
                 }
             }
         }
@@ -284,14 +286,14 @@ class BuildingsCtrl extends Controller
         BuildingsPartners::where('buildings_id', $id)->forceDelete();
         BuildingsDestinatarios::where('buildings_id', $id)->forceDelete();
         BuildingsSheets::where('buildings_id', $id)->forceDelete();
-        BuildingsIntegrationsFields::where('buildings_has_integrations_buildings_id', $id)->forceDelete();
+        BuildingsIntegrationsFields::where('buildings_id', $id)->forceDelete();
         BuildingsIntegrations::where('buildings_id', $id)->forceDelete();
 
         // Atualizando os dados do empreendimento
         Buildings::find($id)->update([
             'name' => $request->name, 
             'active' => $request->active, 
-            'test_buildings_id' => $request->test_buildings_id ? $request->test_buildings_id : null,
+            'buildings_id' => $request->buildings_id ? $request->buildings_id : null,
         ]);
 
         // Cadastrando novos parceiros
@@ -360,8 +362,8 @@ class BuildingsCtrl extends Controller
                         BuildingsIntegrationsFields::create([
                             'name' => $integration['nameField'][$index2], 
                             'value' => $integration['valueField'][$index2],
-                            'buildings_has_integrations_buildings_id' => $id,
-                            'buildings_has_integrations_integrations_id' => $integration['nameIntegration'],
+                            'buildings_id' => $id,
+                            'integrations_id' => $integration['nameIntegration'],
                         ]);
                     }
                 }
@@ -401,13 +403,13 @@ class BuildingsCtrl extends Controller
         $buildingIntegrations = BuildingsIntegrations::where('buildings_id', $id)->get();
         $buildingDestinatarios = BuildingsDestinatarios::where('buildings_id', $id)->get();
         $buildingSheets = BuildingsSheets::where('buildings_id', $id)->get();
-        $buildingIntegrationsFields = BuildingsIntegrationsFields::where('buildings_has_integrations_buildings_id', $id)->get();
+        $buildingIntegrationsFields = BuildingsIntegrationsFields::where('buildings_id', $id)->get();
 
         // Cadastrando novo empreendimento
         $buildingNew = Buildings::create([
             'name' =>  'Copy_' . $building->name, 
             'active' => $building->active,
-            'test_buildings_id' => $building->test_buildings_id,
+            'buildings_id' => $building->buildings_id,
         ]);
         
         // Cadastrando novos parceiros
@@ -453,12 +455,12 @@ class BuildingsCtrl extends Controller
                 ]);
 
                 foreach($buildingIntegrationsFields as $index => $field) {
-                    if($field->buildings_has_integrations_integrations_id == $integration->integrations_id) {
+                    if($field->integrations_id == $integration->integrations_id) {
                         BuildingsIntegrationsFields::create([
                             'name' => $field->name, 
                             'value' => $field->value,
-                            'buildings_has_integrations_buildings_id' => $buildingNew->id,
-                            'buildings_has_integrations_integrations_id' => $integration->integrations_id,
+                            'buildings_id' => $buildingNew->id,
+                            'integrations_id' => $integration->integrations_id,
                         ]);
                     } 
                 }

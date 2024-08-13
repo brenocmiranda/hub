@@ -20,6 +20,7 @@ Empresas
                 <table id="table" data-ajax="ajaxRequest" data-side-pagination="server">
                     <thead>
                         <tr>
+                            <th data-field="id" data-align="center">ID</th>
                             <th data-field="name" data-align="center">Nome</th>
                             <th data-field="slug" data-align="center">Slug</th>
                             <th data-field="status" data-align="center">Status</th>

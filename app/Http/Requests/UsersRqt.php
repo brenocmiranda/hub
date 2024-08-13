@@ -43,15 +43,15 @@ class UsersRqt extends FormRequest
                 'name' => 'required|min:3',
                 'email' => 'required|email|unique:users,email,'.$this->segment(3),
                 'active' => 'required|boolean',
-                'companie' => 'required|integer',
-                'roles' => 'required|integer',
+                'companie' => 'required|uuid',
+                'roles' => 'required|uuid',
             ];
         } else {
             return [
                 'name' => 'required|min:3',
                 'email' => 'required|email|unique:users,email,'.$this->segment(3),
                 'active' => 'required|boolean',
-                'roles' => 'required|integer',
+                'roles' => 'required|uuid',
             ];
         }
     }
@@ -70,6 +70,7 @@ class UsersRqt extends FormRequest
             'numeric' => 'O campo :attribute só aceita valores númericos.',
             'boolean' => 'O campo :attribute só pode receber ativo ou desativado.',
             'integer' => 'O campo :attribute só aceita valores inteiros.',
+            'uuid' => 'O campo :attribute deve ser um UUID válido.',
         ];   
     }
 }

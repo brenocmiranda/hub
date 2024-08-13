@@ -16,10 +16,10 @@ class CompaniesFactory extends Factory
      * @return array<string, mixed>
      */
     public function definition(): array
-    {
+    {   
         return [
             'active' => 1,
-            'name' => 'K Group',
+            'name' => 'KGroup',
             'slug' => 'kgroup',
         ];
     }

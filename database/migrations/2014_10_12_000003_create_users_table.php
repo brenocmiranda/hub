@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->boolean('active');
             $table->string('name', 200);
             $table->string('email')->unique();
@@ -20,10 +20,8 @@ return new class extends Migration
             $table->string('password');
             $table->integer('attempts');
             $table->string('src')->nullable();
-            $table->unsignedBigInteger('users_roles_id');
-            $table->foreign('users_roles_id')->references('id')->on('users_roles');
-            $table->unsignedBigInteger('companies_id');
-            $table->foreign('companies_id')->references('id')->on('companies');
+            $table->foreignUuid('users_roles_id')->constrained();
+            $table->foreignUuid('companies_id')->constrained();
             $table->rememberToken();
             $table->softDeletes($column = 'deleted_at', $precision = 0);
             $table->timestamps();

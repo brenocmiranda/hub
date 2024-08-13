@@ -31,7 +31,7 @@ class ApiLeadsCtrl extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(ApiLeadsRqt $request, $originLead = null)
+    public function store(ApiLeadsRqt $request, $companie)
     {   
 
         Log::build([ 
@@ -42,6 +42,17 @@ class ApiLeadsCtrl extends Controller
         /**
          * Params required
         */
+        
+            /** Empresa origem **/
+            if( $companie && Companies::find( $companie )) {
+                $companies_id = $companie;
+            } else {
+                 return response()->json([
+                    'status' => false,
+                    'message' => 'Empresa não identificada.',
+                ], 400);
+            }
+            
             /** Nome **/
             $array = [
                 'name' => $request->name,
@@ -85,20 +96,6 @@ class ApiLeadsCtrl extends Controller
                 }
             }
             $email = $email ? $email : "naoidentificado@komuh.com";
-
-            /** Empresa origem **/
-            $array = [
-                'companies' => Companies::where( 'slug', $request->companies )->first(),
-                'empresa' => Companies::where( 'slug', $request->empresa )->first(),
-            ];
-            foreach($array as $ar){
-                if( $ar ){
-                    $companies_id = $ar->id;
-                    break;
-                }
-            }
-            $comdefault = Companies::where( 'slug', 'komuh' )->first();
-            $companies_id = $companies_id ? $companies_id : $comdefault->id;
 
             /** Empreendimento **/
             $array = [
@@ -146,8 +143,8 @@ class ApiLeadsCtrl extends Controller
             $array = [
                 'origin' => LeadsOrigins::where('companies_id', $companies_id)
                                             ->where('slug', $request->origin)->first(),
-                'originLead' => LeadsOrigins::where('companies_id', $companies_id)
-                                                ->where('slug', $originLead)->first(),
+                'origem' => LeadsOrigins::where('companies_id', $companies_id)
+                                                ->where('slug', $request->origem)->first(),
             ];
             foreach($array as $ar){
                 if( $ar ){
@@ -360,30 +357,6 @@ class ApiLeadsCtrl extends Controller
                     break;
                 }
             }
-            
-            /** gclid **/
-            $array = [
-                'gclid' => $request->gclid,
-            ];
-            foreach($array as $ar){
-                if( $ar ){
-                    $fields['nameField'][] = 'gclid';
-                    $fields['valueField'][] = $ar;
-                    break;
-                }
-            }
-
-            /** fbclid **/
-            $array = [
-                'fbclid' => $request->fbclid,
-            ];
-            foreach($array as $ar){
-                if( $ar ){
-                    $fields['nameField'][] = 'fbclid';
-                    $fields['valueField'][] = $ar;
-                    break;
-                }
-            }
         /**
          * End Params optinals
         */
@@ -394,8 +367,8 @@ class ApiLeadsCtrl extends Controller
         */
             if( (stripos($name, 'teste') !== false || stripos($email, 'teste') !== false) ) {
                 $empreendimento = Buildings::find($building);
-                if( $empreendimento->test_buildings_id ){
-                    $building = $empreendimento->test_buildings_id;
+                if( $empreendimento->buildings_id ){
+                    $building = $empreendimento->buildings_id;
                     $fields['nameField'][] = 'building_origin';
                     $fields['valueField'][] = $empreendimento->name;
                 }
@@ -409,7 +382,7 @@ class ApiLeadsCtrl extends Controller
          * Defined partner responsible
         */
             $companies_id = $this->partners( $building );
-            $originSlug = $originLead ? $originLead : $request->origin;
+            $originSlug = $request->origin ? $request->origin : $request->origem;
             $origin = LeadsOrigins::where('companies_id', $companies_id)->where('slug', $originSlug)->first();
             if ( $origin ) {
                 $origin = $origin->id;

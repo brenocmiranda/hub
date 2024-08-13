@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use App\Models\Users;
+use App\Models\UsersRoles;
+use App\Models\Companies;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
@@ -21,6 +23,9 @@ class UsersFactory extends Factory
      */
     public function definition(): array
     {
+        $companies = Companies::where('slug', 'like', '%kgroup%')->first();
+        $roles = UsersRoles::where('name', 'like', '%Admin%')->first();
+
         return [
             'active' => 1,
             'name' => 'Breno de Carvalho',
@@ -29,8 +34,8 @@ class UsersFactory extends Factory
             'password' => static::$password ??= Hash::make('komuh@220'),
             'remember_token' => Str::random(10),
             'attempts' => 0,
-            'users_roles_id' => 1,
-            'companies_id' => 1,
+            'users_roles_id' => $roles->id,
+            'companies_id' => $companies->id,
         ];
     }
 
