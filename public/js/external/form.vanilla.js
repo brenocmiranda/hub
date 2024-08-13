@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     window.dataLayer = window.dataLayer || [];
     let recaptcha_loaded = false;
     let galerias = [];
@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
             /**
              * Validate if email
              */
-            isEmail: function(email) {
+            isEmail: function (email) {
                 var pattern = /^([a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+(\.[a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+)*|"((([ \t]*\r\n)?[ \t]+)?([\x01-\x08\x0b\x0c\x0e-\x1f\x7f\x21\x23-\x5b\x5d-\x7e\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|\\[\x01-\x09\x0b\x0c\x0d-\x7f\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))*(([ \t]*\r\n)?[ \t]+)?")@(([a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.)+([a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.?$/i;
                 return pattern.test(email);
             },
@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
             /**
              * Validate if phone
              */
-            isPhone: function(phone) {
+            isPhone: function (phone) {
                 var pattern = /^(\()?\d{2}(\))?\s?\d{4,5}(\-|\.)?\d{4}$/i;
                 return pattern.test(phone);
             },
@@ -23,8 +23,8 @@ document.addEventListener('DOMContentLoaded', function() {
             /**
              * Disable inputs on click submit
              */
-            setDisabled: function(form, state) {
-                Array.from(form.querySelectorAll('input, select, textarea, button')).forEach(function(el) {
+            setDisabled: function (form, state) {
+                Array.from(form.querySelectorAll('input, select, textarea, button')).forEach(function (el) {
                     el.disabled = state;
                 });
             },
@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
             /**
              * Remove space in input
              */
-            removeSpaces: function(event) {
+            removeSpaces: function (event) {
                 if (event.which === 32) return false;
             }
         },
@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
             /**
              * Rules for input phone
              */
-            phone: function(v) {
+            phone: function (v) {
                 var r = v.replace(/\D/g, "");
                 r = r.replace(/^0/, "");
                 if (r.length > 10) {
@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', function() {
             /**
              * Rules for special characters and numbers
              */
-            removeNonLetters: function(input) {
+            removeNonLetters: function (input) {
                 return input.replace(/[^a-zA-Z]/g, "");
             },
         },
@@ -68,19 +68,20 @@ document.addEventListener('DOMContentLoaded', function() {
             /**
              * Send data for integration
              */
-            send: function(data) {
-                return new Promise(function(resolve, reject) {
-                    let mail_data = data;
+            send: function (data) {
+                return new Promise(function (resolve, reject) {
+                    let mail_data = JSON.stringify(data);
                     let company = window.company || '9cc20c19-db84-4e9e-b56e-d93e188a6372';
                     let url = 'https://hub.klash.com.br/api/leads/' + company;
 
-                    let xhr = new XMLHttpRequest();
+                    var xhr = new XMLHttpRequest();
                     xhr.open('POST', url, true);
-                    //xhr.setRequestHeader('Authorization', 'Bearer 1|kcafoWFwa7FwBruRkG4UP24D03jkMHzCaCU1O5e6c8d74391');
+                    xhr.setRequestHeader('Content-Type', 'application/json');
+                    xhr.setRequestHeader('Authorization', 'Bearer 1|kcafoWFwa7FwBruRkG4UP24D03jkMHzCaCU1O5e6c8d74391');
 
                     xhr.onload = function () {
                         if (xhr.status >= 200 && xhr.status < 300) {
-                            resolve(xhr.response);
+                            resolve(JSON.parse(xhr.response));
                         } else {
                             reject(xhr.statusText);
                         }
@@ -90,7 +91,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         reject(xhr.statusText);
                     };
 
-                    xhr.send(JSON.stringify(mail_data));
+                    xhr.send(mail_data);
                 });
             }
         },
@@ -99,7 +100,7 @@ document.addEventListener('DOMContentLoaded', function() {
             /**
              * Load script dynamically
              */
-            loadscript: function(url, params = {}, callback = null) {
+            loadscript: function (url, params = {}, callback = null) {
                 let s = document.createElement('script');
                 s.type = 'text/javascript';
                 for (let p in params) s[p] = params[p];
@@ -112,7 +113,7 @@ document.addEventListener('DOMContentLoaded', function() {
             /**
              * Check if element is in viewport
              */
-            isInViewport: function(item) {
+            isInViewport: function (item) {
                 let elTop = item.getBoundingClientRect().top;
                 let elBottom = elTop + item.offsetHeight;
                 let wHeight = window.innerHeight;
@@ -121,9 +122,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 return elBottom > scTop && elTop < scBottom;
             },
-            checkInView: function() {
+            checkInView: function () {
                 let inView = document.querySelectorAll('section, .inview');
-                inView.forEach(function(el) {
+                inView.forEach(function (el) {
                     if (hub.helpers.isInViewport(el)) {
                         el.classList.add('is-inview');
                     }
@@ -133,7 +134,7 @@ document.addEventListener('DOMContentLoaded', function() {
             /**
              * Remove loading
              */
-            removeLoading: function() {
+            removeLoading: function () {
                 let loading = document.querySelector('.loading');
                 if (loading) loading.style.display = 'none';
             },
@@ -141,9 +142,9 @@ document.addEventListener('DOMContentLoaded', function() {
             /**
              * Init Colorbox Video
              */
-            initColorboxVideo: function() {
-                document.querySelectorAll('a[href*="vimeo.com"]').forEach(function(el) {
-                    el.addEventListener('click', function(e) {
+            initColorboxVideo: function () {
+                document.querySelectorAll('a[href*="vimeo.com"]').forEach(function (el) {
+                    el.addEventListener('click', function (e) {
                         e.preventDefault();
                         let match = /vimeo.*\/(\d+)/i.exec(this.href);
                         if (match) {
@@ -152,8 +153,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     });
                 });
 
-                document.querySelectorAll('a[href*="youtube.com"]').forEach(function(el) {
-                    el.addEventListener('click', function(e) {
+                document.querySelectorAll('a[href*="youtube.com"]').forEach(function (el) {
+                    el.addEventListener('click', function (e) {
                         e.preventDefault();
                         let regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
                         let match = this.href.match(regExp);
@@ -163,7 +164,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     });
                 });
             },
-            showColorboxVideo: function(params) {
+            showColorboxVideo: function (params) {
                 let mergedParams = Object.assign({
                     iframe: true,
                     innerWidth: 960,
@@ -179,7 +180,7 @@ document.addEventListener('DOMContentLoaded', function() {
             /**
              * Init Gallery
              */
-            initGallery: function(galleryJson) {
+            initGallery: function (galleryJson) {
                 fetch(galleryJson)
                     .then(response => response.json())
                     .then(data => {
@@ -188,7 +189,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         let nav = document.getElementById('gallery-nav');
                         let li = [];
 
-                        data.galerias.forEach(function(gal) {
+                        data.galerias.forEach(function (gal) {
                             li.push(`<a href="#" class="btn" data-gallery="${gal.slug}">${gal.name}</a>`);
                         });
 
@@ -199,7 +200,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         hub.helpers.renderGallery(data.galerias[0].slug);
                     });
 
-                document.addEventListener('click', function(e) {
+                document.addEventListener('click', function (e) {
                     if (e.target && e.target.dataset.gallery) {
                         e.preventDefault();
                         hub.helpers.renderGallery(e.target.dataset.gallery);
@@ -208,7 +209,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 });
             },
-            renderGallery: function(name) {
+            renderGallery: function (name) {
                 let gallery = galerias.galerias.find(gal => gal.slug === name);
 
                 if (!gallery) return;
@@ -221,23 +222,23 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 let html = [];
 
-                items.forEach(function(image) {
+                items.forEach(function (image) {
                     html.push(`
-                        <div class="gallery-item">
-                            <a href="${path}${image.full}" class="gallery-image">
-                                <img src="${path}${image.thumb}" alt="${image.caption}">
-                            </a>
-                        </div>
-                    `);
+                <div class="gallery-item">
+                    <a href="${path}${image.full}" class="gallery-image">
+                        <img src="${path}${image.thumb}" alt="${image.caption}">
+                    </a>
+                </div>
+            `);
                 });
 
                 gal.innerHTML = html.join("\n");
 
                 hub.helpers.initColorboxImages(gal.querySelectorAll('a.gallery-image'));
             },
-            initColorboxImages: function(images) {
-                images.forEach(function(image) {
-                    image.addEventListener('click', function(e) {
+            initColorboxImages: function (images) {
+                images.forEach(function (image) {
+                    image.addEventListener('click', function (e) {
                         e.preventDefault();
                         // Assuming a Colorbox-like functionality
                         $.colorbox({ href: image.href, maxWidth: '90%', maxHeight: '90%', fixed: true });
@@ -250,7 +251,7 @@ document.addEventListener('DOMContentLoaded', function() {
             /**
              * Loading lib in Chat
             */
-            patrimar: function() {
+            patrimar: function () {
                 var self = window.location.toString();
                 var querystring = self.split("?");
                 if (querystring.length > 1) {
@@ -265,10 +266,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 var utm_source = sessionStorage.getItem('utm_source') || "";
                 var utm_campaign = sessionStorage.getItem('utm_campaign') || "";
                 var utm_medium = sessionStorage.getItem('utm_medium') || "";
-                
+
                 var script = document.createElement('script');
                 script.src = 'https://www.patrimar.com.br/hotsites/integracoes/chat.php?empreendimento=' + window.building + '&url=' + window.location.pathname + '&utm_source=' + utm_source + '&campanha=' + utm_campaign + '&midia=' + utm_medium;
-                script.onload = function() {
+                script.onload = function () {
                     XRM_Chat.open();
                 };
                 document.head.appendChild(script);
@@ -279,21 +280,21 @@ document.addEventListener('DOMContentLoaded', function() {
             /**
              * Loading lib in recaptcha
              */
-            init: function(input, recaptcha_loaded) {
+            init: function (input, recaptcha_loaded) {
                 var form = input.closest('form');
                 var submit = form.querySelector('.submit-btn');
 
                 if (!recaptcha_loaded) {
                     var script = document.createElement('script');
                     script.src = '//www.google.com/recaptcha/api.js';
-                    script.onload = function() {
+                    script.onload = function () {
                         recaptcha_loaded = true;
                         var inputs = form.querySelectorAll('input');
-                        inputs.forEach(function(el) {
-                            el.removeEventListener('input', function() {});
+                        inputs.forEach(function (el) {
+                            el.removeEventListener('input', function () { });
                         });
 
-                        setTimeout(function() {
+                        setTimeout(function () {
                             submit.disabled = true;
                             if (input.name === 'pp' && input.checked) {
                                 submit.disabled = false;
@@ -309,19 +310,19 @@ document.addEventListener('DOMContentLoaded', function() {
             /**
              * Loading lib in Onetrust
              */
-            init: function(id) {
+            init: function (id) {
                 var url = 'https://cdn.cookielaw.org/consent/' + id + '/OtAutoBlock.js';
 
                 var script1 = document.createElement('script');
                 script1.src = url;
-                script1.onload = function() {
+                script1.onload = function () {
                     var script2 = document.createElement('script');
                     script2.type = 'text/javascript';
                     script2.setAttribute('data-domain-script', id);
                     script2.async = true;
                     script2.src = 'https://cdn.cookielaw.org/scripttemplates/otSDKStub.js';
                     document.body.appendChild(script2);
-                    function OptanonWrapper() {}
+                    function OptanonWrapper() { }
                 };
                 document.head.appendChild(script1);
             },
@@ -331,8 +332,8 @@ document.addEventListener('DOMContentLoaded', function() {
     /**
      * Disabled inputs on click submit
      */
-    window.formSubmit = function(token) {
-        setTimeout(function() {
+    window.formSubmit = function (token) {
+        setTimeout(function () {
             let form = document.querySelector("form.sending-form");
             form.querySelector('.submit-btn').disabled = true;
         }, 10);
@@ -341,8 +342,8 @@ document.addEventListener('DOMContentLoaded', function() {
     /**
      * Apply mask phone
      */
-    document.querySelectorAll('.is-phone').forEach(function(input) {
-        input.addEventListener('keyup', function(e) {
+    document.querySelectorAll('.is-phone').forEach(function (input) {
+        input.addEventListener('keyup', function (e) {
             var v = hub.masks.phone(this.value);
             if (v != this.value) {
                 this.value = v;
@@ -353,8 +354,8 @@ document.addEventListener('DOMContentLoaded', function() {
     /**
      * Remove special characters
      */
-    document.querySelectorAll('.is-text').forEach(function(input) {
-        input.addEventListener('keyup', function(e) {
+    document.querySelectorAll('.is-text').forEach(function (input) {
+        input.addEventListener('keyup', function (e) {
             var v = hub.masks.removeNonLetters(this.value);
             if (v != this.value) {
                 this.value = v;
@@ -365,8 +366,8 @@ document.addEventListener('DOMContentLoaded', function() {
     /**
      * Remove space in input
      */
-    document.querySelectorAll('.no-space').forEach(function(input) {
-        input.addEventListener('keypress', function(e) {
+    document.querySelectorAll('.no-space').forEach(function (input) {
+        input.addEventListener('keypress', function (e) {
             hub.validations.removeSpaces(e);
         });
     });
@@ -374,8 +375,8 @@ document.addEventListener('DOMContentLoaded', function() {
     /**
      * Alternate privacy policy
      */
-    document.querySelectorAll('[name="pp"]').forEach(function(input) {
-        input.addEventListener('change', function() {
+    document.querySelectorAll('[name="pp"]').forEach(function (input) {
+        input.addEventListener('change', function () {
             let form = input.closest('form');
             let submitButton = form.querySelector('.submit-btn');
             submitButton.disabled = !input.checked;
@@ -385,9 +386,9 @@ document.addEventListener('DOMContentLoaded', function() {
     /**
      * Send data for function Hub
      */
-    document.querySelectorAll('.submit-btn').forEach(function(button) {
+    document.querySelectorAll('.submit-btn').forEach(function (button) {
         button.disabled = true;
-        button.addEventListener('click', function(e) {
+        button.addEventListener('click', function (e) {
             e.preventDefault();
 
             let form = button.closest('form');
@@ -438,7 +439,7 @@ document.addEventListener('DOMContentLoaded', function() {
             let data = { nome, sobrenome, email, telefone, mensagem, empreendimento, url_params, url, origin, com };
             console.log('form data', data);
 
-            hub.integrations.send(data).then(function(em_data) {
+            hub.integrations.send(data).then(function (em_data) {
                 console.log('sendmail', em_data);
 
                 if (em_data.status) {
@@ -461,8 +462,8 @@ document.addEventListener('DOMContentLoaded', function() {
     /**
      * Send data in modal WhatsApp for function sendEmail
      */
-    document.querySelectorAll('.submit-whatsapp').forEach(function(button) {
-        button.addEventListener('click', function(e) {
+    document.querySelectorAll('.submit-whatsapp').forEach(function (button) {
+        button.addEventListener('click', function (e) {
             e.preventDefault();
 
             let form = button.closest('form');
@@ -505,7 +506,7 @@ document.addEventListener('DOMContentLoaded', function() {
             let data = { nome, email, telefone, url_params, empreendimento, url };
             console.log('form data', data);
 
-            hub.integrations.send(data).then(function(em_data) {
+            hub.integrations.send(data).then(function (em_data) {
                 console.log('sendmail', em_data);
 
                 if (em_data.status) {
@@ -558,7 +559,7 @@ document.addEventListener('DOMContentLoaded', function() {
      * Loading lib in Chat (Click)
      */
     if (window.building && document.querySelector('.chat')) {
-        document.querySelector('.chat').addEventListener('click', function() {
+        document.querySelector('.chat').addEventListener('click', function () {
             hub.chats.patrimar();
         });
     }
@@ -566,8 +567,8 @@ document.addEventListener('DOMContentLoaded', function() {
     /**
      * Loading lib in recaptcha (Click)
      */
-    document.querySelectorAll('input').forEach(function(input) {
-        input.addEventListener('focus', function() {
+    document.querySelectorAll('input').forEach(function (input) {
+        input.addEventListener('focus', function () {
             hub.recaptcha.init(this, recaptcha_loaded);
         });
     });
@@ -578,7 +579,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (window.useColorboxVideo) {
         setTimeout(() => {
             if (!$.fn.colorbox) {
-                hub.helpers.loadscript('https://hub.klash.com.br/js/external/colorbox.min.js', { defer: true }, function() {
+                hub.helpers.loadscript('https://hub.klash.com.br/js/external/colorbox.min.js', { defer: true }, function () {
                     console.log('Colorbox loaded');
                     hub.helpers.initColorboxVideo();
                 });
@@ -603,20 +604,20 @@ document.addEventListener('DOMContentLoaded', function() {
     if (window.galleryJson) {
         setTimeout(() => {
             if (!$.fn.slick && $.fn.colorbox) {
-                hub.helpers.loadscript('https://hub.klash.com.br/js/external/slick.min.js', { defer: true }, function() {
+                hub.helpers.loadscript('https://hub.klash.com.br/js/external/slick.min.js', { defer: true }, function () {
                     console.log('Slick loaded');
-                    hub.helpers.loadscript('https://hub.klash.com.br/js/external/colorbox.min.js', { defer: true }, function() {
+                    hub.helpers.loadscript('https://hub.klash.com.br/js/external/colorbox.min.js', { defer: true }, function () {
                         console.log('Colorbox loaded');
                         hub.helpers.initGallery(window.galleryJson);
                     });
                 });
             } else if (!$.fn.slick) {
-                hub.helpers.loadscript('https://hub.klash.com.br/js/external/slick.min.js', { defer: true }, function() {
+                hub.helpers.loadscript('https://hub.klash.com.br/js/external/slick.min.js', { defer: true }, function () {
                     console.log('Slick loaded');
                     hub.helpers.initGallery(window.galleryJson);
                 });
             } else if (!$.fn.colorbox) {
-                hub.helpers.loadscript('https://hub.klash.com.br/js/external/colorbox.min.js', { defer: true }, function() {
+                hub.helpers.loadscript('https://hub.klash.com.br/js/external/colorbox.min.js', { defer: true }, function () {
                     console.log('Colorbox loaded');
                     hub.helpers.initGallery(window.galleryJson);
                 });
@@ -627,12 +628,12 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     /**
-	 * Loading lib in GoogleMaps (in scrolling)
-	 */
+     * Loading lib in GoogleMaps (in scrolling)
+     */
 
 
-	/**
-	 * Loading video background ()
-	 */
+    /**
+     * Loading video background ()
+     */
 
 });
