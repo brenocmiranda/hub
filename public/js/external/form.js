@@ -82,7 +82,7 @@ jQuery( function( $ ){
                         url: 'https://hub.klash.com.br/api/leads/' + companie,
                         type: 'POST',
                         beforeSend: function (xhr) {
-                            xhr.setRequestHeader('Authorization', 'Bearer 1|TgKuowKlFmKVDpiiWrLgkDOKFbkMQIb2FmHF9HRj5c5a200f');
+                            xhr.setRequestHeader('Authorization', 'Bearer 1|kcafoWFwa7FwBruRkG4UP24D03jkMHzCaCU1O5e6c8d74391');
                         },
                         data: $mail_data,
                         success: function ( $data ) { resolve( $data ); },
