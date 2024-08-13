@@ -50,7 +50,7 @@ class ApiLeadsCtrl extends Controller
                  return response()->json([
                     'status' => false,
                     'message' => 'Empresa não identificada.',
-                ], 400);
+                ], 406);
             }
             
             /** Nome **/
