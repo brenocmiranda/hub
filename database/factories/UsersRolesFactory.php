@@ -20,7 +20,7 @@ class UsersRolesFactory extends Factory
         return [
             'active' => 1,
             'name' => 'Admin',
-            'roles' => 'dashboards_show,leads_show,leads_create,leads_destroy,leads_retry,leads_resend,origins_show,origins_create,origins_update,origins_destroy,pipelines_show,pipelines_resetAll,companies_show,companies_create,companies_update,companies_destroy,buildings_show,buildings_create,buildings_update,buildings_destroy,buildings_duplicate,keys_show,keys_create,keys_update,keys_destroy,integrations_show,integrations_create,integrations_update,integrations_destroy,reports_show,reports_create,reports_destroy,imports_show,imports_create,imports_destroy,users_show,users_create,users_update,users_destroy,users_reset,roles_show,roles_create,roles_update,roles_destroy,tokens_show,tokens_create,tokens_destroy',
+            'roles' => 'dashboards_show,leads_show,leads_create,leads_destroy,leads_retry,leads_resend,origins_show,origins_create,origins_update,origins_destroy,pipelines_show,pipelines_resetAll,companies_show,companies_create,companies_update,companies_destroy,buildings_show,buildings_create,buildings_update,buildings_destroy,buildings_duplicate,keys_show,keys_create,keys_update,keys_destroy,integrations_show,integrations_create,integrations_update,integrations_destroy,reports_show,reports_create,reports_destroy,imports_show,imports_create,imports_destroy,users_show,users_create,users_update,users_destroy,users_recovery,roles_show,roles_create,roles_update,roles_destroy,tokens_show,tokens_create,tokens_destroy',
             'companies_id' => 1,
         ];
     }
