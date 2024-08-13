@@ -71,10 +71,10 @@ document.addEventListener('DOMContentLoaded', function() {
             send: function(data) {
                 return new Promise(function(resolve, reject) {
                     let mail_data = data;
-                    let companie = window.companie || '9cc20c19-db84-4e9e-b56e-d93e188a6372';
+                    let company = window.company || '9cc20c19-db84-4e9e-b56e-d93e188a6372';
 
                     let xhr = new XMLHttpRequest();
-                    xhr.open('POST', 'https://hub.klash.com.br/api/leads/' + companie, true);
+                    xhr.open('POST', 'https://hub.klash.com.br/api/leads/' + company, true);
                     xhr.setRequestHeader('Authorization', 'Bearer 1|kcafoWFwa7FwBruRkG4UP24D03jkMHzCaCU1O5e6c8d74391');
 
                     xhr.onload = function() {
