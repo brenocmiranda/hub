@@ -54,10 +54,6 @@ class ApiLeadsRqt extends FormRequest
             // Validate email
             'email' => 'required|email',
 
-            // Validate companies
-            'empresa' => 'required_without_all:companies|min:3',
-            'companies' => 'required_without_all:empresa|min:3',
-
             // Validate empreendimento
             'building' => 'required_without_all:empreendimento,originListingId,codigoDoAnunciante|string|min:3',
             'empreendimento' => 'required_without_all:building,originListingId,codigoDoAnunciante|string|min:3',
