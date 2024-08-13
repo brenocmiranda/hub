@@ -29,7 +29,7 @@ class Lead extends Mailable
     {
         return new Envelope(
             from: new Address('postmaster@hub.komuh.com', 'Hub Integrações'),
-            subject: '[HUB] Cadastrado de clientes',
+            subject: '[HUB] Cadastro de clientes',
         );
     }
 
