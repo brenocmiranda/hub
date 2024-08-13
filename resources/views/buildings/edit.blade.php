@@ -285,7 +285,7 @@ Editar empreendimento
                                                                 </div> 
                                                                 @if($building->RelationIntegrationsFields)
                                                                     @foreach($building->RelationIntegrationsFields as $i => $b)
-                                                                        @if($b->buildings_has_integrations_integrations_id === $buildingIntegration->id)
+                                                                        @if($b->integrations_id === $buildingIntegration->id)
                                                                             <div class="row row-gap-2"> 
                                                                                 <div class="input-field col-lg-6 col-12"> 
                                                                                     <div class="form-floating"> 
