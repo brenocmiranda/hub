@@ -99,7 +99,7 @@ Detalhes do lead
                     @if($lead->RelationPipelines->first())
                         @foreach($lead->RelationPipelines as $log)
                         
-                            {{$log->id === $log->RelationPipelinesLog->id}}
+                            {{$log->RelationPipelinesLog->id}}
                             @if($log->id === $log->RelationPipelinesLog->id)
                                 @if($log->statusCode == 0)
                                     <li class="d-flex flex-wrap flex-column flex-md-row">
