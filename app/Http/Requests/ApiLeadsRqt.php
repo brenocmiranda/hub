@@ -61,7 +61,8 @@ class ApiLeadsRqt extends FormRequest
             'codigoDoAnunciante' => 'required_without_all:empreendimento,originListingId,building|string|min:3',
 
             // Validate origin
-            'origin' => 'nullable|string|min:3',
+            'origin' => 'required_without_all:origem|string|min:3',
+            'origem' => 'required_without_all:origin|string|min:3',
 
             // Validate others (utm_source)
             'utm_source' => 'nullable|string',
@@ -96,12 +97,6 @@ class ApiLeadsRqt extends FormRequest
 
             // Validate others (url)
             'url' => 'nullable|url:http,https',
-
-            // Validate others (gclid)
-            'gclid' => 'nullable|string',
-
-            // Validate others (fbclid)
-            'fbclid' => 'nullable|string',
 
             // Validate others (pp)
             'pp' => 'nullable|string',
