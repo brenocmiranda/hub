@@ -261,11 +261,11 @@ Editar empreendimento
                                         <div class="integrations">
                                             <div class="all-integration">
                                                 @if($building->RelationIntegrations->first())
-                                                    @foreach($building->RelationIntegrations as $index => $buildingIntegration)
+                                                    @foreach($building->RelationIntegrations as $count => $buildingIntegration)
                                                         <div class="single-integration"> 
                                                             <div class="content-integration"> 
                                                                 <div class="form-floating"> 
-                                                                    <select class="form-select" aria-label="Defina uma integração" name="array[{{ $index }}][nameIntegration]" id="integration-{{ $index }}" required> 
+                                                                    <select class="form-select" aria-label="Defina uma integração" name="array[{{ $count }}][nameIntegration]" id="integration-{{ $count }}" required> 
                                                                         <option selected></option> 
                                                                         @if($integrations) 
                                                                             @foreach($integrations as $index => $arr) 
@@ -281,7 +281,7 @@ Editar empreendimento
                                                                             @endforeach 
                                                                         @endif 
                                                                     </select> 
-                                                                    <label for="integration-{{ $index }}">Integrações <abbr>*</abbr></label> 
+                                                                    <label for="integration-{{ $count }}">Integrações <abbr>*</abbr></label> 
                                                                 </div> 
                                                                 @if($building->RelationIntegrationsFields)
                                                                     @foreach($building->RelationIntegrationsFields as $i => $b)
@@ -306,7 +306,7 @@ Editar empreendimento
                                                                 @endif
                                                             </div> 
                                                             <div class="d-flex gap-2"> 
-                                                                <a href="#" class="btn btn-sm btn-outline-dark" onclick="addField(this, {{$i}});"><i class="bi bi-plus"></i> Novo campo</a> 
+                                                                <a href="#" class="btn btn-sm btn-outline-dark" onclick="addField(this, {{$count}});"><i class="bi bi-plus"></i> Novo campo</a> 
                                                                 <a href="#" class="btn btn-sm btn-outline-danger ms-auto" onclick="removeIntegration(this);"><i class="bi bi-trash"></i> Excluir integração</a>
                                                             </div> 
                                                         </div>
