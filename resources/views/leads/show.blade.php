@@ -98,9 +98,7 @@ Detalhes do lead
                     </li>
                     @if($lead->RelationPipelines->first())
                         @foreach($lead->RelationPipelines as $log)
-                        
-                            {{$log->id}}
-                            @if($log->id === $log->RelationPipelinesLog->id)
+                            @if($log->id === $log->RelationPipelinesLog->pipelines_id)
                                 @if($log->statusCode == 0)
                                     <li class="d-flex flex-wrap flex-column flex-md-row">
                                         <h6 class="fw-bold w-75">T: {{ $log->attempts }} - Payload de <span class="text-decoration-underline">{{$log->RelationIntegrations->name}}</span>.</h6>
