@@ -42,7 +42,7 @@
                                     Nome do empreendimento: {{ $lead->RelationBuildings->name }} <br>
                                 @endif
                                 @if($lead->RelationFields->where('name', 'SrNumber')->last())
-                                    Nº Ticket: {{ $lead->RelationFields->where('name', 'SrNumber')->last()->value }} <br>
+                                    Nº lead ou ticket: {{ $lead->RelationFields->where('name', 'SrNumber')->last()->value }} {{ $lead->RelationFields->where('name', 'idCaso')->last()->value }}<br>
                                 @endif
                                 @if($lead->RelationFields->where('name', 'PartyNumber')->last())
                                     Nº Contato: {{ $lead->RelationFields->where('name', 'PartyNumber')->last()->value }} 

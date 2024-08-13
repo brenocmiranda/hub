@@ -41,7 +41,7 @@ class ProcessSheetJob implements ShouldQueue
 
             $data = $this->lead->created_at->format("d/m/Y H:i:s");
             $origin = $this->lead->RelationOrigins->name;
-            $ticket = $this->lead->RelationFields->where('name', 'SrNumber')->first() ? $this->lead->RelationFields->where('name', 'SrNumber')->first()->value : "";
+            $ticket = ($this->lead->RelationFields->where('name', 'SrNumber')->first() ? $this->lead->RelationFields->where('name', 'SrNumber')->first()->value : ($this->lead->RelationFields->where('name', 'idCaso')->first()->value ? $this->lead->RelationFields->where('name', 'idCaso')->first()->value : "-"));
             $companie = $this->lead->RelationCompanies->name;
             $building = $this->lead->RelationBuildings->name;
             $contact = $this->lead->RelationFields->where('name', 'PartyNumber')->first() ? $this->lead->RelationFields->where('name', 'PartyNumber')->first()->value : "";
