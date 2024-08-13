@@ -96,6 +96,7 @@ Detalhes do lead
                         <span href="#" class="me-auto ms-auto-md w-25 text-left text-md-end mb-3 mb-md-0">{{ $lead->created_at->format("d/m/Y H:i:s") }}</span>
                         <p class="w-100">O lead teve entrada na plataforma através {{ $lead->api ? "da API" : "do Hub"}}.</p>
                     </li>
+                    {{$lead->RelationPipelines->first()}}
                     @if($lead->RelationPipelines->first())
                         @foreach($lead->RelationPipelines as $log)
                             @if($log->id === $log->RelationPipelinesLog->id)
