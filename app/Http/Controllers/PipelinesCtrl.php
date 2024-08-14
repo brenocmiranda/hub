@@ -44,7 +44,7 @@ class PipelinesCtrl extends Controller
                                 ->leftJoin('leads_origins', 'leads.id', '=', 'leads_origins.id')
                                 ->leftJoin('companies', 'leads.companies_id', '=', 'companies.id')
                                 ->leftJoin('integrations', 'pipelines.integrations_id', '=', 'integrations.id')
-                                ->select('pipelines.*', 'integrations.name as integration', 'leads.name as lead', 'leads_origins.name as origin', 'companies.name as companie');
+                                ->select('pipelines.*', 'integrations.name as integration', 'leads.name as lead', 'leads_origins.name as origin', 'companies.name as company');
         } else {
             $pipelines = Pipelines::orderBy('created_at', 'desc')
                                 ->join('leads', 'pipelines.leads_id', '=', 'leads.id')
@@ -103,7 +103,7 @@ class PipelinesCtrl extends Controller
                 // Array do emp
                 $array[] = [
                     'date'  => $pipeline->created_at->format("d/m/Y H:i:s"),
-                    'companie' => Gate::check('access_komuh') ? $pipeline->companie : '-',
+                    'company' => Gate::check('access_komuh') ? $pipeline->company : '-',
                     'status' => $pipeline->statusCode, 
                     'integration' => $integration, 
                     'origin' => $pipeline->origin,

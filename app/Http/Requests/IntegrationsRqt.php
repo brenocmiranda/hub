@@ -32,7 +32,7 @@ class IntegrationsRqt extends FormRequest
             'user' => 'usuário',
             'password' => 'senha',
             'token' => 'token',
-            'companie' => 'empresa',
+            'company' => 'empresa',
         ];
     }
 
@@ -55,7 +55,7 @@ class IntegrationsRqt extends FormRequest
                 'header' => 'min:3|nullable',
                 'active' => 'required|boolean',
                 'encoded' => 'required|boolean',
-                'companie' => 'required|uuid',
+                'company' => 'required|uuid',
             ];
         } else {
             return [

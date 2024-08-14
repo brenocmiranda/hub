@@ -50,7 +50,7 @@ class ProcessSheetJob implements ShouldQueue
                 $ticket = "-";        
             }
 
-            $companie = $this->lead->RelationCompanies->name;
+            $company = $this->lead->RelationCompanies->name;
             $building = $this->lead->RelationBuildings->name;
             $name = $this->lead->name;
             $email = $this->lead->email;
@@ -68,7 +68,7 @@ class ProcessSheetJob implements ShouldQueue
                     $data,
                     $origin,
                     $ticket,
-                    $companie, 
+                    $company, 
                     $building,
                     $name,
                     $email,

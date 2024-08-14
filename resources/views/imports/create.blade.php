@@ -82,12 +82,12 @@ Nova importação
                                             <td>
                                                 <div> 
                                                     <select class="form-select rounded-0" disabled> 
-                                                        <option value="companie" selected>Empresa</option> 
+                                                        <option value="company" selected>Empresa</option> 
                                                     </select> 
                                                 </div> 
                                             </td>
                                             <td>
-                                                <input type="text" class="form-control rounded-0" name="fieldsMandatory[]" value="companie" required>
+                                                <input type="text" class="form-control rounded-0" name="fieldsMandatory[]" value="company" required>
                                             </td>
                                         </tr>
                                         <tr>

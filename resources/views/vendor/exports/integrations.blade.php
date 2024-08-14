@@ -31,7 +31,7 @@
         @if( array_search('header', $items) !== false)
             <th align="center">Header</th>
         @endif
-        @if( array_search('companie', $items) !== false)
+        @if( array_search('company', $items) !== false)
             <th align="center">Empresa</th>
         @endif
         @if( array_search('active', $items) !== false)
@@ -72,7 +72,7 @@
                 @if( array_search('header', $items) !== false)
                     <td align="center">{{ $integration->header }}</td>
                 @endif
-                @if( array_search('companie', $items) !== false)
+                @if( array_search('company', $items) !== false)
                     <td align="center">{{ $integration->RelationCompanies->name }}</td>
                 @endif
                 @if( array_search('active', $items) !== false)

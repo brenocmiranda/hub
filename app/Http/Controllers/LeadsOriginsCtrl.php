@@ -36,7 +36,7 @@ class LeadsOriginsCtrl extends Controller
         if( Gate::check('access_komuh') ) {
             $origins = LeadsOrigins::orderBy('companies.name', 'asc')->orderBy('leads_origins.name', 'asc')
                                     ->join('companies', 'leads_origins.companies_id', '=', 'companies.id')
-                                    ->select('leads_origins.*', 'companies.name as companie');
+                                    ->select('leads_origins.*', 'companies.name as company');
         } else {
             $origins = LeadsOrigins::orderBy('leads_origins.name', 'asc')
                                     ->where('companies_id', Auth::user()->companies_id);
@@ -87,7 +87,7 @@ class LeadsOriginsCtrl extends Controller
                 // Array do emp
                 $array[] = [
                     'name' => $origin->name,
-                    'companie' => Gate::check('access_komuh') ? $origin->companie : '-',
+                    'company' => Gate::check('access_komuh') ? $origin->company : '-',
                     'slug' => $origin->slug,
                     'status' => $status,
                     'operations' => $operations
@@ -111,7 +111,7 @@ class LeadsOriginsCtrl extends Controller
             'name' => $request->name, 
             'slug' => $request->slug, 
             'active' => $request->active,
-            'companies_id' => Gate::check('access_komuh') ? $request->companie : Auth::user()->companies_id,  
+            'companies_id' => Gate::check('access_komuh') ? $request->company : Auth::user()->companies_id,  
         ]);
 
         // Salvando log
@@ -141,7 +141,7 @@ class LeadsOriginsCtrl extends Controller
             'name' => $request->name, 
             'slug' => $request->slug, 
             'active' => $request->active,
-            'companies_id' => Gate::check('access_komuh') ? $request->companie : Auth::user()->companies_id,  
+            'companies_id' => Gate::check('access_komuh') ? $request->company : Auth::user()->companies_id,  
         ]);
 
         // Salvando log

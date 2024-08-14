@@ -19,7 +19,7 @@
         @if( array_search('keys', $items) !== false)
             <th align="center">Chaves</th>
         @endif
-        @if( array_search('companie', $items) !== false)
+        @if( array_search('company', $items) !== false)
             <th align="center">Empresas</th>
         @endif
         @if( array_search('active', $items) !== false)
@@ -76,7 +76,7 @@
                         {{ implode(', ', $ke) }}
                     </td>
                 @endif
-                @if( array_search('companie', $items) !== false)
+                @if( array_search('company', $items) !== false)
                     <td align="center">
                         @if($building->RelationPartners->first())
                             @foreach($building->RelationPartners as $partner)

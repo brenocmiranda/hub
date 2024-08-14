@@ -36,7 +36,7 @@ class IntegrationsCtrl extends Controller
         if( Gate::check('access_komuh') ) {
             $integrations = Integrations::orderBy('companies.name', 'asc')->orderBy('integrations.name', 'asc')
                                             ->join('companies', 'integrations.companies_id', '=', 'companies.id')
-                                            ->select('integrations.*', 'companies.name as companie');
+                                            ->select('integrations.*', 'companies.name as company');
         } else {
             $integrations = Integrations::orderBy('integrations.name', 'asc')
                                             ->where('companies_id', Auth::user()->companies_id);                  
@@ -88,7 +88,7 @@ class IntegrationsCtrl extends Controller
                 // Array do emp
                 $array[] = [
                     'name' => $integration->name,
-                    'companie' => Gate::check('access_komuh') ? $integration->companie : '-',
+                    'company' => Gate::check('access_komuh') ? $integration->company : '-',
                     'type' => $integration->type,
                     'url' => mb_strimwidth($integration->url, 0, 100, "..."),
                     'status' => $status,
@@ -120,7 +120,7 @@ class IntegrationsCtrl extends Controller
             'password' => $request->password ? $request->password : "",
             'token' => $request->token ? $request->token : "",
             'header' => $request->header ? $request->header : "",
-            'companies_id' => Gate::check('access_komuh') ? $request->companie : Auth::user()->companies_id,  
+            'companies_id' => Gate::check('access_komuh') ? $request->company : Auth::user()->companies_id,  
         ]);
 
         // Salvando log
@@ -157,7 +157,7 @@ class IntegrationsCtrl extends Controller
             'password' => $request->password ? $request->password : "",
             'token' => $request->token ? $request->token : "",
             'header' => $request->header ? $request->header : "",
-            'companies_id' => Gate::check('access_komuh') ? $request->companie : Auth::user()->companies_id,  
+            'companies_id' => Gate::check('access_komuh') ? $request->company : Auth::user()->companies_id,  
         ]);
 
         // Salvando log

@@ -26,7 +26,7 @@ class LeadsOriginsRqt extends FormRequest
             'name' => 'nome',
             'slug' => 'slug',
             'active' => 'status',
-            'companie' => 'empresa',
+            'company' => 'empresa',
         ];
     }
 
@@ -42,7 +42,7 @@ class LeadsOriginsRqt extends FormRequest
                 'name' => 'required|min:3',
                 'slug' => 'required|min:3',
                 'active' => 'required|boolean',
-                'companie' => 'required|uuid',
+                'company' => 'required|uuid',
             ];
         } else {
             return [

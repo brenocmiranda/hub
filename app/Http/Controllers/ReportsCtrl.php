@@ -42,7 +42,7 @@ class ReportsCtrl extends Controller
         if( Gate::check('access_komuh') ) {
             $reports = Reports::orderBy('reports.created_at', 'desc')
                                 ->join('companies', 'reports.companies_id', '=', 'companies.id')
-                                ->select('reports.*', 'companies.name as companie');
+                                ->select('reports.*', 'companies.name as company');
         } else {
             $reports = Reports::orderBy('reports.created_at', 'desc')
                                 ->where('companies_id', Auth::user()->companies_id);
@@ -111,7 +111,7 @@ class ReportsCtrl extends Controller
                     'data' => $report->created_at->format("d/m/Y H:i:s"),
                     'name' => $report->name,
                     'type' => $type,
-                    'companie' => Gate::check('access_komuh') ? $report->companie : '-',
+                    'company' => Gate::check('access_komuh') ? $report->company : '-',
                     'status' => $status,
                     'operations' => $operations
                 ];
@@ -138,19 +138,19 @@ class ReportsCtrl extends Controller
         foreach($buildings as $building){
             $building->companies_id = BuildingsPartners::where('buildings_id', $building->id)->where('main', 1)->first()->companies_id;
         }
-        foreach($companies as $companie){
+        foreach($companies as $company){
             foreach($buildings as $building){ 
-                if( $companie->id == $building->companies_id ){
-                    $array[$companie->name][] = $building;
+                if( $company->id == $building->companies_id ){
+                    $array[$company->name][] = $building;
                 }
             }
         } 
 
         // Origins
-        foreach($companies as $companie){
+        foreach($companies as $company){
             foreach($origins as $origin){ 
-                if( $companie->id == $origin->companies_id ){
-                    $array1[$companie->name][] = $origin;
+                if( $company->id == $origin->companies_id ){
+                    $array1[$company->name][] = $origin;
                 }
             }
         } 

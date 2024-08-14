@@ -23,7 +23,7 @@ class BuildingsRqt extends FormRequest
     {
         return [
             'name' => 'nome',
-            'companie' => 'empresa',
+            'company' => 'empresa',
             'buildings_id' => 'empreendimento de teste',
             'partner' => 'parceiro',
             'active' => 'status',

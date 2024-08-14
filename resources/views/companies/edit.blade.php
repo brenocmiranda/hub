@@ -25,20 +25,20 @@ Editar empresa
                         </div>
                     @endif
                     
-                    <form action="{{ route('companies.update', $companie->id) }}" method="POST" class="row row-gap-3">
+                    <form action="{{ route('companies.update', $company->id) }}" method="POST" class="row row-gap-3">
                         @method('PUT')
                         @csrf  
                         
                         <div class="input-field col-12">
                             <div class="form-floating">
-                                <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ $companie->name ? $companie->name : old('name') }}" required>
+                                <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ $company->name ? $company->name : old('name') }}" required>
                                 <label for="name">Nome <abbr>*</abbr></label>
                             </div>
                         </div>
                         <div class="input-field col-lg-6 col-12">
                             <div class="form-floating">
-                                <input type="text" class="form-control @error('slug') is-invalid @enderror slug" value="{{ $companie->slug ? $companie->slug : old('slug') }}" disabled>
-                                <input type="hidden" class="slug" name="slug" value="{{ $companie->slug ? $companie->slug : old('slug') }}">
+                                <input type="text" class="form-control @error('slug') is-invalid @enderror slug" value="{{ $company->slug ? $company->slug : old('slug') }}" disabled>
+                                <input type="hidden" class="slug" name="slug" value="{{ $company->slug ? $company->slug : old('slug') }}">
                                 <label for="slug">Slug <abbr>*</abbr></label>
                             </div>
                         </div>
@@ -46,8 +46,8 @@ Editar empresa
                             <div class="form-floating">
                                 <select class="form-select @error('active') is-invalid @enderror" aria-label="Defina um status" name="active" id="active" required>
                                     <option selected></option>
-                                    <option value="1" {{ (old('active') != null && old('active') == true) || $companie->active == true ? 'selected' : "" }}>Ativo</option>
-                                    <option value="0" {{ (old('active') != null && old('active') == false) || $companie->active == false ? 'selected' : "" }}>Desativado</option>
+                                    <option value="1" {{ (old('active') != null && old('active') == true) || $company->active == true ? 'selected' : "" }}>Ativo</option>
+                                    <option value="0" {{ (old('active') != null && old('active') == false) || $company->active == false ? 'selected' : "" }}>Desativado</option>
                                 </select>
                                 <label for="active">Status <abbr>*</abbr></label>
                             </div>

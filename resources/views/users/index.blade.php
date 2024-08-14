@@ -22,7 +22,7 @@ Usuários
                         <tr>
                             <th data-field="name" data-align="center">Nome</th>
                             @can('access_komuh')
-                                <th data-field="empresa" data-align="center">Empresa</th>
+                                <th data-field="company" data-align="center">Empresa</th>
                             @endcan
                             <th data-field="role" data-align="center">Função</th>
                             <th data-field="status" data-align="center">Status</th>

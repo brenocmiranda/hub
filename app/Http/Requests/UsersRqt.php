@@ -26,7 +26,7 @@ class UsersRqt extends FormRequest
             'name' => 'nome',
             'email' => 'email',
             'active' => 'status',
-            'companie' => 'empresa',
+            'company' => 'empresa',
             'roles' => 'função',
         ];
     }
@@ -43,7 +43,7 @@ class UsersRqt extends FormRequest
                 'name' => 'required|min:3',
                 'email' => 'required|email|unique:users,email,'.$this->segment(3),
                 'active' => 'required|boolean',
-                'companie' => 'required|uuid',
+                'company' => 'required|uuid',
                 'roles' => 'required|uuid',
             ];
         } else {

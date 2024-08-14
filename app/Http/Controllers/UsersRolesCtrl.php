@@ -36,7 +36,7 @@ class UsersRolesCtrl extends Controller
         if( Gate::check('access_komuh') ) {
             $roles = UsersRoles::orderBy('companies.name', 'asc')->orderBy('users_roles.name', 'asc')
                                 ->join('companies', 'users_roles.companies_id', '=', 'companies.id')
-                                ->select('users_roles.*', 'companies.name as companie');
+                                ->select('users_roles.*', 'companies.name as company');
         } else {
             $roles = UsersRoles::orderBy('users_roles.name', 'asc')
                                 ->where('companies_id', Auth::user()->companies_id);
@@ -87,7 +87,7 @@ class UsersRolesCtrl extends Controller
                 // Array do emp
                 $array[] = [
                     'name' => $role->name,
-                    'companie' => Gate::check('access_komuh') ? $role->companie : '-',
+                    'company' => Gate::check('access_komuh') ? $role->company : '-',
                     'status' => $status,
                     'operations' => $operations
                 ];
@@ -110,7 +110,7 @@ class UsersRolesCtrl extends Controller
             'name' => $request->name, 
             'roles' => implode(',', $request->roles), 
             'active' => $request->active,
-            'companies_id' => Gate::check('access_komuh') ? $request->companie : Auth::user()->companies_id,  
+            'companies_id' => Gate::check('access_komuh') ? $request->company : Auth::user()->companies_id,  
         ]);
 
         // Salvando log
@@ -140,7 +140,7 @@ class UsersRolesCtrl extends Controller
             'name' => $request->name, 
             'roles' => implode(',', $request->roles), 
             'active' => $request->active,
-            'companies_id' => Gate::check('access_komuh') ? $request->companie : Auth::user()->companies_id,  
+            'companies_id' => Gate::check('access_komuh') ? $request->company : Auth::user()->companies_id,  
         ]);
 
         // Salvando log

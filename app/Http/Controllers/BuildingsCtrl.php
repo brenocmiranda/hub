@@ -46,7 +46,7 @@ class BuildingsCtrl extends Controller
                                 ->join('buildings_partners', 'buildings_partners.buildings_id', '=', 'buildings.id')
                                 ->join('companies', 'buildings_partners.companies_id', '=', 'companies.id')
                                 ->where('buildings_partners.main', 1)
-                                ->select('buildings.*', 'companies.name as companie');
+                                ->select('buildings.*', 'companies.name as company');
         } else {
             $buildings = Buildings::orderBy('buildings.name', 'asc')
                                 ->join('buildings_partners', 'buildings_partners.buildings_id', '=', 'buildings.id')
@@ -101,7 +101,7 @@ class BuildingsCtrl extends Controller
                 // Array do emp
                 $array[] = [
                     'name' => $building->name,
-                    'companie' => Gate::check('access_komuh') ? $building->companie : '-',
+                    'company' => Gate::check('access_komuh') ? $building->company : '-',
                     'status' => $status,
                     'operations' => $operations
                 ];
@@ -126,10 +126,10 @@ class BuildingsCtrl extends Controller
         }
         
         // Integrations
-        foreach($companies as $companie){
+        foreach($companies as $company){
             foreach($integrations as $integration){ 
-                if( $companie->id == $integration->companies_id ){
-                    $array[$companie->name][] = $integration;
+                if( $company->id == $integration->companies_id ){
+                    $array[$company->name][] = $integration;
                 }
             }
         } 
@@ -137,12 +137,12 @@ class BuildingsCtrl extends Controller
         // Buildings
         foreach($buildings as $building){
             $element = BuildingsPartners::where('buildings_id', $building->id)->where('main', 1)->first();
-            $building->companie = $element->companies_id ? $element->companies_id : 0;
+            $building->company = $element->companies_id ? $element->companies_id : 0;
         }
-        foreach($companies as $companie){
+        foreach($companies as $company){
             foreach($buildings as $building){ 
-                if( $companie->id == $building->companie ){
-                    $array1[$companie->name][] = $building;
+                if( $company->id == $building->company ){
+                    $array1[$company->name][] = $building;
                 }
             }
         } 
@@ -256,10 +256,10 @@ class BuildingsCtrl extends Controller
         }
         
         // Integrations
-        foreach($companies as $companie){
+        foreach($companies as $company){
             foreach($integrations as $integration){ 
-                if( $companie->id == $integration->companies_id ){
-                    $array[$companie->name][] = $integration;
+                if( $company->id == $integration->companies_id ){
+                    $array[$company->name][] = $integration;
                 }
             }
         } 
@@ -267,12 +267,12 @@ class BuildingsCtrl extends Controller
         // Buildings
         foreach($buildings as $building){
             $element = BuildingsPartners::where('buildings_id', $building->id)->where('main', 1)->first();
-            $building->companie = $element ? $element->companies_id : "";
+            $building->company = $element ? $element->companies_id : "";
         }
-        foreach($companies as $companie){
+        foreach($companies as $company){
             foreach($buildings as $building){ 
-                if( $companie->id == $building->companie ){
-                    $array1[$companie->name][] = $building;
+                if( $company->id == $building->company ){
+                    $array1[$company->name][] = $building;
                 }
             }
         } 

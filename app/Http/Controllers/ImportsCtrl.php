@@ -42,7 +42,7 @@ class ImportsCtrl extends Controller
         if( Gate::check('access_komuh') ) {
             $imports = Imports::orderBy('imports.created_at', 'desc')
                                 ->join('companies', 'imports.companies_id', '=', 'companies.id')
-                                ->select('imports.*', 'companies.name as companie');
+                                ->select('imports.*', 'companies.name as company');
         } else {
             $imports = Imports::orderBy('imports.created_at', 'desc')
                                 ->where('users_id', Auth::user()->id);
@@ -110,7 +110,7 @@ class ImportsCtrl extends Controller
                     'data' => $import->created_at->format("d/m/Y H:i:s"),
                     'name' => $import->name,
                     'type' => $type,
-                    'companie' => Gate::check('access_komuh') ? $import->companie : '-',
+                    'company' => Gate::check('access_komuh') ? $import->company : '-',
                     'status' => $status,
                     'operations' => $operations
                 ];
@@ -153,9 +153,9 @@ class ImportsCtrl extends Controller
         
         // Campos Obrigatórios
         $fieldsMandatory = $request->input('fieldsMandatory');
-        // Get ID Companie
-        $companie = Companies::where('name', $fieldsMandatory[3])->first();
-        $fieldsMandatory[3] = $companie ? $companie->id : 1;
+        // Get ID Companies
+        $company = Companies::where('name', $fieldsMandatory[3])->first();
+        $fieldsMandatory[3] = $company ? $company->id : 1;
         // Get ID Origin Lead
         $origin = LeadsOrigins::where('name', $fieldsMandatory[4])->first();
         $fieldsMandatory[4] = $origin ? $origin->id : 1;

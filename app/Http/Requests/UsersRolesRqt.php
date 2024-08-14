@@ -26,7 +26,7 @@ class UsersRolesRqt extends FormRequest
             'name' => 'nome',
             'roles' => 'acessos',
             'active' => 'status',
-            'companie' => 'empresa',
+            'company' => 'empresa',
         ];
     }
 
@@ -42,7 +42,7 @@ class UsersRolesRqt extends FormRequest
                 'name' => 'required|min:3',
                 'roles' => 'required',
                 'active' => 'required|boolean',
-                'companie' => 'required|uuid',
+                'company' => 'required|uuid',
             ];
         } else {
             return [

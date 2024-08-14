@@ -54,13 +54,13 @@ Editar usuário
                         @can('access_komuh')
                             <div class="input-field col-lg-6 col-12">
                                 <div class="form-floating">
-                                    <select class="form-select @error('companies') is-invalid @enderror" aria-label="Defina uma empresa" name="companie" id="companie" required>
+                                    <select class="form-select @error('company') is-invalid @enderror" aria-label="Defina uma empresa" name="company" id="company" required>
                                         <option selected></option>
-                                        @foreach($companies as $companie)
-                                            <option value="{{ $companie->id }}" {{ (old('companies') != null && old('companies') == $companie->id) || $companie->id == $user->companies_id ? 'selected' : "" }}>{{ $companie->name }}</option>
+                                        @foreach($companies as $company)
+                                            <option value="{{ $company->id }}" {{ (old('company') != null && old('company') == $company->id) || $company->id == $user->companies_id ? 'selected' : "" }}>{{ $company->name }}</option>
                                         @endforeach
                                     </select>
-                                    <label for="companies">Empresas <abbr>*</abbr></label>
+                                    <label for="company">Empresas <abbr>*</abbr></label>
                                 </div>
                             </div>
                         @endcan

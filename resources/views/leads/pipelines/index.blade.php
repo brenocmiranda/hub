@@ -64,7 +64,7 @@ Pipelines
                         <tr>
                             <th data-field="date" data-align="center">Data</th>
                             @can('access_komuh')
-                                <th data-field="companie" data-align="center">Empresa</th>
+                                <th data-field="company" data-align="center">Empresa</th>
                             @endcan
                             <th data-field="status" data-align="center">StatusCode</th>
                             <th data-field="integration" data-align="center">Integração</th>

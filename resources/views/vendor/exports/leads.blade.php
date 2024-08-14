@@ -19,7 +19,7 @@
         @if( array_search('building', $items) !== false)
             <th align="center">Empreendimento</th>
         @endif
-        @if( array_search('companie', $items) !== false)
+        @if( array_search('company', $items) !== false)
             <th align="center">Empresa</th>
         @endif
         @if( array_search('utm_source', $items) !== false)
@@ -69,7 +69,7 @@
                 @if( array_search('building', $items) !== false)
                     <td align="center">{{ $lead->RelationBuildings->name }}</td>
                 @endif
-                @if( array_search('companie', $items) !== false)
+                @if( array_search('company', $items) !== false)
                     <td align="center">{{ $lead->RelationCompanies->name }}</td>
                 @endif
                 @if( array_search('utm_source', $items) !== false )

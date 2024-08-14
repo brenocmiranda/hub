@@ -52,9 +52,9 @@ class CompaniesCtrl extends Controller
         $companies = $companies->skip($skip)->take($pageLength)->get();
 
         if( $companies->first() ){
-            foreach($companies as $companie) {
+            foreach($companies as $company) {
                 // Status
-                if( $companie->active ) {
+                if( $company->active ) {
                     $status = '<span class="badge bg-success-subtle border border-success-subtle text-success-emphasis rounded-pill">Ativo</span>';
                 } else { 
                     $status = '<span class="badge bg-danger-subtle border border-danger-subtle text-danger-emphasis rounded-pill">Desativado</span>';
@@ -66,10 +66,10 @@ class CompaniesCtrl extends Controller
                     $operations .= '<div class="d-flex justify-content-center align-items-center gap-2">';
 
                     if( Gate::check('companies_update') ) {
-                        $operations .= '<a href="'. route('companies.edit', $companie->id ) .'" class="btn btn-outline-secondary px-2 py-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Editar"><i class="bi bi-pencil"></i></a>';
+                        $operations .= '<a href="'. route('companies.edit', $company->id ) .'" class="btn btn-outline-secondary px-2 py-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Editar"><i class="bi bi-pencil"></i></a>';
                     }
                     if( Gate::check('companies_destroy') ) {
-                        $operations .= '<a href="'. route('companies.destroy', $companie->id ) .'" class="btn btn-outline-secondary px-2 py-1 destroy" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Excluir"><i class="bi bi-trash"></i></a>';
+                        $operations .= '<a href="'. route('companies.destroy', $company->id ) .'" class="btn btn-outline-secondary px-2 py-1 destroy" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Excluir"><i class="bi bi-trash"></i></a>';
                     }
 
                     $operations .= '</div>';
@@ -79,9 +79,9 @@ class CompaniesCtrl extends Controller
 
                 // Array do emp
                 $array[] = [
-                    'id' => $companie->id,
-                    'name' => $companie->name,
-                    'slug' => $companie->slug,
+                    'id' => $company->id,
+                    'name' => $company->name,
+                    'slug' => $company->slug,
                     'status' => $status,
                     'operations' => $operations
                 ];
@@ -100,7 +100,7 @@ class CompaniesCtrl extends Controller
 
     public function store(CompaniesRqt $request)
     {      
-        $companie = Companies::create([
+        $company = Companies::create([
             'name' => $request->name, 
             'slug' => $request->slug, 
             'active' => $request->active,
@@ -110,7 +110,7 @@ class CompaniesCtrl extends Controller
             'active' => 1,
             'name' => 'Default',
             'slug' => 'default',
-            'companies_id' => $companie->id,
+            'companies_id' => $company->id,
         ]);
 
         $building = Buildings::create([
@@ -122,7 +122,7 @@ class CompaniesCtrl extends Controller
         BuildingsPartners::create([
             'main' => 1, 
             'leads' => 99, 
-            'companies_id' => $companie->id, 
+            'companies_id' => $company->id, 
             'buildings_id' => $building->id, 
         ]);
 
@@ -150,7 +150,7 @@ class CompaniesCtrl extends Controller
 
     public function edit(string $id)
     {      
-        return view('companies.edit')->with('companie', Companies::find($id));
+        return view('companies.edit')->with('company', Companies::find($id));
     } 
 
     public function update(CompaniesRqt $request, string $id)

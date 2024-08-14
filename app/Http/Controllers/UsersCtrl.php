@@ -45,7 +45,7 @@ class UsersCtrl extends Controller
                                 ->join('companies', 'users.companies_id', '=', 'companies.id')
                                 ->join('users_roles', 'users.users_roles_id', '=', 'users_roles.id')
                                 ->where('users.id', '!=', Auth::user()->id)
-                                ->select('users.*', 'companies.name as companie', 'users_roles.name as role');
+                                ->select('users.*', 'companies.name as company', 'users_roles.name as role');
         } else {
             $users = Users::orderBy('users.name', 'asc')
                                 ->join('users_roles', 'users.users_roles_id', '=', 'users_roles.id')
@@ -103,7 +103,7 @@ class UsersCtrl extends Controller
                 // Array do emp
                 $array[] = [
                     'name' => $user->name,
-                    'empresa' => Gate::check('access_komuh') ? $user->companie : '-',
+                    'empresa' => Gate::check('access_komuh') ? $user->company : '-',
                     'role' => $user->role,
                     'status' => $status,
                     'operations' => $operations
@@ -126,10 +126,10 @@ class UsersCtrl extends Controller
 
         $roles = UsersRoles::where('active', 1)->orderBy('name', 'asc')->get();
 
-        foreach($companies as $companie){
+        foreach($companies as $company){
             foreach($roles as $role){ 
-                if( $companie->id == $role->companies_id ){
-                    $array[$companie->name][] = $role;
+                if( $company->id == $role->companies_id ){
+                    $array[$company->name][] = $role;
                 }
             }
         } 
@@ -144,7 +144,7 @@ class UsersCtrl extends Controller
             'email' => $request->email, 
             'password' => Hash::make('komuh@220'), 
             'active' => $request->active,
-            'companies_id' => Gate::check('access_komuh') ? $request->companie : Auth::user()->companies_id,  
+            'companies_id' => Gate::check('access_komuh') ? $request->company : Auth::user()->companies_id,  
             'users_roles_id' => $request->roles,
             'remember_token' => Str::random(10),
             'attempts' => 0,
@@ -177,10 +177,10 @@ class UsersCtrl extends Controller
 
         $roles = UsersRoles::where('active', 1)->orderBy('name', 'asc')->get();
 
-        foreach($companies as $companie){
+        foreach($companies as $company){
             foreach($roles as $role){ 
-                if( $companie->id == $role->companies_id ){
-                    $array[$companie->name][] = $role;
+                if( $company->id == $role->companies_id ){
+                    $array[$company->name][] = $role;
                 }
             }
         } 
@@ -194,7 +194,7 @@ class UsersCtrl extends Controller
             'name' => $request->name, 
             'email' => $request->email, 
             'active' => $request->active,
-            'companies_id' => Gate::check('access_komuh') ? $request->companie : Auth::user()->companies_id,  
+            'companies_id' => Gate::check('access_komuh') ? $request->company : Auth::user()->companies_id,  
             'users_roles_id' => $request->roles,
         ]);
 

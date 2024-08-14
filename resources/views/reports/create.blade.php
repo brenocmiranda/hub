@@ -74,7 +74,7 @@ Novo relatório
                                             </span>
                                         </label>
                                         <label class="list-group-item d-flex gap-2">
-                                            <input class="form-check-input flex-shrink-0" type="checkbox" name="companie">
+                                            <input class="form-check-input flex-shrink-0" type="checkbox" name="company">
                                             <span>
                                                 Empresa
                                             </span>
@@ -220,7 +220,7 @@ Novo relatório
                                             </span>
                                         </label>
                                         <label class="list-group-item d-flex gap-2">
-                                            <input class="form-check-input flex-shrink-0" type="checkbox" name="companie" checked>
+                                            <input class="form-check-input flex-shrink-0" type="checkbox" name="company" checked>
                                             <span>
                                                 Empresa
                                             </span>
@@ -342,7 +342,7 @@ Novo relatório
                                             </span>
                                         </label>
                                         <label class="list-group-item d-flex gap-2">
-                                            <input class="form-check-input flex-shrink-0" type="checkbox" name="companie">
+                                            <input class="form-check-input flex-shrink-0" type="checkbox" name="company">
                                             <span>
                                                 Empresa
                                             </span>

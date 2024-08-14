@@ -49,7 +49,7 @@ class LeadsCtrl extends Controller
                             ->join('leads_origins', 'leads.leads_origins_id', '=', 'leads_origins.id')
                             ->join('buildings', 'leads.buildings_id', '=', 'buildings.id')
                             ->join('companies', 'leads.companies_id', '=', 'companies.id')
-                            ->select('leads.*', 'leads_origins.name as origin', 'buildings.name as building', 'companies.name as companie');
+                            ->select('leads.*', 'leads_origins.name as origin', 'buildings.name as building', 'companies.name as company');
          } else {
             $leads = Leads::orderBy('created_at', 'desc')
                             ->join('leads_origins', 'leads.leads_origins_id', '=', 'leads_origins.id')
@@ -116,7 +116,7 @@ class LeadsCtrl extends Controller
                 $array[] = [
                     'date'  => $lead->created_at->format("d/m/Y H:i:s"),
                     'origin' => $lead->origin, 
-                    'companie' => Gate::check('access_komuh') ? $lead->companie : '-',
+                    'company' => Gate::check('access_komuh') ? $lead->company : '-',
                     'building' => $lead->building, 
                     'name' => $lead->name,
                     'email'=> $lead->email,
@@ -146,19 +146,19 @@ class LeadsCtrl extends Controller
         foreach($buildings as $building){
             $building->companies_id = BuildingsPartners::where('buildings_id', $building->id)->where('main', 1)->first()->companies_id;
         }
-        foreach($companies as $companie){
+        foreach($companies as $company){
             foreach($buildings as $building){ 
-                if( $companie->id == $building->companies_id ){
-                    $array[$companie->name][] = $building;
+                if( $company->id == $building->companies_id ){
+                    $array[$company->name][] = $building;
                 }
             }
         } 
 
         // Origins
-        foreach($companies as $companie){
+        foreach($companies as $company){
             foreach($origins as $origin){ 
-                if( $companie->id == $origin->companies_id ){
-                    $array1[$companie->name][] = $origin;
+                if( $company->id == $origin->companies_id ){
+                    $array1[$company->name][] = $origin;
                 }
             }
         } 
@@ -173,7 +173,7 @@ class LeadsCtrl extends Controller
         if( $partners->first() ){
             foreach( $partners as $partner ){
                 if( $partner->leads == 99 ){
-                    $companie = $partner->companies_id;
+                    $company = $partner->companies_id;
                     break;
                 } else {
                     $countAllPartners = BuildingsPartners::where( 'buildings_id', $request->building )->select('leads')->sum('leads');
@@ -181,13 +181,13 @@ class LeadsCtrl extends Controller
                     $leadsPartner = $leads->sortBy('created_at')->where( 'companies_id', $partner->companies_id )->count();
  
                     if( $leadsPartner < $partner->leads ){
-                        $companie = $partner->companies_id;
+                        $company = $partner->companies_id;
                         break;
                     }
                 }
             }
         }   
-        $companie = isset($companie) ? $companie : BuildingsPartners::where( 'buildings_id', $request->building )->where('main', 1)->first()->companies_id;
+        $company = isset($company) ? $company : BuildingsPartners::where( 'buildings_id', $request->building )->where('main', 1)->first()->companies_id;
 
         $tel = preg_replace( '/\D/', '', str_replace( '+55', '', $request->phone ));
 	    $phone = strlen( $tel ) < 10  ? substr( $tel . str_repeat( '9', 11 ), 0, 11 ) : $tel;
@@ -199,7 +199,7 @@ class LeadsCtrl extends Controller
             'email' => strtolower($request->email),
             'buildings_id' => $request->building,
             'leads_origins_id' => $request->origin,
-            'companies_id' => $companie,
+            'companies_id' => $company,
         ]);
 
         // Cadastrando novas integrações e novos campos
