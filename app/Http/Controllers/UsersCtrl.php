@@ -103,7 +103,7 @@ class UsersCtrl extends Controller
                 // Array do emp
                 $array[] = [
                     'name' => $user->name,
-                    'empresa' => Gate::check('access_komuh') ? $user->company : '-',
+                    'company' => Gate::check('access_komuh') ? $user->company : '-',
                     'role' => $user->role,
                     'status' => $status,
                     'operations' => $operations
