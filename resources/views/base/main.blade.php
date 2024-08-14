@@ -199,7 +199,7 @@
                 <p class="mb-0">Você será desconectado da plataforma.</p>
             </div>
             <div class="modal-footer flex-nowrap p-0">
-                <a href="{{ route('logout') }}" class="btn btn-lg btn-link fs-6 text-decoration-none col-lg-6 col-12 py-3 m-0 rounded-0 border-end fw-bold">Sim, excluir!</a>
+                <a href="{{ route('logout') }}" class="btn btn-lg btn-link fs-6 text-decoration-none col-lg-6 col-12 py-3 m-0 rounded-0 border-end fw-bold">Sim, sair!</a>
                 <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-lg-6 col-12 py-3 m-0 rounded-0" data-bs-dismiss="modal">Não</button>
             </div>
             </div>
