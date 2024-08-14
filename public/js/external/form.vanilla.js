@@ -247,6 +247,29 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         },
 
+        gtm: {
+            /**
+             * Loading lib in GTM
+            */
+            initGTMOnEvent: function(event) {
+                hub.gtm.initGTM();
+                event.currentTarget.removeEventListener(event.type, hub.gtm.initGTMOnEvent); // remove o event listener que foi acionado
+            },
+            initGTM: function() {
+                if (window.gtmDidInit) {
+                    return false;
+                }
+                window.gtmDidInit = true; // flag para garantir que o script não seja adicionado ao DOM mais de uma vez.
+
+                const script = document.createElement('script');
+                script.src = 'https://www.googletagmanager.com/gtm.js?id=' + window.ID_GTM;
+                script.onload = function() {
+                    dataLayer.push({ event: 'gtm.js', 'gtm.start': new Date().getTime(), 'gtm.uniqueEventId': 0 });
+                };
+                document.head.appendChild(script);
+            },
+        },
+
         chats: {
             /**
              * Loading lib in Chat
