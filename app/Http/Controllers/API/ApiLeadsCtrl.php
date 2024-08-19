@@ -368,7 +368,7 @@ class ApiLeadsCtrl extends Controller
 
         
         /**
-         * Defined partner responsible
+         * Defined partner responsible and define origin
         */
             $companies_id = $this->partners( $building );
             $array = [
