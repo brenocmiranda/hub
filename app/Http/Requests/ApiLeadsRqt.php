@@ -61,8 +61,9 @@ class ApiLeadsRqt extends FormRequest
             'idNavplat' => 'required_without_all:empreendimento,originListingId,building,codigoDoAnunciante|min:3',
 
             // Validate origin
-            'origin' => 'required_without_all:origem|string|min:3',
-            'origem' => 'required_without_all:origin|string|min:3',
+            'origin' => 'required_without_all:origem,leadOrigin|string|min:3',
+            'origem' => 'required_without_all:origin,leadOrigin|string|min:3',
+            'leadOrigin' => 'required_without_all:origin,origem|string|min:3',
 
             // Validate others (utm_source)
             'utm_source' => 'nullable|string',
