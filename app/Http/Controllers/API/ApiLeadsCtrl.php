@@ -159,12 +159,13 @@ class ApiLeadsCtrl extends Controller
 
             foreach($array as $ar){
                 var_dump($ar);
-                die();
                 if( $ar ){
                     $origin = $ar->id;
                     break;
                 }
             }
+            
+                die();
             $odefault = LeadsOrigins::where('companies_id', $companies_id)->where('slug', 'like', '%default%')->first();
             $origin = isset($origin) ? $origin : $odefault->id;
         /**
