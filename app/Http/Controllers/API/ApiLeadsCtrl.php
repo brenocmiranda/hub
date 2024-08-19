@@ -151,15 +151,14 @@ class ApiLeadsCtrl extends Controller
                                             ->where('slug', $request->origin)->first(),
                 'origem' => LeadsOrigins::where('companies_id', $companies_id)
                                                 ->where('slug', $request->origem)->first(),
+                'leadOrigin' => LeadsOrigins::where('companies_id', $companies_id)
+                                                ->where('slug', $request->leadOrigin)->first(),
             ];
             foreach($array as $ar){
                 if( $ar ){
                     $origin = $ar->id;
                     break;
                 }
-            }
-            if( $request->userIdNavplat || $request->leadOrigin === 'Imovelweb' ) {
-                $origin = LeadsOrigins::where('companies_id', $companies_id)->where('slug', 'like', '%imovelweb%')->first()->id;
             }
             $odefault = LeadsOrigins::where('companies_id', $companies_id)->where('slug', 'like', '%default%')->first();
             $origin = isset($origin) ? $origin : $odefault->id;
