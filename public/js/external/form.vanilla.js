@@ -423,7 +423,7 @@ document.addEventListener('DOMContentLoaded', function () {
             let sobrenome = form.querySelector('[name="sobrenome"]') ? form.querySelector('[name="sobrenome"]').value.trim() : "";
             let mensagem = form.querySelector('[name="messagem"]') ? form.querySelector('[name="messagem"]').value.trim() : "";
             let origin = form.querySelector('[name="origin"]') ? form.querySelector('[name="origin"]').value.trim() : "";
-            let com = form.querySelector('[name="com"]') ? form.querySelector('[name="com"]').value.trim() : "";
+            let com = form.querySelector('[name="com"]').checked ? form.querySelector('[name="com"]').value.trim() : "";
             let pp = form.querySelector('[name="pp"]');
             let url_params = location.search ? location.search.replace('?', '') : '';
             let url = location.href;
