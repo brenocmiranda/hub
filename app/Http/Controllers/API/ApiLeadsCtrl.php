@@ -158,7 +158,7 @@ class ApiLeadsCtrl extends Controller
             
 
             foreach($array as $ar){
-                var_dump($request->ar);
+                var_dump($ar);
                 die();
                 if( $ar ){
                     $origin = $ar->id;
