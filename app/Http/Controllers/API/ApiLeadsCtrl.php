@@ -155,10 +155,11 @@ class ApiLeadsCtrl extends Controller
                                                 ->where('slug', $request->leadOrigin)->first(),
             ];
 
-            var_dump($request->leadOrigin);
-            die();
             
+
             foreach($array as $ar){
+                var_dump($request->ar);
+                die();
                 if( $ar ){
                     $origin = $ar->id;
                     break;
