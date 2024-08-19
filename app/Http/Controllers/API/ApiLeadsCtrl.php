@@ -155,7 +155,6 @@ class ApiLeadsCtrl extends Controller
                                                 ->where('slug', $request->leadOrigin)->first(),
             ];
             foreach($array as $ar){
-                var_dump($ar);
                 if( $ar ){
                     $origin = $ar->id;
                     break;
