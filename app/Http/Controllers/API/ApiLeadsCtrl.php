@@ -143,27 +143,6 @@ class ApiLeadsCtrl extends Controller
                                             ->where('buildings_keys.active', 1)
                                             ->first();
             $building = isset($building) ? $building : $bdefault->buildings_id;
-
-
-            /** Origin **/
-            $array = [
-                'origin' => LeadsOrigins::where('companies_id', $companies_id)
-                                            ->where('slug', $request->origin)->first(),
-                'origem' => LeadsOrigins::where('companies_id', $companies_id)
-                                                ->where('slug', $request->origem)->first(),
-                'leadOrigin' => LeadsOrigins::where('companies_id', $companies_id)
-                                                ->where('slug', $request->leadOrigin)->first(),
-            ];
-            foreach($array as $ar){
-                if( $ar ){
-                    $origin = $ar->id;
-                    break;
-                }
-            }
-            $odefault = LeadsOrigins::where('companies_id', $companies_id)->where('slug', 'like', '%default%')->first();
-            $origin = isset($origin) ? $origin : $odefault->id;
-            var_dump($origin);
-            die();
         /**
          * End Params required
         */
@@ -392,13 +371,22 @@ class ApiLeadsCtrl extends Controller
          * Defined partner responsible
         */
             $companies_id = $this->partners( $building );
-            $originSlug = $request->origin ? $request->origin : $request->origem;
-            $origin = LeadsOrigins::where('companies_id', $companies_id)->where('slug', $originSlug)->first();
-            if ( $origin ) {
-                $origin = $origin->id;
-            } else {
-                $origin = LeadsOrigins::where('companies_id', $companies_id)->where('slug', 'like', '%default%')->first()->id;
+            $array = [
+                'origin' => LeadsOrigins::where('companies_id', $companies_id)
+                                            ->where('slug', $request->origin)->first(),
+                'origem' => LeadsOrigins::where('companies_id', $companies_id)
+                                                ->where('slug', $request->origem)->first(),
+                'leadOrigin' => LeadsOrigins::where('companies_id', $companies_id)
+                                                ->where('slug', $request->leadOrigin)->first(),
+            ];
+            foreach($array as $ar){
+                if( $ar ){
+                    $origin = $ar->id;
+                    break;
+                }
             }
+            $odefault = LeadsOrigins::where('companies_id', $companies_id)->where('slug', 'like', '%default%')->first();
+            $origin = isset($origin) ? $origin : $odefault->id;
         /**
          * End Defined partner responsible
         */
