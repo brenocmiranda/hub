@@ -154,9 +154,6 @@ class ApiLeadsCtrl extends Controller
                 'leadOrigin' => LeadsOrigins::where('companies_id', $companies_id)
                                                 ->where('slug', $request->leadOrigin)->first(),
             ];
-
-            
-
             foreach($array as $ar){
                 var_dump($ar);
                 if( $ar ){
@@ -164,10 +161,10 @@ class ApiLeadsCtrl extends Controller
                     break;
                 }
             }
-            
-                die();
             $odefault = LeadsOrigins::where('companies_id', $companies_id)->where('slug', 'like', '%default%')->first();
             $origin = isset($origin) ? $origin : $odefault->id;
+            var_dump($origin);
+            die();
         /**
          * End Params required
         */
