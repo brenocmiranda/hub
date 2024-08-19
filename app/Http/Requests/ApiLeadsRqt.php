@@ -54,10 +54,11 @@ class ApiLeadsRqt extends FormRequest
             'email' => 'required|email',
 
             // Validate empreendimento
-            'building' => 'required_without_all:empreendimento,originListingId,codigoDoAnunciante|string|min:3',
-            'empreendimento' => 'required_without_all:building,originListingId,codigoDoAnunciante|string|min:3',
-            'originListingId' => 'required_without_all:empreendimento,building,codigoDoAnunciante|string|min:3',
-            'codigoDoAnunciante' => 'required_without_all:empreendimento,originListingId,building|string|min:3',
+            'building' => 'required_without_all:empreendimento,originListingId,codigoDoAnunciante,idNavplat|string|min:3',
+            'empreendimento' => 'required_without_all:building,originListingId,codigoDoAnunciante,idNavplat|string|min:3',
+            'originListingId' => 'required_without_all:empreendimento,building,codigoDoAnunciante,idNavplat|string|min:3',
+            'codigoDoAnunciante' => 'required_without_all:empreendimento,originListingId,building,idNavplat|string|min:3',
+            'idNavplat' => 'required_without_all:empreendimento,originListingId,building,codigoDoAnunciante|string|min:3',
 
             // Validate origin
             'origin' => 'required_without_all:origem|string|min:3',

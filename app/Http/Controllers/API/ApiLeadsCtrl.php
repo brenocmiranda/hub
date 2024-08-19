@@ -123,6 +123,12 @@ class ApiLeadsCtrl extends Controller
                                             ->where('buildings_keys.value', $request->codigoDoAnunciante)
                                             ->where('buildings_keys.active', 1)
                                             ->first(),
+                'idNavplat' => BuildingsKeys::join('buildings_partners', 'buildings_partners.buildings_id', 'buildings_keys.buildings_id')
+                                            ->where('buildings_partners.companies_id', $companies_id)
+                                            ->where('buildings_partners.main', 1)
+                                            ->where('buildings_keys.value', $request->idNavplat)
+                                            ->where('buildings_keys.active', 1)
+                                            ->first(),
             ];
             foreach($array as $ar){
                 if( $ar ){
