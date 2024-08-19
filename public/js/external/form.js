@@ -378,7 +378,7 @@ jQuery( function( $ ){
 			sobrenome = $form.find('[name="sobrenome"]').length > 0 ? $form.find('[name="sobrenome"]').val().trim() : "",
 			mensagem = $form.find('[name="messagem"]').length > 0 ? $form.find('[name="messagem"]').val().trim() : "",
 			origin = $form.find('[name="origin"]').length > 0 ? $form.find('[name="origin"]').val().trim() : "",
-			com = $form.find('[name="com"]:checked').length > 0 ? $form.find('[name="com"]:checked').val().trim() : "",
+			com = $form.find('[name="com"]').is( ':checked' ) ? $form.find('[name="com"]:checked').val().trim() : "",
 			pp = $form.find( '[name="pp"]'),
 			url_params = location.search ? location.search.replace('?', '') : '',
 			url = location.href;
