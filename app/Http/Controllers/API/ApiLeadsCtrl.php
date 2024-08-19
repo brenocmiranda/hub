@@ -158,7 +158,7 @@ class ApiLeadsCtrl extends Controller
                     break;
                 }
             }
-            if( $request->userIdNavplat ) {
+            if( $request->userIdNavplat || $request->leadOrigin === 'Imovelweb' ) {
                 $origin = LeadsOrigins::where('companies_id', $companies_id)->where('slug', 'like', '%imovelweb%')->first()->id;
             }
             $odefault = LeadsOrigins::where('companies_id', $companies_id)->where('slug', 'like', '%default%')->first();
