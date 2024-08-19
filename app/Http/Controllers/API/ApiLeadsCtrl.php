@@ -158,6 +158,9 @@ class ApiLeadsCtrl extends Controller
                     break;
                 }
             }
+            if( $request->userIdNavplat ) {
+                $origin = LeadsOrigins::where('companies_id', $companies_id)->where('slug', 'like', '%imovelweb%')->first()->id;
+            }
             $odefault = LeadsOrigins::where('companies_id', $companies_id)->where('slug', 'like', '%default%')->first();
             $origin = isset($origin) ? $origin : $odefault->id;
         /**
