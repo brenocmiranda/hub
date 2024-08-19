@@ -154,6 +154,10 @@ class ApiLeadsCtrl extends Controller
                 'leadOrigin' => LeadsOrigins::where('companies_id', $companies_id)
                                                 ->where('slug', $request->leadOrigin)->first(),
             ];
+
+            var_dump($request->leadOrigin);
+            die();
+            
             foreach($array as $ar){
                 if( $ar ){
                     $origin = $ar->id;
