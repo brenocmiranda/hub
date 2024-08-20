@@ -381,6 +381,8 @@ class ApiLeadsCtrl extends Controller
             ];
             foreach($array as $ar){
                 if( $ar ){
+                    var_dump($ar);
+                    die();
                     if($request->leadOrigin === 'Imovelweb' || $request->leadOrigin === 'Casa Mineira' || $request->leadOrigin === 'Wimoveis'){
                         $element = LeadsOrigins::where('companies_id', $companies_id)->where('slug', 'like', '%imovelweb%')->first();
                         $origin = isset($element) ? $element->id : $ar->id;
