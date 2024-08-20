@@ -387,10 +387,10 @@ class ApiLeadsCtrl extends Controller
             }
             if($request->leadOrigin == 'Imovelweb' || $request->leadOrigin == 'Casa Mineira' || $request->leadOrigin == 'Wimoveis'){
                 $element = LeadsOrigins::where('companies_id', $companies_id)->where('slug', 'like', '%imovelweb%')->first()->id;
-                $origin = $element ? $element : $origin;
+                $origin = isset($element) ? $element : $origin;
             } else if($request->leadOrigin == 'VivaReal' || $request->leadOrigin == 'Zap' || $request->leadOrigin == 'Grupo OLX'){
                 $element = LeadsOrigins::where('companies_id', $companies_id)->where('slug', 'like', '%zapimoveis%')->first()->id;
-                $origin = $element ? $element : $origin;
+                $origin = isset($element) ? $element : $origin;
             }
             $odefault = LeadsOrigins::where('companies_id', $companies_id)->where('slug', 'like', '%default%')->first();
             $origin = isset($origin) ? $origin : $odefault->id;
