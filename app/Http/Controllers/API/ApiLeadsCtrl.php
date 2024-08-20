@@ -379,24 +379,18 @@ class ApiLeadsCtrl extends Controller
                 'leadOrigin' => LeadsOrigins::where('companies_id', $companies_id)
                                                 ->where('slug', $request->leadOrigin)->first(),
             ];
-            
-                    var_dump($array);
-                    die();
             foreach($array as $ar){
                 if( $ar ){
-                    if($request->leadOrigin === 'Imovelweb' || $request->leadOrigin === 'Casa Mineira' || $request->leadOrigin === 'Wimoveis'){
-                        $element = LeadsOrigins::where('companies_id', $companies_id)->where('slug', 'like', '%imovelweb%')->first();
-                        $origin = isset($element) ? $element->id : $ar->id;
-                        break;
-                    } else if($request->leadOrigin === 'VivaReal' || $request->leadOrigin === 'Zap' || $request->leadOrigin === 'Grupo OLX'){
-                        $element = LeadsOrigins::where('companies_id', $companies_id)->where('slug', 'like', '%zapimoveis%')->first();
-                        $origin = isset($element) ? $element->id : $ar->id;
-                        break;
-                    } else {
-                        $origin = $ar->id;
-                        break;
-                    }
+                    $origin = $ar->id;
+                    break;
                 }
+            }
+            if($request->leadOrigin === 'Imovelweb' || $request->leadOrigin === 'Casa Mineira' || $request->leadOrigin === 'Wimoveis'){
+                $element = LeadsOrigins::where('companies_id', $companies_id)->where('slug', 'like', '%imovelweb%')->first();
+                $origin = isset($element) ? $element->id : null;
+            } else if($request->leadOrigin === 'VivaReal' || $request->leadOrigin === 'Zap' || $request->leadOrigin === 'Grupo OLX'){
+                $element = LeadsOrigins::where('companies_id', $companies_id)->where('slug', 'like', '%zapimoveis%')->first();
+                $origin = isset($element) ? $element->id : null;
             }
             $odefault = LeadsOrigins::where('companies_id', $companies_id)->where('slug', 'like', '%default%')->first();
             $origin = isset($origin) ? $origin : $odefault->id;
