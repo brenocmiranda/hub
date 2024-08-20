@@ -385,6 +385,13 @@ class ApiLeadsCtrl extends Controller
                     break;
                 }
             }
+            if($request->leadOrigin == 'Imovelweb' || $request->leadOrigin == 'Casa Mineira' || $request->leadOrigin == 'Wimoveis'){
+                $element = LeadsOrigins::where('companies_id', $companies_id)->where('slug', 'like', '%imovelweb%')->first();
+                $origin = $element ? $element : $origin;
+            } else if($request->leadOrigin == 'Viva Real' || $request->leadOrigin == 'Zap' || $request->leadOrigin == 'Grupo OLX'){
+                $element = LeadsOrigins::where('companies_id', $companies_id)->where('slug', 'like', '%zapimoveis%')->first();
+                $origin = $element ? $element : $origin;
+            }
             $odefault = LeadsOrigins::where('companies_id', $companies_id)->where('slug', 'like', '%default%')->first();
             $origin = isset($origin) ? $origin : $odefault->id;
         /**
