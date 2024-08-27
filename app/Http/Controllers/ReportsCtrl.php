@@ -186,26 +186,28 @@ class ReportsCtrl extends Controller
             $dataFinal = $request->input('dataFinal');
             $building = $request->input('building');
             $origem = $request->input('origem');
+            $company = Auth::user()->companies_id;
+
             if($format == 'pdf'){
-                (new LeadsExport($report, $items, $dataInicial, $dataFinal, $building, $origem))->store($pathFile);
+                (new LeadsExport($report, $items, $dataInicial, $dataFinal, $building, $origem, $company))->store($pathFile);
             } else {
-                (new LeadsExport($report, $items, $dataInicial, $dataFinal, $building, $origem))->queue($pathFile);
+                (new LeadsExport($report, $items, $dataInicial, $dataFinal, $building, $origem,  $company))->queue($pathFile);
             }
 
         } else if( $type === 'buildings' ){
             // Empreendimentos
             if($format == 'pdf'){
-                (new BuildingsExport($report, $items))->store($pathFile);
+                (new BuildingsExport($report, $items, $company))->store($pathFile);
             } else {
-                (new BuildingsExport($report, $items))->queue($pathFile);
+                (new BuildingsExport($report, $items, $company))->queue($pathFile);
             }
         
         } else if( $type === 'integrations' ){
             // Integrations
             if($format == 'pdf'){
-                (new IntegrationsExport($report, $items))->store($pathFile);
+                (new IntegrationsExport($report, $items, $company))->store($pathFile);
             } else {
-                (new IntegrationsExport($report, $items))->queue($pathFile);
+                (new IntegrationsExport($report, $items, $company))->queue($pathFile);
             }
         }
 

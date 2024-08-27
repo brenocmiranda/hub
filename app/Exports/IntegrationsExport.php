@@ -19,10 +19,11 @@ class IntegrationsExport implements FromView, WithEvents
 {   
     use RegistersEventListeners, Exportable;
     
-    public function __construct($report, $items)  
+    public function __construct($report, $items, $company)  
     { 
         $this->items = $items;
         $this->report = $report;
+        $this->company = $company;
     }
 
     public function view(): View
@@ -30,7 +31,7 @@ class IntegrationsExport implements FromView, WithEvents
         $integrations = Integrations::all();
 
         if( !Gate::check('access_komuh') ) {
-            $integrations->where('companies_id', Auth::user()->companies_id)->get();
+            $integrations->where('companies_id', $this->company)->get();
         }
 
         return view('vendor.exports.integrations', [

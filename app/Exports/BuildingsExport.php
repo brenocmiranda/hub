@@ -19,10 +19,11 @@ class BuildingsExport implements FromView, WithEvents
 {
     use RegistersEventListeners, Exportable;
     
-    public function __construct($report, $items)  
+    public function __construct($report, $items, $company)  
     { 
         $this->items = $items;
         $this->report = $report;
+        $this->company = $company;
     }
 
     public function view(): View
@@ -30,7 +31,7 @@ class BuildingsExport implements FromView, WithEvents
         $buildings = Buildings::all();
 
         if( !Gate::check('access_komuh') ) {
-            $buildings->join('buildings_partners', 'buildings_partners.buildings_id', 'buildings.id')->where('buildings_partners.main', 1)->where('buildings_partners.companies_id', Auth::user()->companies_id)->get();
+            $buildings->join('buildings_partners', 'buildings_partners.buildings_id', 'buildings.id')->where('buildings_partners.main', 1)->where('buildings_partners.companies_id', $this->company)->get();
         }    
 
         return view('vendor.exports.buildings', [

@@ -46,6 +46,9 @@
         @if( array_search('srNumber', $items) !== false)
             <th align="center">SrNumber</th>
         @endif
+        @if( array_search('idCaso', $items) !== false)
+            <th align="center">idCaso</th>
+        @endif
     </tr>
     </thead>
     <tbody>
@@ -95,6 +98,9 @@
                 @endif
                 @if( array_search('srNumber', $items) !== false)
                     <td align="center">{{ $lead->RelationFields->where('name', 'SrNumber')->last() ? $lead->RelationFields->where('name', 'SrNumber')->last()->value : "" }}</td>
+                @endif
+                @if( array_search('idCaso', $items) !== false)
+                    <td align="center">{{ $lead->RelationFields->where('name', 'idCaso')->last() ? $lead->RelationFields->where('name', 'idCaso')->last()->value : "" }}</td>
                 @endif
             </tr>
         @endforeach

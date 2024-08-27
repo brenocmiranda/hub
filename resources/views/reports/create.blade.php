@@ -127,6 +127,12 @@ Novo relatório
                                                 SrNumber
                                             </span>
                                         </label>
+                                        <label class="list-group-item d-flex gap-2">
+                                            <input class="form-check-input flex-shrink-0" type="checkbox" name="idCaso">
+                                            <span>
+                                                idCaso
+                                            </span>
+                                        </label>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-12 mt-lg-0 mt-2"> 
