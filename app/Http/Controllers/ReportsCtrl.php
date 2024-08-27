@@ -171,6 +171,7 @@ class ReportsCtrl extends Controller
         $nameFile = $type . '-' . rand() . '.' . $format;
         $path = 'public/exports';
         $pathFile = $path . '/' . $nameFile;
+        $company = Auth::user()->companies_id;
 
         // Create data in reports
         $report = Reports::create([
@@ -186,12 +187,11 @@ class ReportsCtrl extends Controller
             $dataFinal = $request->input('dataFinal');
             $building = $request->input('building');
             $origem = $request->input('origem');
-            $company = Auth::user()->companies_id;
 
             if($format == 'pdf'){
                 (new LeadsExport($report, $items, $dataInicial, $dataFinal, $building, $origem, $company))->store($pathFile);
             } else {
-                (new LeadsExport($report, $items, $dataInicial, $dataFinal, $building, $origem,  $company))->queue($pathFile);
+                (new LeadsExport($report, $items, $dataInicial, $dataFinal, $building, $origem, $company))->queue($pathFile);
             }
 
         } else if( $type === 'buildings' ){
