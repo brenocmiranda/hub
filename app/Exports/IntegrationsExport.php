@@ -30,7 +30,7 @@ class IntegrationsExport implements FromView, WithEvents
     {   
         $integrations = Integrations::all();
 
-        if( !Gate::check('access_komuh') ) {
+        if( Gate::check('access_komuh') ) {
             $integrations->where('companies_id', $this->company)->get();
         }
 
