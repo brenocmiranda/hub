@@ -391,6 +391,11 @@ class BuildingsCtrl extends Controller
             'users_id' => Auth::user()->id
         ]);
         
+        BuildingsPartners::where('buildings_id', $id)->delete();
+        BuildingsDestinatarios::where('buildings_id', $id)->delete();
+        BuildingsSheets::where('buildings_id', $id)->delete();
+        BuildingsIntegrationsFields::where('buildings_id', $id)->delete();
+        BuildingsIntegrations::where('buildings_id', $id)->delete();
         BuildingsKeys::where('buildings_id', $id)->delete();
         Buildings::find($id)->delete();
         return redirect()->route('buildings.index')->with('destroy', true);
