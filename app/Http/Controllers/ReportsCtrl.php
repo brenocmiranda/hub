@@ -175,6 +175,9 @@ class ReportsCtrl extends Controller
         $pathFile = $path . '/' . $nameFile;
         $company = Auth::user()->companies_id;
 
+        var_dump($items);
+        die();
+
         // Create data in reports
         $report = Reports::create([
             'name' => $nameFile, 
@@ -182,6 +185,8 @@ class ReportsCtrl extends Controller
             'status' => 'Na fila',
             'companies_id' => Auth::user()->companies_id,
         ]);
+
+      
 
         if( $type === 'leads' ){
             // Leads 
