@@ -16,7 +16,7 @@
         @if( array_search('origin', $items) !== false)
             <th align="center">Origem</th>
         @endif
-        @if( array_search('building', $items) !== false)
+        @if( array_search('building_id', $items) !== false)
             <th align="center">Empreendimento</th>
         @endif
         @if( array_search('company', $items) !== false)

@@ -68,7 +68,7 @@ Novo relatório
                                             </span>
                                         </label>
                                         <label class="list-group-item d-flex gap-2">
-                                            <input class="form-check-input flex-shrink-0" type="checkbox" name="building" checked>
+                                            <input class="form-check-input flex-shrink-0" type="checkbox" name="building_id" checked>
                                             <span>
                                                 Empreendimento
                                             </span>
