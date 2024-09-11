@@ -69,7 +69,7 @@
                 @if( array_search('origin', $items) !== false)
                     <td align="center">{{ $lead->RelationOrigins->name }}</td>
                 @endif
-                @if( array_search('building', $items) !== false)
+                @if( array_search('building_id', $items) !== false)
                     <td align="center">{{ $lead->RelationBuildings->name }}</td>
                 @endif
                 @if( array_search('company', $items) !== false)
