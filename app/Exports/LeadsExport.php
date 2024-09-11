@@ -22,11 +22,11 @@ class LeadsExport implements FromView, WithEvents
     public function __construct($report, $items, $dataInicial, $dataFinal, $building, $origem, $company)  
     { 
         $this->items = $items;
+        $this->report = $report;
         $this->dataInicial = $dataInicial;
         $this->dataFinal = $dataFinal;
         $this->building = $building;
         $this->origem = $origem;
-        $this->report = $report;
         $this->company = $company;
     }
 
@@ -36,7 +36,7 @@ class LeadsExport implements FromView, WithEvents
         $leads = $this->building ? $leads->where('buildings_id', $this->building) : $leads;
         $leads = $this->origem ? $leads->where('leads_origins_id', $this->origem) : $leads;
 
-        if( Gate::check('access_komuh') ) {
+        if( Gate::check('access_komuh') === false ) {
             $leads->where('companies_id', $this->company);
         }
 
