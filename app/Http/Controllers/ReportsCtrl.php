@@ -137,8 +137,6 @@ class ReportsCtrl extends Controller
         $buildings = Buildings::where('active', 1)->orderBy('name', 'asc')->get();
         foreach($buildings as $building){
             $element = BuildingsPartners::where('buildings_id', $building->id)->where('main', 1)->first();
-            var_dump($element->companies_id);
-            die();
             $building->companies = $element->companies_id ? $element->companies_id : 0;
         }
 
