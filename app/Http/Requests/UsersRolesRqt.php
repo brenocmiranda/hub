@@ -35,19 +35,11 @@ class UsersRolesRqt extends FormRequest
      */
     public function rules(): array
     {
-        if($this->segment(4) == 'store'){
-            return [
-                'name' => 'required|min:3|unique:users_roles,name',
-                'value' => 'required|numeric|max:100',
-                'active' => 'required|boolean',
-            ];
-        } else {
-            return [
-                'name' => 'required|min:3',
-                'value' => 'required|numeric|max:100',
-                'active' => 'required|boolean',
-            ];
-        }
+        return [
+            'name' => 'required|min:3|unique:users_roles,name,'.$this->name,
+            'value' => 'required|numeric|max:100',
+            'active' => 'required|boolean',
+        ];
     }
 
     /**

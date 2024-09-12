@@ -35,19 +35,11 @@ class LeadsOriginsRqt extends FormRequest
      */
     public function rules(): array
     {
-        if($this->segment(4) == 'store'){
-            return [
-                'name' => 'required|min:3|unique:leads_origins,name',
-                'slug' => 'required|min:3',
-                'active' => 'required|boolean',
-            ];
-        } else {
-            return [
-                'name' => 'required|min:3',
-                'slug' => 'required|min:3',
-                'active' => 'required|boolean',
-            ];
-        }
+        return [
+            'name' => 'required|min:3|unique:leads_origins,name,'.$this->name,
+            'slug' => 'required|min:3',
+            'active' => 'required|boolean',
+        ];
     }
 
     /**

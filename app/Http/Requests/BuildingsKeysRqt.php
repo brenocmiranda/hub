@@ -35,19 +35,11 @@ class BuildingsKeysRqt extends FormRequest
      */
     public function rules(): array
     {
-        if($this->segment(4) == 'store'){
-            return [
-                'value' => 'required|min:3|unique:buildings_keys,value',
-                'active' => 'required|boolean',
-                'building' => 'required|integer',
-            ];
-        } else {
-            return [
-                'value' => 'required|min:3',
-                'active' => 'required|boolean',
-                'building' => 'required|integer',
-            ];
-        }
+        return [
+            'value' => 'required|min:3|unique:buildings_keys,value,'.$this->value,
+            'active' => 'required|boolean',
+            'building' => 'required|integer',
+        ];
     }
 
     /**

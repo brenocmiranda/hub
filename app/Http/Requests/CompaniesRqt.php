@@ -35,19 +35,11 @@ class CompaniesRqt extends FormRequest
      */
     public function rules(): array
     {
-        if($this->segment(3) == 'store'){
-            return [
-                'name' => 'required|min:3|unique:companies,name',
-                'slug' => 'required|min:3',
-                'active' => 'required|boolean',
-            ];
-        } else {
-            return [
-                'name' => 'required|min:3',
-                'slug' => 'required|min:3',
-                'active' => 'required|boolean',
-            ];
-        }
+        return [
+            'name' => 'required|min:3|unique:companies,name,'.$this->name,
+            'slug' => 'required|min:3',
+            'active' => 'required|boolean',
+        ];
     }
 
     /**

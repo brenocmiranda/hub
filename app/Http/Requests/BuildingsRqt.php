@@ -35,19 +35,11 @@ class BuildingsRqt extends FormRequest
      */
     public function rules(): array
     {
-        if($this->segment(3) == 'store'){
-            return [
-                'name' => 'required|min:3|unique:buildings,name',
-                'active' => 'required|boolean',
-                'companie' => 'required|integer',
-            ];
-        } else {
-            return [
-                'name' => 'required|min:3',
-                'active' => 'required|boolean',
-                'companie' => 'required|integer',
-            ];
-        }
+        return [
+            'name' => 'required|min:3|unique:buildings,name,'.$this->name,
+            'active' => 'required|boolean',
+            'companie' => 'required|integer',
+        ];
     }
 
     /**

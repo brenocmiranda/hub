@@ -41,32 +41,18 @@ class IntegrationsRqt extends FormRequest
      */
     public function rules(): array
     {
-        if($this->segment(3) == 'store'){
-            return [
-                'type' => 'required|min:3',
-                'name' => 'required|min:3|unique:integrations,name',
-                'slug' => 'required|min:3',
-                'url' => 'required|min:3|url:http,https',
-                'user' => 'min:3|nullable',
-                'password' => 'min:3|nullable',
-                'token' => 'min:3|nullable',
-                'header' => 'min:3|nullable',
-                'active' => 'required|boolean',
-                'encoded' => 'required|boolean',
-            ];
-        } else {
-            return [
-                'name' => 'required|min:3',
-                'slug' => 'required|min:3',
-                'url' => 'required|min:3|url:http,https',
-                'user' => 'min:3|nullable',
-                'password' => 'min:3|nullable',
-                'token' => 'min:3|nullable',
-                'header' => 'min:3|nullable',
-                'active' => 'required|boolean',
-                'encoded' => 'required|boolean',
-            ];
-        }
+        return [
+            'type' => 'required|min:3',
+            'name' => 'required|min:3|unique:integrations,name,'.$this->name,
+            'slug' => 'required|min:3',
+            'url' => 'required|min:3|url:http,https',
+            'user' => 'min:3|nullable',
+            'password' => 'min:3|nullable',
+            'token' => 'min:3|nullable',
+            'header' => 'min:3|nullable',
+            'active' => 'required|boolean',
+            'encoded' => 'required|boolean',
+        ];
     }
 
     /**
