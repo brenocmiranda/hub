@@ -39,7 +39,7 @@ class UsersRqt extends FormRequest
     {
         return [
             'name' => 'required|min:3',
-            'email' => 'required|min:3|unique:users,email,'.$this->user->id,
+            'email' => 'required|min:3|unique:users,email,'.$this->user,
             'active' => 'required|boolean',
             'companies' => 'required|integer',
             'roles' => 'required|integer',
