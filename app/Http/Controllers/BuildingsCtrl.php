@@ -135,14 +135,15 @@ class BuildingsCtrl extends Controller
         } 
 
         // Buildings
+        $buildings = Buildings::where('active', 1)->orderBy('name', 'asc')->get();
         foreach($buildings as $building){
             $element = BuildingsPartners::where('buildings_id', $building->id)->where('main', 1)->first();
-            $building->company = $element->companies_id ? $element->companies_id : 0;
+            $building->companies_id = $element ? $element->companies_id : 0;
         }
         foreach($companies as $company){
             foreach($buildings as $building){ 
-                if( $company->id == $building->company ){
-                    $array1[$company->name][] = $building;
+                if( $company->id == $building->companies_id ){
+                    $array[$company->name][] = $building;
                 }
             }
         } 
@@ -265,14 +266,15 @@ class BuildingsCtrl extends Controller
         } 
 
         // Buildings
+        $buildings = Buildings::where('active', 1)->orderBy('name', 'asc')->get();
         foreach($buildings as $building){
             $element = BuildingsPartners::where('buildings_id', $building->id)->where('main', 1)->first();
-            $building->company = $element ? $element->companies_id : "";
+            $building->companies_id = $element ? $element->companies_id : 0;
         }
         foreach($companies as $company){
             foreach($buildings as $building){ 
-                if( $company->id == $building->company ){
-                    $array1[$company->name][] = $building;
+                if( $company->id == $building->companies_id ){
+                    $array[$company->name][] = $building;
                 }
             }
         } 

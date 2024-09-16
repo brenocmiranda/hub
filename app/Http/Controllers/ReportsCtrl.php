@@ -139,7 +139,6 @@ class ReportsCtrl extends Controller
             $element = BuildingsPartners::where('buildings_id', $building->id)->where('main', 1)->first();
             $building->companies_id = $element ? $element->companies_id : 0;
         }
-
         foreach($companies as $company){
             foreach($buildings as $building){ 
                 if( $company->id == $building->companies_id ){
