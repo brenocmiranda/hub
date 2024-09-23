@@ -23,19 +23,22 @@
             <th align="center">Empresa</th>
         @endif
         @if( array_search('utm_source', $items) !== false)
-            <th align="center">utm_source</th>
+            <th align="center">Utm_source</th>
         @endif
         @if( array_search('utm_medium', $items) !== false)
-            <th align="center">utm_medium</th>
+            <th align="center">Utm_medium</th>
         @endif
         @if( array_search('utm_campaign', $items) !== false)
-            <th align="center">utm_campaign</th>
+            <th align="center">Utm_campaign</th>
         @endif
         @if( array_search('utm_content', $items) !== false)
-            <th align="center">utm_content</th>
+            <th align="center">Utm_content</th>
         @endif
         @if( array_search('utm_term', $items) !== false)
-            <th align="center">utm_term</th>
+            <th align="center">Utm_term</th>
+        @endif
+        @if( array_search('url', $items) !== false)
+            <th align="center">URL</th>
         @endif
         @if( array_search('message', $items) !== false)
             <th align="center">Mensagem</th>
@@ -89,6 +92,9 @@
                 @endif
                 @if( array_search('utm_term', $items) !== false)
                     <td align="center">{{ $lead->RelationFields->where('name', 'utm_term')->last() ? $lead->RelationFields->where('name', 'utm_term')->last()->value : "" }}</td>
+                @endif
+                @if( array_search('url', $items) !== false)
+                    <td align="center">{{ $lead->RelationFields->where('name', 'url')->last() ? $lead->RelationFields->where('name', 'url')->last()->value : "" }}</td>
                 @endif
                 @if( array_search('message', $items) !== false)
                     <td align="center">{{ $lead->RelationFields->where('name', 'message')->last() ? $lead->RelationFields->where('name', 'message')->last()->value : "" }}</td>
