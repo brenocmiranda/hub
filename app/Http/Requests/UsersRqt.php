@@ -53,7 +53,7 @@ class UsersRqt extends FormRequest
                 'active' => 'required|boolean',
                 'roles' => 'required|uuid',
             ];
-        }
+        }   
     }
 
     /**
