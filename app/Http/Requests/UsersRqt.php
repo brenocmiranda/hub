@@ -41,7 +41,7 @@ class UsersRqt extends FormRequest
         if( Gate::check('access_komuh') ){
             return [
                 'name' => 'required|min:3',
-                'email' => 'required|email|unique:users,email,'.$this->email,
+                'email' => 'required|email|unique:users,email,'.$this->user,
                 'active' => 'required|boolean',
                 'company' => 'required|uuid',
                 'roles' => 'required|uuid',
@@ -49,7 +49,7 @@ class UsersRqt extends FormRequest
         } else {
             return [
                 'name' => 'required|min:3',
-                'email' => 'required|email|unique:users,email,'.$this->email,
+                'email' => 'required|email|unique:users,email,'.$this->user,
                 'active' => 'required|boolean',
                 'roles' => 'required|uuid',
             ];
