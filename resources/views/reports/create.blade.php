@@ -110,6 +110,12 @@ Novo relatório
                                             </span>
                                         </label>
                                         <label class="list-group-item d-flex gap-2">
+                                            <input class="form-check-input flex-shrink-0" type="checkbox" name="url">
+                                            <span>
+                                                URL
+                                            </span>
+                                        </label>
+                                        <label class="list-group-item d-flex gap-2">
                                             <input class="form-check-input flex-shrink-0" type="checkbox" name="message">
                                             <span>
                                                 Mensagem
