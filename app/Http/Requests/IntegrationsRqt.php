@@ -43,7 +43,7 @@ class IntegrationsRqt extends FormRequest
     {
         return [
             'type' => 'required|min:3',
-            'name' => 'required|min:3|unique:integrations,name,'.$this->name,
+            'name' => 'required|min:3|unique:integrations,name,'.$this->integration,
             'slug' => 'required|min:3',
             'url' => 'required|min:3|url:http,https',
             'user' => 'min:3|nullable',

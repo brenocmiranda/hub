@@ -36,7 +36,7 @@ class LeadsOriginsRqt extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|min:3|unique:leads_origins,name,'.$this->name,
+            'name' => 'required|min:3|unique:leads_origins,name,'.$this->origin,
             'slug' => 'required|min:3',
             'active' => 'required|boolean',
         ];

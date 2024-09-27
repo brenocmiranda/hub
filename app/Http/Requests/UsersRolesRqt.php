@@ -36,7 +36,7 @@ class UsersRolesRqt extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|min:3|unique:users_roles,name,'.$this->name,
+            'name' => 'required|min:3|unique:users_roles,name,'.$this->role,
             'value' => 'required|numeric|max:100',
             'active' => 'required|boolean',
         ];
