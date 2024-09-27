@@ -36,7 +36,7 @@ class BuildingsRqt extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|min:3|unique:buildings,name,'.$this->name,
+            'name' => 'required|min:3|unique:buildings,name,'.$this->building,
             'active' => 'required|boolean',
             'companie' => 'required|integer',
         ];

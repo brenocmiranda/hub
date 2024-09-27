@@ -36,7 +36,7 @@ class BuildingsKeysRqt extends FormRequest
     public function rules(): array
     {
         return [
-            'value' => 'required|min:3|unique:buildings_keys,value,'.$this->value,
+            'value' => 'required|min:3|unique:buildings_keys,value,'.$this->key,
             'active' => 'required|boolean',
             'building' => 'required|integer',
         ];
