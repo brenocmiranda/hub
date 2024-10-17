@@ -142,7 +142,7 @@ class ApiLeadsCtrl extends Controller
                                             //->whereLike('buildings_keys.value', '%default%')
                                             //->where('buildings_keys.active', 1)
                                             ->first();
-                                            var_dump($companies_id);
+                                            var_dump($bdefault);
                                             die();
             $building = isset($building) ? $building : $bdefault->buildings_id;
         /**
