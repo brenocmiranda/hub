@@ -139,7 +139,7 @@ class ApiLeadsCtrl extends Controller
             $bdefault = BuildingsKeys::join('buildings_partners', 'buildings_partners.buildings_id', 'buildings_keys.buildings_id')
                                             ->where('buildings_partners.companies_id', $companies_id)
                                             ->where('buildings_partners.main', 1)
-                                            ->whereLike('buildings_keys.value', '%default%')
+                                            ->where('buildings_keys.value', 'like', '%default%')
                                             ->where('buildings_keys.active', 1)
                                             ->first();
             $building = isset($building) ? $building : $bdefault->buildings_id;
