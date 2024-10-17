@@ -140,7 +140,7 @@ class ApiLeadsCtrl extends Controller
                                             ->where('buildings_partners.companies_id', $companies_id)
                                             ->where('buildings_partners.main', 1)
                                             //->whereLike('buildings_keys.value', '%default%')
-                                            //->where('buildings_keys.active', 1)
+                                            ->where('buildings_keys.active', 1)
                                             ->first();
                                             var_dump($bdefault);
                                             die();
