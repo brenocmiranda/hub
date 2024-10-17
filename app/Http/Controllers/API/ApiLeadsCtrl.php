@@ -139,7 +139,7 @@ class ApiLeadsCtrl extends Controller
             $bdefault = BuildingsKeys::join('buildings_partners', 'buildings_partners.buildings_id', 'buildings_keys.buildings_id')
                                             ->where('buildings_partners.companies_id', $companies_id)
                                             ->where('buildings_partners.main', 1)
-                                            ->where('buildings_keys.value', 'like', '%default%')
+                                            ->whereLike('buildings_keys.value', '%default%')
                                             ->where('buildings_keys.active', 1)
                                             ->first();
             $building = isset($building) ? $building : $bdefault->buildings_id;
@@ -386,13 +386,13 @@ class ApiLeadsCtrl extends Controller
                 }
             }
             if($request->leadOrigin === 'Imovelweb' || $request->leadOrigin === 'Casa Mineira' || $request->leadOrigin === 'Wimoveis'){
-                $element = LeadsOrigins::where('companies_id', $companies_id)->where('slug', 'like', '%imovelweb%')->first();
+                $element = LeadsOrigins::where('companies_id', $companies_id)->whereLike('slug', '%imovelweb%')->first();
                 $origin = isset($element) ? $element->id : null;
             } else if($request->leadOrigin === 'VivaReal' || $request->leadOrigin === 'Zap' || $request->leadOrigin === 'Grupo OLX'){
-                $element = LeadsOrigins::where('companies_id', $companies_id)->where('slug', 'like', '%zapimoveis%')->first();
+                $element = LeadsOrigins::where('companies_id', $companies_id)->whereLike('slug', '%zapimoveis%')->first();
                 $origin = isset($element) ? $element->id : null;
             }
-            $odefault = LeadsOrigins::where('companies_id', $companies_id)->where('slug', 'like', '%default%')->first();
+            $odefault = LeadsOrigins::where('companies_id', $companies_id)->whereLike('slug', '%default%')->first();
             $origin = isset($origin) ? $origin : $odefault->id;
         /**
          * End Defined partner responsible
