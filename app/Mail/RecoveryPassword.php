@@ -28,7 +28,7 @@ class RecoveryPassword extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            from: new Address('postmaster@hub.komuh.com', 'Hub Integrações'),
+            from: new Address('postmaster@hub.klash.com.br', 'Hub Integrações'),
             subject: '[HUB] Solicitação de redefinição de senha',
         );
     }
