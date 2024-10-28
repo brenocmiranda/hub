@@ -12,6 +12,8 @@ use App\Models\BuildingsPartners;
 use App\Models\Leads;
 use App\Models\LeadsFields;
 use App\Models\LeadsOrigins;
+use App\Models\Pipelines;
+use App\Models\PipelinesLog;
 use App\Jobs\ProcessBuildingJobs;
 
 class ApiLeadsCtrl extends Controller
@@ -40,7 +42,7 @@ class ApiLeadsCtrl extends Controller
         ])->info('Dados do lead recebido: ' . json_encode($request->all()) );
 
         /**
-         * Params required
+         * Get Params required
         */
         
             /** Empresa origem **/
@@ -149,7 +151,7 @@ class ApiLeadsCtrl extends Controller
 
 
         /**
-         * Params optinals
+         * Get Params optinals
         */
             /** Url_params **/
             if($request->url_params){
@@ -368,7 +370,7 @@ class ApiLeadsCtrl extends Controller
 
         
         /**
-         * Defined partner responsible and define origin
+         * Defined partner responsible and define origin (Roleta)
         */
             $companies_id = $this->partners( $building );
             $array = [
@@ -398,43 +400,62 @@ class ApiLeadsCtrl extends Controller
          * End Defined partner responsible
         */
 
-       
-         /**
-         * Create new lead
-        */
-            $lead = Leads::create([
-                'api' => true, 
-                'name' => $name, 
-                'phone' => $phone, 
-                'email' => $email,
-                'buildings_id' => $building,
-                'leads_origins_id' => $origin,
-                'companies_id' => $companies_id,
-            ]);
 
-            // Create custom fields
-            if(isset($fields)){
-                foreach($fields["nameField"] as $index => $field) {
-                    LeadsFields::create([
-                        'name' => $fields["nameField"][$index], 
-                        'value' => $fields["valueField"][$index],
-                        'leads_id' => $lead->id,
-                    ]);
-                }
-            }
-         /**
-         * End Create new lead
-        */
-
-
-         /**
-         * Send in integrations
-        */ 
-            ProcessBuildingJobs::dispatch($lead->id);  
         /**
-         * End Send in integrations
+         * Create leads without duplication (email, phone and building for 10 min)
         */
+            $lead = Leads::where('email', $email)
+                        ->where('phone', $phone)
+                        ->where('buildings_id', $building)
+                        ->whereTime('created_at', '>=', date("H:i:s", strtotime("-10 minutes")) )
+                        ->first();
 
+            if( isset($lead) ){
+
+                // Salvando a pipeline de execução da integração
+                $pipeline = Pipelines::create([
+                    'statusCode' => 3,
+                    'attempts' => '0',
+                    'leads_id' => $lead->id,
+                    'buildings_id' => $lead->buildings_id,
+                    'integrations_id' => null
+                ]);
+                PipelinesLog::create([
+                    'header' => 'Nova tentativa de contato',
+                    'response' => json_encode($request->all()),
+                    'pipelines_id' => $pipeline->id
+                ]);
+
+            } else {
+
+                // Create new lead
+                $lead = Leads::create([
+                    'api' => true, 
+                    'name' => $name, 
+                    'phone' => $phone, 
+                    'email' => $email,
+                    'buildings_id' => $building,
+                    'leads_origins_id' => $origin,
+                    'companies_id' => $companies_id,
+                ]);
+
+                // Create custom fields
+                if(isset($fields)){
+                    foreach($fields["nameField"] as $index => $field) {
+                        LeadsFields::create([
+                            'name' => $fields["nameField"][$index], 
+                            'value' => $fields["valueField"][$index],
+                            'leads_id' => $lead->id,
+                        ]);
+                    }
+                }
+
+                // Send in integrations
+                ProcessBuildingJobs::dispatch($lead->id);  
+            }
+        /**
+         * End Create leads without duplication
+        */
 
         return response()->json([
             'status' => true,

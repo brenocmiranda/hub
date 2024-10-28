@@ -82,6 +82,8 @@ class PipelinesCtrl extends Controller
                     $integration = "Disparo de e-mail";
                 }else if( $pipeline->statusCode == 2){
                     $integration = "Google Sheets";
+                }else if( $pipeline->statusCode == 3){
+                    $integration = "Duplicidade";
                 }else if( $pipeline->RelationIntegrations ){
                     $integration = $pipeline->RelationIntegrations->name;
                 }
