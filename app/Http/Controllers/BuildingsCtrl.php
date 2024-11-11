@@ -129,7 +129,7 @@ class BuildingsCtrl extends Controller
         foreach($companies as $company){
             foreach($integrations as $integration){ 
                 if( $company->id == $integration->companies_id ){
-                    $array[$company->name][] = $integration;
+                    $arrayIntegration[$company->name][] = $integration;
                 }
             }
         } 
@@ -143,12 +143,12 @@ class BuildingsCtrl extends Controller
         foreach($companies as $company){
             foreach($buildings as $building){ 
                 if( $company->id == $building->companies_id ){
-                    $array[$company->name][] = $building;
+                    $arrayBuilding[$company->name][] = $building;
                 }
             }
         } 
 
-        return view('buildings.create')->with('companies', Companies::where('active', 1)->orderBy('name', 'asc')->get())->with('integrations', isset($array) ? $array : null)->with('buildingsAll', isset($array1) ? $array1 : null);
+        return view('buildings.create')->with('companies', Companies::where('active', 1)->orderBy('name', 'asc')->get())->with('integrations', isset($arrayIntegration) ? $arrayIntegration : null)->with('buildingsAll', isset($arrayBuilding) ? $arrayBuilding : null);
     }
 
     public function store(BuildingsRqt $request)
@@ -260,7 +260,7 @@ class BuildingsCtrl extends Controller
         foreach($companies as $company){
             foreach($integrations as $integration){ 
                 if( $company->id == $integration->companies_id ){
-                    $array[$company->name][] = $integration;
+                    $arrayIntegration[$company->name][] = $integration;
                 }
             }
         } 
@@ -274,12 +274,12 @@ class BuildingsCtrl extends Controller
         foreach($companies as $company){
             foreach($buildings as $building){ 
                 if( $company->id == $building->companies_id ){
-                    $array[$company->name][] = $building;
+                    $arrayBuilding[$company->name][] = $building;
                 }
             }
         } 
 
-        return view('buildings.edit')->with('building', Buildings::find($id))->with('companies', $companiesAll)->with('integrations', isset($array) ? $array : null)->with('buildingsAll', isset($array1) ? $array1 : null);
+        return view('buildings.edit')->with('building', Buildings::find($id))->with('companies', $companiesAll)->with('integrations', isset($arrayIntegration) ? $arrayIntegration : null)->with('buildingsAll', isset($arrayBuilding) ? $arrayBuilding : null);
     }
 
     public function update(BuildingsRqt $request, $id)
