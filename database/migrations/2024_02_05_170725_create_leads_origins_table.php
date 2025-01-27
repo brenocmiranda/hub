@@ -12,10 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('leads_origins', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->boolean('active');
             $table->string('name', 200);
             $table->string('slug');
+            $table->foreignUuid('companies_id')->constrained();
             $table->softDeletes($column = 'deleted_at', $precision = 0);
             $table->timestamps();
         });

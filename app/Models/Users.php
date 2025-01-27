@@ -8,10 +8,11 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Concerns\HasUuids; 
 
 class Users extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes, HasUuids;
 
     /**
      * The attributes that are mass assignable.
@@ -24,10 +25,10 @@ class Users extends Authenticatable
         'email',
         'password',
         'attempts',
-        'companie_id',
-        'user_role_id',
         'remember_token',
         'src',
+        'companies_id',
+        'users_roles_id',
     ];
 
     /**
@@ -52,11 +53,11 @@ class Users extends Authenticatable
 
     public function RelationCompanies()
     {
-        return $this->belongsTo(Companies::class, 'companie_id', 'id');
+        return $this->belongsTo(Companies::class, 'companies_id', 'id');
     }
 
-    public function RelationRules()
+    public function RelationRoles()
     {
-        return $this->belongsTo(UsersRoles::class, 'user_role_id', 'id');
+        return $this->belongsTo(UsersRoles::class, 'users_roles_id', 'id');
     }
 }

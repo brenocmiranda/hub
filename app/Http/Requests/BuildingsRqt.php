@@ -23,7 +23,9 @@ class BuildingsRqt extends FormRequest
     {
         return [
             'name' => 'nome',
-            'companie' => 'empresa',
+            'company' => 'empresa',
+            'buildings_id' => 'empreendimento de teste',
+            'partner' => 'parceiro',
             'active' => 'status',
         ];
     }
@@ -36,9 +38,10 @@ class BuildingsRqt extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|min:3|unique:buildings,name,'.$this->building,
+            'name' => 'required|min:3',
+            'buildings_id' => 'nullable|uuid',
             'active' => 'required|boolean',
-            'companie' => 'required|integer',
+            'partner' => 'required'
         ];
     }
 
@@ -56,6 +59,7 @@ class BuildingsRqt extends FormRequest
             'numeric' => 'O campo :attribute só aceita valores númericos.',
             'boolean' => 'O campo :attribute só pode receber ativo ou desativado.',
             'integer' => 'O campo :attribute só aceita valores inteiros.',
+            'uuid' => 'O campo :attribute deve ser um UUID válido.',
         ];   
     }
 }

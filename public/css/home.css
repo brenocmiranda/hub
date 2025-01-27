@@ -1,32 +1,28 @@
 /** Documento da página de Home **/
-main hr {
+header {
     display: none;
 }
 
-.img-home {
-    background: url(../images/welcome.png) no-repeat center / contain;
-    filter: grayscale(1);
-    opacity: 0.45; 
-    width: 320px;
-    height: 320px;
-}
-
-.card i {
-    font-size: 26px;
-}
-
-.card span {
-    font-size: 12px;
+section {
+    min-height: calc(100vh - 160px);
     display: flex;
-    justify-content: flex-end;
+    align-items: center;
 }
 
-.card small {
-    font-size: 12px;
+section .bi-question-circle {
+    font-size: 80px;
 }
 
-@media (max-width: 768px){
-    .img-home {
-        width: 100%;
-    }
+section #accordionItems {
+    background-color: #ffffff96;
+    padding: 20px;
+    border-radius: 16px;
+}
+
+section #accordionItems .accordion-item, 
+section #accordionItems .accordion-button { 
+    background: transparent;
+    border-left-color: transparent;
+    border-right-color: transparent;
+    border-top-color: transparent;
 }

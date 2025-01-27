@@ -41,7 +41,36 @@ Nova integração
                                 <label for="slug">Slug <abbr>*</abbr></label>
                             </div>
                         </div>
-                        <div class="input-field col-lg-2 col-12">
+                        @can('access_komuh')
+                            <div class="input-field col-lg-6 col-12">
+                                <div class="form-floating">
+                                    <select class="form-select @error('company') is-invalid @enderror" aria-label="Defina uma empresa" name="company" id="company" required>
+                                        <option selected></option>
+                                        @foreach($companies as $company)
+                                            <option value="{{ $company->id }}" {{ old('company') != null && old('company') == $company->id ? 'selected' : "" }}>{{ $company->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    <label for="company">Empresas <abbr>*</abbr></label>
+                                </div>
+                            </div>
+                        @endcan
+                        <div class="input-field col-lg-6 col-12">
+                            <div class="form-floating">
+                                <select class="form-select @error('active') is-invalid @enderror" aria-label="Defina um status" name="active" id="active" required>
+                                    <option selected></option>
+                                    <option value="1" {{ old('active') != null && old('active') == true ? 'selected' : '' }}>Ativo</option>
+                                    <option value="0" {{ old('active') != null && old('active') == false ? 'selected' : "" }}>Desativado</option>
+                                </select>
+                                <label for="active">Status <abbr>*</abbr></label>
+                            </div>
+                        </div>
+                        <div class="input-field col-12">
+                            <div class="form-floating">
+                                <input type="text" class="form-control @error('url') is-invalid @enderror" id="url" name="url" value="{{ old('url') }}" required>
+                                <label for="url">URL <abbr>*</abbr></label>
+                            </div>
+                        </div>
+                        <div class="input-field col-lg-6 col-12">
                             <div class="form-floating">
                                 <select class="form-select @error('type') is-invalid @enderror" aria-label="Defina um tipo" name="type" id="type" required>
                                     <option selected></option>
@@ -49,12 +78,6 @@ Nova integração
                                     <option value="POST" {{ old('type') == 'POST' ? 'selected' : "" }}>POST</option>
                                 </select>
                                 <label for="type">Tipo <abbr>*</abbr></label>
-                            </div>
-                        </div>
-                        <div class="input-field col-lg-10 col-12">
-                            <div class="form-floating">
-                                <input type="text" class="form-control @error('url') is-invalid @enderror" id="url" name="url" value="{{ old('url') }}" required>
-                                <label for="url">URL <abbr>*</abbr></label>
                             </div>
                         </div>
                         <div class="input-field col-lg-6 col-12">
@@ -67,16 +90,7 @@ Nova integração
                                 <label for="encoded">Encoded body? <abbr>*</abbr></label>
                             </div>
                         </div>
-                        <div class="input-field col-lg-6 col-12">
-                            <div class="form-floating">
-                                <select class="form-select @error('active') is-invalid @enderror" aria-label="Defina um status" name="active" id="active" required>
-                                    <option selected></option>
-                                    <option value="1" {{ old('active') != null && old('active') == true ? '' : 'selected' }}>Ativo</option>
-                                    <option value="0" {{ old('active') != null && old('active') == false ? 'selected' : "" }}>Desativado</option>
-                                </select>
-                                <label for="active">Status <abbr>*</abbr></label>
-                            </div>
-                        </div>
+                        
                         <div class="divider-input">
                             <p>Autenticação</p>
                             <hr>

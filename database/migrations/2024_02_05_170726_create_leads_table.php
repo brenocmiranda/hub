@@ -12,16 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('leads', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->boolean('api');
             $table->string('name', 200);
             $table->string('phone', 200);
             $table->string('email', 200);
             $table->string('batches_id')->nullable();
-            $table->unsignedBigInteger('leads_origin_id');
-            $table->foreign('leads_origin_id')->references('id')->on('leads_origins');
-            $table->unsignedBigInteger('building_id');
-            $table->foreign('building_id')->references('id')->on('buildings');
+            $table->foreignUuid('companies_id')->constrained();
+            $table->foreignUuid('leads_origins_id')->constrained();
+            $table->foreignUuid('buildings_id')->constrained();
+            $table->softDeletes($column = 'deleted_at', $precision = 0);
             $table->timestamps();
         });
     }

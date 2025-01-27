@@ -5,10 +5,12 @@ Leads
 @endsection
 
 @section('buttons')
-    <a href="{{ route('leads.create') }}" class="btn btn-primary">
-        <i class="bi bi-plus-lg"></i>
-        <span>Novo</span>
-    </a>
+    @can('leads_create')
+        <a href="{{ route('leads.create') }}" class="btn btn-primary">
+            <i class="bi bi-plus-lg"></i>
+            <span>Novo</span>
+        </a>
+    @endcan
 @endsection
 
 @section('content-page')
@@ -19,10 +21,13 @@ Leads
                     <thead>
                         <tr>
                             <th data-field="date" data-align="center">Data</th>
-                            <th data-field="origin" data-align="center">Origem</th>
-                            <th data-field="building" data-align="center">Empreendimento</th>
                             <th data-field="name" data-align="center">Nome</th>
-                            <!--<th data-field="email" data-align="center">E-mail</th>-->
+                            <th data-field="email" data-align="center" data-visible="false">E-mail</th>
+                            @can('access_komuh')
+                                <th data-field="company" data-align="center">Empresa</th>
+                            @endcan
+                            <th data-field="building" data-align="center">Empreendimento</th>
+                            <th data-field="origin" data-align="center">Origem</th>
                             <th data-field="status" data-align="center">Status</th>
                             <th data-field="operations" data-align="center">Operações</th>
                         </tr>

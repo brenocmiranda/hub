@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('integrations', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->boolean('active');
             $table->string('type', 200);
             $table->string('name', 200);
@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('password', 200)->nullable();
             $table->string('token', 200)->nullable();
             $table->longText('header', 200)->nullable();
+            $table->foreignUuid('companies_id')->constrained();
             $table->softDeletes($column = 'deleted_at', $precision = 0);
             $table->timestamps();
         });

@@ -31,9 +31,8 @@ $table.bootstrapTable({
     locale: "pt-BR",
     theadClasses: 'table-dark',
     buttonsAlign: 'left',
-    pageSize: 7,
+    pageSize: 6,
     search: true,
-    showSearchButton: true,
     searchable: true,
     pagination: true,
     paginationPreText: '<',
@@ -47,12 +46,6 @@ $table.bootstrapTable({
 
 // Buttons click event
 $('#table').on('all.bs.table', function (name, args) {
-
-    $('a.retry').on('click', function(){
-        if( !confirm('Tem certeza que deseja tentar novamente?') ){
-            return false;
-        }
-    });
 
     $('a.recovery').on('click', function(e){
         e.preventDefault();

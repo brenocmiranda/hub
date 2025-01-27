@@ -43,6 +43,31 @@ ul.timeline > li:before {
     z-index: 400;
 }
 
+/** Acordeon **/
+.accordion .accordion-item,
+.accordion .accordion-item .accordion-button {
+    border-radius: var(--bs-border-radius) !important;
+}
+
+.accordion .accordion-item .accordion-button:not(.collapsed) {
+    background-color: #6c757d;
+    color: #fff;
+}
+
+.accordion .accordion-item .accordion-button:not(.collapsed)::after {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'%3e%3cpath d='M2 5L8 11L14 5'/%3e%3c/svg%3e");
+}
+
+.accordion .accordion-item .accordion-button:focus {
+    box-shadow: none;
+}
+
+@media (max-width: 992px) {
+    .accordion .accordion-item {
+        max-width: 100%;
+    }
+}
+
 @media (max-width: 768px) {
     ul.timeline {
        padding-left: 10px;

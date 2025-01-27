@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Gate;
 
 class IntegrationsRqt extends FormRequest
 {
@@ -31,6 +32,7 @@ class IntegrationsRqt extends FormRequest
             'user' => 'usuário',
             'password' => 'senha',
             'token' => 'token',
+            'company' => 'empresa',
         ];
     }
 
@@ -40,19 +42,35 @@ class IntegrationsRqt extends FormRequest
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules(): array
-    {
-        return [
-            'type' => 'required|min:3',
-            'name' => 'required|min:3|unique:integrations,name,'.$this->integration,
-            'slug' => 'required|min:3',
-            'url' => 'required|min:3|url:http,https',
-            'user' => 'min:3|nullable',
-            'password' => 'min:3|nullable',
-            'token' => 'min:3|nullable',
-            'header' => 'min:3|nullable',
-            'active' => 'required|boolean',
-            'encoded' => 'required|boolean',
-        ];
+    {   
+        if( Gate::check('access_komuh') ){
+            return [
+                'type' => 'required|min:3',
+                'name' => 'required|min:3',
+                'slug' => 'required|min:3',
+                'url' => 'required|min:3|url:http,https',
+                'user' => 'min:3|nullable',
+                'password' => 'min:3|nullable',
+                'token' => 'min:3|nullable',
+                'header' => 'min:3|nullable',
+                'active' => 'required|boolean',
+                'encoded' => 'required|boolean',
+                'company' => 'required|uuid',
+            ];
+        } else {
+            return [
+                'type' => 'required|min:3',
+                'name' => 'required|min:3',
+                'slug' => 'required|min:3',
+                'url' => 'required|min:3|url:http,https',
+                'user' => 'min:3|nullable',
+                'password' => 'min:3|nullable',
+                'token' => 'min:3|nullable',
+                'header' => 'min:3|nullable',
+                'active' => 'required|boolean',
+                'encoded' => 'required|boolean',
+            ];
+        }
     }
 
     /**
@@ -69,6 +87,7 @@ class IntegrationsRqt extends FormRequest
             'numeric' => 'O campo :attribute só aceita valores númericos.',
             'boolean' => 'O campo :attribute só pode receber ativo ou desativado.',
             'url' => 'O campo :attribute é inválido.',
+            'uuid' => 'O campo :attribute deve ser um UUID válido.',
         ];   
     }
 }

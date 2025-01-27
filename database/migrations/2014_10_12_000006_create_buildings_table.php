@@ -12,12 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('buildings', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->boolean('active');
             $table->string('name', 200);
+            $table->foreignUuid('buildings_id')->nullable()->constrained();
             $table->softDeletes($column = 'deleted_at', $precision = 0);
-            $table->unsignedBigInteger('companie_id');
-            $table->foreign('companie_id')->references('id')->on('companies');
             $table->timestamps();
         });
     }

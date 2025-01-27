@@ -34,7 +34,7 @@ class ProcessIntegrationJob implements ShouldQueue
         // Criando body da integração
         $bodyFields = $this->lead->RelationBuildings->RelationIntegrationsFields;
         foreach($bodyFields as $bodyField) {
-            if( $bodyField->buildings_has_integrations_integration_id === $this->integration->id ){
+            if( $bodyField->integrations_id === $this->integration->id ){
 
                 $arr_nome = explode(' ', $this->lead->name);
                 $array = [
@@ -62,7 +62,6 @@ class ProcessIntegrationJob implements ShouldQueue
                 ];
 
                 foreach($array as $index => $element){
-                    //$body[$bodyField->name] = $bodyField->value;
                     if ( strpos($bodyField->value, $index) !== false ){
                         $bodyField->value = str_replace($index, $element, $bodyField->value);
                     } 
@@ -79,14 +78,14 @@ class ProcessIntegrationJob implements ShouldQueue
         $pipeline = Pipelines::create([
             'statusCode' => 0,
             'attempts' => $this->attempts(),
-            'lead_id' => $this->lead->id,
-            'buildings_has_integrations_building_id' => $this->lead->RelationBuildings->id,
-            'buildings_has_integrations_integration_id' => $this->integration->id
+            'leads_id' => $this->lead->id,
+            'buildings_id' => $this->lead->buildings_id,
+            'integrations_id' => $this->integration->id
         ]);
         PipelinesLog::create([
             'header' => 'Campos enviados',
             'response' => json_encode($body),
-            'pipeline_id' => $pipeline->id
+            'pipelines_id' => $pipeline->id
         ]);
         
         $url = $this->integration->url;
@@ -136,14 +135,14 @@ class ProcessIntegrationJob implements ShouldQueue
         $pipeline = Pipelines::create([
             'statusCode' => $response->status(),
             'attempts' => $this->attempts(),
-            'lead_id' => $this->lead->id,
-            'buildings_has_integrations_building_id' => $this->lead->RelationBuildings->id,
-            'buildings_has_integrations_integration_id' => $this->integration->id
+            'leads_id' => $this->lead->id,
+            'buildings_id' => $this->lead->buildings_id,
+            'integrations_id' => $this->integration->id
         ]);
         PipelinesLog::create([
             'header' => json_encode($response->headers()),
             'response' => json_encode($response->body()),
-            'pipeline_id' => $pipeline->id
+            'pipelines_id' => $pipeline->id
         ]);
                         
         // Validando se obtivemos sucesso no HTTP Client 
@@ -169,6 +168,14 @@ class ProcessIntegrationJob implements ShouldQueue
                     'value' => $result['SrNumber'] ? $result['SrNumber'] : '-',
                     'leads_id' => $this->lead->id
                 ]);
+            }elseif( $this->integration->slug === 'capys' ) { 
+                if( isset($result['idCaso']) ){
+                    LeadsFields::create([
+                        'name' => 'idCaso',
+                        'value' => $result['idCaso'],
+                        'leads_id' => $this->lead->id
+                    ]);
+                } 
             }
         } else {
             throw new \Exception('Erro ' . $response->status() . ' na execução da integração. <br /> ' . $response->body(), true);

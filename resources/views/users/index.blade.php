@@ -5,49 +5,39 @@ Usuários
 @endsection
 
 @section('buttons')
-    <a href="{{ route('users.roles.index') }}" class="btn btn-dark">
-        <i class="bi bi-person-fill-gear"></i>
-        <span>Funções</span>
-    </a>
-    <a href="{{ route('users.create') }}" class="btn btn-primary">
-        <i class="bi bi-plus-lg"></i>
-        <span>Novo</span>
-    </a>
+    @can('users_create') 
+        <a href="{{ route('users.create') }}" class="btn btn-primary">
+            <i class="bi bi-plus-lg"></i>
+            <span>Novo</span>
+        </a>
+    @endcan
 @endsection
 
 @section('content-page')
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
-                <table id="table">
+                <table id="table" data-ajax="ajaxRequest" data-side-pagination="server">
                     <thead>
                         <tr>
                             <th data-field="name" data-align="center">Nome</th>
-                            <th data-field="empresa" data-align="center">Empresa</th>
-                            <th data-field="function" data-align="center">Função</th>
+                            @can('access_komuh')
+                                <th data-field="company" data-align="center">Empresa</th>
+                            @endcan
+                            <th data-field="role" data-align="center">Função</th>
                             <th data-field="status" data-align="center">Status</th>
                             <th data-field="operations" data-align="center">Operações</th>
                         </tr>
                     </thead>
                 </table>
                 <script>
-                    $(function () {
-                        var data = [
-                            @foreach($users as $user)
-                                { 
-                                    'name': '{{ $user->name }}', 
-                                    'empresa': '{{ $user->RelationCompanies->name }}',
-                                    'function': '{{ $user->RelationRules->name }}', 
-                                    'status': ({{ $user->active }} ? '<span class="badge bg-success-subtle border border-success-subtle text-success-emphasis rounded-pill">Ativo</span>' : '<span class="badge bg-danger-subtle border border-danger-subtle text-danger-emphasis rounded-pill">Desativado</span>'), 
-                                    'operations': '<div class="d-flex justify-content-center align-items-center gap-2"><a href="{{ route('users.edit', $user->id ) }}" class="btn btn-outline-secondary px-2 py-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Editar"><i class="bi bi-pencil"></i></a> <a href="{{ route('users.recovery', $user->id ) }}" class="btn btn-outline-secondary px-2 py-1 recovery" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Redefinir senha"><i class="bi bi-envelope-arrow-up"></i></i></a><a href="{{ route('users.destroy', $user->id ) }}" class="btn btn-outline-secondary px-2 py-1 destroy" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Excluir"><i class="bi bi-trash"></i></a></div>'
-                                },
-                            @endforeach
-                        ];
-
-                        $table.bootstrapTable('refreshOptions', {
-                            data: data
-                        });
-                    });
+                    // your custom ajax request here
+                    function ajaxRequest(params) {
+                        var url = '{{ route('users.data') }}'
+                        $.get(url + '?' + $.param(params.data)).then(function (res) {
+                            params.success(res)
+                        })
+                    }
                 </script>
             </div>
         </div>
@@ -55,19 +45,19 @@ Usuários
 @endsection
 
 @section('modals')
-<div class="modal fade p-4 py-md-5" tabindex="-1" role="dialog" id="modalRecovery" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content rounded-3 shadow">
-      <div class="modal-body p-4 text-center">
-        <h5>Enviar e-mail de redefinição de senha?</h5>
-        <p class="mb-0">Será enviado um e-mail para o destinatário com as instruções de redefinição.</p>
-      </div>
-      <div class="modal-footer flex-nowrap p-0">
-        <a href="#" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0 border-end confirm"><strong>Enviar</strong></a>
-        <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0" data-bs-dismiss="modal">Não</button>
-      </div>
+    <div class="modal fade p-4 py-md-5" tabindex="-1" role="dialog" id="modalRecovery" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content rounded-3 shadow">
+        <div class="modal-body p-4 text-center">
+            <h5>Enviar e-mail de redefinição de senha?</h5>
+            <p class="mb-0">Será enviado um e-mail para o destinatário com as instruções de redefinição.</p>
+        </div>
+        <div class="modal-footer flex-nowrap p-0">
+            <a href="#" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0 border-end confirm"><strong>Enviar</strong></a>
+            <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0" data-bs-dismiss="modal">Não</button>
+        </div>
+        </div>
     </div>
-  </div>
-</div>
+    </div>
 @endsection
 

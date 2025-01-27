@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Gate;
 
 class UsersRolesRqt extends FormRequest
 {
@@ -23,8 +24,9 @@ class UsersRolesRqt extends FormRequest
     {
         return [
             'name' => 'nome',
-            'value' => 'value',
+            'roles' => 'acessos',
             'active' => 'status',
+            'company' => 'empresa',
         ];
     }
 
@@ -34,12 +36,21 @@ class UsersRolesRqt extends FormRequest
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules(): array
-    {
-        return [
-            'name' => 'required|min:3|unique:users_roles,name,'.$this->role,
-            'value' => 'required|numeric|max:100',
-            'active' => 'required|boolean',
-        ];
+    {   
+        if( Gate::check('access_komuh') ){
+            return [
+                'name' => 'required|min:3',
+                'roles' => 'required',
+                'active' => 'required|boolean',
+                'company' => 'required|uuid',
+            ];
+        } else {
+            return [
+                'name' => 'required|min:3',
+                'roles' => 'required',
+                'active' => 'required|boolean',
+            ];
+        } 
     }
 
     /**
@@ -56,6 +67,7 @@ class UsersRolesRqt extends FormRequest
             'numeric' => 'O campo :attribute só aceita valores númericos.',
             'boolean' => 'O campo :attribute só pode receber ativo ou desativado.',
             'max' => 'O campo :attribute deve receber uma valor até :max.',
+            'uuid' => 'O campo :attribute deve ser um UUID válido.',
         ];   
     }
 }

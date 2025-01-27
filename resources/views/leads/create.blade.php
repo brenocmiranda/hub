@@ -1,7 +1,7 @@
 @extends('base.index')
 
 @section('title')
-Novo Lead
+Novo lead
 @endsection
 
 @section('css')
@@ -56,11 +56,15 @@ Novo Lead
                                     <option selected></option>
                                     @if($array)
                                         @foreach($array as $index => $arr)
-                                            <optgroup label="{{ $index }}"> 
+                                            @can('access_komuh')
+                                                <optgroup label="{{ $index }}"> 
+                                            @endcan
                                                 @foreach($arr as $building)
                                                     <option value="{{ $building->id }}" {{ old('building') != null && old('building') == $building->id ? 'selected' : "" }}>{{ $building->name }}</option>
                                                 @endforeach
+                                            @can('access_komuh')
                                                 </optgroup>
+                                            @endcan
                                         @endforeach
                                     @endif
                                 </select>
@@ -69,26 +73,46 @@ Novo Lead
                         </div>
                         <div class="input-field col-lg-6 col-12">
                             <div class="form-floating">
-                                <select class="form-select @error('origin') is-invalid @enderror" aria-label="Defina uma origem" name="origin" id="origin" required>
+                                <select class="form-select @error('origin') is-invalid @enderror" aria-label="Defina um empreendimento" name="origin" id="origin" required>
                                     <option selected></option>
-                                    @foreach($origins as $origin)
-                                        <option value="{{ $origin->id }}" {{ old('origin') != null && old('origin') == $origin->id ? 'selected' : "" }}>{{ $origin->name }}</option>
-                                      
-                                    @endforeach
+                                    @if($origins)
+                                        @foreach($origins as $index => $arr)
+                                            @can('access_komuh')
+                                                <optgroup label="{{ $index }}"> 
+                                            @endcan
+                                                @foreach($arr as $origin)
+                                                    <option value="{{ $origin->id }}" {{ old('origin') != null && old('origin') == $origin->id ? 'selected' : "" }}>{{ $origin->name }}</option>
+                                                @endforeach
+                                            @can('access_komuh')
+                                                </optgroup>
+                                            @endcan
+                                        @endforeach
+                                    @endif
                                 </select>
                                 <label for="origin">Origem <abbr>*</abbr></label>
                             </div>
                         </div>
-                        <div class="divider-input col-12">
-                            <p>Campos personalizados</p>
-                            <hr>
-                        </div>
-                        <div class="fields">
-                            <div class="all-fields"></div>
-                            <div>
-                                <a href="#" onclick="addField()"><i class="bi bi-plus"></i> Criar novo campo</a>
+
+                        <div class="accordion" id="accordionItems">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse1" aria-expanded="true" aria-controls="flush-collapse1">
+                                        Campos personalizados
+                                    </button>
+                                </h2>
+                                <div id="flush-collapse1" class="accordion-collapse collapse show" data-bs-parent="#accordionItems">
+                                    <div class="accordion-body">
+                                        <div class="fields">
+                                            <div class="all-fields"></div>
+                                            <div>
+                                                <a href="#" onclick="addField()"><i class="bi bi-plus"></i> Criar novo campo</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                        
                         <div class="submit-field d-flex justify-content-end align-items-center gap-3">
                             <a href="{{ route('leads.index') }}"> <i class="bi bi-arrow-left px-2"></i>Voltar</a>
                             <input type="submit" name="submit" id="submit" class="btn btn-dark px-5 py-2" value="Salvar" />
@@ -107,7 +131,7 @@ Novo Lead
 
     function addField(element) {
         event.preventDefault();
-        $('.fields').find('.all-fields').append(`<div class="content-fields"> <div class="row"> <div class="input-field col-lg-6 col-12"> <div class="form-floating"> <select class="form-select" name="array[nameField][]" id="integrationFieldName-` + field + `" required> <option selected>Selecione</option> <option value="utm_source">utm_source</option> <option value="utm_medium">utm_medium</option> <option value="utm_campaign">utm_campaign</option> <option value="utm_term">utm_term</option> <option value="utm_content">utm_content</option> <option value="gclid">gclid</option> <option value="fbclid">fbclid</option> <option value="plataforma">plataforma</option> <option value="pp">pp (Política de privacidade)</option> <option value="com">com (Receber comunicações)</option> <option value="message">Mensagem</option> <option value="url">URL</option> </select> <label for="integrationFieldName-` + field + `">Nome do campo <abbr>*</abbr></label> </div> </div> <div class="input-field col-lg-6 col-12 d-flex align-items-center gap-2"> <div class="form-floating w-100"> <input type="text" class="form-control" id="integrationFieldValor-` + field + `" name="array[valueField][]" required> <label for="integrationFieldValor-` + field + `">Valor <abbr>*</abbr></label> </div> <a href="#" class="btn btn-sm btn-outline-dark rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Remover campo" onclick="removeField(this);"><i class="bi bi-dash"></i></a> </div> </div>`);
+        $('.fields').find('.all-fields').append(`<div class="content-fields"> <div class="row row-gap-2"> <div class="input-field col-lg-6 col-12"> <div class="form-floating"> <select class="form-select" name="array[nameField][]" id="integrationFieldName-` + field + `" required> <option selected>Selecione</option> <option value="utm_source">utm_source</option> <option value="utm_medium">utm_medium</option> <option value="utm_campaign">utm_campaign</option> <option value="utm_term">utm_term</option> <option value="utm_content">utm_content</option> <option value="gclid">gclid</option> <option value="fbclid">fbclid</option> <option value="plataforma">plataforma</option> <option value="pp">pp (Política de privacidade)</option> <option value="com">com (Receber comunicações)</option> <option value="message">Mensagem</option> <option value="url">URL</option> </select> <label for="integrationFieldName-` + field + `">Nome do campo <abbr>*</abbr></label> </div> </div> <div class="input-field col-lg-6 col-12 d-flex align-items-center gap-2"> <div class="form-floating w-100"> <input type="text" class="form-control" id="integrationFieldValor-` + field + `" name="array[valueField][]" required> <label for="integrationFieldValor-` + field + `">Valor <abbr>*</abbr></label> </div> <a href="#" class="btn btn-sm btn-outline-dark rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Remover campo" onclick="removeField(this);"><i class="bi bi-dash"></i></a> </div> </div>`);
         field++;
 
         // Enable toltips

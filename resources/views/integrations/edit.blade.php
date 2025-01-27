@@ -42,20 +42,43 @@ Editar integração
                                 <label for="slug">Slug <abbr>*</abbr></label>
                             </div>
                         </div>
-                        <div class="input-field col-lg-2 col-12">
+                        @can('access_komuh')
+                            <div class="input-field col-lg-6 col-12">
+                                <div class="form-floating">
+                                    <select class="form-select @error('company') is-invalid @enderror" aria-label="Defina uma empresa" name="company" id="company" required>
+                                        <option selected></option>
+                                        @foreach($companies as $company)
+                                            <option value="{{ $company->id }}" {{ (old('company') != null && old('company') == $company->id) || $company->id == $integration->companies_id ? 'selected' : "" }}>{{ $company->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    <label for="company">Empresas <abbr>*</abbr></label>
+                                </div>
+                            </div>
+                        @endcan
+                        <div class="input-field col-lg-6 col-12">
+                            <div class="form-floating">
+                                <select class="form-select @error('active') is-invalid @enderror" aria-label="Defina um status" name="active" id="active" required>
+                                    <option selected></option>
+                                    <option value="1" {{ (old('active') != null && old('active') == true) || $integration->active == true ? 'selected' : "" }}>Ativo</option>
+                                    <option value="0" {{ (old('active') != null && old('active') == false) || $integration->active == false ? 'selected' : "" }}>Desativado</option>
+                                </select>
+                                <label for="active">Status <abbr>*</abbr></label>
+                            </div>
+                        </div>
+                        <div class="input-field col-12">
+                            <div class="form-floating">
+                                <input type="text" class="form-control @error('url') is-invalid @enderror" id="url" name="url" value="{{ $integration->url ? $integration->url : old('url') }}" required>
+                                <label for="url">URL <abbr>*</abbr></label>
+                            </div>
+                        </div>
+                        <div class="input-field col-lg-6 col-12">
                             <div class="form-floating">
                                 <select class="form-select @error('type') is-invalid @enderror" aria-label="Defina um tipo" name="type" id="type" required>
                                     <option selected></option>
                                     <option value="GET" {{ old('type') || $integration->type == 'GET' ? 'selected' : "" }}>GET</option>
                                     <option value="POST" {{ old('type') || $integration->type == 'POST' ? 'selected' : "" }}>POST</option>
                                 </select>
-                                <label for="type">Status <abbr>*</abbr></label>
-                            </div>
-                        </div>
-                        <div class="input-field col-lg-10 col-12">
-                            <div class="form-floating">
-                                <input type="text" class="form-control @error('url') is-invalid @enderror" id="url" name="url" value="{{ $integration->url ? $integration->url : old('url') }}" required>
-                                <label for="url">URL <abbr>*</abbr></label>
+                                <label for="type">Tipo <abbr>*</abbr></label>
                             </div>
                         </div>
                         <div class="input-field col-lg-6 col-12">
@@ -66,16 +89,6 @@ Editar integração
                                     <option value="0" {{ (old('encoded') != null && old('encoded') == false) || $integration->encoded == false ? 'selected' : "" }}>Não</option>
                                 </select>
                                 <label for="encoded">Encoded body? <abbr>*</abbr></label>
-                            </div>
-                        </div>
-                        <div class="input-field col-lg-6 col-12">
-                            <div class="form-floating">
-                                <select class="form-select @error('active') is-invalid @enderror" aria-label="Defina um status" name="active" id="active" required>
-                                    <option selected></option>
-                                    <option value="1" {{ (old('active') != null && old('active') == true) || $integration->active == true ? 'selected' : "" }}>Ativo</option>
-                                    <option value="0" {{ (old('active') != null && old('active') == false) || $integration->active == false ? 'selected' : "" }}>Desativado</option>
-                                </select>
-                                <label for="active">Status <abbr>*</abbr></label>
                             </div>
                         </div>
                         <div class="divider-input">

@@ -34,11 +34,15 @@ Nova chave
                                     <option selected></option>
                                     @if($array)
                                         @foreach($array as $index => $arr)
-                                            <optgroup label="{{ $index }}"> 
+                                            @can('access_komuh')
+                                                <optgroup label="{{ $index }}"> 
+                                            @endcan
                                                 @foreach($arr as $building)
                                                     <option value="{{ $building->id }}" {{ old('building') != null && old('building') == $building->id ? 'selected' : "" }}>{{ $building->name }}</option>
                                                 @endforeach
+                                            @can('access_komuh')
                                                 </optgroup>
+                                            @endcan
                                         @endforeach
                                     @endif
                                 </select>
@@ -55,8 +59,8 @@ Nova chave
                             <div class="form-floating">
                                 <select class="form-select @error('active') is-invalid @enderror" aria-label="Defina um status" name="active" id="active" required>
                                     <option selected></option>
-                                    <option value="1" {{ old('active') != null && old('active') == true ? '' : 'selected' }}>Ativo</option>
-                                    <option value="0" {{ old('active') != null && old('active') == false ? 'selected' : "" }}>Desativado</option>
+                                    <option value="1" {{ old('active') != null && old('active') == true ? 'selected' : '' }}>Ativo</option>
+                                    <option value="0" {{ old('active') != null && old('active') == false ? 'selected' : '' }}>Desativado</option>
                                 </select>
                                 <label for="active">Status <abbr>*</abbr></label>
                             </div>

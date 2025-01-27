@@ -1,8 +1,11 @@
 /** Documento da página de Login **/
 main {
-    height: 100vh;
+    min-height: 100vh;
+    height: 100%;
     display: flex;
     align-items: center;
+    background: var(--gray);
+    padding: 10px 0;
 }
 
 main>div,
@@ -10,75 +13,31 @@ main>div>div {
     height: 100%;
 }
 
-.column-image {
-    height: 100%;
-    position: relative;
+
+.card-login {
+    min-height: 400px;
 }
 
-.column-image .image {
-    background: url(../images/background.avif) no-repeat center / cover;
-    height: 100%;
-    width: calc(100% + 40px);
-    box-shadow: 15px 0 15px 10px rgba(0, 0, 0, 0.2);
-    transform: skewX(-10deg);
+.view-password {
     position: absolute;
-    left: -80px;
+    bottom: 50%;
+    transform: translateY(55%);
+    margin: auto;
+    right: 15px;
+    color: #000000b3;
+    font-size: 18px;
 }
 
-.column-form {
-    position: relative;
-    height: 100%;
-    align-items: center;
-    display: inline-flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    justify-content: center;
+input.is-invalid+.view-password {
+    right: 35px;
 }
 
-.column-form .logo {
-    display: flex;
-    justify-content: center;
+.btn-outline-gray {
+    color: #1f1f1f8c;
 }
 
-.column-form .logo img {
-    max-width: 260px;
-    width: 100%;
-}
-
-.column-form .formulario, .column-form  .message-verify, .column-form  .message-recovery {
-    max-width: 475px;
-    width: 100%;
-}
-
-.column-form .formulario form {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 20px;
-}
-
-.column-form .formulario form .input-field {
-    display: flex;
-    flex-direction: column;
-}
-
-.column-form .formulario form .input-field label {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 5px;
-}
-
-.column-form .formulario form .submit-field input {
-    max-width: 160px;
-    width: 100%;
-}
-
-.column-form .copyright {
-    position: absolute;
-    bottom: 15px;
-    left: 0;
-    right: 0;
-    margin: 0 auto;
+.btn-outline-gray:hover {
+    background: #d5d5d5;
 }
 
 .perfil-img {

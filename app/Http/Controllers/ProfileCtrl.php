@@ -4,10 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Routing\Controller;
 use App\Http\Requests\ProfileRqt;
-use Illuminate\Http\Request;
 use App\Models\Users;
 use App\Models\UsersLogs;
 
@@ -29,7 +27,6 @@ class ProfileCtrl extends Controller
 
     public function update(ProfileRqt $request)
     {    
-        
         Users::find(Auth::user()->id)->update([
             'name' => $request->name, 
             'email' => $request->email,
@@ -45,7 +42,6 @@ class ProfileCtrl extends Controller
             $extension = $request->file('src')->getClientOriginalExtension();
             // Filename to store
             $fileNameToStore = $filename.'_'.time().'.'.$extension;
-
             // Upload Image
             $path = $request->file('src')->storeAs('public/profile', $fileNameToStore);
 
@@ -65,7 +61,7 @@ class ProfileCtrl extends Controller
             'title' => 'Atualização do perfil',
             'description' => 'Foi realizado a atualização das suas informações de perfil.',
             'action' => 'update',
-            'user_id' => Auth::user()->id
+            'users_id' => Auth::user()->id
         ]);
 
         return redirect()->route('profile.edit')->with('edit', true);

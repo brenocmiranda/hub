@@ -1,0 +1,42 @@
+/** Documento da página de Unauthorized **/
+header {
+    display: none;
+}
+
+section {
+    min-height: calc(100vh - 160px);
+    display: flex;
+    align-items: center;
+}
+
+section h3 {
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+section a {
+    max-width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+section .img-unauthorized {
+    background: url(../images/unauthorized.png) no-repeat center / contain;
+    max-width: 516px;
+    width: 100%;
+    height: 334px;
+    margin: auto;
+}
+
+@media (max-width: 768px) {
+    section .img-unauthorized {
+        height: 220px;
+    }
+}
+
+@media (max-width: 420px) {
+    section .img-unauthorized {
+        height: 180px;
+    }
+}

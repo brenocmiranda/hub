@@ -12,13 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('buildings_sheets', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('spreadsheetID');
             $table->string('sheet');
             $table->string('file');
+            $table->foreignUuid('buildings_id')->constrained();
             $table->softDeletes($column = 'deleted_at', $precision = 0);
-            $table->unsignedBigInteger('building_id');
-            $table->foreign('building_id')->references('id')->on('buildings');
             $table->timestamps();
         });
     }

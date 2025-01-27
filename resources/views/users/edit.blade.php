@@ -51,24 +51,36 @@ Editar usuário
                                 <label for="active">Status <abbr>*</abbr></label>
                             </div>
                         </div>
-                        <div class="input-field col-lg-6 col-12">
-                            <div class="form-floating">
-                                <select class="form-select @error('companies') is-invalid @enderror" aria-label="Defina uma empresa" name="companies" id="companies" required>
-                                    <option selected></option>
-                                    @foreach($companies as $companie)
-                                        <option value="{{ $companie->id }}" {{ (old('companies') != null && old('companies') == $companie->id) || $companie->id == $user->companie_id ? 'selected' : "" }}>{{ $companie->name }}</option>
-                                    @endforeach
-                                </select>
-                                <label for="companies">Empresas <abbr>*</abbr></label>
+                        @can('access_komuh')
+                            <div class="input-field col-lg-6 col-12">
+                                <div class="form-floating">
+                                    <select class="form-select @error('company') is-invalid @enderror" aria-label="Defina uma empresa" name="company" id="company" required>
+                                        <option selected></option>
+                                        @foreach($companies as $company)
+                                            <option value="{{ $company->id }}" {{ (old('company') != null && old('company') == $company->id) || $company->id == $user->companies_id ? 'selected' : "" }}>{{ $company->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    <label for="company">Empresas <abbr>*</abbr></label>
+                                </div>
                             </div>
-                        </div>
+                        @endcan
                         <div class="input-field col-lg-6 col-12">
                             <div class="form-floating">
-                                <select class="form-select @error('roles') is-invalid @enderror" aria-label="Defina uma função" name="roles" id="roles" required>
+                                <select class="form-select @error('building') is-invalid @enderror" aria-label="Defina um empreendimento" name="roles" id="roles" required>
                                     <option selected></option>
-                                    @foreach($roles as $role)
-                                        <option value="{{ $role->id }}" {{ (old('roles') != null && old('roles') == $role->id) || $role->id == $user->user_role_id ? 'selected' : "" }}>{{ $role->name }}</option>
-                                    @endforeach
+                                    @if($roles)
+                                        @foreach($roles as $index => $arr)
+                                            @can('access_komuh')
+                                                <optgroup label="{{ $index }}"> 
+                                            @endcan
+                                                @foreach($arr as $role)
+                                                    <option value="{{ $role->id }}" {{ (old('roles') != null && old('roles') == $role->id) || $role->id == $user->users_roles_id ? 'selected' : "" }}>{{ $role->name }}</option>
+                                                @endforeach
+                                            @can('access_komuh')
+                                                </optgroup>
+                                            @endcan
+                                        @endforeach
+                                    @endif
                                 </select>
                                 <label for="roles">Função <abbr>*</abbr></label>
                             </div>

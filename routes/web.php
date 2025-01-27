@@ -14,17 +14,20 @@ use App\Http\Controllers\ProfileCtrl;
 use App\Http\Controllers\PipelinesCtrl;
 use App\Http\Controllers\UsersCtrl;
 use App\Http\Controllers\UsersRolesCtrl;
-use App\Http\Controllers\UsersTokensCtrl;
+use App\Http\Controllers\TokensCtrl;
+use App\Http\Controllers\ImportsCtrl;
+use App\Http\Controllers\ReportsCtrl;
 
 #---------------------------------------------------------------------
 # Área não logada
 #---------------------------------------------------------------------
 Route::group(['prefix' => '/'], function () {
-    // Funções externas
+    // Login e Auth
     Route::get('/', [PublicCtrl::class, 'login'])->name('login');
     Route::post('authentication', [PublicCtrl::class, 'authentication'])->name('authentication');
+
+    // Recuperação de senha
     Route::group(['prefix' => 'password'], function () {
-        // Recuperação de senha
         Route::get('/', [PublicCtrl::class, 'recovery'])->name('recovery.password');
         Route::post('recovering', [PublicCtrl::class, 'recovering'])->name('recovering.password');
         Route::get('verify/{token}', [PublicCtrl::class, 'verify'])->name('verify.password');
@@ -37,28 +40,33 @@ Route::group(['prefix' => '/'], function () {
 #---------------------------------------------------------------------
 Route::group(['prefix' => 'app'], function () {
 
-    // Funções internas
+    // Home and Logout
     Route::get('home', [PrivateCtrl::class, 'home'])->name('home');
     Route::get('logout', [PrivateCtrl::class, 'logout'])->name('logout');
 
+    // Perfil
+    Route::singleton('profile', ProfileCtrl::class);
+
+    // Tokens
+    Route::resource('tokens', TokensCtrl::class)->only([ 'index', 'create', 'store', 'destroy' ]);
+    
     // Atividades
     Route::get('activities', [PrivateCtrl::class, 'activities'])->name('activities');
 
-    // Perfil
-    Route::singleton('profile', ProfileCtrl::class);
-    
-    // Dashboard
-    Route::group(['prefix' => 'dashboard'], function () {
-        Route::get('/', [DashboardsCtrl::class, 'index'])->name('dashboard.index');
-    });
+    // Dashboards
+    Route::group(['prefix' => 'dashboards'], function () {
+        Route::get('general', [DashboardsCtrl::class, 'indexGeneral'])->name('general.dashboards.index');
+        Route::get('buildings', [DashboardsCtrl::class, 'indexBuildings'])->name('buildings.dashboards.index');
+    })->middleware('can:dashboard_show');
 
     // Leads
-    Route::resource('leads', LeadsCtrl::class)->only([ 'index', 'create', 'store', 'show' ]);
-    Route::any('leads/all/search', [LeadsCtrl::class, 'search'])->name('leads.search');
-    Route::get('retryAll', [LeadsCtrl::class, 'retryAll'])->name('leads.retryAll');
-    Route::get('retry/{id}', [LeadsCtrl::class, 'retry'])->name('leads.retry');
-    Route::get('resend/{id}', [LeadsCtrl::class, 'resend'])->name('leads.resend');
-    Route::get('data', [LeadsCtrl::class, 'data'])->name('leads.data');
+    Route::resource('leads', LeadsCtrl::class)->only([ 'index', 'create', 'store', 'destroy', 'show' ]);
+    Route::group(['prefix' => 'leads/all/'], function () {
+        Route::get('data', [LeadsCtrl::class, 'data'])->name('leads.data');
+        Route::get('search', [LeadsCtrl::class, 'search'])->name('leads.search');
+        Route::get('retry/{id}', [LeadsCtrl::class, 'retry'])->name('leads.retry');
+        Route::get('resend/{id}', [LeadsCtrl::class, 'resend'])->name('leads.resend');
+    });    
 
     // Leads (Origins)
     Route::resource('leads/all/origins', LeadsOriginsCtrl::class)->names([
@@ -70,6 +78,9 @@ Route::group(['prefix' => 'app'], function () {
         'destroy' => 'leads.origins.destroy',
         'show' => 'leads.origins.show'
     ]);
+    Route::group(['prefix' => 'leads/all/origins/all/'], function () {
+        Route::get('data', [LeadsOriginsCtrl::class, 'data'])->name('leads.origins.data');
+    });
 
     // Leads (Pipelines)
     Route::resource('leads/all/pipelines', PipelinesCtrl::class)->names([
@@ -81,14 +92,23 @@ Route::group(['prefix' => 'app'], function () {
         'destroy' => 'leads.pipelines.destroy',
         'show' => 'leads.pipelines.show'
     ]);
-    Route::get('pipelines/data', [PipelinesCtrl::class, 'data'])->name('pipelines.data');
+    Route::group(['prefix' => 'leads/all/pipelines/all/'], function () {
+        Route::get('retryAll', [PipelinesCtrl::class, 'retryAll'])->name('leads.pipelines.retryAll');
+        Route::get('data', [PipelinesCtrl::class, 'data'])->name('leads.pipelines.data');
+    });
 
     // Companies
     Route::resource('companies', CompaniesCtrl::class);
+    Route::group(['prefix' => 'companies/all/'], function () {
+        Route::get('data', [CompaniesCtrl::class, 'data'])->name('companies.data');
+    });
 
     // Buildings
     Route::resource('buildings', BuildingsCtrl::class);
-    Route::any('leads/all/duplicate/{id}', [BuildingsCtrl::class, 'duplicate'])->name('buildings.duplicate');
+    Route::group(['prefix' => 'buildings/all/'], function () {
+        Route::get('data', [BuildingsCtrl::class, 'data'])->name('buildings.data');
+        Route::any('duplicate/{id}', [BuildingsCtrl::class, 'duplicate'])->name('buildings.duplicate');
+    });
 
     // Buildings (Keys)
     Route::resource('buildings/all/keys', BuildingsKeysCtrl::class)->names([
@@ -99,13 +119,34 @@ Route::group(['prefix' => 'app'], function () {
         'update' => 'buildings.keys.update',
         'destroy' => 'buildings.keys.destroy'
     ]);
+    Route::group(['prefix' => 'buildings/all/keys/all/'], function () {
+        Route::get('data', [BuildingsKeysCtrl::class, 'data'])->name('buildings.keys.data');
+    });
 
     // Integrations
     Route::resource('integrations', IntegrationsCtrl::class);
+    Route::group(['prefix' => 'integrations/all/'], function () {
+        Route::get('data', [IntegrationsCtrl::class, 'data'])->name('integrations.data');
+    });
+
+    // Relatórios
+    Route::resource('reports', ReportsCtrl::class)->only([ 'index', 'create', 'store', 'destroy' ]);
+    Route::group(['prefix' => 'reports/all/'], function () {
+        Route::get('data', [ReportsCtrl::class, 'data'])->name('reports.data');
+    });
+
+    // Importações
+    Route::resource('imports', ImportsCtrl::class)->only([ 'index', 'create', 'store', 'destroy' ]);
+    Route::group(['prefix' => 'imports/all/'], function () {
+        Route::get('data', [ImportsCtrl::class, 'data'])->name('imports.data');
+    });
 
     // Usuários
     Route::resource('users', UsersCtrl::class);
-    Route::any('recovery/{id}', [UsersCtrl::class, 'recovery'])->name('users.recovery');
+    Route::group(['prefix' => 'users/all/'], function () {
+        Route::get('data', [UsersCtrl::class, 'data'])->name('users.data');
+        Route::any('recovery/{id}', [UsersCtrl::class, 'recovery'])->name('users.recovery');
+    });
 
     // Usuários (Roles)
     Route::resource('users/all/roles', UsersRolesCtrl::class)->names([
@@ -116,16 +157,9 @@ Route::group(['prefix' => 'app'], function () {
         'update' => 'users.roles.update',
         'destroy' => 'users.roles.destroy'
     ]);
-
-    // Usuários (Tokens)
-    Route::resource('users/all/tokens', UsersTokensCtrl::class)->names([
-        'index' => 'users.tokens.index',
-        'create' => 'users.tokens.create',
-        'store' => 'users.tokens.store',
-        'edit' => 'users.tokens.edit',
-        'update' => 'users.tokens.update',
-        'destroy' => 'users.tokens.destroy'
-    ])->only([ 'index', 'create', 'store', 'destroy' ]);
+    Route::group(['prefix' => 'users/all/roles/all/'], function () {
+        Route::get('data', [UsersRolesCtrl::class, 'data'])->name('users.roles.data');
+    });
 
 })->middleware('auth');
 

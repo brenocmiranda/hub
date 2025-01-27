@@ -37,8 +37,8 @@ class CompaniesRqt extends FormRequest
     {
         return [
             'name' => 'required|min:3|unique:companies,name,'.$this->company,
-            'slug' => 'required|min:3',
-            'active' => 'required|boolean', 
+            'slug' => 'required|min:3|unique:companies,slug,'.$this->company,
+            'active' => 'required|boolean',
         ];
     }
 

@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Gate;
 
 class LeadsOriginsRqt extends FormRequest
 {
@@ -25,6 +26,7 @@ class LeadsOriginsRqt extends FormRequest
             'name' => 'nome',
             'slug' => 'slug',
             'active' => 'status',
+            'company' => 'empresa',
         ];
     }
 
@@ -35,11 +37,20 @@ class LeadsOriginsRqt extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'name' => 'required|min:3|unique:leads_origins,name,'.$this->origin,
-            'slug' => 'required|min:3',
-            'active' => 'required|boolean',
-        ];
+        if( Gate::check('access_komuh') ){
+            return [
+                'name' => 'required|min:3',
+                'slug' => 'required|min:3',
+                'active' => 'required|boolean',
+                'company' => 'required|uuid',
+            ];
+        } else {
+            return [
+                'name' => 'required|min:3',
+                'slug' => 'required|min:3',
+                'active' => 'required|boolean'
+            ];
+        }
     }
 
     /**
@@ -55,6 +66,7 @@ class LeadsOriginsRqt extends FormRequest
             'unique' => 'O campo :attribute já foi cadastrado, tente novamente.',
             'numeric' => 'O campo :attribute só aceita valores númericos.',
             'boolean' => 'O campo :attribute só pode receber ativo ou desativado.',
+            'uuid' => 'O campo :attribute deve ser um UUID válido.',
         ];   
     }
 }

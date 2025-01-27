@@ -38,7 +38,7 @@ class BuildingsKeysRqt extends FormRequest
         return [
             'value' => 'required|min:3|unique:buildings_keys,value,'.$this->key,
             'active' => 'required|boolean',
-            'building' => 'required|integer',
+            'building' => 'required|uuid',
         ];
     }
 
@@ -56,6 +56,7 @@ class BuildingsKeysRqt extends FormRequest
             'numeric' => 'O campo :attribute só aceita valores númericos.',
             'boolean' => 'O campo :attribute só pode receber ativo ou desativado.',
             'integer' => 'O campo :attribute só aceita valores inteiros.',
+            'uuid' => 'O campo :attribute deve ser um UUID válido.',
         ];   
     }
 }

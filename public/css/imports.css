@@ -1,0 +1,11 @@
+.tab-content:has(> #leads-tab-pane.active) {
+    border-top-left-radius: 0 !important;
+}
+
+.removefield {
+    right: 10px;
+    bottom: 50%;
+    transform: translateY(50%);
+    margin: auto;
+}
+    

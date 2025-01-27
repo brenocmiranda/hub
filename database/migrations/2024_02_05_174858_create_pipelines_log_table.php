@@ -12,11 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('pipelines_log', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->longText('header');
             $table->longText('response');
-            $table->unsignedBigInteger('pipeline_id');
-            $table->foreign('pipeline_id')->references('id')->on('pipelines');
+            $table->foreignUuid('pipelines_id')->constrained();
+            $table->softDeletes($column = 'deleted_at', $precision = 0);
             $table->timestamps();
         });
     }

@@ -59,6 +59,14 @@ return [
 
     'asset_url' => env('ASSET_URL'),
 
+     /*
+    |--------------------------------------------------------------------------
+    | Application Version
+    |--------------------------------------------------------------------------
+    */
+
+    'version' => env('APP_VERSION', '2.1'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Timezone
@@ -159,6 +167,7 @@ return [
         /*
          * Package Service Providers...
          */
+        Maatwebsite\Excel\ExcelServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -183,6 +192,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
     ])->toArray(),
-
+        
 ];

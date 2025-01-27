@@ -5,19 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Concerns\HasUuids; 
 
 class BuildingsKeys extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, HasUuids;
 
     protected $fillable = [
         'active',
         'value',
-        'building_id',
+        'buildings_id',
     ];
 
     public function RelationBuildings()
     {
-        return $this->belongsTo(Buildings::class, 'building_id', 'id');
+        return $this->belongsTo(Buildings::class, 'buildings_id', 'id');
     }
 }

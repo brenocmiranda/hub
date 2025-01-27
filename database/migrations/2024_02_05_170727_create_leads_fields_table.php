@@ -12,11 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('leads_fields', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('name', 200);
-            $table->string('value');
-            $table->unsignedBigInteger('leads_id');
-            $table->foreign('leads_id')->references('id')->on('leads');
+            $table->longText('value');
+            $table->foreignUuid('leads_id')->constrained();
+            $table->softDeletes($column = 'deleted_at', $precision = 0);
             $table->timestamps();
         });
     }

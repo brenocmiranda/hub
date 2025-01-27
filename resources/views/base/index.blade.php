@@ -1,4 +1,4 @@
-@auth
+@if( Auth::check() && Auth::user()->active )
     @include('base.header')
 
     <div class="full-page">
@@ -11,8 +11,8 @@
     </div>
 
     @include('base.footer')
-@endauth
-
-@guest
-    @include('base.system.login')
-@endguest
+@else
+    @php 
+        header("Location: " . URL::route('login'), true, 302);
+    @endphp 
+@endif

@@ -9,56 +9,76 @@ Home
 @endsection
 
 @section('content-page')
-    <div class="container-fluid">
-        <div class="row row-gap-3">
-            <div class="col-lg-4 col-12">
-                <div class="card d-flex flex-row align-items-center rounded-1">
-                    <div class="bg-dark p-4 rounded-start-1">
-                        <i class="bi bi-database text-white bi-lg"></i>
+    <div class="container">
+        <div class="row gap-3 justify-content-center">
+            <div class="col-xl-8 col-lg-9 col-md-10 col-12 text-center">
+                <i class="text-body-tertiary bi bi-question-circle"></i>
+                <h2 class="text-body-tertiary fw-bold">Veja as novidades do Hub</h2>
+                <div class="accordion mt-4 text-start" id="accordionItems">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse4" aria-expanded="false" aria-controls="flush-collapse4">
+                                <div class="d-flex flex-wrap">
+                                    <span>30/10/2024</span>
+                                    <span class="mx-2">-</span>
+                                    <span class="fw-semibold">Duplicação de leads<span class="badge text-bg-primary mx-2">New</span></span>
+                                </div>
+                            </button>
+                        </h2>
+                        <div id="flush-collapse4" class="accordion-collapse collapse" data-bs-parent="#accordionItems">
+                            <div class="accordion-body">
+                                <p>Ao analisar os leads que estamos recebendo, foi percebido uma duplicidade na entrada dos mesmos, nesse sentido fizemos um ajuste na nossa API para validar se o email, telefone e empreendimentos já foram cadastrados nos últimos 10 minutos, caso já esteja, entrará como apenas como log "Nova tentativa de contato em duplicidade".</p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="px-4 w-100">
-                        <h6 class="mb-0">Jobs executando</h6>
-                        <h4 class="mb-0">{{ $requestPending }}</h4>
-                        <span>
-                            <a href="{{ route('leads.pipelines.index') }}">Veja todas</a>
-                        </span>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse3" aria-expanded="false" aria-controls="flush-collapse3">
+                                <div class="d-flex flex-wrap">
+                                    <span>08/08/2024</span>
+                                    <span class="mx-2">-</span>
+                                    <span class="fw-semibold">Níveis de acesso</span>
+                                </div>
+                            </button>
+                        </h2>
+                        <div id="flush-collapse3" class="accordion-collapse collapse" data-bs-parent="#accordionItems">
+                            <div class="accordion-body">
+                                <p>Garantindo a segurança das informações, foram criados os níveis de acessos para cada usuário, onde os administradores poderão ajustar de acordo com suas necessidades.</p>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-12">
-                <div class="card d-flex flex-row align-items-center rounded-1">
-                    <div class="bg-success p-4 rounded-start-1">
-                        <i class="bi bi-database-check text-white"></i>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse2" aria-expanded="false" aria-controls="flush-collapse2">
+                                <div class="d-flex flex-wrap">
+                                    <span>08/08/2024</span>
+                                    <span class="mx-2">-</span>
+                                    <span class="fw-semibold">Leads de teste</span>
+                                </div>
+                            </button>
+                        </h2>
+                        <div id="flush-collapse2" class="accordion-collapse collapse" data-bs-parent="#accordionItems">
+                            <div class="accordion-body">
+                                <p>O processo de detecção de leads de teste foi implantada e agora você poderá escolher um empreendimento para serem redirecionados os leads provenientes de testes.</p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="px-4 w-100">
-                        <h6 class="mb-0">Jobs success</h6>
-                        <h4 class="mb-0">{{ $requestSuccess }}</h4>
-                        <span>
-                            <a href="{{ route('leads.pipelines.index') }}">Veja todas</a>
-                        </span>
+                    <div class="accordion-item border-bottom-0">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse1" aria-expanded="false" aria-controls="flush-collapse1">
+                                <div class="d-flex flex-wrap">
+                                    <span>07/08/2024</span>
+                                    <span class="mx-2">-</span>
+                                    <span class="fw-semibold">Roleta de leads</span>
+                                </div>
+                            </button>
+                        </h2>
+                        <div id="flush-collapse1" class="accordion-collapse collapse" data-bs-parent="#accordionItems">
+                            <div class="accordion-body">
+                                <p>A roleta dos leads entre responsáveis já está disponível e no cadastro do empreendimento você consegue ajustar as configurações.</p>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-12">
-                <div class="card d-flex flex-row align-items-center rounded-1">
-                    <div class="bg-danger p-4 rounded-start-1">
-                        <i class="bi bi-database-exclamation text-white"></i>
-                    </div>
-                    <div class="px-4 w-100">
-                        <h6 class="mb-0">Jobs error</h6>
-                        <h4 class="mb-0">{{ $requestFail }}</h4>
-                        <span>
-                            <a href="{{ route('leads.pipelines.index') }}">Veja todas</a>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row mt-5">
-            <div class="col-12">
-                <div class="d-flex justify-content-center align-items-center flex-column">
-                    <div class="img-home"></div>
-                    <h2 class="text-secondary fw-bolder text-center">Seja bem-vindo, {{ explode(" ", Auth::user()->name)[0] }}!</h2>
                 </div>
             </div>
         </div>
