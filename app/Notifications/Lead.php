@@ -36,7 +36,7 @@ class Lead extends Notification implements ShouldQueue
     {
         return (new MailMessage)
                 ->from('postmaster@hub.komuh.com', 'Hub Integrações')
-                ->subject('[HUB] Cadastro de clientes')
+                ->subject('[HUB] Cadastro de leads')
                 ->view('system.emails.lead', ['lead' => $this->lead]);
     }
 
