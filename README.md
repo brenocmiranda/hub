@@ -78,5 +78,4 @@ O Hub de Integrações foi criada com objetivo de unificar, apoiar e dar transpa
 <p>O processo de ajustes e melhorias da plataforma está sendo executado constantemente, nesse contexto caso necessite reportar algum problema ou promover propostas de melhorias, entre em contato com os administradores da plataforma, através dos e-mails abaixo:</p>
 <ul>
     <li>Breno de Carvalho (DEV) – breno.miranda@komuh.com</li>
-    <li>Raphael Ramos (Coordenador e DEV) – raphael.ramos@komuh.com</li>
 </ul>
