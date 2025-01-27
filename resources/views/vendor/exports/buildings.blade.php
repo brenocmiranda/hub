@@ -37,6 +37,7 @@
                     <td align="center">{{ $building->name }}</td>
                 @endif
                 @if( array_search('destinatarios', $items) !== false)
+                    <?php $dest = array(); ?>
                     <td align="center">
                         @if($building->RelationDestinatarios->first())
                             @foreach($building->RelationDestinatarios as $destinatarios)
@@ -47,6 +48,7 @@
                     </td>
                 @endif
                 @if( array_search('integrationsBuild', $items) !== false)
+                    <?php $inte = array(); ?>
                     <td align="center">
                         @if($building->RelationIntegrations->first())
                             @foreach($building->RelationIntegrations as $integrations)
@@ -57,6 +59,7 @@
                     </td>
                 @endif
                 @if( array_search('sheets', $items) !== false)
+                    <?php $shet = array(); ?>
                     <td align="center">
                         @if($building->RelationSheets->first())
                             @foreach($building->RelationSheets as $sheets)
@@ -67,6 +70,7 @@
                     </td>
                 @endif
                 @if( array_search('keys', $items) !== false)
+                    <?php $ke = array(); ?>
                     <td align="center">
                         @if($building->RelationKeys->first())
                             @foreach($building->RelationKeys as $key)
@@ -77,6 +81,7 @@
                     </td>
                 @endif
                 @if( array_search('company', $items) !== false)
+                    <?php $part = array(); ?>
                     <td align="center">
                         @if($building->RelationPartners->first())
                             @foreach($building->RelationPartners as $partner)

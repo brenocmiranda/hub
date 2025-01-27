@@ -28,10 +28,10 @@ class BuildingsExport implements FromView, WithEvents
 
     public function view(): View
     {   
-        $buildings = Buildings::all();
-
         if( Gate::check('access_komuh') ) {
-            $buildings->join('buildings_partners', 'buildings_partners.buildings_id', 'buildings.id')->where('buildings_partners.main', 1)->where('buildings_partners.companies_id', $this->company)->get();
+            $buildings = Buildings::all();
+        }else {
+            $buildings = Buildings::join('buildings_partners', 'buildings_partners.buildings_id', 'buildings.id')->where('buildings_partners.main', 1)->where('buildings_partners.companies_id', $this->company)->select('buildings.*')->get();
         }    
 
         return view('vendor.exports.buildings', [
