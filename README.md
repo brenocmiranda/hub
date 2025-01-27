@@ -31,10 +31,8 @@ O Hub de Integrações foi criada com objetivo de unificar, apoiar e dar transpa
 <strong>Versão 2.1</strong>
 
 <ul>
-    <li>Melhoria na exibição das tabelas, aplicando request ajax - Fazendo</li>
-    <li>Função de teste em Empreendimentos - Para fazer</li>
-    <li>Melhoria no Dashboards Geral - Para fazer</li>
-    <li>Criação de Dashboards Empreendimentos - Para fazer</li>
+    <li>Melhoria no Dashboards Geral - Fazendo</li>
+    <li>Criação de Dashboards Empreendimentos - Fazendo</li>
     <li>Importações - OK</li>
     <li>Roletas - OK</li>
     <li>Relatórios - OK</li>
@@ -44,6 +42,8 @@ O Hub de Integrações foi criada com objetivo de unificar, apoiar e dar transpa
     <li>Melhoria no processo de login e recuperação - OK</li>
     <li>Melhoria na página de atividades - OK</li>
     <li>Correção de erros na retentativa de leads - OK</li>
+    <li>Melhoria na exibição das tabelas, aplicando request ajax - OK</li>
+    <li>Função de teste em Empreendimentos - OK</li>
     <li>Vinculando empresa a integrações</li>
     <li>Melhoria no processo de cadastrado de empreendimentos</li>
 </ul>
