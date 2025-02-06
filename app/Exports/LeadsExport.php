@@ -36,9 +36,9 @@ class LeadsExport implements FromView, WithEvents
         $leads = $this->building ? $leads->where('buildings_id', $this->building) : $leads;
         $leads = $this->origem ? $leads->where('leads_origins_id', $this->origem) : $leads;
 
-        if( Gate::check('access_komuh') == false ) {
+        /*if( Gate::check('access_komuh') ) {
             $leads->where('companies_id', $this->company);
-        }
+        }*/
 
         return view('vendor.exports.leads', [
             'leads' => $leads->get(),
