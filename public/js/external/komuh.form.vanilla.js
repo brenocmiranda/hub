@@ -71,8 +71,8 @@ document.addEventListener('DOMContentLoaded', function () {
             send: function (data) {
                 return new Promise(function (resolve, reject) {
                     let mail_data = JSON.stringify(data);
-                    let company = window.company || '9cc20c19-db84-4e9e-b56e-d93e188a6372';
-                    let url = 'https://hub.klash.com.br/api/leads/' + company;
+                    let company = window.company || '9e11ff12-35ca-4f8b-ac4e-84e40ca03ca6';
+                    let url = 'https://hub.komuh.com/api/leads/' + company;
 
                     var xhr = new XMLHttpRequest();
                     xhr.open('POST', url, true);
@@ -602,7 +602,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (window.useColorboxVideo) {
         setTimeout(() => {
             if (!$.fn.colorbox) {
-                hub.helpers.loadscript('https://hub.klash.com.br/js/external/colorbox.min.js', { defer: true }, function () {
+                hub.helpers.loadscript('https://hub.komuh.com/js/assets/external/colorbox.min.js', { defer: true }, function () {
                     console.log('Colorbox loaded');
                     hub.helpers.initColorboxVideo();
                 });
@@ -627,20 +627,20 @@ document.addEventListener('DOMContentLoaded', function () {
     if (window.galleryJson) {
         setTimeout(() => {
             if (!$.fn.slick && $.fn.colorbox) {
-                hub.helpers.loadscript('https://hub.klash.com.br/js/external/slick.min.js', { defer: true }, function () {
+                hub.helpers.loadscript('https://hub.komuh.com/js/assets/external/slick.min.js', { defer: true }, function () {
                     console.log('Slick loaded');
-                    hub.helpers.loadscript('https://hub.klash.com.br/js/external/colorbox.min.js', { defer: true }, function () {
+                    hub.helpers.loadscript('https://hub.komuh.com/js/assets/external/colorbox.min.js', { defer: true }, function () {
                         console.log('Colorbox loaded');
                         hub.helpers.initGallery(window.galleryJson);
                     });
                 });
             } else if (!$.fn.slick) {
-                hub.helpers.loadscript('https://hub.klash.com.br/js/external/slick.min.js', { defer: true }, function () {
+                hub.helpers.loadscript('https://hub.komuh.com/js/assets/external/slick.min.js', { defer: true }, function () {
                     console.log('Slick loaded');
                     hub.helpers.initGallery(window.galleryJson);
                 });
             } else if (!$.fn.colorbox) {
-                hub.helpers.loadscript('https://hub.klash.com.br/js/external/colorbox.min.js', { defer: true }, function () {
+                hub.helpers.loadscript('https://hub.komuh.com/js/assets/external/colorbox.min.js', { defer: true }, function () {
                     console.log('Colorbox loaded');
                     hub.helpers.initGallery(window.galleryJson);
                 });
