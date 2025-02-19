@@ -280,16 +280,29 @@ class ProcessIntegrationJob implements ShouldQueue
     */
     function assignArrayByPath( &$arr, $path, $value, $separator = '.' ){
 		$keys = explode( $separator, $path );
+		if( strpos( $path, '[' ) !== false ){
+			$keys2 = [];
+			foreach( $keys as $key ){
+				if( strpos( $key, '[' ) !== false ){
+					$key = str_replace( ']', '', $key );
+					$key = explode( '[', $key );
+					$keys2 = array_merge( $keys2, $key );
+				}else{
+					$keys2[] = $key;
+				}
+			}
+			$keys = $keys2;
+		}
 		foreach( $keys as $key ){
 			$arr = &$arr[$key];
 		}
 		$arr = $value;
 	}
 	function dotKeyToArray( $arr, $separator = '.' ){
-        $arr2 = json_decode( json_encode( $arr ), true );
+		$arr2 = json_decode( json_encode( $arr ), true );
 		foreach( $arr2 as $key => $value ){
-            if ( strpos($key, '.') !== false ){
-				self::assignArrayByPath( $arr2, $key, $value, '.' );
+			if ( strpos($key, '.') !== false ){
+				assignArrayByPath( $arr2, $key, $value, '.' );
 				unset( $arr2[ $key ] );
 			}
 		}
