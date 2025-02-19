@@ -302,7 +302,7 @@ class ProcessIntegrationJob implements ShouldQueue
 		$arr2 = json_decode( json_encode( $arr ), true );
 		foreach( $arr2 as $key => $value ){
 			if ( strpos($key, '.') !== false ){
-				assignArrayByPath( $arr2, $key, $value, '.' );
+				self::assignArrayByPath( $arr2, $key, $value, '.' );
 				unset( $arr2[ $key ] );
 			}
 		}
