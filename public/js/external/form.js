@@ -155,6 +155,14 @@ jQuery( function( $ ){
                         hub.helpers.showColorboxVideo({ href: '//www.youtube.com/embed/' + match[ 7 ] + '?autoplay=1' });
                     }
                 });
+                $( 'a[href*="youtu.be"]' ).on( 'click', function( e ){
+                    e.preventDefault();
+                    let regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/,
+                            match = this.href.match( regExp );
+                    if( match && match[ 7 ].length == 11 ){
+                        hub.helpers.showColorboxVideo({ href: '//www.youtube.com/embed/' + match[ 7 ] + '?autoplay=1' });
+                    }
+                });
             },
             showColorboxVideo: function( params ) {
                 let $params = $.extend({
