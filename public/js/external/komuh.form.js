@@ -247,7 +247,7 @@ jQuery( function( $ ){
                 if ($data.status) {
                     const status = $data.status,
                         video = status.gallery?.filter(item => item.type === 'video').at(-1),
-                        empresa = estagioDeObra.empresa.charAt(0).toUpperCase() + string.substring(1);
+                        empresa = estagioDeObra.empresa.charAt(0).toUpperCase() + estagioDeObra.empresa.substring(1);
                     if (video) {
                         const $html = `
                             <div class="wrap">
