@@ -550,7 +550,7 @@ jQuery( function( $ ){
 	 */
     if( window.estagiodeobraSlug ) {
         let empresa = window.location.host.split('.')[1];
-        let empreendimento = { empresa: empresa, name: document.title, slug: 'moinho' };
+        let empreendimento = { empresa: empresa, name: document.title, slug: window.estagiodeobraSlug };
         hub.helpers.renderEstagioDeObra('#estagio-de-obra', empreendimento);
     }
 
