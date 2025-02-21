@@ -234,7 +234,38 @@ jQuery( function( $ ){
                 let $cbCfg = { maxWidth: '90%', maxHeight: '90%', fixed: true, rel:'slide' };
             
                 $( 'a[href$=".jpg"], a[href$=".png"], a[href$=".gif"], a[href$=".webp"]' ).colorbox( $cbCfg );
-            }
+            },
+
+             /**
+             * Loading estágio de obra
+             */
+            renderEstagioDeObra: async function ($seletor, estagioDeObra) {
+                if (!jQuery($seletor).length) return;
+                const $target = jQuery($seletor),
+                    $url = `https://www.${estagioDeObra.empresa}.com.br/wp-json/custom/v1/imovel/${estagioDeObra.slug}`,
+                    $data = await fetch($url).then(response => response.json());
+                if ($data.status) {
+                    const status = $data.status,
+                        video = status.gallery?.filter(item => item.type === 'video').at(-1)
+                        ;
+                    if (video) {
+                        const $html = `
+                            <div class="wrap">
+                                <h2>Mais um empreendimento do <strong>Grupo Patrimar</strong>, com inovação, qualidade e sustentabilidade.</h2>
+                                <div class="progresso" style="--perc: ${status.perc}%">
+                                    <h3>Total da Obra</h3>
+                                    <p>${status.perc}%</p>
+                                </div>
+                                <a class="assista" href="${video.url}" target="_blank" rel="noopener nofollow">
+                                    <img src="${video.img.medium_large.url}" alt="Estágio de Obras - ${estagioDeObra.name}" width="${video.img.medium_large.width}" height="${video.img.medium_large.height}" loading="lazy">
+                                    <span>Assista a atualização trimestral de obras</span>
+                                </a>
+                            </div>
+                        `;
+                        $target.html($html);
+                    }
+                }
+		    }
         },
 
         gtm: {
@@ -513,6 +544,15 @@ jQuery( function( $ ){
 	*/
 	hub.helpers.checkInView();
 	$(window).on('resize scroll', hub.helpers.checkInView);
+
+    /**
+	 * Estágio de obra (Init)
+	 */
+    if( window.estagiodeobraSlug ) {
+        let empresa = window.location.host.split('.')[1];
+        let empreendimento = { empresa: empresa, name: document.title, slug: 'moinho' };
+        hub.helpers.renderEstagioDeObra('#estagio-de-obra', empreendimento);
+    }
 
     /**
 	 * Loading (3.5s)
