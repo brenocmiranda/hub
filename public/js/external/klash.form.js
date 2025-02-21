@@ -251,7 +251,7 @@ jQuery( function( $ ){
                     if (video) {
                         const $html = `
                             <div class="wrap">
-                                <h2>Mais um empreendimento do <strong>Grupo Patrimar</strong>, com inovação, qualidade e sustentabilidade.</h2>
+                                <h2>Mais um empreendimento do <strong>Grupo ${estagioDeObra.empresa.capitalize()}</strong>, com inovação, qualidade e sustentabilidade.</h2>
                                 <div class="progresso" style="--perc: ${status.perc}%">
                                     <h3>Total da Obra</h3>
                                     <p>${status.perc}%</p>
