@@ -246,12 +246,11 @@ jQuery( function( $ ){
                     $data = await fetch($url).then(response => response.json());
                 if ($data.status) {
                     const status = $data.status,
-                        video = status.gallery?.filter(item => item.type === 'video').at(-1),
-                        empresa = estagioDeObra.empresa.charAt(0).toUpperCase() + estagioDeObra.empresa.substring(1);
+                        video = status.gallery?.filter(item => item.type === 'video').at(-1);
                     if (video) {
                         const $html = `
                             <div class="wrap">
-                                <h2>Mais um empreendimento do <strong>Grupo ${empresa}</strong>, com inovação, qualidade e sustentabilidade.</h2>
+                                <h2>Mais um empreendimento do <strong>Grupo Patrimar</strong>, com inovação, qualidade e sustentabilidade.</h2>
                                 <div class="progresso" style="--perc: ${status.perc}%">
                                     <h3>Total da Obra</h3>
                                     <p>${status.perc}%</p>
