@@ -32,7 +32,7 @@
                                     Telefone: {{ $lead->phone }} <br>
                                 @endif
                                 @if($lead->RelationFields->where('name', 'message')->last())
-                                    Mensagem: {{ $lead->RelationFields->where('name', 'message')->last() }}
+                                    Mensagem: {{ $lead->RelationFields->where('name', 'message')->last()->value }}
                                 @endif
                             </p>
 
