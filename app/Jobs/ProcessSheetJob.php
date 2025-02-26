@@ -24,65 +24,63 @@ class ProcessSheetJob implements ShouldQueue
     public $tries = 3;
     public $backoff = 60;
 
-    public function __construct(protected $lead)
+    public function __construct(protected $lead, protected $sheet)
     {
         $this->lead = $lead;
+        $this->sheet = $sheet;
     }
 
     public function handle(): void
     {
         $sheets = BuildingsSheets::where('buildings_id', $this->lead->buildings_id)->get();
-        foreach( $sheets as $sheet ){
+        config([
+            'google.service.enable' => true,
+            'google.service.file' => storage_path('app/public/google/'. $this->sheet->file),
+        ]);
 
-            config([
-                'google.service.enable' => true,
-                'google.service.file' => storage_path('app/public/google/'. $sheet->file),
-            ]);
+        $data = $this->lead->created_at->format("d/m/Y H:i:s");
+        $origin = $this->lead->RelationOrigins->name;
 
-            $data = $this->lead->created_at->format("d/m/Y H:i:s");
-            $origin = $this->lead->RelationOrigins->name;
-
-            if($this->lead->RelationFields->where('name', 'SrNumber')->first()) {
-                $ticket = $this->lead->RelationFields->where('name', 'SrNumber')->first()->value;
-            }elseif($this->lead->RelationFields->where('name', 'idCaso')->first()) { 
-                $ticket = $this->lead->RelationFields->where('name', 'idCaso')->first()->value;
-            }else {
-                $ticket = "-";        
-            }
-
-            $company = $this->lead->RelationCompanies->name;
-            $building = $this->lead->RelationBuildings->name;
-            $name = $this->lead->name;
-            $email = $this->lead->email;
-            $phone = $this->lead->phone;
-            $utm_source = $this->lead->RelationFields->where('name', 'utm_source')->first() ? $this->lead->RelationFields->where('name', 'utm_source')->first()->value : '';
-            $utm_medium = $this->lead->RelationFields->where('name', 'utm_medium')->first() ? $this->lead->RelationFields->where('name', 'utm_medium')->first()->value : '';
-            $utm_campaign = $this->lead->RelationFields->where('name', 'utm_campaign')->first() ? $this->lead->RelationFields->where('name', 'utm_campaign')->first()->value : '';
-            $utm_content = $this->lead->RelationFields->where('name', 'utm_content')->first() ? $this->lead->RelationFields->where('name', 'utm_content')->first()->value : '';
-            $utm_term = $this->lead->RelationFields->where('name', 'utm_term')->first() ? $this->lead->RelationFields->where('name', 'utm_term')->first()->value : '';
-            $url_params = ($utm_source ? 'utm_source=' . $utm_source : "") . ($utm_medium ? '&utm_medium=' . $utm_medium : "") . ($utm_campaign ? '&utm_campaign=' . $utm_campaign : "") . ($utm_content ? '&utm_content=' . $utm_content : "") . ($utm_term ? '&utm_term=' . $utm_term : "");
-            $url = $this->lead->RelationFields->where('name', 'url')->first() ? $this->lead->RelationFields->where('name', 'url')->first()->value : '';
-
-            $sl = Sheets::spreadsheet($sheet->spreadsheetID)->sheet($sheet->sheet)->append([
-                [
-                    $data,
-                    $origin,
-                    $ticket,
-                    $company, 
-                    $building,
-                    $name,
-                    $email,
-                    $phone,
-                    $utm_source,
-                    $utm_medium,
-                    $utm_campaign,
-                    $utm_content,
-                    $utm_term,
-                    $url_params,
-                    $url
-                ]
-            ]);
+        if($this->lead->RelationFields->where('name', 'SrNumber')->first()) {
+            $ticket = $this->lead->RelationFields->where('name', 'SrNumber')->first()->value;
+        }elseif($this->lead->RelationFields->where('name', 'idCaso')->first()) { 
+            $ticket = $this->lead->RelationFields->where('name', 'idCaso')->first()->value;
+        }else {
+            $ticket = "-";        
         }
+
+        $company = $this->lead->RelationCompanies->name;
+        $building = $this->lead->RelationBuildings->name;
+        $name = $this->lead->name;
+        $email = $this->lead->email;
+        $phone = $this->lead->phone;
+        $utm_source = $this->lead->RelationFields->where('name', 'utm_source')->first() ? $this->lead->RelationFields->where('name', 'utm_source')->first()->value : '';
+        $utm_medium = $this->lead->RelationFields->where('name', 'utm_medium')->first() ? $this->lead->RelationFields->where('name', 'utm_medium')->first()->value : '';
+        $utm_campaign = $this->lead->RelationFields->where('name', 'utm_campaign')->first() ? $this->lead->RelationFields->where('name', 'utm_campaign')->first()->value : '';
+        $utm_content = $this->lead->RelationFields->where('name', 'utm_content')->first() ? $this->lead->RelationFields->where('name', 'utm_content')->first()->value : '';
+        $utm_term = $this->lead->RelationFields->where('name', 'utm_term')->first() ? $this->lead->RelationFields->where('name', 'utm_term')->first()->value : '';
+        $url_params = ($utm_source ? 'utm_source=' . $utm_source : "") . ($utm_medium ? '&utm_medium=' . $utm_medium : "") . ($utm_campaign ? '&utm_campaign=' . $utm_campaign : "") . ($utm_content ? '&utm_content=' . $utm_content : "") . ($utm_term ? '&utm_term=' . $utm_term : "");
+        $url = $this->lead->RelationFields->where('name', 'url')->first() ? $this->lead->RelationFields->where('name', 'url')->first()->value : '';
+
+        $sl = Sheets::spreadsheet($this->sheet->spreadsheetID)->sheet($this->sheet->sheet)->append([
+            [
+                $data,
+                $origin,
+                $ticket,
+                $company, 
+                $building,
+                $name,
+                $email,
+                $phone,
+                $utm_source,
+                $utm_medium,
+                $utm_campaign,
+                $utm_content,
+                $utm_term,
+                $url_params,
+                $url
+            ]
+        ]);
 
         // Salvando a pipeline de execução da integração
         $pipeline = Pipelines::create([
