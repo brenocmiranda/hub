@@ -409,6 +409,7 @@ class ApiLeadsCtrl extends Controller
                         ->where('buildings_id', $building)
                         ->whereDate('created_at', '>=', date("Y-m-d", strtotime("-10 minutes")) )
                         ->whereTime('created_at', '>=', date("H:i:s", strtotime("-10 minutes")) )
+                        ->orderBy('created_at', 'DESC')
                         ->first();
             
             if( isset($lead) ){
