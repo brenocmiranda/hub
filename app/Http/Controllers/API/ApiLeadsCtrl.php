@@ -407,8 +407,10 @@ class ApiLeadsCtrl extends Controller
             $lead = Leads::where('email', $email)
                         ->where('phone', $phone)
                         ->where('buildings_id', $building)
-                        ->whereTime('created_at', '>=', date("Y-m-d H:i:s", strtotime("-10 minutes")) )
+                        ->whereDate('created_at', '>=', date("Y-m-d H:i:s", strtotime("-10 minutes")) )
                         ->first();
+            var_dump($lead);
+            die();
             
             if( isset($lead) ){
 
