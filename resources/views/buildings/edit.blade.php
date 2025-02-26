@@ -149,7 +149,9 @@ Editar empreendimento
                                                                             <label for="main-{{ $index }}">Principal <abbr>*</abbr></label> 
                                                                         </div>
                                                                     </div>
-                                                                    <div class="col-12 d-flex align-items-end justify-content-end"> <a href="#" class="btn btn-sm btn-outline-danger ms-auto" onclick="removePartner(this);"><i class="bi bi-trash"></i> Excluir parceiro</a> </div>
+                                                                    @if( $index != 0 )
+                                                                        <div class="col-12 d-flex align-items-end justify-content-end"> <a href="#" class="btn btn-sm btn-outline-danger ms-auto" onclick="removePartner(this);"><i class="bi bi-trash"></i> Excluir parceiro</a> </div>
+                                                                    @endif
                                                                 </div>
                                                             </div>
                                                         </div>
