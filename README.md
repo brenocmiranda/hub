@@ -34,7 +34,6 @@ O Hub de Integrações foi criada com objetivo de unificar, apoiar e dar transpa
     <li>Dashboards - Pendente</li>
     <li>Adicionar dailog no success do form - Pendente</li>
     <li>Rever processo de block submit nos erros dos campos - Pendente</li>
-    <li>Validar elements que estão desativados (Controller) - Pendente </li>
     <li>Remover possibibilidade de remover 1 parceiro (Parceiros em empreendimentos) - Pendente</li>
     <li>Remover duplicação de leads - OK</li>
     <li>Roletas - OK</li>
