@@ -61,20 +61,20 @@ O Hub de Integrações foi criada com objetivo de unificar, apoiar e dar transpa
 
 <ul>
     <li>Converter acordeon em abas no módulo empreendimentos- OK</li>
+    <li>Integrar ao Meta Ads</li>
+    <li>Opção de cadastro por editor avançado de integrações em empreendimentos</li>
     <li>Modelos de integração</li>
     <li>Consulta de disponibilidade URL</li>
-    <li>Opção de cadastro por editor avançado de integrações em empreendimentos</li>
     <li>Validar active dos objetos</li>
     <li>Transformar Empreendimentos em Produtos</li>
     <li>Testes Unitários</li>
-    <li>Integrar ao Meta Ads</li>
-    <li>Regras para leads repetidos</li>
 </ul>
 
 <strong>Versão 2.3</strong>
 
 <ul>
     <li>API de Parceiros</li>
+    <li>Chatbot Oracle</li>
     <li>LGPD dos leads por Grupo</li>
 </ul>
 
