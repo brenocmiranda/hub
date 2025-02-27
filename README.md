@@ -34,8 +34,7 @@ O Hub de Integrações foi criada com objetivo de unificar, apoiar e dar transpa
     <li>Dashboards - Pendente</li>
     <li>Adicionar dailog no success do form - Pendente</li>
     <li>Rever processo de block submit nos erros dos campos - Pendente</li>
-    <li>Validar elements que estão desativados (Controller) - Pendente </li>
-    <li>Remover possibibilidade de remover 1 parceiro (Parceiros em empreendimentos) - Pendente</li>
+    <li>Remover possibibilidade de remover 1 parceiro (Parceiros em empreendimentos) - OK</li>
     <li>Remover duplicação de leads - OK</li>
     <li>Roletas - OK</li>
     <li>Novo módulo de Importações - OK</li>
@@ -61,6 +60,7 @@ O Hub de Integrações foi criada com objetivo de unificar, apoiar e dar transpa
 <strong>Versão 2.2</strong>
 
 <ul>
+    <li>Convert empreendimentos em abas</li>
     <li>Modelos de integração</li>
     <li>Consulta de disponibilidade URL</li>
     <li>Opção de cadastro por editor avançado de integrações em empreendimentos</li>
