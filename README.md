@@ -60,6 +60,7 @@ O Hub de Integrações foi criada com objetivo de unificar, apoiar e dar transpa
 <strong>Versão 2.2</strong>
 
 <ul>
+    <li>Convert empreendimentos em abas - OK</li>
     <li>Modelos de integração</li>
     <li>Consulta de disponibilidade URL</li>
     <li>Opção de cadastro por editor avançado de integrações em empreendimentos</li>
