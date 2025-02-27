@@ -1,3 +1,10 @@
+
+/** Geral **/
+.tab-content>.tab-pane .form-floating label {
+    word-break: break-all;
+    width: 100%;
+}
+
 /** NavBar **/
 .tab-content>.tab-pane {
     background: #fff;
@@ -11,7 +18,7 @@
 .tab-content>.tab-pane .intro p {
     font-size: 14px;
 }
-
+        
 
 /** Group partners **/
 .partners .all-partners .single-partner {
