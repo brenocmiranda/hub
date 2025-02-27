@@ -1,34 +1,24 @@
-/** Acordeon **/
-.accordion {
-    gap: 20px;
-    display: flex;
-    flex-direction: column; 
+/** NavBar **/
+.tab-content>.tab-pane {
+    background: #fff;
+    padding: 30px 20px;
+    border-radius: var(--bs-border-radius);
+    border-top-left-radius: initial;
+    border-top-right-radius: initial;
+    border: 1px solid #dee2e6;
+    border-top: 0;
+}
+.tab-content>.tab-pane .intro p {
+    font-size: 14px;
 }
 
-.accordion .accordion-item, .accordion .accordion-item .accordion-button {
-    border-radius: var(--bs-border-radius) !important;
-}
-
-.accordion .accordion-item .accordion-button:not(.collapsed) {
-    background-color: #6c757d;
-    color: #fff;
-}
-
-.accordion .accordion-item .accordion-button:not(.collapsed)::after {
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round'%3e%3cpath d='M2 5L8 11L14 5'/%3e%3c/svg%3e");
-}
-
-.accordion .accordion-item .accordion-button:focus {
-    box-shadow: none;
-}
 
 /** Group partners **/
-.partners .all-partners .single-partner { 
+.partners .all-partners .single-partner {
     margin: auto;
-    border-bottom: 1px solid #ededed;
-    padding-bottom: 20px;
     margin-bottom: 20px;
 }
+
 
 /** Group emails **/
 .emails .all-emails:has(.single-email) {
@@ -38,13 +28,11 @@
     flex-direction: column;
     gap: 10px;
 }
-.emails .all-emails .single-email .content-email a {
-    position: absolute;
-    right: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 1;
-    background: #fff
+.emails .all-emails .single-email .content-email {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
 }
 .emails .all-emails .single-email .content-email a:hover {
     color: var(--bs-btn-hover-color);
@@ -52,12 +40,11 @@
     border-color: var(--bs-btn-hover-border-color);
 }
 
+
 /** Group sheets **/
 .sheets .all-sheets .single-sheet {
     margin: auto;
     margin-bottom: 20px;
-    border-bottom: 1px solid #ededed;
-    padding-bottom: 20px;
 }
 .sheets .all-sheets .single-sheet .content-sheet input[type="file"] {
     padding: 35px 1.5rem;
@@ -71,12 +58,11 @@
     background: #fff;
 }
 
+
 /** Group integration **/
 .integrations .all-integration .single-integration {
     margin: auto;
     margin-bottom: 20px;
-    border-bottom: 1px solid #ededed;
-    padding-bottom: 20px;
 }
 .integrations .all-integration .single-integration .content-integration {
     display: flex;
