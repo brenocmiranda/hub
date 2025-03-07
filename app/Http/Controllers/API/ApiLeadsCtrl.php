@@ -77,10 +77,25 @@ class ApiLeadsCtrl extends Controller
             ];
             foreach($array as $ar){
                 if( $ar ){
-                    $tel = preg_replace( '/\D/', '', str_replace( '+55', '', ltrim($ar, "0") ));
-                    $ddd = substr( $tel, 0, 2 );
-                    $number = substr( $tel, 2 );
-                    $number = strlen( $number ) <= 8  ? substr( str_repeat( '9', 9 - strlen( $number ) ) . $number, 0, 9 ) : $number;
+                    // Remove zero a esquerda e caracteres especiais
+                    $tel = preg_replace( '/\D/', '', ltrim($ar, "0") );
+                    $codeArea = substr( $tel, 0, 2 );
+
+                    // Capturando o DDD sem o código do pais ou com ele.
+                    if( $codeArea === '55' ){
+                        $ddd = substr( $tel, 2, 2 );
+                    }else {
+                        $ddd = substr( $tel, 0, 2 );
+                    }
+
+                    // Capturando o número do telefone sem o código do pais ou com ele.
+                    if( $codeArea === '55' ){
+                        $number = substr( $tel, 4 );
+                        $number = strlen( $number ) <= 8  ? substr( str_repeat( '9', 9 - strlen( $number ) ) . $number, 0, 9 ) : $number;
+                    }else {
+                        $number = substr( $tel, 2 );
+                        $number = strlen( $number ) <= 8  ? substr( str_repeat( '9', 9 - strlen( $number ) ) . $number, 0, 9 ) : $number;
+                    }
                     $phone = $ddd . $number;
                     break;
                 }
