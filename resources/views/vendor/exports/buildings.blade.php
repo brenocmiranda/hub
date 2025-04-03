@@ -28,7 +28,7 @@
     </tr>
     </thead>
     <tbody>
-        @foreach($buildings as $building)
+        @foreach($buildings->sortBy('name') as $building)
             <tr>
                 @if( array_search('created_at', $items) !== false)
                     <td align="center">{{ $building->created_at->format("d/m/Y H:i:s") }}</td>

@@ -40,7 +40,7 @@
     </tr>
     </thead>
     <tbody>
-        @foreach($integrations as $integration)
+        @foreach($integrations->sortBy('name') as $integration)
             <tr>
                 @if( array_search('created_at', $items) !== false)
                     <td align="center">{{ $integration->created_at->format("d/m/Y H:i:s") }}</td>

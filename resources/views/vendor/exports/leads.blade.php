@@ -55,7 +55,7 @@
     </tr>
     </thead>
     <tbody>
-        @foreach($leads as $lead)
+        @foreach($leads->sortBy('created_at') as $lead)
             <tr>
                 @if( array_search('created_at', $items) !== false)
                     <td align="center">{{ $lead->created_at->format("d/m/Y H:i:s") }}</td>
