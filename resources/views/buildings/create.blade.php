@@ -30,8 +30,12 @@ Novo empreendimento
                         <div class="nav nav-tabs" id="nav-tab" role="tablist">
                             <button class="nav-link active" id="nav-infos-tab" data-bs-toggle="tab" data-bs-target="#nav-infos" type="button" role="tab" aria-controls="nav-infos" aria-selected="true">Geral</button>
 
+                            <button class="nav-link" id="nav-chaves-tab" data-bs-toggle="tab" data-bs-target="#nav-chaves" type="button" role="tab" aria-controls="nav-chaves" aria-selected="false">Chaves</button>
+
                             <button class="nav-link" id="nav-parceiros-tab" data-bs-toggle="tab" data-bs-target="#nav-parceiros" type="button" role="tab" aria-controls="nav-parceiros" aria-selected="false">Parceiros</button>
-                            
+
+                            <button class="nav-link" id="nav-simulacoes-tab" data-bs-toggle="tab" data-bs-target="#nav-simulacoes" type="button" role="tab" aria-controls="nav-simulacoes" aria-selected="false">Simulações</button>
+              
                             <button class="nav-link" id="nav-email-tab" data-bs-toggle="tab" data-bs-target="#nav-email" type="button" role="tab" aria-controls="nav-email" aria-selected="false">E-mail</button>
 
                             <button class="nav-link" id="nav-googlesheets-tab" data-bs-toggle="tab" data-bs-target="#nav-googlesheets" type="button" role="tab" aria-controls="nav-googlesheets" aria-selected="false">Google Sheets</button>
@@ -45,7 +49,7 @@ Novo empreendimento
                             <div class="tab-pane fade show active" id="nav-infos" role="tabpanel" aria-labelledby="nav-infos-tab">
                                 <div class="infos">
                                     <div class="row row-gap-3">
-                                        <div class="input-field col-lg-6 col-12">
+                                        <div class="input-field col-lg-12 col-12">
                                             <div class="form-floating">
                                                 <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}" required>
                                                 <label for="name">Nome <abbr>*</abbr></label>
@@ -62,36 +66,18 @@ Novo empreendimento
                                                 <label for="active">Status <abbr>*</abbr></label>
                                             </div>
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
 
-                                        <div class="input-field col-12">
-                                            <div class="form-check form-switch ms-1">
-                                                <input class="form-check-input" type="checkbox" role="switch" value="check_buildings_id" id="check_buildings_id">
-                                                <label class="form-check-label" for="check_buildings_id">
-                                                    Empreendimento de teste
-                                                </label>
-                                            </div>
-                                            <div class="form-floating" style="display: none;">
-                                                <select class="form-select mt-3 @error('buildings_id') is-invalid @enderror" aria-label="Defina um empreendimento de teste" name="buildings_id" id="buildings_id" disabled>
-                                                    <option selected></option>
-                                                    @if($buildingsAll) 
-                                                        @foreach($buildingsAll as $index => $arr) 
-                                                            @can('access_komuh') 
-                                                                <optgroup label="{{ $index }}"> 
-                                                            @endcan 
-
-                                                            @foreach($arr as $buildingOnly) 
-                                                                <option value="{{ $buildingOnly->id }}">{{ $buildingOnly->name }}</option> 
-                                                            @endforeach 
-
-                                                            @can('access_komuh') 
-                                                                </optgroup> 
-                                                            @endcan 
-                                                        @endforeach 
-                                                    @endif 
-                                                </select>
-                                                <label for="buildings_id">Empreendimento de teste</label>
-                                            </div>
-                                        </div>
+                            <div class="tab-pane fade" id="nav-chaves" role="tabpanel" aria-labelledby="nav-chaves-tab">
+                                <div class="intro">
+                                    <p>Nesta aba, bocê poderá configurar todas as chaves necessárias para o recebimento de leads por meio da nossa API.</p>
+                                </div>
+                                <div class="chaves">
+                                    <div class="all-chaves"></div>
+                                    <div>
+                                        <a href="#" onclick="addChave()"><i class="bi bi-key pe-1"></i> Cadastrar nova chave</a>
                                     </div>
                                 </div>
                             </div>
@@ -155,6 +141,40 @@ Novo empreendimento
                                     </div>
                                     <div>
                                         <a href="#" onclick="addPartner()"><i class="bi bi-house-add pe-1"></i> Cadastrar novo parceiro</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane fade" id="nav-simulacoes" role="tabpanel" aria-labelledby="nav-simulacoes-tab">
+                                <div class="intro">
+                                    <p>Nesta aba, você tem a possibilidade de encaminhar os leads de teste para um caminho que não atrapalhe a sua fila comercial. </p>
+                                </div>
+                                <div class="simulacoes">
+                                    <div class="row row-gap-3">
+                                        <div class="input-field col-12">
+                                            <div class="form-floating">
+                                                <select class="form-select @error('buildings_id') is-invalid @enderror" aria-label="Defina um empreendimento de teste" name="buildings_id" id="buildings_id">
+                                                    <option selected></option>
+                                                    @if($buildingsAll) 
+                                                        @foreach($buildingsAll as $index => $arr) 
+                                                            @can('access_komuh') 
+                                                                <optgroup label="{{ $index }}"> 
+                                                            @endcan 
+
+                                                            @foreach($arr as $buildingOnly) 
+                                                                <option value="{{ $buildingOnly->id }}">{{ $buildingOnly->name }}</option> 
+                                                            @endforeach 
+
+                                                            @can('access_komuh') 
+                                                                </optgroup> 
+                                                            @endcan 
+                                                        @endforeach 
+                                                    @endif 
+                                                </select>
+                                                <label for="buildings_id">Empreendimento de teste</label>
+                                            </div>
+                                        </div>
+                                        <small class="text-secondary">* Caso selecionado, todos os leads relacionados ao seu empreendimento que tiverem a palavra "teste" no <b>nome</b> ou <b>email</b> serão redirecionadas para esse novo empreendimento. Recomendamos que nesse novo empreendimento seja configurado com envio para uma fila de teste dentro do seu CRM.</small>
                                     </div>
                                 </div>
                             </div>
@@ -353,15 +373,5 @@ Novo empreendimento
         $(element).closest('.row').remove();
     }
 
-    // Active empreendimento de teste
-    $('#check_buildings_id').on('change', function(){
-        if( $(this).is(':checked') ) {
-            $('#buildings_id').removeAttr('disabled');
-            $('#buildings_id').parent().show();
-        } else {
-            $('#buildings_id').attr('disabled', '');
-            $('#buildings_id').parent().hide();
-        }
-    });
 </script>
 @endsection
