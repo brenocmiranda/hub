@@ -190,7 +190,9 @@ Editar empreendimento
                                                 <label for="buildings_id">Empreendimento de teste</label>
                                             </div>
                                         </div>
-                                        <small class="text-secondary">* Caso selecionado, todos os leads relacionados ao seu empreendimento que tiverem a palavra "teste" no <b>nome</b> ou <b>email</b> serão redirecionadas para esse novo empreendimento. Recomendamos que nesse novo empreendimento seja configurado com envio para uma fila de teste dentro do seu CRM.</small>
+                                        <div class="col-12">
+                                            <small class="text-secondary">* Caso selecionado, todos os leads relacionados ao seu empreendimento que tiverem a palavra "teste" no <b>nome</b> ou <b>email</b> serão redirecionadas para esse novo empreendimento. Recomendamos que nesse novo empreendimento seja configurado com envio para uma fila de teste dentro do seu CRM.</small>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
