@@ -50,11 +50,11 @@
                             @endif
                         </a>
                         <ul class="dropdown-menu dropdown-menu-dark text-small shadow" style="">
-                            <li><a class="dropdown-item" href="{{ route('profile.edit') }}">Perfil</a></li>
+                            <li><a class="dropdown-item" href="{{ route('profile.edit') }}">Meu perfil</a></li>
                             @can('tokens_show')
-                                <li><a class="dropdown-item" href="{{ route('tokens.index') }}">Tokens</a></li>
+                                <li><a class="dropdown-item" href="{{ route('tokens.index') }}">Meus tokens</a></li>
                             @endcan
-                            <li><a class="dropdown-item" href="{{ route('activities') }}">Atividades</a></li>
+                            <li><a class="dropdown-item" href="{{ route('activities') }}">Minhas atividades</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
