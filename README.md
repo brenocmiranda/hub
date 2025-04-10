@@ -32,8 +32,6 @@ O Hub de Integrações foi criada com objetivo de unificar, apoiar e dar transpa
 
 <ul>
     <li>Dashboards - Pendente</li>
-    <li>Adicionar dailog no success do form - Pendente</li>
-    <li>Rever processo de block submit nos erros dos campos - Pendente</li>
     <li>Remover possibibilidade de remover 1 parceiro (Parceiros em empreendimentos) - Pendente</li>
     <li>Remover duplicação de leads - OK</li>
     <li>Roletas - OK</li>
@@ -60,14 +58,14 @@ O Hub de Integrações foi criada com objetivo de unificar, apoiar e dar transpa
 <strong>Versão 2.2</strong>
 
 <ul>
-    <li>Converter acordeon em abas no módulo empreendimentos- OK</li>
     <li>Integrar ao Meta Ads</li>
     <li>Opção de cadastro por editor avançado de integrações em empreendimentos</li>
     <li>Modelos de integração</li>
     <li>Consulta de disponibilidade URL</li>
     <li>Validar active dos objetos</li>
-    <li>Transformar Empreendimentos em Produtos</li>
     <li>Testes Unitários</li>
+    <li>Transformar Empreendimentos em Produtos - OK</li>
+    <li>Converter acordeon em abas no módulo empreendimentos - OK</li>
 </ul>
 
 <strong>Versão 2.3</strong>
