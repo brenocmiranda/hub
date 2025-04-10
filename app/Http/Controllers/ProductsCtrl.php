@@ -98,9 +98,20 @@ class ProductsCtrl extends Controller
                     $operations = '-';
                 }
                 
+                // Integrações
+                $integracoes = "-";
+                if($product->RelationIntegrations->first()) {
+                    unset($element);
+                    foreach($product->RelationIntegrations as $integrations) {
+                        $element[] = $integrations->name;
+                    }
+                    $integracoes = implode(', ', $element);
+                }
+
                 // Array do emp
                 $array[] = [
                     'name' => $product->name,
+                    'integrations' => $integracoes,
                     'company' => Gate::check('access_komuh') ? $product->company : '-',
                     'status' => $status,
                     'operations' => $operations

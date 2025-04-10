@@ -120,6 +120,7 @@ class LeadsCtrl extends Controller
                     'product' => $lead->product, 
                     'name' => $lead->name,
                     'email'=> $lead->email,
+                    'phone'=> $lead->phone,
                     'status' => $status,
                     'operations' => $operations
                 ];

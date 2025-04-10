@@ -21,6 +21,7 @@ Produtos
                     <thead>
                         <tr>
                             <th data-field="name" data-align="center">Nome</th>
+                            <th data-field="integrations" data-align="center" data-visible="false">Integrações</th>
                             @can('access_komuh')
                                 <th data-field="company" data-align="center">Empresa</th>
                             @endcan

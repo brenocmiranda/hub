@@ -23,6 +23,7 @@ Leads
                             <th data-field="date" data-align="center">Data</th>
                             <th data-field="name" data-align="center">Nome</th>
                             <th data-field="email" data-align="center" data-visible="false">E-mail</th>
+                            <th data-field="phone" data-align="center" data-visible="false">Telefone</th>
                             @can('access_komuh')
                                 <th data-field="company" data-align="center">Empresa</th>
                             @endcan
