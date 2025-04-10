@@ -39,7 +39,7 @@ Home
                                 <div class="d-flex flex-wrap">
                                     <span>15/05/2025</span>
                                     <span class="mx-2">-</span>
-                                    <span class="fw-semibold">Melhorias do cadastro e edição de produtos <span class="badge text-bg-success mx-2">New</span></span>
+                                    <span class="fw-semibold">Melhorias no módulo de produtos <span class="badge text-bg-success mx-2">New</span></span>
                                 </div>
                             </button>
                         </h2>

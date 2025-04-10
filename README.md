@@ -60,14 +60,14 @@ O Hub de Integrações foi criada com objetivo de unificar, apoiar e dar transpa
 <strong>Versão 2.2</strong>
 
 <ul>
-    <li>Converter acordeon em abas no módulo empreendimentos- OK</li>
     <li>Integrar ao Meta Ads</li>
     <li>Opção de cadastro por editor avançado de integrações em empreendimentos</li>
     <li>Modelos de integração</li>
     <li>Consulta de disponibilidade URL</li>
     <li>Validar active dos objetos</li>
-    <li>Transformar Empreendimentos em Produtos</li>
     <li>Testes Unitários</li>
+    <li>Converter acordeon em abas no módulo empreendimentos - OK</li>
+    <li>Transformar Empreendimentos em Produtos - OK</li>
 </ul>
 
 <strong>Versão 2.3</strong>
