@@ -8,10 +8,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Plataforma de apoio a integração entre CRMs.">
+    <meta name="description" content="Sistema desenvolvido para auxiliar no processo captura de leads e integrações com sistemas.">
     <meta name="author" content="BC Desenvolvimento">
 
-    <title>@hasSection('title') @yield('title') - @endif Hub Integrações</title>
+    <title>@hasSection('title') @yield('title') - @endif {{ env('APP_NAME') }}</title>
 
     <!-- Icon -->
     <link rel="shortcut icon" href="{{ asset('images/favicon.ico') }}">
