@@ -59,7 +59,7 @@ class ProcessProductJobs implements ShouldQueue
                 Leads::find($lead->id)->update([ 'batches_id' => $batch->id ]);
             })
             ->catch(function (Batch $batch, Throwable $e) use ($lead) {
-                $usersRole = UsersRoles::whereLike('name', "%admin%")->first();
+                $usersRole = UsersRoles::whereLike('name', "%Administrador%")->first();
                 $users = Users::where('users_roles_id', $usersRole->id)->get();
                 foreach($users as $user){
                     Mail::to( $user )->send(new ErrorLead( $user, $lead, $e->getMessage() ));
