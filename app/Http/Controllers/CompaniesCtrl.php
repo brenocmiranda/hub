@@ -8,9 +8,9 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use App\Http\Requests\CompaniesRqt;
 use App\Models\Companies;
-use App\Models\Buildings;
-use App\Models\BuildingsPartners;
-use App\Models\BuildingsKeys;
+use App\Models\Products;
+use App\Models\ProductsPartners;
+use App\Models\ProductsKeys;
 use App\Models\LeadsOrigins;
 use App\Models\UsersLogs;
 
@@ -113,23 +113,23 @@ class CompaniesCtrl extends Controller
             'companies_id' => $company->id,
         ]);
 
-        $building = Buildings::create([
+        $product = Products::create([
             'active' => 1,
             'name' => 'Default', 
-            'test_buildings_id' => null,
+            'test_products_id' => null,
         ]);
 
-        BuildingsPartners::create([
+        ProductsPartners::create([
             'main' => 1, 
             'leads' => 99, 
             'companies_id' => $company->id, 
-            'buildings_id' => $building->id, 
+            'products_id' => $product->id, 
         ]);
 
-        BuildingsKeys::create([
+        ProductsKeys::create([
             'active' => 1,
             'value' => 'default'.$request->slug, 
-            'buildings_id' => $building->id, 
+            'products_id' => $product->id, 
         ]);
 
         // Salvando log

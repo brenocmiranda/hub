@@ -13,9 +13,9 @@ use Maatwebsite\Excel\Events\AfterSheet;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use App\Models\Reports;
-use App\Models\Buildings;
+use App\Models\Products;
 
-class BuildingsExport implements FromView, WithEvents
+class ProductsExport implements FromView, WithEvents
 {
     use RegistersEventListeners, Exportable;
     
@@ -29,13 +29,13 @@ class BuildingsExport implements FromView, WithEvents
     public function view(): View
     {   
         if( Gate::check('access_komuh') ) {
-            $buildings = Buildings::all();
+            $products = Products::all();
         }else {
-            $buildings = Buildings::join('buildings_partners', 'buildings_partners.buildings_id', 'buildings.id')->where('buildings_partners.main', 1)->where('buildings_partners.companies_id', $this->company)->select('buildings.*')->get();
+            $products = Products::join('products_partners', 'products_partners.products_id', 'products.id')->where('products_partners.main', 1)->where('products_partners.companies_id', $this->company)->select('products.*')->get();
         }    
 
-        return view('vendor.exports.buildings', [
-            'buildings' => $buildings,
+        return view('vendor.exports.products', [
+            'products' => $products,
             'items' => $this->items,
         ]);
     }

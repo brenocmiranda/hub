@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('buildings_partners', function (Blueprint $table) {
+        Schema::create('products_sheets', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->boolean('main');
-            $table->integer('leads');
-            $table->foreignUuid('companies_id')->constrained();
-            $table->foreignUuid('buildings_id')->constrained();
+            $table->string('spreadsheetID');
+            $table->string('sheet');
+            $table->string('file');
+            $table->foreignUuid('products_id')->constrained();
             $table->softDeletes($column = 'deleted_at', $precision = 0);
             $table->timestamps();
         });
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('buildings_partners');
+        Schema::dropIfExists('products_sheets');
     }
 };

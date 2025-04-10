@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\BuildingsCtrl;
-use App\Http\Controllers\BuildingsKeysCtrl;
+use App\Http\Controllers\ProductsCtrl;
+use App\Http\Controllers\ProductsKeysCtrl;
 use App\Http\Controllers\CompaniesCtrl;
 use App\Http\Controllers\DashboardsCtrl;
 use App\Http\Controllers\IntegrationsCtrl;
@@ -56,7 +56,7 @@ Route::group(['prefix' => 'app'], function () {
     // Dashboards
     Route::group(['prefix' => 'dashboards'], function () {
         Route::get('general', [DashboardsCtrl::class, 'indexGeneral'])->name('general.dashboards.index');
-        Route::get('buildings', [DashboardsCtrl::class, 'indexBuildings'])->name('buildings.dashboards.index');
+        Route::get('products', [DashboardsCtrl::class, 'indexProducts'])->name('products.dashboards.index');
     })->middleware('can:dashboard_show');
 
     // Leads
@@ -103,24 +103,24 @@ Route::group(['prefix' => 'app'], function () {
         Route::get('data', [CompaniesCtrl::class, 'data'])->name('companies.data');
     });
 
-    // Buildings
-    Route::resource('buildings', BuildingsCtrl::class);
-    Route::group(['prefix' => 'buildings/all/'], function () {
-        Route::get('data', [BuildingsCtrl::class, 'data'])->name('buildings.data');
-        Route::any('duplicate/{id}', [BuildingsCtrl::class, 'duplicate'])->name('buildings.duplicate');
+    // Products
+    Route::resource('products', ProductsCtrl::class);
+    Route::group(['prefix' => 'products/all/'], function () {
+        Route::get('data', [ProductsCtrl::class, 'data'])->name('products.data');
+        Route::any('duplicate/{id}', [ProductsCtrl::class, 'duplicate'])->name('products.duplicate');
     });
 
-    // Buildings (Keys)
-    Route::resource('buildings/all/keys', BuildingsKeysCtrl::class)->names([
-        'index' => 'buildings.keys.index',
-        'create' => 'buildings.keys.create',
-        'store' => 'buildings.keys.store',
-        'edit' => 'buildings.keys.edit',
-        'update' => 'buildings.keys.update',
-        'destroy' => 'buildings.keys.destroy'
+    // Products (Keys)
+    Route::resource('products/all/keys', ProductsKeysCtrl::class)->names([
+        'index' => 'products.keys.index',
+        'create' => 'products.keys.create',
+        'store' => 'products.keys.store',
+        'edit' => 'products.keys.edit',
+        'update' => 'products.keys.update',
+        'destroy' => 'products.keys.destroy'
     ]);
-    Route::group(['prefix' => 'buildings/all/keys/all/'], function () {
-        Route::get('data', [BuildingsKeysCtrl::class, 'data'])->name('buildings.keys.data');
+    Route::group(['prefix' => 'products/all/keys/all/'], function () {
+        Route::get('data', [ProductsKeysCtrl::class, 'data'])->name('products.keys.data');
     });
 
     // Integrations

@@ -12,7 +12,7 @@ use App\Imports\LeadsImport;
 use App\Models\UsersLogs;
 use App\Models\Imports;
 use App\Models\Companies;
-use App\Models\Buildings;
+use App\Models\Products;
 use App\Models\LeadsOrigins;
 
 class ImportsCtrl extends Controller
@@ -82,8 +82,8 @@ class ImportsCtrl extends Controller
                 // Type
                 if ($import->type === 'integrations'){
                     $type = 'Integrações';
-                } else if($import->type === 'buildings') {
-                    $type = 'Empreendimentos';
+                } else if($import->type === 'products') {
+                    $type = 'Produtos';
                 } else {
                     $type = 'Leads';
                 }
@@ -159,9 +159,9 @@ class ImportsCtrl extends Controller
         // Get ID Origin Lead
         $origin = LeadsOrigins::where('name', $fieldsMandatory[4])->first();
         $fieldsMandatory[4] = $origin ? $origin->id : 1;
-        // Get ID Building
-        $building = Buildings::where('name', $fieldsMandatory[5])->first();
-        $fieldsMandatory[5] = $building ? $building->id : 1;
+        // Get ID Product
+        $product = Products::where('name', $fieldsMandatory[5])->first();
+        $fieldsMandatory[5] = $product ? $product->id : 1;
 
         // Campos Opcionais
         $fieldsOptionalsName = $request->input('fieldsOptionalsName');

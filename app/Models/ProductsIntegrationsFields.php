@@ -7,22 +7,22 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Concerns\HasUuids; 
 
-class BuildingsIntegrationsFields extends Model
+class ProductsIntegrationsFields extends Model
 {
     use HasFactory, SoftDeletes, HasUuids;
 
-    protected $table = 'buildings_has_integrations_fields';
+    protected $table = 'products_has_integrations_fields';
 
     protected $fillable = [
         'name',
         'value', 
-        'buildings_id',
+        'products_id',
         'integrations_id',
     ];
 
-    public function RelationBuildings()
+    public function RelationProducts()
     {
-        return $this->belongsTo(Buildings::class, 'buildings_id', 'id');
+        return $this->belongsTo(Products::class, 'products_id', 'id');
     }
 
     public function RelationIntegrations()

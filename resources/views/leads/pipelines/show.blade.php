@@ -36,8 +36,8 @@ Detalhes da pipeline
             </div>
             <div class="col-lg-6 col-12">
                 <div class="form-floating">
-                    <input type="text" class="form-control" value="{{ $pipeline->RelationLeads->RelationBuildings->name }}" disabled>
-                    <label for="name">Empreendimento</label>
+                    <input type="text" class="form-control" value="{{ $pipeline->RelationLeads->RelationProducts->name }}" disabled>
+                    <label for="name">Produto</label>
                 </div>
             </div>
             <div class="col-lg-6 col-12">

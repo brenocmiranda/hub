@@ -1,11 +1,11 @@
 @extends('base.index')
 
 @section('title')
-Novo empreendimento
+Novo produto
 @endsection
 
 @section('css')
-    <link href="{{ asset('css/buildings.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/products.css') }}" rel="stylesheet">
 @endsection
 
 @section('content-page')
@@ -24,7 +24,7 @@ Novo empreendimento
                         </div>
                     @endif
 
-                    <form action="{{ route('buildings.store') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
 
                         <div class="nav nav-tabs" id="nav-tab" role="tablist">
@@ -153,16 +153,16 @@ Novo empreendimento
                                     <div class="row row-gap-3">
                                         <div class="input-field col-12">
                                             <div class="form-floating">
-                                                <select class="form-select @error('buildings_id') is-invalid @enderror" aria-label="Defina um empreendimento de teste" name="buildings_id" id="buildings_id">
+                                                <select class="form-select @error('products_id') is-invalid @enderror" aria-label="Defina um produto de teste" name="products_id" id="products_id">
                                                     <option selected></option>
-                                                    @if($buildingsAll) 
-                                                        @foreach($buildingsAll as $index => $arr) 
+                                                    @if($productsAll) 
+                                                        @foreach($productsAll as $index => $arr) 
                                                             @can('access_komuh') 
                                                                 <optgroup label="{{ $index }}"> 
                                                             @endcan 
 
-                                                            @foreach($arr as $buildingOnly) 
-                                                                <option value="{{ $buildingOnly->id }}">{{ $buildingOnly->name }}</option> 
+                                                            @foreach($arr as $productOnly) 
+                                                                <option value="{{ $productOnly->id }}">{{ $productOnly->name }}</option> 
                                                             @endforeach 
 
                                                             @can('access_komuh') 
@@ -171,11 +171,11 @@ Novo empreendimento
                                                         @endforeach 
                                                     @endif 
                                                 </select>
-                                                <label for="buildings_id">Empreendimento de teste</label>
+                                                <label for="products_id">Produto de teste</label>
                                             </div>
                                         </div>
                                         <div class="col-12">
-                                            <small class="text-secondary">* Caso selecionado, todos os leads relacionados ao seu empreendimento que tiverem a palavra "teste" no <b>nome</b> ou <b>email</b> serão redirecionadas para esse novo empreendimento. Recomendamos que nesse novo empreendimento seja configurado com envio para uma fila de teste dentro do seu CRM.</small>
+                                            <small class="text-secondary">* Caso selecionado, todos os leads relacionados ao seu produto que tiverem a palavra "teste" no <b>nome</b> ou <b>email</b> serão redirecionadas para esse novo produto. Recomendamos que nesse novo produto seja configurado com envio para uma fila de teste dentro do seu CRM.</small>
                                         </div>
                                     </div>
                                 </div>
@@ -232,7 +232,7 @@ Novo empreendimento
                         </div>
 
                         <div class="submit-field d-flex justify-content-end align-items-center gap-3">
-                            <a href="{{ route('buildings.index') }}"> <i class="bi bi-arrow-left px-2"></i>Voltar</a>
+                            <a href="{{ route('products.index') }}"> <i class="bi bi-arrow-left px-2"></i>Voltar</a>
                             <input type="submit" name="submit" id="submit" class="btn btn-dark px-5 py-2" value="Salvar" />
                         </div>
                     </form>
@@ -268,7 +268,7 @@ Novo empreendimento
                 <span class="badge text-bg-secondary">$utm_campaign</span>
                 <span class="badge text-bg-secondary">$utm_content</span>
                 <span class="badge text-bg-secondary">$utm_term</span>
-                <span class="badge text-bg-secondary">$nomeEmpreendimento</span>
+                <span class="badge text-bg-secondary">$nomeProduto</span>
                 <span class="badge text-bg-secondary">$message</span>
                 <span class="badge text-bg-secondary">$PartyNumber</span>
                 <span class="badge text-bg-secondary">$SrNumber</span>

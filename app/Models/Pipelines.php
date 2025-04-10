@@ -15,7 +15,7 @@ class Pipelines extends Model
         'statusCode',
         'attempts',
         'leads_id',
-        'buildings_id',
+        'products_id',
         'integrations_id',
     ];
 

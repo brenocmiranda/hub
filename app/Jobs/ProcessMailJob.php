@@ -14,7 +14,7 @@ use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Batch;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\Lead;
-use App\Models\BuildingsDestinatarios;
+use App\Models\ProductsDestinatarios;
 use App\Models\Pipelines;
 use App\Models\PipelinesLog;
 use Throwable;
@@ -33,7 +33,7 @@ class ProcessMailJob implements ShouldQueue
 
     public function handle(): void
     {   
-        $emails = BuildingsDestinatarios::where('buildings_id', $this->lead->buildings_id)->get();
+        $emails = ProductsDestinatarios::where('products_id', $this->lead->products_id)->get();
         foreach( $emails as $email ){
             $emails[] = $email->email;
         } 
@@ -44,7 +44,7 @@ class ProcessMailJob implements ShouldQueue
             'statusCode' => 1,
             'attempts' => $this->attempts(),
             'leads_id' => $this->lead->id,
-            'buildings_id' => $this->lead->buildings_id,
+            'products_id' => $this->lead->products_id,
             'integrations_id' => null
         ]);
         PipelinesLog::create([

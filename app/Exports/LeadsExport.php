@@ -19,13 +19,13 @@ class LeadsExport implements FromView, WithEvents
 {
     use RegistersEventListeners, Exportable;
 
-    public function __construct($report, $items, $dataInicial, $dataFinal, $building, $origem, $company)  
+    public function __construct($report, $items, $dataInicial, $dataFinal, $product, $origem, $company)  
     { 
         $this->items = $items;
         $this->report = $report;
         $this->dataInicial = $dataInicial;
         $this->dataFinal = $dataFinal;
-        $this->building = $building;
+        $this->product = $product;
         $this->origem = $origem;
         $this->company = $company;
     }
@@ -33,7 +33,7 @@ class LeadsExport implements FromView, WithEvents
     public function view(): View
     {   
         $leads = Leads::whereDate('created_at', '>=', $this->dataInicial)->whereDate('created_at', '<=', $this->dataFinal);
-        $leads = $this->building ? $leads->where('buildings_id', $this->building) : $leads;
+        $leads = $this->product ? $leads->where('products_id', $this->product) : $leads;
         $leads = $this->origem ? $leads->where('leads_origins_id', $this->origem) : $leads;
 
         if( Gate::check('access_komuh') ) {

@@ -71,7 +71,7 @@ Nova função
                                             'origins' => 'Origens',
                                             'pipelines' => 'Pipelines',
                                             'companies' => 'Empresas',
-                                            'buildings' => 'Empreendimentos',
+                                            'products' => 'Produtos',
                                             'keys' => 'Chaves',
                                             'integrations' => 'Integrações',
                                             'reports' => 'Relatórios',
@@ -88,7 +88,7 @@ Nova função
                                             'leads' => 'Leads',
                                             'origins' => 'Origens',
                                             'pipelines' => 'Pipelines',
-                                            'buildings' => 'Empreendimentos',
+                                            'products' => 'Produtos',
                                             'keys' => 'Chaves',
                                             'integrations' => 'Integrações',
                                             'reports' => 'Relatórios',
@@ -172,7 +172,7 @@ Nova função
                                                                 </label>
                                                             </div>
                                                         @endif
-                                                        @if($index === 'buildings')
+                                                        @if($index === 'products')
                                                             <div class="form-check form-switch">
                                                                 <input class="form-check-input" name="roles[]" type="checkbox" role="switch" value="{{ $index }}_duplicate" id="check_{{ $index }}_duplicate">
                                                                 <label class="form-check-label" for="check_{{ $index }}_duplicate">

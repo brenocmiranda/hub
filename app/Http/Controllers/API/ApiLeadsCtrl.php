@@ -6,15 +6,15 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Log;
 use App\Http\Requests\ApiLeadsRqt;
 use App\Models\Companies;
-use App\Models\Buildings;
-use App\Models\BuildingsKeys;
-use App\Models\BuildingsPartners;
+use App\Models\Products;
+use App\Models\ProductsKeys;
+use App\Models\ProductsPartners;
 use App\Models\Leads;
 use App\Models\LeadsFields;
 use App\Models\LeadsOrigins;
 use App\Models\Pipelines;
 use App\Models\PipelinesLog;
-use App\Jobs\ProcessBuildingJobs;
+use App\Jobs\ProcessProductJobs;
 
 class ApiLeadsCtrl extends Controller
 {
@@ -99,52 +99,52 @@ class ApiLeadsCtrl extends Controller
             }
             $email = $email ? $email : "naoidentificado@komuh.com";
 
-            /** Empreendimento **/
+            /** Produto **/
             $array = [
-                'building' => BuildingsKeys::join('buildings_partners', 'buildings_partners.buildings_id', 'buildings_keys.buildings_id')
-                                            ->where('buildings_partners.companies_id', $companies_id)
-                                            ->where('buildings_partners.main', 1)
-                                            ->where('buildings_keys.value', $request->building)
-                                            ->where('buildings_keys.active', 1)
+                'product' => ProductsKeys::join('products_partners', 'products_partners.products_id', 'products_keys.products_id')
+                                            ->where('products_partners.companies_id', $companies_id)
+                                            ->where('products_partners.main', 1)
+                                            ->where('products_keys.value', $request->product)
+                                            ->where('products_keys.active', 1)
                                             ->first(),
-                'empreendimento' => BuildingsKeys::join('buildings_partners', 'buildings_partners.buildings_id', 'buildings_keys.buildings_id')
-                                            ->where('buildings_partners.companies_id', $companies_id)
-                                            ->where('buildings_partners.main', 1)
-                                            ->where('buildings_keys.value', $request->empreendimento)
-                                            ->where('buildings_keys.active', 1)
+                'produto' => ProductsKeys::join('products_partners', 'products_partners.products_id', 'products_keys.products_id')
+                                            ->where('products_partners.companies_id', $companies_id)
+                                            ->where('products_partners.main', 1)
+                                            ->where('products_keys.value', $request->produto)
+                                            ->where('products_keys.active', 1)
                                             ->first(),
-                'originListingId' => BuildingsKeys::join('buildings_partners', 'buildings_partners.buildings_id', 'buildings_keys.buildings_id')
-                                            ->where('buildings_partners.companies_id', $companies_id)
-                                            ->where('buildings_partners.main', 1)
-                                            ->where('buildings_keys.value', $request->originListingId)
-                                            ->where('buildings_keys.active', 1)
+                'originListingId' => ProductsKeys::join('products_partners', 'products_partners.products_id', 'products_keys.products_id')
+                                            ->where('products_partners.companies_id', $companies_id)
+                                            ->where('products_partners.main', 1)
+                                            ->where('products_keys.value', $request->originListingId)
+                                            ->where('products_keys.active', 1)
                                             ->first(),
-                'codigoDoAnunciante' => BuildingsKeys::join('buildings_partners', 'buildings_partners.buildings_id', 'buildings_keys.buildings_id')
-                                            ->where('buildings_partners.companies_id', $companies_id)
-                                            ->where('buildings_partners.main', 1)
-                                            ->where('buildings_keys.value', $request->codigoDoAnunciante)
-                                            ->where('buildings_keys.active', 1)
+                'codigoDoAnunciante' => ProductsKeys::join('products_partners', 'products_partners.products_id', 'products_keys.products_id')
+                                            ->where('products_partners.companies_id', $companies_id)
+                                            ->where('products_partners.main', 1)
+                                            ->where('products_keys.value', $request->codigoDoAnunciante)
+                                            ->where('products_keys.active', 1)
                                             ->first(),
-                'idNavplat' => BuildingsKeys::join('buildings_partners', 'buildings_partners.buildings_id', 'buildings_keys.buildings_id')
-                                            ->where('buildings_partners.companies_id', $companies_id)
-                                            ->where('buildings_partners.main', 1)
-                                            ->where('buildings_keys.value', $request->idNavplat)
-                                            ->where('buildings_keys.active', 1)
+                'idNavplat' => ProductsKeys::join('products_partners', 'products_partners.products_id', 'products_keys.products_id')
+                                            ->where('products_partners.companies_id', $companies_id)
+                                            ->where('products_partners.main', 1)
+                                            ->where('products_keys.value', $request->idNavplat)
+                                            ->where('products_keys.active', 1)
                                             ->first(),
             ];
             foreach($array as $ar){
                 if( $ar ){
-                    $building = $ar->buildings_id;
+                    $product = $ar->products_id;
                     break;
                 }
             }
-            $bdefault = BuildingsKeys::join('buildings_partners', 'buildings_partners.buildings_id', 'buildings_keys.buildings_id')
-                                            ->where('buildings_partners.companies_id', $companies_id)
-                                            ->where('buildings_partners.main', 1)
-                                            ->whereLike('buildings_keys.value', '%default%')
-                                            ->where('buildings_keys.active', 1)
+            $bdefault = ProductsKeys::join('products_partners', 'products_partners.products_id', 'products_keys.products_id')
+                                            ->where('products_partners.companies_id', $companies_id)
+                                            ->where('products_partners.main', 1)
+                                            ->whereLike('products_keys.value', '%default%')
+                                            ->where('products_keys.active', 1)
                                             ->first();
-            $building = isset($building) ? $building : $bdefault->buildings_id;
+            $product = isset($product) ? $product : $bdefault->products_id;
         /**
          * End Params required
         */
@@ -357,11 +357,11 @@ class ApiLeadsCtrl extends Controller
          * Validate lead test for name and email
         */
             if( (stripos($name, 'teste') !== false || stripos($email, 'teste') !== false) ) {
-                $empreendimento = Buildings::find($building);
-                if( $empreendimento->buildings_id ){
-                    $building = $empreendimento->buildings_id;
-                    $fields['nameField'][] = 'building_origin';
-                    $fields['valueField'][] = $empreendimento->name;
+                $produto = Products::find($product);
+                if( $produto->products_id ){
+                    $product = $produto->products_id;
+                    $fields['nameField'][] = 'product_origin';
+                    $fields['valueField'][] = $produto->name;
                 }
             }
          /**
@@ -372,7 +372,7 @@ class ApiLeadsCtrl extends Controller
         /**
          * Defined partner responsible and define origin (Roleta)
         */
-            $companies_id = $this->partners( $building );
+            $companies_id = $this->partners( $product );
             $array = [
                 'origin' => LeadsOrigins::where('companies_id', $companies_id)
                                             ->where('slug', $request->origin)->first(),
@@ -402,11 +402,11 @@ class ApiLeadsCtrl extends Controller
 
 
         /**
-         * Create leads without duplication (email, phone and building for 10 min)
+         * Create leads without duplication (email, phone and product for 10 min)
         */
             $lead = Leads::where('email', $email)
                         ->where('phone', $phone)
-                        ->where('buildings_id', $building)
+                        ->where('products_id', $product)
                         ->whereDate('created_at', '>=', date("Y-m-d", strtotime("-10 minutes")) )
                         ->whereTime('created_at', '>=', date("H:i:s", strtotime("-10 minutes")) )
                         ->orderBy('created_at', 'DESC')
@@ -419,7 +419,7 @@ class ApiLeadsCtrl extends Controller
                     'statusCode' => 3,
                     'attempts' => '0',
                     'leads_id' => $lead->id,
-                    'buildings_id' => $lead->buildings_id,
+                    'products_id' => $lead->products_id,
                     'integrations_id' => null
                 ]);
                 PipelinesLog::create([
@@ -436,7 +436,7 @@ class ApiLeadsCtrl extends Controller
                     'name' => $name, 
                     'phone' => $phone, 
                     'email' => $email,
-                    'buildings_id' => $building,
+                    'products_id' => $product,
                     'leads_origins_id' => $origin,
                     'companies_id' => $companies_id,
                 ]);
@@ -453,7 +453,7 @@ class ApiLeadsCtrl extends Controller
                 }
 
                 // Send in integrations
-                ProcessBuildingJobs::dispatch($lead->id);  
+                ProcessProductJobs::dispatch($lead->id);  
             }
         /**
          * End Create leads without duplication
@@ -502,17 +502,17 @@ class ApiLeadsCtrl extends Controller
     /**
      * Define partner responsible 
      */
-    private function partners( $building ) {
+    private function partners( $product ) {
         $companies_id = '';
-        $partners = BuildingsPartners::where( 'buildings_id', $building )->orderBy('created_at', 'desc')->get();
+        $partners = ProductsPartners::where( 'products_id', $product )->orderBy('created_at', 'desc')->get();
         if( $partners->first() ){
             foreach( $partners as $partner ){
                 if( $partner->leads == 99 ){
                     $companies_id = $partner->companies_id;
                     break;
                 } else {
-                    $countAllPartners = BuildingsPartners::where( 'buildings_id', $building )->select('leads')->sum('leads');
-                    $leads = Leads::where( 'buildings_id', $building )->orderBy('created_at', 'desc')->take( $countAllPartners - 1)->get();
+                    $countAllPartners = ProductsPartners::where( 'products_id', $product )->select('leads')->sum('leads');
+                    $leads = Leads::where( 'products_id', $product )->orderBy('created_at', 'desc')->take( $countAllPartners - 1)->get();
                     $leadsPartner = $leads->sortBy('created_at')->where( 'companies_id', $partner->companies_id )->count();
 
                     if( $leadsPartner < $partner->leads ){

@@ -7,7 +7,7 @@ use App\Models\UsersRoles;
 use App\Models\Users;
 use App\Models\Leads;
 use App\Models\LeadsOrigins;
-use App\Jobs\ProcessBuildingJobs;
+use App\Jobs\ProcessProductJobs;
 use App\Notifications\Lead;
 use Illuminate\Support\Facades\Notification;
 
@@ -29,8 +29,8 @@ Artisan::command('new', function () {
     $leadsorigins = LeadsOrigins::factory()->create();
 })->purpose('Executar configurações default do sistema.');
 
-Artisan::command('buildings/{id}', function ($id) {
-    ProcessBuildingJobs::dispatch($id);    
+Artisan::command('products/{id}', function ($id) {
+    ProcessProductJobs::dispatch($id);    
 })->purpose('Testar processo de integração por lead.');
 
 Artisan::command('email', function () {

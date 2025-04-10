@@ -1,12 +1,12 @@
 @extends('base.index')
 
 @section('title')
-Empreendimentos
+Chaves
 @endsection
 
 @section('buttons')
-    @can('buildings_create') 
-        <a href="{{ route('buildings.create') }}" class="btn btn-primary">
+    @can('keys_create')  
+        <a href="{{ route('products.keys.create') }}" class="btn btn-primary">
             <i class="bi bi-plus-lg"></i>
             <span>Novo</span>
         </a>
@@ -20,10 +20,8 @@ Empreendimentos
                 <table id="table" data-ajax="ajaxRequest" data-side-pagination="server">
                     <thead>
                         <tr>
-                            <th data-field="name" data-align="center">Nome</th>
-                            @can('access_komuh')
-                                <th data-field="company" data-align="center">Empresa</th>
-                            @endcan
+                            <th data-field="produto" data-align="center">Produto</th>
+                            <th data-field="value" data-align="center">Valor</th>
                             <th data-field="status" data-align="center">Status</th>
                             <th data-field="operations" data-align="center">Operações</th>
                         </tr>
@@ -32,7 +30,7 @@ Empreendimentos
                 <script>
                     // your custom ajax request here
                     function ajaxRequest(params) {
-                        var url = '{{ route('buildings.data') }}'
+                        var url = '{{ route('products.keys.data') }}'
                         $.get(url + '?' + $.param(params.data)).then(function (res) {
                             params.success(res)
                         })
@@ -42,3 +40,4 @@ Empreendimentos
         </div>
     </div>
 @endsection
+

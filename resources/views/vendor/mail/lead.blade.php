@@ -36,10 +36,10 @@
                                 @endif
                             </p>
 
-                            <h4 style="margin-bottom:0">Dados do empreendimento</h4>
+                            <h4 style="margin-bottom:0">Dados do produto</h4>
                             <p style="margin-top: 0">
-                                @if($lead->RelationBuildings->name)
-                                    Nome do empreendimento: {{ $lead->RelationBuildings->name }} <br>
+                                @if($lead->RelationProducts->name)
+                                    Nome do produto: {{ $lead->RelationProducts->name }} <br>
                                 @endif
                                 @if($lead->RelationFields->where('name', 'SrNumber')->last())
                                     Nº ticket: {{ $lead->RelationFields->where('name', 'SrNumber')->last()->value }}<br>

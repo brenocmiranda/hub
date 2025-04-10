@@ -106,12 +106,12 @@ Nova importação
                                             <td>
                                                 <div> 
                                                     <select class="form-select rounded-0" disabled> 
-                                                        <option value="building" selected>Empreendimento</option>
+                                                        <option value="product" selected>Produto</option>
                                                     </select> 
                                                 </div> 
                                             </td>
                                             <td>
-                                                <input type="text" class="form-control rounded-0" name="fieldsMandatory[]" value="building" required>
+                                                <input type="text" class="form-control rounded-0" name="fieldsMandatory[]" value="product" required>
                                             </td>
                                         </tr>
                                     </tbody>

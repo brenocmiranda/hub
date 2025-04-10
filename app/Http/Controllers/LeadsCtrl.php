@@ -9,8 +9,8 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Http\Request;
 use App\Http\Requests\LeadsRqt;
-use App\Models\Buildings;
-use App\Models\BuildingsPartners;
+use App\Models\Products;
+use App\Models\ProductsPartners;
 use App\Models\Companies;
 use App\Models\Leads;
 use App\Models\LeadsFields;
@@ -18,7 +18,7 @@ use App\Models\LeadsOrigins;
 use App\Models\UsersLogs;
 use App\Models\Pipelines;
 use App\Models\PipelinesLog;
-use App\Jobs\ProcessBuildingJobs;
+use App\Jobs\ProcessProductJobs;
 
 class LeadsCtrl extends Controller
 {   
@@ -47,15 +47,15 @@ class LeadsCtrl extends Controller
         if( Gate::check('access_komuh') ) {
             $leads = Leads::orderBy('created_at', 'desc')
                             ->join('leads_origins', 'leads.leads_origins_id', '=', 'leads_origins.id')
-                            ->join('buildings', 'leads.buildings_id', '=', 'buildings.id')
+                            ->join('products', 'leads.products_id', '=', 'products.id')
                             ->join('companies', 'leads.companies_id', '=', 'companies.id')
-                            ->select('leads.*', 'leads_origins.name as origin', 'buildings.name as building', 'companies.name as company');
+                            ->select('leads.*', 'leads_origins.name as origin', 'products.name as product', 'companies.name as company');
          } else {
             $leads = Leads::orderBy('created_at', 'desc')
                             ->join('leads_origins', 'leads.leads_origins_id', '=', 'leads_origins.id')
-                            ->join('buildings', 'leads.buildings_id', '=', 'buildings.id')
+                            ->join('products', 'leads.products_id', '=', 'products.id')
                             ->where('leads.companies_id', Auth::user()->companies_id)
-                            ->select('leads.*', 'leads_origins.name as origin', 'buildings.name as building');
+                            ->select('leads.*', 'leads_origins.name as origin', 'products.name as product');
         }
         $recordsTotal = Leads::count();
 
@@ -65,7 +65,7 @@ class LeadsCtrl extends Controller
             $leads->orWhere('leads.name', 'like', "%".$search."%");
             $leads->orWhere('leads.email', 'like', "%".$search."%");
             $leads->orWhere('leads.phone', 'like', "%".$search."%");
-            $leads->orWhere('buildings.name', 'like', "%".$search."%");
+            $leads->orWhere('products.name', 'like', "%".$search."%");
             $leads->orWhere('leads_origins.name', 'like', "%".$search."%");
             
             if( Gate::check('access_komuh') ) {
@@ -117,7 +117,7 @@ class LeadsCtrl extends Controller
                     'date'  => $lead->created_at->format("d/m/Y H:i:s"),
                     'origin' => $lead->origin, 
                     'company' => Gate::check('access_komuh') ? $lead->company : '-',
-                    'building' => $lead->building, 
+                    'product' => $lead->product, 
                     'name' => $lead->name,
                     'email'=> $lead->email,
                     'status' => $status,
@@ -141,16 +141,16 @@ class LeadsCtrl extends Controller
             $origins = LeadsOrigins::where('companies_id', Auth::user()->companies_id)->where('active', 1)->orderBy('name', 'asc')->get();
         }
 
-        // Buildings
-        $buildings = Buildings::where('active', 1)->orderBy('name', 'asc')->get();
-        foreach($buildings as $building){
-            $element = BuildingsPartners::where('buildings_id', $building->id)->where('main', 1)->first();
-            $building->companies_id = $element ? $element->companies_id : 0;
+        // Products
+        $products = Products::where('active', 1)->orderBy('name', 'asc')->get();
+        foreach($products as $product){
+            $element = ProductsPartners::where('products_id', $product->id)->where('main', 1)->first();
+            $product->companies_id = $element ? $element->companies_id : 0;
         }
         foreach($companies as $company){
-            foreach($buildings as $building){ 
-                if( $company->id == $building->companies_id ){
-                    $array[$company->name][] = $building;
+            foreach($products as $product){ 
+                if( $company->id == $product->companies_id ){
+                    $array[$company->name][] = $product;
                 }
             }
         } 
@@ -170,15 +170,15 @@ class LeadsCtrl extends Controller
     public function store(LeadsRqt $request)
     {   
         // Defined partner responsible
-        $partners = BuildingsPartners::where( 'buildings_id', $request->building )->orderBy('created_at', 'desc')->get();
+        $partners = ProductsPartners::where( 'products_id', $request->product )->orderBy('created_at', 'desc')->get();
         if( $partners->first() ){
             foreach( $partners as $partner ){
                 if( $partner->leads == 99 ){
                     $company = $partner->companies_id;
                     break;
                 } else {
-                    $countAllPartners = BuildingsPartners::where( 'buildings_id', $request->building )->select('leads')->sum('leads');
-                    $leads = Leads::where( 'buildings_id', $request->building )->orderBy('created_at', 'desc')->take( $countAllPartners - 1)->get();
+                    $countAllPartners = ProductsPartners::where( 'products_id', $request->product )->select('leads')->sum('leads');
+                    $leads = Leads::where( 'products_id', $request->product )->orderBy('created_at', 'desc')->take( $countAllPartners - 1)->get();
                     $leadsPartner = $leads->sortBy('created_at')->where( 'companies_id', $partner->companies_id )->count();
  
                     if( $leadsPartner < $partner->leads ){
@@ -188,7 +188,7 @@ class LeadsCtrl extends Controller
                 }
             }
         }   
-        $company = isset($company) ? $company : BuildingsPartners::where( 'buildings_id', $request->building )->where('main', 1)->first()->companies_id;
+        $company = isset($company) ? $company : ProductsPartners::where( 'products_id', $request->product )->where('main', 1)->first()->companies_id;
 
         $tel = preg_replace( '/\D/', '', str_replace( '+55', '', $request->phone ));
 	    $phone = strlen( $tel ) < 10  ? substr( $tel . str_repeat( '9', 11 ), 0, 11 ) : $tel;
@@ -198,7 +198,7 @@ class LeadsCtrl extends Controller
             'name' => ucwords($request->name), 
             'phone' => $phone, 
             'email' => strtolower($request->email),
-            'buildings_id' => $request->building,
+            'products_id' => $request->product,
             'leads_origins_id' => $request->origin,
             'companies_id' => $company,
         ]);
@@ -216,7 +216,7 @@ class LeadsCtrl extends Controller
         }
 
         // Enviando para as execução das integrações
-        ProcessBuildingJobs::dispatch($lead->id);
+        ProcessProductJobs::dispatch($lead->id);
 
         // Salvando log
         UsersLogs::create([
@@ -296,7 +296,7 @@ class LeadsCtrl extends Controller
 
     public function resend($id)
     { 
-        ProcessBuildingJobs::dispatch($id);
+        ProcessProductJobs::dispatch($id);
 
         // Salvando log
         UsersLogs::create([

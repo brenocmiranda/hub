@@ -7,14 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Concerns\HasUuids; 
 
-class BuildingsIntegrations extends Model
+class ProductsIntegrations extends Model
 {
     use HasFactory, SoftDeletes, HasUuids;
 
-    protected $table = 'buildings_has_integrations';
+    protected $table = 'products_has_integrations';
 
     protected $fillable = [
-        'buildings_id', 
+        'products_id', 
         'integrations_id',
     ];
 

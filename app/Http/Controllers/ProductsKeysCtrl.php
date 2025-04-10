@@ -6,14 +6,14 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
-use App\Http\Requests\BuildingsKeysRqt;
-use App\Models\Buildings;
-use App\Models\BuildingsKeys;
-use App\Models\BuildingsPartners;
+use App\Http\Requests\ProductsKeysRqt;
+use App\Models\Products;
+use App\Models\ProductsKeys;
+use App\Models\ProductsPartners;
 use App\Models\Companies;
 use App\Models\UsersLogs;
 
-class BuildingsKeysCtrl extends Controller
+class ProductsKeysCtrl extends Controller
 {
     public function __construct(){
 		$this->middleware('auth');
@@ -25,7 +25,7 @@ class BuildingsKeysCtrl extends Controller
     
     public function index()
     {
-        return view('buildings.keys.index');
+        return view('products.keys.index');
     }
 
     public function data(Request $request)
@@ -34,26 +34,26 @@ class BuildingsKeysCtrl extends Controller
         $pageLength = $request->limit;
         $skip       = $request->offset;
 
-        // Get data from buildings key all
+        // Get data from products key all
         if( Gate::check('access_komuh') ) {
-            $keys = BuildingsKeys::orderBy('buildings.name', 'asc')
-                                ->join('buildings', 'buildings_keys.buildings_id', '=', 'buildings.id')
-                                ->select('buildings_keys.*', 'buildings.name as building');
+            $keys = ProductsKeys::orderBy('products.name', 'asc')
+                                ->join('products', 'products_keys.products_id', '=', 'products.id')
+                                ->select('products_keys.*', 'products.name as product');
         } else {
-            $keys = BuildingsKeys::orderBy('buildings.name', 'asc')
-                                ->join('buildings', 'buildings_keys.buildings_id', '=', 'buildings.id')
-                                ->join('buildings_partners', 'buildings_keys.buildings_id', '=', 'buildings_partners.buildings_id')
-                                ->where('buildings_partners.main', 1)
-                                ->where('buildings_partners.companies_id', Auth::user()->companies_id)
-                                ->select('buildings_keys.*', 'buildings.name as building');
+            $keys = ProductsKeys::orderBy('products.name', 'asc')
+                                ->join('products', 'products_keys.products_id', '=', 'products.id')
+                                ->join('products_partners', 'products_keys.products_id', '=', 'products_partners.products_id')
+                                ->where('products_partners.main', 1)
+                                ->where('products_partners.companies_id', Auth::user()->companies_id)
+                                ->select('products_keys.*', 'products.name as product');
         }                        
-        $recordsTotal = BuildingsKeys::count();
+        $recordsTotal = ProductsKeys::count();
 
         // Search
         $search = $request->search;
         $keys = $keys->where( function($keys) use ($search){
-            $keys->orWhere('buildings_keys.value', 'like', "%".$search."%");
-            $keys->orWhere('buildings.name', 'like', "%".$search."%");
+            $keys->orWhere('products_keys.value', 'like', "%".$search."%");
+            $keys->orWhere('products.name', 'like', "%".$search."%");
         });
 
         // Apply Length and Capture RecordsFilters
@@ -75,10 +75,10 @@ class BuildingsKeysCtrl extends Controller
                     $operations .= '<div class="d-flex justify-content-center align-items-center gap-2">';
 
                     if( Gate::check('keys_update') ) {
-                        $operations .= '<a href="'. route('buildings.keys.edit', $key->id ) .'" class="btn btn-outline-secondary px-2 py-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Editar"><i class="bi bi-pencil"></i></a>';
+                        $operations .= '<a href="'. route('products.keys.edit', $key->id ) .'" class="btn btn-outline-secondary px-2 py-1" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Editar"><i class="bi bi-pencil"></i></a>';
                     }
                     if( Gate::check('keys_destroy') ) {
-                        $operations .= '<a href="'. route('buildings.keys.destroy', $key->id ) .'" class="btn btn-outline-secondary px-2 py-1 destroy" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Excluir"><i class="bi bi-trash"></i></a>';
+                        $operations .= '<a href="'. route('products.keys.destroy', $key->id ) .'" class="btn btn-outline-secondary px-2 py-1 destroy" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Excluir"><i class="bi bi-trash"></i></a>';
                     }
 
                     $operations .= '</div>';
@@ -88,7 +88,7 @@ class BuildingsKeysCtrl extends Controller
                 
                 // Array do emp
                 $array[] = [
-                    'empreendimento' => $key->building,
+                    'produto' => $key->product,
                     'value' => $key->value,
                     'status' => $status,
                     'operations' => $operations
@@ -109,28 +109,28 @@ class BuildingsKeysCtrl extends Controller
             $companies = Companies::where('id', Auth::user()->companies_id)->get();
         }
 
-        // Buildings
-        $buildings = Buildings::where('active', 1)->orderBy('name', 'asc')->get();
-        foreach($buildings as $building){
-            $element = BuildingsPartners::where('buildings_id', $building->id)->where('main', 1)->first();
-            $building->companies_id = $element ? $element->companies_id : 0;
+        // Products
+        $products = Products::where('active', 1)->orderBy('name', 'asc')->get();
+        foreach($products as $product){
+            $element = ProductsPartners::where('products_id', $product->id)->where('main', 1)->first();
+            $product->companies_id = $element ? $element->companies_id : 0;
         }
         foreach($companies as $company){
-            foreach($buildings as $building){ 
-                if( $company->id == $building->companies_id ){
-                    $array[$company->name][] = $building;
+            foreach($products as $product){ 
+                if( $company->id == $product->companies_id ){
+                    $array[$company->name][] = $product;
                 }
             }
         } 
 
-        return view('buildings.keys.create')->with('array', isset($array) ? $array : null);
+        return view('products.keys.create')->with('array', isset($array) ? $array : null);
     }
 
-    public function store(BuildingsKeysRqt $request)
+    public function store(ProductsKeysRqt $request)
     {      
-        BuildingsKeys::create([
+        ProductsKeys::create([
             'value' => $request->value, 
-            'buildings_id' => $request->building, 
+            'products_id' => $request->product, 
             'active' => $request->active,
         ]);
 
@@ -142,7 +142,7 @@ class BuildingsKeysCtrl extends Controller
             'users_id' => Auth::user()->id
         ]);
 
-        return redirect()->route('buildings.keys.index')->with('create', true);
+        return redirect()->route('products.keys.index')->with('create', true);
     }
 
     public function show(string $id)
@@ -158,28 +158,28 @@ class BuildingsKeysCtrl extends Controller
             $companies = Companies::where('id', Auth::user()->companies_id)->get();
         }
 
-        // Buildings
-        $buildings = Buildings::where('active', 1)->orderBy('name', 'asc')->get();
-        foreach($buildings as $building){
-            $element = BuildingsPartners::where('buildings_id', $building->id)->where('main', 1)->first();
-            $building->companies_id = $element ? $element->companies_id : 0;
+        // Products
+        $products = Products::where('active', 1)->orderBy('name', 'asc')->get();
+        foreach($products as $product){
+            $element = ProductsPartners::where('products_id', $product->id)->where('main', 1)->first();
+            $product->companies_id = $element ? $element->companies_id : 0;
         }
         foreach($companies as $company){
-            foreach($buildings as $building){ 
-                if( $company->id == $building->companies_id ){
-                    $array[$company->name][] = $building;
+            foreach($products as $product){ 
+                if( $company->id == $product->companies_id ){
+                    $array[$company->name][] = $product;
                 }
             }
         } 
 
-        return view('buildings.keys.edit')->with('key', BuildingsKeys::find($id))->with('array', isset($array) ? $array : null);
+        return view('products.keys.edit')->with('key', ProductsKeys::find($id))->with('array', isset($array) ? $array : null);
     } 
 
-    public function update(BuildingsKeysRqt $request, string $id)
+    public function update(ProductsKeysRqt $request, string $id)
     {
-        BuildingsKeys::find($id)->update([
+        ProductsKeys::find($id)->update([
             'value' => $request->value, 
-            'buildings_id' => $request->building, 
+            'products_id' => $request->product, 
             'active' => $request->active,
         ]);
 
@@ -191,7 +191,7 @@ class BuildingsKeysCtrl extends Controller
             'users_id' => Auth::user()->id
         ]);
 
-        return redirect()->route('buildings.keys.index')->with('edit', true);
+        return redirect()->route('products.keys.index')->with('edit', true);
     }
 
     public function destroy(string $id)
@@ -199,12 +199,12 @@ class BuildingsKeysCtrl extends Controller
         // Salvando log
         UsersLogs::create([
             'title' => 'Exclusão de chave',
-            'description' => 'Foi realizado a exclusão da chave: ' .  BuildingsKeys::find($id)->value . '.',
+            'description' => 'Foi realizado a exclusão da chave: ' .  ProductsKeys::find($id)->value . '.',
             'action' => 'destroy',
             'users_id' => Auth::user()->id
         ]);
 
-        BuildingsKeys::find($id)->delete();
-        return redirect()->route('buildings.keys.index')->with('destroy', true);
+        ProductsKeys::find($id)->delete();
+        return redirect()->route('products.keys.index')->with('destroy', true);
     }
 }

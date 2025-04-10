@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('buildings_keys', function (Blueprint $table) {
+        Schema::create('products_has_integrations', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->boolean('active');
-            $table->string('value');
-            $table->foreignUuid('buildings_id')->constrained();
+            $table->foreignUuid('products_id')->constrained();
+            $table->foreignUuid('integrations_id')->constrained();
             $table->softDeletes($column = 'deleted_at', $precision = 0);
             $table->timestamps();
         });
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('buildings_keys');
+        Schema::dropIfExists('products_has_integrations');
     }
 };

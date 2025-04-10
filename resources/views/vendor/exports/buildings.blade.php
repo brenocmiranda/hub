@@ -28,19 +28,19 @@
     </tr>
     </thead>
     <tbody>
-        @foreach($buildings as $building)
+        @foreach($products as $product)
             <tr>
                 @if( array_search('created_at', $items) !== false)
-                    <td align="center">{{ $building->created_at->format("d/m/Y H:i:s") }}</td>
+                    <td align="center">{{ $product->created_at->format("d/m/Y H:i:s") }}</td>
                 @endif
                 @if( array_search('name', $items) !== false)
-                    <td align="center">{{ $building->name }}</td>
+                    <td align="center">{{ $product->name }}</td>
                 @endif
                 @if( array_search('destinatarios', $items) !== false)
                     <?php $dest = array(); ?>
                     <td align="center">
-                        @if($building->RelationDestinatarios->first())
-                            @foreach($building->RelationDestinatarios as $destinatarios)
+                        @if($product->RelationDestinatarios->first())
+                            @foreach($product->RelationDestinatarios as $destinatarios)
                                 <?php $dest[] = $destinatarios->email ?>
                             @endforeach
                         @endif
@@ -50,8 +50,8 @@
                 @if( array_search('integrationsBuild', $items) !== false)
                     <?php $inte = array(); ?>
                     <td align="center">
-                        @if($building->RelationIntegrations->first())
-                            @foreach($building->RelationIntegrations as $integrations)
+                        @if($product->RelationIntegrations->first())
+                            @foreach($product->RelationIntegrations as $integrations)
                                 <?php $inte[] = $integrations->name ?>
                             @endforeach
                         @endif
@@ -61,8 +61,8 @@
                 @if( array_search('sheets', $items) !== false)
                     <?php $shet = array(); ?>
                     <td align="center">
-                        @if($building->RelationSheets->first())
-                            @foreach($building->RelationSheets as $sheets)
+                        @if($product->RelationSheets->first())
+                            @foreach($product->RelationSheets as $sheets)
                                 <?php $shet[] = $sheets->sheet ?>
                             @endforeach
                         @endif
@@ -72,8 +72,8 @@
                 @if( array_search('keys', $items) !== false)
                     <?php $ke = array(); ?>
                     <td align="center">
-                        @if($building->RelationKeys->first())
-                            @foreach($building->RelationKeys as $key)
+                        @if($product->RelationKeys->first())
+                            @foreach($product->RelationKeys as $key)
                                 <?php $ke[] = $key->value ?>
                             @endforeach
                         @endif
@@ -83,8 +83,8 @@
                 @if( array_search('company', $items) !== false)
                     <?php $part = array(); ?>
                     <td align="center">
-                        @if($building->RelationPartners->first())
-                            @foreach($building->RelationPartners as $partner)
+                        @if($product->RelationPartners->first())
+                            @foreach($product->RelationPartners as $partner)
                                 <?php $part[] = $partner->RelationCompanies->name ?>
                             @endforeach
                         @endif
@@ -92,7 +92,7 @@
                     </td>
                 @endif
                 @if( array_search('active', $items) !== false)
-                    <td align="center">{{ $building->active ? 'Ativo' : 'Desativado' }}</td>
+                    <td align="center">{{ $product->active ? 'Ativo' : 'Desativado' }}</td>
                 @endif
             </tr>
         @endforeach

@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Batch;
-use App\Models\BuildingsSheets;
+use App\Models\ProductsSheets;
 use Revolution\Google\Sheets\Facades\Sheets;
 use App\Models\Pipelines;
 use App\Models\PipelinesLog;
@@ -32,7 +32,7 @@ class ProcessSheetJob implements ShouldQueue
 
     public function handle(): void
     {
-        $sheets = BuildingsSheets::where('buildings_id', $this->lead->buildings_id)->get();
+        $sheets = ProductsSheets::where('products_id', $this->lead->products_id)->get();
         config([
             'google.service.enable' => true,
             'google.service.file' => storage_path('app/public/google/'. $this->sheet->file),
@@ -50,7 +50,7 @@ class ProcessSheetJob implements ShouldQueue
         }
 
         $company = $this->lead->RelationCompanies->name;
-        $building = $this->lead->RelationBuildings->name;
+        $product = $this->lead->RelationProducts->name;
         $name = $this->lead->name;
         $email = $this->lead->email;
         $phone = $this->lead->phone;
@@ -68,7 +68,7 @@ class ProcessSheetJob implements ShouldQueue
                 $origin,
                 $ticket,
                 $company, 
-                $building,
+                $product,
                 $name,
                 $email,
                 $phone,
@@ -87,7 +87,7 @@ class ProcessSheetJob implements ShouldQueue
             'statusCode' => 2,
             'attempts' => $this->attempts(),
             'leads_id' => $this->lead->id,
-            'buildings_id' => $this->lead->buildings_id,
+            'products_id' => $this->lead->products_id,
             'integrations_id' => null
         ]);
         PipelinesLog::create([

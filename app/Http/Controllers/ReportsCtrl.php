@@ -8,10 +8,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\LeadsExport;
-use App\Exports\BuildingsExport;
+use App\Exports\ProductsExport;
 use App\Exports\IntegrationsExport;
-use App\Models\Buildings;
-use App\Models\BuildingsPartners;
+use App\Models\Products;
+use App\Models\ProductsPartners;
 use App\Models\Companies;
 use App\Models\LeadsOrigins;
 use App\Models\UsersLogs;
@@ -82,8 +82,8 @@ class ReportsCtrl extends Controller
                 // Type
                 if ($report->type === 'integrations'){
                     $type = 'Integrações';
-                } else if($report->type === 'buildings') {
-                    $type = 'Empreendimentos';
+                } else if($report->type === 'products') {
+                    $type = 'Produtos';
                 } else {
                     $type = 'Leads';
                 }
@@ -133,16 +133,16 @@ class ReportsCtrl extends Controller
             $origins = LeadsOrigins::where('companies_id', Auth::user()->companies_id)->where('active', 1)->orderBy('name', 'asc')->get();
         }
 
-        // Buildings
-        $buildings = Buildings::where('active', 1)->orderBy('name', 'asc')->get();
-        foreach($buildings as $building){
-            $element = BuildingsPartners::where('buildings_id', $building->id)->where('main', 1)->first();
-            $building->companies_id = $element ? $element->companies_id : 0;
+        // Products
+        $products = Products::where('active', 1)->orderBy('name', 'asc')->get();
+        foreach($products as $product){
+            $element = ProductsPartners::where('products_id', $product->id)->where('main', 1)->first();
+            $product->companies_id = $element ? $element->companies_id : 0;
         }
         foreach($companies as $company){
-            foreach($buildings as $building){ 
-                if( $company->id == $building->companies_id ){
-                    $array[$company->name][] = $building;
+            foreach($products as $product){ 
+                if( $company->id == $product->companies_id ){
+                    $array[$company->name][] = $product;
                 }
             }
         } 
@@ -156,7 +156,7 @@ class ReportsCtrl extends Controller
             }
         } 
 
-        return view('reports.create')->with('origins', isset($array1) ? $array1 : null)->with('buildings', isset($array) ? $array : null);
+        return view('reports.create')->with('origins', isset($array1) ? $array1 : null)->with('products', isset($array) ? $array : null);
     }
 
     public function store(Request $request)
@@ -186,21 +186,21 @@ class ReportsCtrl extends Controller
             // Leads 
             $dataInicial = $request->input('dataInicial');
             $dataFinal = $request->input('dataFinal');
-            $building = $request->input('building');
+            $product = $request->input('product');
             $origem = $request->input('origem');
 
             if($format == 'pdf'){
-                (new LeadsExport($report, $items, $dataInicial, $dataFinal, $building, $origem, $company))->store($pathFile);
+                (new LeadsExport($report, $items, $dataInicial, $dataFinal, $product, $origem, $company))->store($pathFile);
             } else {
-                (new LeadsExport($report, $items, $dataInicial, $dataFinal, $building, $origem, $company))->queue($pathFile);
+                (new LeadsExport($report, $items, $dataInicial, $dataFinal, $product, $origem, $company))->queue($pathFile);
             }
 
-        } else if( $type === 'buildings' ){
-            // Empreendimentos
+        } else if( $type === 'products' ){
+            // Produtos
             if($format == 'pdf'){
-                (new BuildingsExport($report, $items, $company))->store($pathFile);
+                (new ProductsExport($report, $items, $company))->store($pathFile);
             } else {
-                (new BuildingsExport($report, $items, $company))->queue($pathFile);
+                (new ProductsExport($report, $items, $company))->queue($pathFile);
             }
         
         } else if( $type === 'integrations' ){

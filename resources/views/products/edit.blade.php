@@ -1,11 +1,11 @@
 @extends('base.index')
 
 @section('title')
-Editar empreendimento
+Editar produto
 @endsection
 
 @section('css')
-    <link href="{{ asset('css/buildings.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/products.css') }}" rel="stylesheet">
 @endsection
 
 @section('content-page')
@@ -24,7 +24,7 @@ Editar empreendimento
                         </div>
                     @endif
                     
-                    <form action="{{ route('buildings.update', $building->id) }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('products.update', $product->id) }}" method="POST" enctype="multipart/form-data">
                         @method('PUT')
                         @csrf  
                         
@@ -52,7 +52,7 @@ Editar empreendimento
                                     <div class="row row-gap-3">
                                         <div class="input-field col-lg-12 col-12">
                                             <div class="form-floating">
-                                                <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ $building->name ? $building->name : old('name') }}" required>
+                                                <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ $product->name ? $product->name : old('name') }}" required>
                                                 <label for="name">Nome <abbr>*</abbr></label>
                                             </div>
                                         </div>
@@ -61,8 +61,8 @@ Editar empreendimento
                                             <div class="form-floating">
                                                 <select class="form-select @error('active') is-invalid @enderror" aria-label="Defina um status" name="active" id="active" required>
                                                     <option selected></option>
-                                                    <option value="1" {{ (old('active') != null && old('active') == true) || $building->active == true ? 'selected' : "" }}>Ativo</option>
-                                                    <option value="0" {{ (old('active') != null && old('active') == false) || $building->active == false ? 'selected' : "" }}>Desativado</option>
+                                                    <option value="1" {{ (old('active') != null && old('active') == true) || $product->active == true ? 'selected' : "" }}>Ativo</option>
+                                                    <option value="0" {{ (old('active') != null && old('active') == false) || $product->active == false ? 'selected' : "" }}>Desativado</option>
                                                 </select>
                                                 <label for="active">Status <abbr>*</abbr></label>
                                             </div>
@@ -89,8 +89,8 @@ Editar empreendimento
                                 </div>
                                 <div class="partners">
                                     <div class="all-partners">
-                                        @if($building->RelationPartners->first())
-                                            @foreach($building->RelationPartners as $index => $partners)
+                                        @if($product->RelationPartners->first())
+                                            @foreach($product->RelationPartners as $index => $partners)
                                                 <div class="single-partner">
                                                     <div class="content-partner">
                                                         <div class="row row-gap-2">
@@ -169,16 +169,16 @@ Editar empreendimento
                                     <div class="row row-gap-3">
                                         <div class="input-field col-12">
                                              <div class="form-floating">
-                                                <select class="form-select @error('buildings_id') is-invalid @enderror" aria-label="Defina um empreendimento de teste" name="buildings_id" id="buildings_id">
+                                                <select class="form-select @error('products_id') is-invalid @enderror" aria-label="Defina um produto de teste" name="products_id" id="products_id">
                                                     <option selected></option>
-                                                    @if($buildingsAll) 
-                                                        @foreach($buildingsAll as $index => $arr) 
+                                                    @if($productsAll) 
+                                                        @foreach($productsAll as $index => $arr) 
                                                             @can('access_komuh') 
                                                                 <optgroup label="{{ $index }}"> 
                                                             @endcan 
 
-                                                            @foreach($arr as $buildingOnly) 
-                                                                <option value="{{ $buildingOnly->id }}" {{ $building->buildings_id == $buildingOnly->id ? 'selected' : "" }}>{{ $buildingOnly->name }}</option> 
+                                                            @foreach($arr as $productOnly) 
+                                                                <option value="{{ $productOnly->id }}" {{ $product->products_id == $productOnly->id ? 'selected' : "" }}>{{ $productOnly->name }}</option> 
                                                             @endforeach 
 
                                                             @can('access_komuh') 
@@ -187,11 +187,11 @@ Editar empreendimento
                                                         @endforeach 
                                                     @endif 
                                                 </select>
-                                                <label for="buildings_id">Empreendimento de teste</label>
+                                                <label for="products_id">Produto de teste</label>
                                             </div>
                                         </div>
                                         <div class="col-12">
-                                            <small class="text-secondary">* Caso selecionado, todos os leads relacionados ao seu empreendimento que tiverem a palavra "teste" no <b>nome</b> ou <b>email</b> serão redirecionadas para esse novo empreendimento. Recomendamos que nesse novo empreendimento seja configurado com envio para uma fila de teste dentro do seu CRM.</small>
+                                            <small class="text-secondary">* Caso selecionado, todos os leads relacionados ao seu produto que tiverem a palavra "teste" no <b>nome</b> ou <b>email</b> serão redirecionadas para esse novo produto. Recomendamos que nesse novo produto seja configurado com envio para uma fila de teste dentro do seu CRM.</small>
                                         </div>
                                     </div>
                                 </div>
@@ -203,8 +203,8 @@ Editar empreendimento
                                 </div>
                                 <div class="emails">
                                     <div class="all-emails">
-                                        @if($building->RelationDestinatarios->first())
-                                            @foreach($building->RelationDestinatarios as $index => $destinatarios)
+                                        @if($product->RelationDestinatarios->first())
+                                            @foreach($product->RelationDestinatarios as $index => $destinatarios)
                                             <div class="single-email">
                                                 <div class="content-email">
                                                     <div class="form-floating w-100"> 
@@ -231,8 +231,8 @@ Editar empreendimento
                                 </div>
                                  <div class="sheets">
                                     <div class="all-sheets">
-                                        @if($building->RelationSheets->first())
-                                            @foreach($building->RelationSheets as $index => $googlesheets)
+                                        @if($product->RelationSheets->first())
+                                            @foreach($product->RelationSheets as $index => $googlesheets)
                                                 <div class="single-sheet">
                                                     <div class="content-sheet">
                                                         <div class="row row-gap-2">
@@ -277,8 +277,8 @@ Editar empreendimento
                                 </div>
                                 <div class="integrations">
                                     <div class="all-integration">
-                                        @if($building->RelationIntegrations->first())
-                                            @foreach($building->RelationIntegrations as $count => $buildingIntegration)
+                                        @if($product->RelationIntegrations->first())
+                                            @foreach($product->RelationIntegrations as $count => $productIntegration)
                                                 <div class="single-integration"> 
                                                     <div class="content-integration"> 
                                                         <div class="form-floating"> 
@@ -290,7 +290,7 @@ Editar empreendimento
                                                                             <optgroup label="{{ $index }}"> 
                                                                         @endcan 
                                                                             @foreach($arr as $integration) 
-                                                                                <option value="{{ $integration->id }}" {{ $integration->id == $buildingIntegration->id ? "selected" : '' }}>{{ $integration->name }}</option> 
+                                                                                <option value="{{ $integration->id }}" {{ $integration->id == $productIntegration->id ? "selected" : '' }}>{{ $integration->name }}</option> 
                                                                             @endforeach 
                                                                         @can('access_komuh') 
                                                                             </optgroup> 
@@ -300,9 +300,9 @@ Editar empreendimento
                                                             </select> 
                                                             <label for="integration-{{ $count }}">Integrações <abbr>*</abbr></label> 
                                                         </div> 
-                                                        @if($building->RelationIntegrationsFields)
-                                                            @foreach($building->RelationIntegrationsFields as $i => $b)
-                                                                @if($b->integrations_id === $buildingIntegration->id)
+                                                        @if($product->RelationIntegrationsFields)
+                                                            @foreach($product->RelationIntegrationsFields as $i => $b)
+                                                                @if($b->integrations_id === $productIntegration->id)
                                                                     <div class="row row-gap-2"> 
                                                                         <div class="input-field col-lg-6 col-12"> 
                                                                             <div class="form-floating"> 
@@ -351,7 +351,7 @@ Editar empreendimento
                         </div>
 
                         <div class="submit-field d-flex justify-content-end align-items-center gap-3">
-                            <a href="{{ route('buildings.index') }}"> <i class="bi bi-arrow-left px-2"></i>Voltar</a>
+                            <a href="{{ route('products.index') }}"> <i class="bi bi-arrow-left px-2"></i>Voltar</a>
                             <input type="submit" name="submit" id="submit" class="btn btn-dark px-5 py-2" value="Salvar" />
                         </div>
                     </form> 
@@ -387,7 +387,7 @@ Editar empreendimento
                 <span class="badge text-bg-secondary">$utm_campaign</span>
                 <span class="badge text-bg-secondary">$utm_content</span>
                 <span class="badge text-bg-secondary">$utm_term</span>
-                <span class="badge text-bg-secondary">$nomeEmpreendimento</span>
+                <span class="badge text-bg-secondary">$nomeProduto</span>
                 <span class="badge text-bg-secondary">$message</span>
                 <span class="badge text-bg-secondary">$PartyNumber</span>
                 <span class="badge text-bg-secondary">$SrNumber</span>
@@ -423,12 +423,12 @@ Editar empreendimento
         });
     });
 
-    var Cpartners = {{ $building->RelationPartners ? count($building->RelationPartners) : 1 }};
-    var Cdestinatarios = {{ $building->RelationDestinatarios ? count($building->RelationDestinatarios) : 1 }};
-    var Csheets = {{ $building->RelationSheets ? count($building->RelationSheets) : 1 }};
-    var Cfields = {{ $building->RelationIntegrationsFields ? count($building->RelationIntegrationsFields) : 1 }};
+    var Cpartners = {{ $product->RelationPartners ? count($product->RelationPartners) : 1 }};
+    var Cdestinatarios = {{ $product->RelationDestinatarios ? count($product->RelationDestinatarios) : 1 }};
+    var Csheets = {{ $product->RelationSheets ? count($product->RelationSheets) : 1 }};
+    var Cfields = {{ $product->RelationIntegrationsFields ? count($product->RelationIntegrationsFields) : 1 }};
     var count = Cpartners + Cdestinatarios + Csheets + Cfields + 1;
-    var integration = {{ count($building->RelationIntegrations) + 1 }};
+    var integration = {{ count($product->RelationIntegrations) + 1 }};
 
     // Partners
     function addPartner() {
@@ -515,14 +515,14 @@ Editar empreendimento
         $(element).closest('.row').remove();
     }
 
-    // Active empreendimento de teste
-    $('#check_buildings_id').on('change', function(){
+    // Active produto de teste
+    $('#check_products_id').on('change', function(){
         if( $(this).is(':checked') ) {
-            $('#buildings_id').removeAttr('disabled');
-            $('#buildings_id').parent().show();
+            $('#products_id').removeAttr('disabled');
+            $('#products_id').parent().show();
         } else {
-            $('#buildings_id').attr('disabled', '');
-            $('#buildings_id').parent().hide();
+            $('#products_id').attr('disabled', '');
+            $('#products_id').parent().hide();
         }
     });
 </script>

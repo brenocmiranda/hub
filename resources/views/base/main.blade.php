@@ -33,10 +33,10 @@
                                 </a>
                                 @break
 
-                            @case('buildings')
+                            @case('products')
                                 <i class="bi bi-chevron-double-right"></i>
-                                <a href="{{ route('buildings.index') }}" class="text-decoration-none text-dark">
-                                    <small>Empreendimentos</small>
+                                <a href="{{ route('products.index') }}" class="text-decoration-none text-dark">
+                                    <small>Produtos</small>
                                 </a>
                                 @break
                             
@@ -105,10 +105,10 @@
                                 </a>
                                 @break
                             
-                            @case('buildings')
+                            @case('products')
                                 <i class="bi bi-chevron-double-right"></i>
                                 <a href="{{ './' . Request::segment(3) }}" class="text-decoration-none text-dark">
-                                    <small>Empreendimentos</small>
+                                    <small>Produtos</small>
                                 </a>
                                 @break
 
@@ -151,7 +151,7 @@
 
                             @case('keys')
                                 <i class="bi bi-chevron-double-right"></i>
-                                <a href="{{ route('buildings.keys.index') }}" class="text-decoration-none text-dark">
+                                <a href="{{ route('products.keys.index') }}" class="text-decoration-none text-dark">
                                     <small>Chaves</small>
                                 </a>
                                 @break

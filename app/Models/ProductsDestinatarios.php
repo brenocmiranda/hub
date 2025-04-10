@@ -8,12 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Concerns\HasUuids; 
 
-class BuildingsDestinatarios extends Model
+class ProductsDestinatarios extends Model
 {
     use HasFactory, SoftDeletes, Notifiable, HasUuids;
 
     protected $fillable = [
         'email',
-        'buildings_id', 
+        'products_id', 
     ];
 }

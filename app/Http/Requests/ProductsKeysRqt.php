@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class BuildingsRqt extends FormRequest
+class ProductsKeysRqt extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,10 +22,8 @@ class BuildingsRqt extends FormRequest
     public function attributes(): array
     {
         return [
-            'name' => 'nome',
-            'company' => 'empresa',
-            'buildings_id' => 'empreendimento de teste',
-            'partner' => 'parceiro',
+            'value' => 'valor',
+            'product' => 'produto',
             'active' => 'status',
         ];
     }
@@ -38,10 +36,9 @@ class BuildingsRqt extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|min:3',
-            'buildings_id' => 'nullable|uuid',
+            'value' => 'required|min:3|unique:products_keys,value,'.$this->key,
             'active' => 'required|boolean',
-            'partner' => 'required'
+            'product' => 'required|uuid',
         ];
     }
 

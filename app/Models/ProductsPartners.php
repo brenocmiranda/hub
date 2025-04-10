@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Concerns\HasUuids; 
 
-class BuildingsPartners extends Model
+class ProductsPartners extends Model
 {
     use HasFactory, SoftDeletes, HasUuids;
 
@@ -15,7 +15,7 @@ class BuildingsPartners extends Model
         'main',
         'leads',
         'companies_id',
-        'buildings_id',
+        'products_id',
     ];
 
     public function RelationCompanies()
@@ -23,8 +23,8 @@ class BuildingsPartners extends Model
         return $this->belongsTo(Companies::class, 'companies_id', 'id');
     }
 
-    public function RelationBuildings()
+    public function RelationProducts()
     {
-        return $this->belongsTo(Buildings::class, 'buildings_id', 'id');
+        return $this->belongsTo(Products::class, 'products_id', 'id');
     }
 }

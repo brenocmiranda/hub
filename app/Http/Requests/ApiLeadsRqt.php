@@ -28,7 +28,7 @@ class ApiLeadsRqt extends FormRequest
             'phone' => 'telefone',
             'email' => 'email',
             'origin' => 'origem',
-            'building' => 'empreendimento',
+            'product' => 'produto',
         ];
     }
 
@@ -53,12 +53,12 @@ class ApiLeadsRqt extends FormRequest
             // Validate email
             'email' => 'required|email',
 
-            // Validate empreendimento
-            'building' => 'required_without_all:empreendimento,originListingId,codigoDoAnunciante,idNavplat|min:3',
-            'empreendimento' => 'required_without_all:building,originListingId,codigoDoAnunciante,idNavplat|min:3',
-            'originListingId' => 'required_without_all:empreendimento,building,codigoDoAnunciante,idNavplat|min:3',
-            'codigoDoAnunciante' => 'required_without_all:empreendimento,originListingId,building,idNavplat|min:3',
-            'idNavplat' => 'required_without_all:empreendimento,originListingId,building,codigoDoAnunciante|min:3',
+            // Validate produto
+            'product' => 'required_without_all:produto,originListingId,codigoDoAnunciante,idNavplat|min:3',
+            'produto' => 'required_without_all:product,originListingId,codigoDoAnunciante,idNavplat|min:3',
+            'originListingId' => 'required_without_all:produto,product,codigoDoAnunciante,idNavplat|min:3',
+            'codigoDoAnunciante' => 'required_without_all:produto,originListingId,product,idNavplat|min:3',
+            'idNavplat' => 'required_without_all:produto,originListingId,product,codigoDoAnunciante|min:3',
 
             // Validate origin
             'origin' => 'required_without_all:origem,leadOrigin|string|min:3',

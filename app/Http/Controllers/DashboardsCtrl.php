@@ -26,7 +26,7 @@ class DashboardsCtrl extends Controller
         return view('dashboards.indexGeneral')->with('leads', $leads);
     }
 
-    public function indexBuildings()
+    public function indexProducts()
     {   
         if( Gate::check('access_komuh') ) {
             $leads = Leads::all();
@@ -34,6 +34,6 @@ class DashboardsCtrl extends Controller
             $leads = Leads::where('companies_id', Auth::user()->companies_id)->get();
         } 
 
-        return view('dashboards.indexBuildings')->with('leads', $leads);
+        return view('dashboards.indexProducts')->with('leads', $leads);
     }
 }

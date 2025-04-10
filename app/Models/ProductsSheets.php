@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Concerns\HasUuids; 
 
-class BuildingsSheets extends Model
+class ProductsSheets extends Model
 {
     use HasFactory, SoftDeletes, HasUuids;
 
@@ -15,6 +15,6 @@ class BuildingsSheets extends Model
         'spreadsheetID',
         'sheet',
         'file',
-        'buildings_id', 
+        'products_id', 
     ];
 }

@@ -17,7 +17,7 @@ use App\Models\UsersLogs;
 use App\Models\Leads;
 use Throwable;
 
-class ProcessBuildingJobs implements ShouldQueue
+class ProcessProductJobs implements ShouldQueue
 {
     use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -31,8 +31,8 @@ class ProcessBuildingJobs implements ShouldQueue
         $lead = Leads::find($this->id);
         
         // Adicionando ao lote os jobs de integração
-        if($lead->RelationBuildings->RelationIntegrations->first()) {
-            $integrations = $lead->RelationBuildings->RelationIntegrations;   
+        if($lead->RelationProducts->RelationIntegrations->first()) {
+            $integrations = $lead->RelationProducts->RelationIntegrations;   
             foreach($integrations as $integration) {
                 if( $lead->companies_id === $integration->companies_id ){
                     $listOfJobs[] = new ProcessIntegrationJob($lead, $integration);
@@ -41,15 +41,15 @@ class ProcessBuildingJobs implements ShouldQueue
         }
 
         // Adicionando ao lote os jobs de sheets
-        if($lead->RelationBuildings->RelationSheets->first()) {
-            $sheets = $lead->RelationBuildings->RelationSheets;
+        if($lead->RelationProducts->RelationSheets->first()) {
+            $sheets = $lead->RelationProducts->RelationSheets;
             foreach( $sheets as $sheet ){
                 $listOfJobs[] = new ProcessSheetJob($lead, $sheet);
             }
         }
 
         // Adicionando ao lote os jobs de envio de e-mail
-        if($lead->RelationBuildings->RelationDestinatarios->first()) {
+        if($lead->RelationProducts->RelationDestinatarios->first()) {
             $listOfJobs[] = new ProcessMailJob($lead);
         }
 
@@ -65,8 +65,8 @@ class ProcessBuildingJobs implements ShouldQueue
                     Mail::to( $user )->send(new ErrorLead( $user, $lead, $e->getMessage() ));
                 }
             })
-            ->name('Processos do empreendimento')
-            ->onQueue('buildings')
+            ->name('Processos do produto')
+            ->onQueue('products')
             ->dispatch();
         }
     }

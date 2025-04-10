@@ -16,8 +16,8 @@
         @if( array_search('origin', $items) !== false)
             <th align="center">Origem</th>
         @endif
-        @if( array_search('building_id', $items) !== false)
-            <th align="center">Empreendimento</th>
+        @if( array_search('product_id', $items) !== false)
+            <th align="center">Produto</th>
         @endif
         @if( array_search('company', $items) !== false)
             <th align="center">Empresa</th>
@@ -72,8 +72,8 @@
                 @if( array_search('origin', $items) !== false)
                     <td align="center">{{ $lead->RelationOrigins->name }}</td>
                 @endif
-                @if( array_search('building_id', $items) !== false)
-                    <td align="center">{{ $lead->RelationBuildings->name }}</td>
+                @if( array_search('product_id', $items) !== false)
+                    <td align="center">{{ $lead->RelationProducts->name }}</td>
                 @endif
                 @if( array_search('company', $items) !== false)
                     <td align="center">{{ $lead->RelationCompanies->name }}</td>

@@ -52,15 +52,15 @@ Novo lead
                         </div>
                         <div class="input-field col-lg-6 col-12">
                             <div class="form-floating">
-                                <select class="form-select @error('building') is-invalid @enderror" aria-label="Defina um empreendimento" name="building" id="building" required>
+                                <select class="form-select @error('product') is-invalid @enderror" aria-label="Defina um produto" name="product" id="product" required>
                                     <option selected></option>
                                     @if($array)
                                         @foreach($array as $index => $arr)
                                             @can('access_komuh')
                                                 <optgroup label="{{ $index }}"> 
                                             @endcan
-                                                @foreach($arr as $building)
-                                                    <option value="{{ $building->id }}" {{ old('building') != null && old('building') == $building->id ? 'selected' : "" }}>{{ $building->name }}</option>
+                                                @foreach($arr as $product)
+                                                    <option value="{{ $product->id }}" {{ old('product') != null && old('product') == $product->id ? 'selected' : "" }}>{{ $product->name }}</option>
                                                 @endforeach
                                             @can('access_komuh')
                                                 </optgroup>
@@ -68,12 +68,12 @@ Novo lead
                                         @endforeach
                                     @endif
                                 </select>
-                                <label for="building">Empreendimentos <abbr>*</abbr></label>
+                                <label for="product">Produtos <abbr>*</abbr></label>
                             </div>
                         </div>
                         <div class="input-field col-lg-6 col-12">
                             <div class="form-floating">
-                                <select class="form-select @error('origin') is-invalid @enderror" aria-label="Defina um empreendimento" name="origin" id="origin" required>
+                                <select class="form-select @error('origin') is-invalid @enderror" aria-label="Defina um produto" name="origin" id="origin" required>
                                     <option selected></option>
                                     @if($origins)
                                         @foreach($origins as $index => $arr)

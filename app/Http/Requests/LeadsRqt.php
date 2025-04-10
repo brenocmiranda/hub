@@ -26,7 +26,7 @@ class LeadsRqt extends FormRequest
             'phone' => 'telefone',
             'email' => 'email',
             'origin' => 'origem',
-            'building' => 'empreendimento',
+            'product' => 'produto',
         ];
     }
 
@@ -42,7 +42,7 @@ class LeadsRqt extends FormRequest
             'phone' => 'required',
             'email' => 'required|email',
             'origin' => 'required|uuid',
-            'building' => 'required|uuid',
+            'product' => 'required|uuid',
         ];
     }
 

@@ -27,7 +27,7 @@ Home
                         </h2>
                         <div id="flush-collapse4" class="accordion-collapse collapse" data-bs-parent="#accordionItems">
                             <div class="accordion-body">
-                                <p>Ao analisar os leads que estamos recebendo, foi percebido uma duplicidade na entrada dos mesmos, nesse sentido fizemos um ajuste na nossa API para validar se o email, telefone e empreendimentos já foram cadastrados nos últimos 10 minutos, caso já esteja, entrará como apenas como log "Nova tentativa de contato em duplicidade".</p>
+                                <p>Ao analisar os leads que estamos recebendo, foi percebido uma duplicidade na entrada dos mesmos, nesse sentido fizemos um ajuste na nossa API para validar se o email, telefone e produtos já foram cadastrados nos últimos 10 minutos, caso já esteja, entrará como apenas como log "Nova tentativa de contato em duplicidade".</p>
                             </div>
                         </div>
                     </div>
@@ -59,7 +59,7 @@ Home
                         </h2>
                         <div id="flush-collapse2" class="accordion-collapse collapse" data-bs-parent="#accordionItems">
                             <div class="accordion-body">
-                                <p>O processo de detecção de leads de teste foi implantada e agora você poderá escolher um empreendimento para serem redirecionados os leads provenientes de testes.</p>
+                                <p>O processo de detecção de leads de teste foi implantada e agora você poderá escolher um produto para serem redirecionados os leads provenientes de testes.</p>
                             </div>
                         </div>
                     </div>
@@ -75,7 +75,7 @@ Home
                         </h2>
                         <div id="flush-collapse1" class="accordion-collapse collapse" data-bs-parent="#accordionItems">
                             <div class="accordion-body">
-                                <p>A roleta dos leads entre responsáveis já está disponível e no cadastro do empreendimento você consegue ajustar as configurações.</p>
+                                <p>A roleta dos leads entre responsáveis já está disponível e no cadastro do produto você consegue ajustar as configurações.</p>
                             </div>
                         </div>
                     </div>

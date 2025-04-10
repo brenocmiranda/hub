@@ -34,7 +34,7 @@ Dashboard
         <div class="row row row-gap-4">
             <div class="col-lg-6 col-12 text-center">
                 <div class="bg-white p-4 shadow">
-                    <div id="leadsForBuildings"></div>
+                    <div id="leadsForProducts"></div>
                 </div>
             </div>
             <div class="col-lg-6 col-12 text-center">

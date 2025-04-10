@@ -32,7 +32,7 @@ class ProcessIntegrationJob implements ShouldQueue
     public function handle(): void
     {   
         // Criando body da integração
-        $bodyFields = $this->lead->RelationBuildings->RelationIntegrationsFields;
+        $bodyFields = $this->lead->RelationProducts->RelationIntegrationsFields;
         foreach($bodyFields as $bodyField) {
             if( $bodyField->integrations_id === $this->integration->id ){
 
@@ -47,7 +47,7 @@ class ProcessIntegrationJob implements ShouldQueue
                     '$number' => substr( $this->lead->phone, 2 ),
                     '$email' => $this->lead->email,
                     '$origin' => $this->lead->RelationOrigins->name,
-                    '$nomeEmpreendimento' => $this->lead->RelationBuildings->name,
+                    '$nomeProduto' => $this->lead->RelationProducts->name,
                     '$pp' => $this->lead->RelationFields->where('name', 'pp')->last() ? $this->lead->RelationFields->where('name', 'pp')->last()->value : 'Y',
                     '$com' => $this->lead->RelationFields->where('name', 'com')->last() ? 'Y' : 'N',
                     '$utm_source' => $this->lead->RelationFields->where('name', 'utm_source')->last() ? $this->lead->RelationFields->where('name', 'utm_source')->last()->value : '',
@@ -79,7 +79,7 @@ class ProcessIntegrationJob implements ShouldQueue
             'statusCode' => 0,
             'attempts' => $this->attempts(),
             'leads_id' => $this->lead->id,
-            'buildings_id' => $this->lead->buildings_id,
+            'products_id' => $this->lead->products_id,
             'integrations_id' => $this->integration->id
         ]);
         PipelinesLog::create([
@@ -136,7 +136,7 @@ class ProcessIntegrationJob implements ShouldQueue
             'statusCode' => $response->status(),
             'attempts' => $this->attempts(),
             'leads_id' => $this->lead->id,
-            'buildings_id' => $this->lead->buildings_id,
+            'products_id' => $this->lead->products_id,
             'integrations_id' => $this->integration->id
         ]);
         PipelinesLog::create([

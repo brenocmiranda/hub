@@ -72,7 +72,7 @@ Editar função
                                             'origins' => 'Origens',
                                             'pipelines' => 'Pipelines',
                                             'companies' => 'Empresas',
-                                            'buildings' => 'Empreendimentos',
+                                            'products' => 'Produtos',
                                             'keys' => 'Chaves',
                                             'integrations' => 'Integrações',
                                             'reports' => 'Relatórios',
@@ -89,7 +89,7 @@ Editar função
                                             'leads' => 'Leads',
                                             'origins' => 'Origens',
                                             'pipelines' => 'Pipelines',
-                                            'buildings' => 'Empreendimentos',
+                                            'products' => 'Produtos',
                                             'keys' => 'Chaves',
                                             'integrations' => 'Integrações',
                                             'reports' => 'Relatórios',
@@ -173,7 +173,7 @@ Editar função
                                                                 </label>
                                                             </div>
                                                         @endif
-                                                        @if($index === 'buildings')
+                                                        @if($index === 'products')
                                                             <div class="form-check form-switch">
                                                                 <input class="form-check-input" name="roles[]" type="checkbox" role="switch" value="{{ $index }}_duplicate" id="check_{{ $index }}_duplicate" {{ stripos($role->roles, $index . '_duplicate') !== false ? 'checked' : '' }}>
                                                                 <label class="form-check-label" for="check_{{ $index }}_duplicate">

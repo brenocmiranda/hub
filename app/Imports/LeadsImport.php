@@ -12,7 +12,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Maatwebsite\Excel\Events\BeforeImport;
 use Maatwebsite\Excel\Events\BeforeSheet;
 use Maatwebsite\Excel\Events\AfterSheet;
-use App\Jobs\ProcessBuildingJobs;
+use App\Jobs\ProcessProductJobs;
 use App\Models\Leads;
 use App\Models\LeadsFields;
 use App\Models\Imports;
@@ -56,7 +56,7 @@ class LeadsImport implements ToCollection, WithHeadingRow, ShouldQueue, WithEven
                 'batches_id'            => null, 
                 'companies_id'          => $this->fieldsMandatory[3],
                 'leads_origins_id'      => $this->fieldsMandatory[4],
-                'buildings_id'          => $this->fieldsMandatory[5],
+                'products_id'          => $this->fieldsMandatory[5],
             ]);
 
             if( $this->fieldsOptionalsName ){
@@ -70,7 +70,7 @@ class LeadsImport implements ToCollection, WithHeadingRow, ShouldQueue, WithEven
             }
 
             // Enviando para as execução das integrações
-            ProcessBuildingJobs::dispatch($lead->id);
+            ProcessProductJobs::dispatch($lead->id);
         }
     }
 

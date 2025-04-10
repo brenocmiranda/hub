@@ -66,7 +66,7 @@ Editar usuário
                         @endcan
                         <div class="input-field col-lg-6 col-12">
                             <div class="form-floating">
-                                <select class="form-select @error('building') is-invalid @enderror" aria-label="Defina um empreendimento" name="roles" id="roles" required>
+                                <select class="form-select @error('product') is-invalid @enderror" aria-label="Defina um produto" name="roles" id="roles" required>
                                     <option selected></option>
                                     @if($roles)
                                         @foreach($roles as $index => $arr)

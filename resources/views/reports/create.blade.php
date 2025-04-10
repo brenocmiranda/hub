@@ -18,9 +18,9 @@ Novo relatório
                             <button class="nav-link active" id="leads-tab" data-bs-toggle="tab" data-bs-target="#leads-tab-pane" type="button" role="tab" aria-controls="leads-tab-pane" aria-selected="true">Leads</button>
                         </li>
                     @endcan
-                    @can('buildings_show')
+                    @can('products_show')
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="buildings-tab" data-bs-toggle="tab" data-bs-target="#buildings-tab-pane" type="button" role="tab" aria-controls="buildings-tab-pane" aria-selected="false">Empreendimentos</button>
+                            <button class="nav-link" id="products-tab" data-bs-toggle="tab" data-bs-target="#products-tab-pane" type="button" role="tab" aria-controls="products-tab-pane" aria-selected="false">Produtos</button>
                         </li>
                     @endcan
                     @can('integrations_show')
@@ -68,9 +68,9 @@ Novo relatório
                                             </span>
                                         </label>
                                         <label class="list-group-item d-flex gap-2">
-                                            <input class="form-check-input flex-shrink-0" type="checkbox" name="building_id" checked>
+                                            <input class="form-check-input flex-shrink-0" type="checkbox" name="product_id" checked>
                                             <span>
-                                                Empreendimento
+                                                Produto
                                             </span>
                                         </label>
                                         <label class="list-group-item d-flex gap-2">
@@ -153,15 +153,15 @@ Novo relatório
                                         </div>
                                     </div>
                                     <div class="form-floating mb-2">
-                                        <select class="form-select @error('building') is-invalid @enderror" aria-label="Defina um empreendimento" name="building" id="building">
+                                        <select class="form-select @error('product') is-invalid @enderror" aria-label="Defina um produto" name="product" id="product">
                                             <option selected></option>
-                                            @if($buildings)
-                                                @foreach($buildings as $index => $arr)
+                                            @if($products)
+                                                @foreach($products as $index => $arr)
                                                     @can('access_komuh')
                                                         <optgroup label="{{ $index }}"> 
                                                     @endcan
-                                                            @foreach($arr as $building)
-                                                                <option value="{{ $building->id }}" {{ old('building') != null && old('building') == $building->id ? 'selected' : "" }}>{{ $building->name }}</option>
+                                                            @foreach($arr as $product)
+                                                                <option value="{{ $product->id }}" {{ old('product') != null && old('product') == $product->id ? 'selected' : "" }}>{{ $product->name }}</option>
                                                             @endforeach
                                                     @can('access_komuh')
                                                         </optgroup>
@@ -169,10 +169,10 @@ Novo relatório
                                                 @endforeach
                                             @endif
                                         </select>
-                                        <label for="building">Empreendimentos</label>
+                                        <label for="product">Produtos</label>
                                     </div>
                                     <div class="form-floating mb-2">
-                                        <select class="form-select @error('building') is-invalid @enderror" aria-label="Defina um empreendimento" name="origem" id="origem">
+                                        <select class="form-select @error('product') is-invalid @enderror" aria-label="Defina um produto" name="origem" id="origem">
                                             <option selected></option>
                                             @if($origins)
                                                 @foreach($origins as $index => $arr)
@@ -206,11 +206,11 @@ Novo relatório
                             </form>
                         </div>
                     @endcan
-                    @can('buildings_show')
-                        <div class="tab-pane fade" id="buildings-tab-pane" role="tabpanel" aria-labelledby="buildings-tab" tabindex="0">
+                    @can('products_show')
+                        <div class="tab-pane fade" id="products-tab-pane" role="tabpanel" aria-labelledby="products-tab" tabindex="0">
                             <form action="{{ route('reports.store') }}" class="row" method="POST">
                                 @csrf
-                                <input type="hidden" name="type" value="buildings">
+                                <input type="hidden" name="type" value="products">
                                 <div class="col-lg-6 col-12"> 
                                     <div class="list-group">
                                         <label class="list-group-item d-flex gap-2">

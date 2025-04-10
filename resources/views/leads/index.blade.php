@@ -26,7 +26,7 @@ Leads
                             @can('access_komuh')
                                 <th data-field="company" data-align="center">Empresa</th>
                             @endcan
-                            <th data-field="building" data-align="center">Empreendimento</th>
+                            <th data-field="product" data-align="center">Produto</th>
                             <th data-field="origin" data-align="center">Origem</th>
                             <th data-field="status" data-align="center">Status</th>
                             <th data-field="operations" data-align="center">Operações</th>
